@@ -32,15 +32,19 @@ const LoginForm = () => {
     },
   });
 
-  function onSubmit(values: FormValuesType) {
+  const isFormValuesEmpty = Object.values(form.getValues()).some(
+    (value) => value === ""
+  );
+
+  const onSubmit = (values: FormValuesType) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
-  }
+  };
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-5">
         <FormField
           control={form.control}
           name="username"
@@ -70,7 +74,12 @@ const LoginForm = () => {
         />
 
         <div className="flex justify-end">
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            disabled={form.formState.isSubmitting || isFormValuesEmpty}
+          >
+            Submit
+          </Button>
         </div>
       </form>
     </Form>

@@ -6,17 +6,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Auth = () => {
   return (
-    <div className="w-1/2">
+    <div className="my-10 w-1/2 max-sm:w-fit">
       <div className="flex-center">
         <Image
           src="/images/logo.png"
           alt="BK Sharing Logo"
-          width={200}
-          height={200}
+          width={100}
+          height={100}
+          className="rounded-full outline outline-2 outline-primary"
         />
       </div>
 
-      <Tabs defaultValue="login" className="w-full">
+      <Tabs defaultValue="login" className="mt-10 w-full">
         <div className="flex-center">
           <TabsList>
             <TabsTrigger value="login" className="w-fit">
