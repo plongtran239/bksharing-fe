@@ -22,9 +22,19 @@ export type RegisterBodyType = z.infer<typeof RegisterBody>;
 
 export const LoginBody = z
   .object({
-    username: z.string().trim().min(6).max(256),
+    email: z.string().trim().min(6).max(256),
     password: z.string().min(8).max(256),
   })
   .strict();
 
 export type LoginBodyType = z.infer<typeof LoginBody>;
+
+export const LoginRes = z.object({
+  data: z.object({
+    accessToken: z.string(),
+    accountType: z.string(),
+  }),
+  message: z.string(),
+});
+
+export type LoginResType = z.infer<typeof LoginRes>;

@@ -13,6 +13,7 @@ const Auth = () => {
           alt="BK Sharing Logo"
           width={100}
           height={100}
+          priority
           className="rounded-full outline outline-2 outline-primary"
         />
       </div>

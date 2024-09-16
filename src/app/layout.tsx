@@ -1,8 +1,10 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { cookies } from "next/headers";
 
 import "./globals.css";
 
+import AppProvider from "@/app/app-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -25,6 +27,9 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = cookies();
+  const sessionToken = cookieStore.get("sessionToken");
+
   return (
     <html lang="en" className={poppins.className} suppressHydrationWarning>
       <body>
@@ -34,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AppProvider initialSessionToken={sessionToken?.value}>
+            {children}
+          </AppProvider>
           <Toaster />
         </ThemeProvider>
       </body>

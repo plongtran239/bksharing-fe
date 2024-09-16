@@ -1,8 +1,10 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import authApi from "@/apis/auth.api";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,13 +16,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { LoginBody, LoginBodyType } from "@/schemas/auth.schema";
 
 const LoginForm = () => {
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+
   const form = useForm<LoginBodyType>({
     resolver: zodResolver(LoginBody),
     defaultValues: {
-      username: "",
+      email: "",
       password: "",
     },
   });
@@ -29,10 +36,26 @@ const LoginForm = () => {
     (value) => value === ""
   );
 
-  const onSubmit = (values: LoginBodyType) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: LoginBodyType) => {
+    setLoading(true);
+    try {
+      const result = await authApi.login(values);
+
+      await authApi.auth({ sessionToken: result.payload.data.accessToken });
+
+      toast({
+        description: result.payload.message,
+      });
+    } catch (error) {
+      console.log(error);
+
+      toast({
+        description: "Invalid username or password",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -40,12 +63,12 @@ const LoginForm = () => {
       <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-5">
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="username" {...field} />
+                <Input placeholder="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -69,7 +92,9 @@ const LoginForm = () => {
         <div className="flex justify-end">
           <Button
             type="submit"
-            disabled={form.formState.isSubmitting || isFormValuesEmpty}
+            disabled={
+              form.formState.isSubmitting || isFormValuesEmpty || loading
+            }
           >
             Submit
           </Button>
