@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -15,19 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const formSchema = z.object({
-  username: z.string().min(6),
-  email: z.string().email(),
-  password: z.string().min(8),
-  confirmPassword: z.string().min(8),
-});
-
-type FormValuesType = z.infer<typeof formSchema>;
+import { RegisterBody, RegisterBodyType } from "@/schemas/auth.schema";
 
 const RegisterForm = () => {
-  const form = useForm<FormValuesType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<RegisterBodyType>({
+    resolver: zodResolver(RegisterBody),
     defaultValues: {
       username: "",
       email: "",
@@ -40,7 +31,7 @@ const RegisterForm = () => {
     (value) => value === ""
   );
 
-  const onSubmit = (values: FormValuesType) => {
+  const onSubmit = (values: RegisterBodyType) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -48,7 +39,11 @@ const RegisterForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-5">
+      <form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="mt-10 space-y-5"
+        noValidate
+      >
         <FormField
           control={form.control}
           name="username"

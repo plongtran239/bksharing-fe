@@ -2,7 +2,6 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -15,17 +14,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-
-const formSchema = z.object({
-  username: z.string().min(6),
-  password: z.string().min(8),
-});
-
-type FormValuesType = z.infer<typeof formSchema>;
+import { LoginBody, LoginBodyType } from "@/schemas/auth.schema";
 
 const LoginForm = () => {
-  const form = useForm<FormValuesType>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<LoginBodyType>({
+    resolver: zodResolver(LoginBody),
     defaultValues: {
       username: "",
       password: "",
@@ -36,7 +29,7 @@ const LoginForm = () => {
     (value) => value === ""
   );
 
-  const onSubmit = (values: FormValuesType) => {
+  const onSubmit = (values: LoginBodyType) => {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
