@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -21,6 +22,8 @@ import { LoginBody, LoginBodyType } from "@/schemas/auth.schema";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
+
+  const router = useRouter();
 
   const { toast } = useToast();
 
@@ -44,12 +47,17 @@ const LoginForm = () => {
       await authApi.auth({ sessionToken: result.payload.data.accessToken });
 
       toast({
-        description: result.payload.message,
+        title: "Success",
+        description: "Login successfully!",
       });
+
+      router.push("/");
+      router.refresh();
     } catch (error) {
       console.log(error);
 
       toast({
+        title: "Error",
         description: "Invalid username or password",
         variant: "destructive",
       });
@@ -66,7 +74,7 @@ const LoginForm = () => {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email Address</FormLabel>
               <FormControl>
                 <Input placeholder="email" {...field} />
               </FormControl>
@@ -88,6 +96,15 @@ const LoginForm = () => {
             </FormItem>
           )}
         />
+
+        <div className="flex-between">
+          <div className="flex items-center gap-2">
+            <input type="checkbox" />
+            <span className="text-sm">Remember me</span>
+          </div>
+
+          <span className="text-sm text-blue-500">Forgot Password?</span>
+        </div>
 
         <div className="flex justify-end">
           <Button

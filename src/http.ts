@@ -81,9 +81,9 @@ const request = async <Response>(
     throw new HttpError(data);
   }
 
-  if (url.startsWith("/auth")) {
+  if (url.includes("/login")) {
     clientSessionToken.value = (payload as LoginResType).data.accessToken;
-  } else if (url.startsWith("/auth/logout")) {
+  } else if (url.includes("/logout")) {
     clientSessionToken.value = "";
   }
 

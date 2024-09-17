@@ -1,8 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import authApi from "@/apis/auth.api";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,14 +17,22 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useToast } from "@/hooks/use-toast";
 import { RegisterBody, RegisterBodyType } from "@/schemas/auth.schema";
 
 const RegisterForm = () => {
+  const [loading, setLoading] = useState(false);
+
+  const { toast } = useToast();
+
+  const router = useRouter();
+
   const form = useForm<RegisterBodyType>({
     resolver: zodResolver(RegisterBody),
     defaultValues: {
-      username: "",
       email: "",
+      phoneNumber: "",
+      name: "",
       password: "",
       confirmPassword: "",
     },
@@ -31,10 +42,27 @@ const RegisterForm = () => {
     (value) => value === ""
   );
 
-  const onSubmit = (values: RegisterBodyType) => {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
+  const onSubmit = async (values: RegisterBodyType) => {
+    setLoading(true);
+
+    try {
+      await authApi.register(values);
+
+      toast({
+        title: "Success",
+        description: "Register successfully! Please login.",
+      });
+
+      router.push("/login");
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Email or phone number already exists",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,12 +74,12 @@ const RegisterForm = () => {
       >
         <FormField
           control={form.control}
-          name="username"
+          name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Username</FormLabel>
+              <FormLabel>Email Address</FormLabel>
               <FormControl>
-                <Input placeholder="username" {...field} />
+                <Input type="email" placeholder="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -60,12 +88,26 @@ const RegisterForm = () => {
 
         <FormField
           control={form.control}
-          name="email"
+          name="phoneNumber"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email Address</FormLabel>
+              <FormLabel>Phone Number</FormLabel>
               <FormControl>
-                <Input type="email" placeholder="email" {...field} />
+                <Input placeholder="phone number" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          control={form.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Full Name</FormLabel>
+              <FormControl>
+                <Input placeholder="full name" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,7 +145,9 @@ const RegisterForm = () => {
         <div className="flex justify-end">
           <Button
             type="submit"
-            disabled={form.formState.isSubmitting || isFormValuesEmpty}
+            disabled={
+              form.formState.isSubmitting || isFormValuesEmpty || loading
+            }
           >
             Submit
           </Button>

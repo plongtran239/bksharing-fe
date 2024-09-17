@@ -1,9 +1,10 @@
 import { z } from "zod";
 
-export const RegisterBody = z
+const RegisterBody = z
   .object({
-    username: z.string().trim().min(6).max(256),
     email: z.string().email(),
+    phoneNumber: z.string().min(10).max(10),
+    name: z.string().trim().min(6).max(256),
     password: z.string().min(8).max(256),
     confirmPassword: z.string().min(8).max(256),
   })
@@ -18,18 +19,18 @@ export const RegisterBody = z
     }
   });
 
-export type RegisterBodyType = z.infer<typeof RegisterBody>;
+type RegisterBodyType = z.infer<typeof RegisterBody>;
 
-export const LoginBody = z
+const LoginBody = z
   .object({
     email: z.string().trim().min(6).max(256),
     password: z.string().min(8).max(256),
   })
   .strict();
 
-export type LoginBodyType = z.infer<typeof LoginBody>;
+type LoginBodyType = z.infer<typeof LoginBody>;
 
-export const LoginRes = z.object({
+const LoginRes = z.object({
   data: z.object({
     accessToken: z.string(),
     accountType: z.string(),
@@ -37,4 +38,19 @@ export const LoginRes = z.object({
   message: z.string(),
 });
 
-export type LoginResType = z.infer<typeof LoginRes>;
+type LoginResType = z.infer<typeof LoginRes>;
+
+const RegisterRes = LoginRes;
+
+type RegisterResType = z.infer<typeof RegisterRes>;
+
+export {
+  RegisterBody,
+  type RegisterBodyType,
+  LoginBody,
+  type LoginBodyType,
+  LoginRes,
+  type LoginResType,
+  RegisterRes,
+  type RegisterResType,
+};
