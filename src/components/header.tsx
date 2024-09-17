@@ -1,8 +1,18 @@
+import { LogOutIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
+import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Header = () => {
   const cookieStore = cookies();
@@ -10,36 +20,71 @@ const Header = () => {
   const token = cookieStore.get("sessionToken")?.value;
 
   return (
-    <header>
-      <div className="flex items-center gap-2">
-        <Image src="/images/logo-icon.png" alt="logo" width={50} height={50} />
+    <header className="flex-between px-10 py-5">
+      <Link href="/" className="flex items-center gap-2">
+        <Image
+          src="/images/logo-icon.png"
+          alt="logo"
+          width={50}
+          height={50}
+          priority
+        />
 
-        <span>BK Sharing</span>
-      </div>
+        <span className="text-2xl">BK Sharing</span>
+      </Link>
 
-      <div>
-        <ul>
+      <div className="flex-between gap-20">
+        <ul className="flex-between gap-10">
           <li>Home</li>
           <li>Courses</li>
           <li>Career</li>
           <li>Blogs</li>
         </ul>
 
-        <div>
+        <>
           {token ? (
-            <button>Logout</button>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="flex-between gap-2">
+                <Image
+                  src="/images/default-user.png"
+                  alt="avatar"
+                  width={40}
+                  height={40}
+                  className="rounded-full"
+                  priority
+                />
+                <span>Long Tran</span>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent>
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <Link href="/me">
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                </Link>
+                <DropdownMenuLabel className="flex-center gap-2 font-normal">
+                  Mode Toggle
+                  <ModeToggle />
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className="flex-center gap-2">
+                  <LogOutIcon size={16} />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           ) : (
-            <div>
+            <div className="flex-between gap-5">
               <Link href="/login">
-                <Button>Login</Button>
+                <Button className="w-28 rounded-full">Login</Button>
               </Link>
-
               <Link href="/register">
-                <Button>Register</Button>
+                <Button className="w-28 rounded-full" variant="outline">
+                  Register
+                </Button>
               </Link>
             </div>
           )}
-        </div>
+        </>
       </div>
     </header>
   );
