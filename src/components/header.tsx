@@ -20,7 +20,7 @@ const Header = () => {
   const token = cookieStore.get("sessionToken")?.value;
 
   return (
-    <header className="flex-between px-10 py-5">
+    <header className="flex-between container py-5">
       <Link href="/" className="flex items-center gap-2">
         <Image
           src="/images/logo-icon.png"
@@ -30,11 +30,13 @@ const Header = () => {
           priority
         />
 
-        <span className="text-2xl">BK Sharing</span>
+        <span className="text-2xl text-[#5B5B5B] dark:text-white">
+          BK Sharing
+        </span>
       </Link>
 
       <div className="flex-between gap-20">
-        <ul className="flex-between gap-10">
+        <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white">
           <li>Home</li>
           <li>Courses</li>
           <li>Career</li>
