@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
-import { ModeToggle } from "@/components/mode-toggle";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -63,10 +62,6 @@ const Header = () => {
                 <Link href="/me">
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
-                <DropdownMenuLabel className="flex-center gap-2 font-normal">
-                  Mode Toggle
-                  <ModeToggle />
-                </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem className="flex-center gap-2">
                   <LogOutIcon size={16} />
