@@ -26,7 +26,13 @@ export default function Home() {
             <Button className="mt-4">Start Exploring</Button>
           </div>
 
-          <Image src="/images/landing-1.png" alt="" width={500} height={500} />
+          <Image
+            src="/images/landing-1.png"
+            alt=""
+            width={500}
+            height={500}
+            priority
+          />
         </div>
       </section>
 
@@ -87,7 +93,7 @@ export default function Home() {
         </div>
 
         <ul className="flex-center mt-20 gap-16">
-          <li className="flex-center h-[400px] w-[600px] flex-col gap-2 rounded-xl bg-black/40 bg-[url('/images/landing-2.png')] bg-blend-darken">
+          <li className="flex-center h-[400px] w-[600px] flex-col gap-2 rounded-3xl bg-black/40 bg-[url('/images/landing-2.png')] bg-blend-darken">
             <span className="text-xl font-semibold text-white">
               FOR MENTORS
             </span>
@@ -98,7 +104,7 @@ export default function Home() {
               Become a mentor
             </Button>
           </li>
-          <li className="flex-center h-[400px] w-[600px] flex-col gap-2 rounded-xl bg-black/40 bg-[url('/images/landing-3.png')] bg-blend-darken">
+          <li className="flex-center h-[400px] w-[600px] flex-col gap-2 rounded-3xl bg-black/40 bg-[url('/images/landing-3.png')] bg-blend-darken">
             <span className="text-xl font-semibold text-white">
               FOR LEARNERS
             </span>

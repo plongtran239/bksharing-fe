@@ -16,6 +16,15 @@ const authApi = {
     http.post("/api/auth", body, {
       baseUrl: "",
     }),
+
+  logout: () =>
+    http.post(
+      "/api/auth/logout",
+      {},
+      {
+        baseUrl: "",
+      }
+    ),
 };
 
 export default authApi;

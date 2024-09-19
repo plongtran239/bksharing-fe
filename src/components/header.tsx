@@ -1,8 +1,8 @@
-import { LogOutIcon } from "lucide-react";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
 
+import LogoutButton from "@/app/(home)/components/logout-button";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -63,9 +63,8 @@ const Header = () => {
                   <DropdownMenuItem>Profile</DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="flex-center gap-2">
-                  <LogOutIcon size={16} />
-                  Logout
+                <DropdownMenuItem>
+                  <LogoutButton />
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
