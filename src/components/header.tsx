@@ -25,12 +25,12 @@ const Header = () => {
         <Image
           src="/images/logo-icon.png"
           alt="logo"
-          width={50}
-          height={50}
+          width={35}
+          height={35}
           priority
         />
 
-        <span className="text-2xl text-[#5B5B5B] dark:text-white">
+        <span className="text-xl text-[#5B5B5B] dark:text-white">
           BK Sharing
         </span>
       </Link>
@@ -52,8 +52,8 @@ const Header = () => {
                 <Image
                   src="/images/default-user.png"
                   alt="avatar"
-                  width={40}
-                  height={40}
+                  width={32}
+                  height={32}
                   className="rounded-full"
                   priority
                 />
