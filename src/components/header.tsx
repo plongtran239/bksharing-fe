@@ -38,7 +38,7 @@ const Header = () => {
         <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white">
           <li>Home</li>
           <li>Courses</li>
-          <li>Career</li>
+          <li>Mentors</li>
           <li>Blogs</li>
         </ul>
 

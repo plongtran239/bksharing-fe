@@ -50,10 +50,10 @@ const RegisterForm = () => {
 
       toast({
         title: "Success",
-        description: "Register successfully! Please login.",
+        description: "Register successfully!",
       });
 
-      router.push("/login");
+      router.push("/categories");
     } catch (error) {
       toast({
         title: "Error",

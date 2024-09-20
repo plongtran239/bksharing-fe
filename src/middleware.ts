@@ -16,9 +16,13 @@ export const middleware = (request: NextRequest) => {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
+  if (pathname === "/categories") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ["/me", "/login", "/register"],
+  matcher: ["/me", "/login", "/register", "/categories"],
 };
