@@ -1,4 +1,5 @@
 import { CalendarRangeIcon, ReceiptTextIcon, UsersIcon } from "lucide-react";
+import { Metadata } from "next";
 import Image from "next/image";
 
 import Card from "@/app/(home)/components/card";
@@ -6,13 +7,19 @@ import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 
+export const metadata: Metadata = {
+  title: "Home | BK Sharing",
+  description:
+    "BK Sharing is an online platform connecting mentors and learners",
+};
+
 export default function Home() {
   return (
-    <main className="">
+    <main>
       <Header />
 
       {/* Section 1 */}
-      <section className="bg-[#9DCCFF]/[0.3] dark:bg-[#9DCCFF]/10">
+      <section className="bg-[#9DCCFF]/30 dark:bg-[#9DCCFF]/10">
         <div className="flex-between container gap-10 py-10">
           <div className="flex-1">
             <h2 className="text-3xl font-semibold leading-normal text-[#2F327D] dark:text-primary">

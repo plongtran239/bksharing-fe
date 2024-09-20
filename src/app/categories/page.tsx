@@ -1,5 +1,12 @@
+import { Metadata } from "next";
+
 import categoryApi from "@/apis/category.api";
 import CategoryForm from "@/app/categories/components/category-form";
+
+export const metadata: Metadata = {
+  title: "Interested Category | BK Sharing",
+  description: "Choose your interested category",
+};
 
 const InterestedCategory = async () => {
   const {
@@ -7,9 +14,9 @@ const InterestedCategory = async () => {
   } = await categoryApi.getCategoryList();
 
   return (
-    <div className="flex-center mt-20">
+    <section className="flex-center mt-20">
       <CategoryForm categories={categories} />
-    </div>
+    </section>
   );
 };
 export default InterestedCategory;

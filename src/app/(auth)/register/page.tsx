@@ -1,11 +1,17 @@
+import { Metadata } from "next";
 import Link from "next/link";
 
 import RegisterForm from "@/app/(auth)/components/register-form";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
+export const metadata: Metadata = {
+  title: "Register | BK Sharing",
+  description: "Register a new account",
+};
+
 const Register = () => {
   return (
-    <div className="mt-10 w-full">
+    <section className="mt-10 w-full">
       <Tabs defaultValue="register">
         <div className="flex-center">
           <TabsList>
@@ -23,7 +29,7 @@ const Register = () => {
         </div>
       </Tabs>
       <RegisterForm />
-    </div>
+    </section>
   );
 };
 export default Register;

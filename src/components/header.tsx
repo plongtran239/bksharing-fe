@@ -1,3 +1,4 @@
+import { KeyRound, User } from "lucide-react";
 import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
@@ -36,7 +37,9 @@ const Header = () => {
 
       <div className="flex-between gap-20">
         <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white">
-          <li>Home</li>
+          <li className="hover:underline">
+            <Link href="/">Home</Link>
+          </li>
           <li>Courses</li>
           <li>Mentors</li>
           <li>Blogs</li>
@@ -58,11 +61,25 @@ const Header = () => {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
                 <DropdownMenuSeparator />
+
                 <Link href="/me">
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    <User size={16} />
+                    Profile
+                  </DropdownMenuItem>
                 </Link>
+
+                <Link href="/change-password">
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    <KeyRound size={16} />
+                    Change Password
+                  </DropdownMenuItem>
+                </Link>
+
                 <DropdownMenuSeparator />
+
                 <DropdownMenuItem>
                   <LogoutButton />
                 </DropdownMenuItem>
