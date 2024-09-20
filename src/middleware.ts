@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const privatePaths = ["/me"];
+const privatePaths = ["/me", "/change-password"];
 const publicPaths = ["/login", "/register"];
 
 export const middleware = (request: NextRequest) => {
