@@ -46,7 +46,11 @@ const RegisterForm = () => {
     setLoading(true);
 
     try {
-      await authApi.register(values);
+      const result = await authApi.register(values);
+
+      await authApi.auth({
+        sessionToken: result.payload.data.accessToken,
+      });
 
       toast({
         title: "Success",

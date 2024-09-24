@@ -6,7 +6,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
-import categoryApi from "@/apis/category.api";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -46,18 +45,6 @@ const LoginForm = () => {
       const result = await authApi.login(values);
 
       await authApi.auth({ sessionToken: result.payload.data.accessToken });
-
-      const categoryIds = localStorage.getItem("categories");
-
-      if (categoryIds) {
-        await categoryApi
-          .selectInterestedCategory({
-            categoryIds: JSON.parse(categoryIds as string),
-          })
-          .then(() => {
-            localStorage.removeItem("categories");
-          });
-      }
 
       toast({
         title: "Success",

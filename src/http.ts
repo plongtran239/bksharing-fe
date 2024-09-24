@@ -81,7 +81,7 @@ const request = async <Response>(
     throw new HttpError(data);
   }
 
-  if (url.includes("/login")) {
+  if (["/login", "/register"].some((path) => url.includes(path))) {
     clientSessionToken.value = (payload as LoginResType).data.accessToken;
   } else if (url.includes("/logout")) {
     clientSessionToken.value = "";

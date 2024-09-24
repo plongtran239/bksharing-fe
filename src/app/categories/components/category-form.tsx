@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 
+import categoryApi from "@/apis/category.api";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -45,15 +46,22 @@ const CategoryForm = ({ categories }: ICategoryFormProps) => {
     },
   });
 
-  const onSubmit = (values: FormSchemaType) => {
-    localStorage.setItem("categories", JSON.stringify(values.categoryIds));
+  const onSubmit = async (values: FormSchemaType) => {
+    try {
+      await categoryApi.selectInterestedCategory({
+        categoryIds: values.categoryIds,
+      });
 
-    toast({
-      title: "Success",
-      description: "Select interested field successfully! Please login",
-    });
+      toast({
+        title: "Success",
+        description: "Select interested field successfully!",
+      });
 
-    router.push("/login");
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
