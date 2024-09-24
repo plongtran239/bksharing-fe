@@ -1,8 +1,8 @@
 import { Metadata } from "next";
-import Link from "next/link";
 
-import RegisterForm from "@/app/(auth)/components/register-form";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import MentorRegisterForm from "@/app/(auth)/components/mentor-register-form";
+import StudentRegisterForm from "@/app/(auth)/components/student-register-form";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export const metadata: Metadata = {
   title: "Register | BK Sharing",
@@ -12,23 +12,28 @@ export const metadata: Metadata = {
 const Register = () => {
   return (
     <section className="mt-10 w-full">
-      <Tabs defaultValue="register">
+      <Tabs defaultValue="student">
         <div className="flex-center">
           <TabsList>
-            <Link href="/login">
-              <TabsTrigger value="login" className="w-fit">
-                Login
-              </TabsTrigger>
-            </Link>
-            <Link href="/register">
-              <TabsTrigger value="register" className="w-fit">
-                Register
-              </TabsTrigger>
-            </Link>
+            <TabsTrigger value="student" className="w-fit">
+              Student
+            </TabsTrigger>
+            <TabsTrigger value="mentor" className="w-fit">
+              Mentor
+            </TabsTrigger>
           </TabsList>
         </div>
+
+        <div className="mt-5">
+          <TabsContent value="student">
+            <StudentRegisterForm />
+          </TabsContent>
+
+          <TabsContent value="mentor">
+            <MentorRegisterForm />
+          </TabsContent>
+        </div>
       </Tabs>
-      <RegisterForm />
     </section>
   );
 };

@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -68,7 +69,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="mt-10 space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
         <FormField
           control={form.control}
           name="email"
@@ -98,10 +99,12 @@ const LoginForm = () => {
         />
 
         <div className="flex-between">
-          <div className="flex items-center gap-2">
-            <input type="checkbox" />
-            <span className="text-sm">Remember me</span>
-          </div>
+          <span className="text-sm">
+            Don&apos;t have account?{" "}
+            <Link href="/register" className="text-blue-500">
+              <span className="hover:underline">Register</span>
+            </Link>
+          </span>
 
           <span className="text-sm text-blue-500">Forgot Password?</span>
         </div>
