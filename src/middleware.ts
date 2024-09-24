@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const privatePaths = ["/me"];
+const privatePaths = ["/me", "/change-password"];
 const publicPaths = ["/login", "/register"];
 
 export const middleware = (request: NextRequest) => {
@@ -16,13 +16,9 @@ export const middleware = (request: NextRequest) => {
     return NextResponse.redirect(new URL("/", request.url));
   }
 
-  if (pathname === "/categories") {
-    return NextResponse.redirect(new URL("/", request.url));
-  }
-
   return NextResponse.next();
 };
 
 export const config = {
-  matcher: ["/me", "/login", "/register", "/categories"],
+  matcher: ["/me", "/login", "/register", "/change-password"],
 };
