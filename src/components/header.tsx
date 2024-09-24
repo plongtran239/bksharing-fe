@@ -80,9 +80,7 @@ const Header = () => {
 
                 <DropdownMenuSeparator />
 
-                <DropdownMenuItem>
-                  <LogoutButton />
-                </DropdownMenuItem>
+                <LogoutButton />
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (

@@ -4,6 +4,7 @@ import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import authApi from "@/apis/auth.api";
+import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 
 const LogoutButton = () => {
@@ -20,6 +21,7 @@ const LogoutButton = () => {
         description: "Logout successfully!",
       });
 
+      router.push("/");
       router.refresh();
     } catch (error) {
       console.error(error);
@@ -27,10 +29,12 @@ const LogoutButton = () => {
   };
 
   return (
-    <button onClick={handleLogout} className="flex-center gap-2">
-      <LogOutIcon size={16} />
-      Logout
-    </button>
+    <DropdownMenuItem>
+      <button onClick={handleLogout} className="flex-center gap-2">
+        <LogOutIcon size={16} />
+        Logout
+      </button>
+    </DropdownMenuItem>
   );
 };
 export default LogoutButton;
