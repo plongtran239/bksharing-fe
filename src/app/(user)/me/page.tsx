@@ -23,7 +23,7 @@ const Me = () => {
         {/* Profile */}
         <div className="h-fit w-3/4">
           {/* Background image, Avatar */}
-          <div className="rounded-xl bg-white pb-5">
+          <div className="rounded-xl bg-white px-3 pb-5 pt-3">
             <div className="relative">
               <div className="relative h-60 w-full">
                 <Image
