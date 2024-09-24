@@ -3,29 +3,6 @@ import { z } from "zod";
 import { MIN_DATE } from "@/constants/date";
 import { ACHIEVEMENT_TYPES, GENDERS, ROLES } from "@/constants/enum";
 
-const RegisterBody = z
-  .object({
-    email: z.string().email(),
-    phoneNumber: z.string().min(10).max(10),
-    name: z.string().trim().min(6).max(256),
-    password: z.string().min(8).max(256),
-    confirmPassword: z.string().min(8).max(256),
-    dob: z.date().min(new Date(MIN_DATE)).max(new Date()),
-    gender: z.nativeEnum(GENDERS),
-  })
-  .strict()
-  .superRefine(({ password, confirmPassword }, ctx) => {
-    if (password !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
-
-type RegisterBodyType = z.infer<typeof RegisterBody>;
-
 const LoginBody = z
   .object({
     email: z.string().trim().min(6).max(256),
@@ -46,6 +23,49 @@ const LoginRes = z.object({
 });
 
 type LoginResType = z.infer<typeof LoginRes>;
+
+const RegisterBody = LoginBody.extend({
+  phoneNumber: z
+    .string()
+    .min(10, {
+      message: "Phone number must be at least 10 characters",
+    })
+    .max(10, {
+      message: "Phone number must be at most 10 characters",
+    }),
+  name: z
+    .string()
+    .trim()
+    .min(6, {
+      message: "Name must be at least 6 characters",
+    })
+    .max(256, {
+      message: "Name must be at most 256 characters",
+    }),
+
+  confirmPassword: z.string().min(8).max(256),
+  dob: z
+    .date()
+    .min(new Date(MIN_DATE), {
+      message: `Date of birth must be greater than ${MIN_DATE}`,
+    })
+    .max(new Date(), {
+      message: "Date of birth must be less than current date",
+    }),
+  gender: z.nativeEnum(GENDERS),
+})
+  .strict()
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
+type RegisterBodyType = z.infer<typeof RegisterBody>;
 
 const RegisterRes = LoginRes;
 

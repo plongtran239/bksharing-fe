@@ -1,17 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
+import DateInput from "@/components/date-input";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
 import {
   Form,
   FormControl,
@@ -21,11 +19,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
@@ -149,37 +142,10 @@ const StudentRegisterForm = () => {
               <FormItem className="w-full">
                 <FormLabel>Date of Birth</FormLabel>
 
-                <Popover>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <div
-                        className={cn(
-                          "flex h-9 cursor-pointer items-center gap-2 rounded-md border border-primary bg-transparent px-3 py-1 text-sm font-light",
-                          !field.value && "text-muted-foreground"
-                        )}
-                      >
-                        {field.value ? (
-                          format(field.value, "dd/MM/yyyy")
-                        ) : (
-                          <span>pick a date</span>
-                        )}
-                        <CalendarIcon size={16} />
-                      </div>
-                    </FormControl>
-                  </PopoverTrigger>
+                <FormControl>
+                  <DateInput value={field.value} onChange={field.onChange} />
+                </FormControl>
 
-                  <PopoverContent className="w-auto p-0" align="center">
-                    <Calendar
-                      mode="single"
-                      selected={field.value ? new Date(field.value) : undefined}
-                      onSelect={field.onChange}
-                      disabled={(date) =>
-                        date > new Date() || date < new Date("1900-01-01")
-                      }
-                      initialFocus
-                    />
-                  </PopoverContent>
-                </Popover>
                 <FormMessage />
               </FormItem>
             )}
