@@ -29,7 +29,7 @@ import {
 import { GENDERS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
-import { RegisterBody, RegisterBodyType } from "@/schemas/auth.schema";
+import { StudentRegisterRequest, StudentRequestType } from "@/schemas/auth";
 
 const StudentRegisterForm = () => {
   const [loading, setLoading] = useState(false);
@@ -38,8 +38,8 @@ const StudentRegisterForm = () => {
 
   const router = useRouter();
 
-  const form = useForm<RegisterBodyType>({
-    resolver: zodResolver(RegisterBody),
+  const form = useForm<StudentRequestType>({
+    resolver: zodResolver(StudentRegisterRequest),
     defaultValues: {
       email: "",
       phoneNumber: "",
@@ -55,7 +55,7 @@ const StudentRegisterForm = () => {
     (value) => value === "" || value === undefined
   );
 
-  const onSubmit = async (values: RegisterBodyType) => {
+  const onSubmit = async (values: StudentRequestType) => {
     setLoading(true);
 
     try {

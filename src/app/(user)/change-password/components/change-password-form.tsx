@@ -14,13 +14,13 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import {
-  ChangePasswordBody,
-  ChangePasswordBodyType,
-} from "@/schemas/auth.schema";
+  ChangePasswordRequest,
+  ChangePasswordRequestType,
+} from "@/schemas/auth";
 
 const ChangePasswordForm = () => {
-  const form = useForm<ChangePasswordBodyType>({
-    resolver: zodResolver(ChangePasswordBody),
+  const form = useForm<ChangePasswordRequestType>({
+    resolver: zodResolver(ChangePasswordRequest),
     defaultValues: {
       oldPassword: "",
       newPassword: "",
@@ -28,7 +28,7 @@ const ChangePasswordForm = () => {
     },
   });
 
-  const onSubmit = (values: ChangePasswordBodyType) => {
+  const onSubmit = (values: ChangePasswordRequestType) => {
     console.log(values);
   };
 

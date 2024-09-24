@@ -19,7 +19,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { LoginBody, LoginBodyType } from "@/schemas/auth.schema";
+import { LoginRequest, LoginRequestType } from "@/schemas/auth";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);
@@ -28,8 +28,8 @@ const LoginForm = () => {
 
   const { toast } = useToast();
 
-  const form = useForm<LoginBodyType>({
-    resolver: zodResolver(LoginBody),
+  const form = useForm<LoginRequestType>({
+    resolver: zodResolver(LoginRequest),
     defaultValues: {
       email: "",
       password: "",
@@ -40,7 +40,7 @@ const LoginForm = () => {
     (value) => value === ""
   );
 
-  const onSubmit = async (values: LoginBodyType) => {
+  const onSubmit = async (values: LoginRequestType) => {
     setLoading(true);
     try {
       const result = await authApi.login(values);

@@ -1,30 +1,10 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { ACHIEVEMENT_TYPES, GENDERS, ROLES } from "@/constants/enum";
+import { ACHIEVEMENT_TYPES, GENDERS } from "@/constants/enum";
+import { LoginRequest, LoginResponse } from "@/schemas/auth";
 
-const LoginBody = z
-  .object({
-    email: z.string().trim().min(6).max(256),
-    password: z.string().min(8).max(256),
-  })
-  .strict();
-
-type LoginBodyType = z.infer<typeof LoginBody>;
-
-const LoginRes = z.object({
-  data: z.object({
-    name: z.string(),
-    accessToken: z.string(),
-    avatar: z.string().nullable(),
-    accountType: z.nativeEnum(ROLES),
-  }),
-  message: z.string(),
-});
-
-type LoginResType = z.infer<typeof LoginRes>;
-
-const RegisterBody = LoginBody.extend({
+const RegisterRequest = LoginRequest.extend({
   phoneNumber: z
     .string()
     .min(10, {
@@ -42,7 +22,6 @@ const RegisterBody = LoginBody.extend({
     .max(256, {
       message: "Name must be at most 256 characters",
     }),
-
   confirmPassword: z.string().min(8).max(256),
   dob: z
     .date()
@@ -53,52 +32,9 @@ const RegisterBody = LoginBody.extend({
       message: "Date of birth must be less than current date",
     }),
   gender: z.nativeEnum(GENDERS),
-})
-  .strict()
-  .superRefine(({ password, confirmPassword }, ctx) => {
-    if (password !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
+}).strict();
 
-type RegisterBodyType = z.infer<typeof RegisterBody>;
-
-const RegisterRes = LoginRes;
-
-type RegisterResType = z.infer<typeof RegisterRes>;
-
-const ChangePasswordBody = z
-  .object({
-    oldPassword: z.string().min(8).max(256),
-    newPassword: z.string().min(8).max(256),
-    confirmPassword: z.string().min(8).max(256),
-  })
-  .strict()
-  .superRefine(({ oldPassword, newPassword, confirmPassword }, ctx) => {
-    if (oldPassword === newPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "New password must be different from old password",
-        path: ["newPassword"],
-      });
-    }
-
-    if (newPassword !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
-
-type ChangePasswordBodyType = z.infer<typeof ChangePasswordBody>;
-
-const AchievementSchema = z
+const Achivement = z
   .object({
     achievementType: z.nativeEnum(ACHIEVEMENT_TYPES),
     organization: z.string(),
@@ -168,25 +104,45 @@ const AchievementSchema = z
     }
   );
 
-const MentorRegisterBody = RegisterBody.and(
-  z.object({
-    achievements: z.array(AchievementSchema),
-  })
+const StudentRegisterRequest = RegisterRequest.superRefine(
+  ({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  }
 );
 
-type MentorRegisterBodyType = z.infer<typeof MentorRegisterBody>;
+const MentorRegisterRequest = RegisterRequest.extend({
+  achievements: z.array(Achivement),
+})
+  .strict()
+  .superRefine(({ password, confirmPassword }, ctx) => {
+    if (password !== confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Passwords do not match",
+        path: ["confirmPassword"],
+      });
+    }
+  });
+
+const RegisterResponse = LoginResponse;
+
+type StudentRegisterRequestType = z.infer<typeof StudentRegisterRequest>;
+
+type MentorRegisterRequestType = z.infer<typeof MentorRegisterRequest>;
+
+type RegisterResponseType = z.infer<typeof RegisterResponse>;
 
 export {
-  RegisterBody,
-  type RegisterBodyType,
-  LoginBody,
-  type LoginBodyType,
-  LoginRes,
-  type LoginResType,
-  RegisterRes,
-  type RegisterResType,
-  ChangePasswordBody,
-  type ChangePasswordBodyType,
-  MentorRegisterBody,
-  type MentorRegisterBodyType,
+  StudentRegisterRequest,
+  MentorRegisterRequest,
+  RegisterResponse,
+  type StudentRegisterRequestType,
+  type MentorRegisterRequestType,
+  type RegisterResponseType,
 };

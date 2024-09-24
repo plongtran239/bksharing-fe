@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import envConfig from "@/config";
-import { LoginResType } from "@/schemas/auth.schema";
+import { LoginResponseType } from "@/schemas/auth";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
@@ -82,7 +82,7 @@ const request = async <Response>(
   }
 
   if (["/login", "/register"].some((path) => url.includes(path))) {
-    clientSessionToken.value = (payload as LoginResType).data.accessToken;
+    clientSessionToken.value = (payload as LoginResponseType).data.accessToken;
   } else if (url.includes("/logout")) {
     clientSessionToken.value = "";
   }
