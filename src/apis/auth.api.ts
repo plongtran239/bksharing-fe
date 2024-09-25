@@ -22,6 +22,13 @@ const authApi = {
     http.post<RegisterResponseType>("/auth/mentors/register", {
       ...body,
       dob: convertDateToLocaleDateString(body.dob),
+      achievements: [
+        ...body.achievements.map((achievement) => ({
+          ...achievement,
+          startDate: convertDateToLocaleDateString(achievement.startDate),
+          endDate: convertDateToLocaleDateString(achievement.endDate),
+        })),
+      ],
     }),
 
   auth: (body: { sessionToken: string }) =>

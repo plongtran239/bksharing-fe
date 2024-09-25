@@ -1,12 +1,6 @@
-"use client";
-
-import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { UseFormReturn } from "react-hook-form";
 
-import authApi from "@/apis/auth.api";
 import DateInput from "@/components/date-input";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
@@ -27,63 +21,30 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
-import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import {
-  StudentRegisterRequest,
+  MentorRegisterRequestType,
   StudentRegisterRequestType,
 } from "@/schemas/auth";
 
-const StudentRegisterForm = () => {
-  const [loading, setLoading] = useState(false);
+interface IBaseRegisterFormProps {
+  form: UseFormReturn<StudentRegisterRequestType | MentorRegisterRequestType>;
+  onSubmit: (
+    values: StudentRegisterRequestType | MentorRegisterRequestType
+  ) => Promise<void>;
+  loading: boolean;
+  children?: React.ReactNode;
+}
 
-  const { toast } = useToast();
-
-  const router = useRouter();
-
-  const form = useForm<StudentRegisterRequestType>({
-    resolver: zodResolver(StudentRegisterRequest),
-    defaultValues: {
-      email: "",
-      phoneNumber: "",
-      name: "",
-      password: "",
-      confirmPassword: "",
-      gender: undefined,
-      dob: undefined,
-    },
-  });
-
+const BaseRegisterForm = ({
+  form,
+  onSubmit,
+  loading,
+  children,
+}: IBaseRegisterFormProps) => {
   const isFormValuesEmpty = Object.values(form.getValues()).some(
     (value) => value === "" || value === undefined
   );
-
-  const onSubmit = async (values: StudentRegisterRequestType) => {
-    setLoading(true);
-
-    try {
-      const result = await authApi.studentRegister(values);
-
-      await authApi.auth({
-        sessionToken: result.payload.data.accessToken,
-      });
-
-      toast({
-        title: "Success",
-        description: "Register successfully!",
-      });
-
-      router.push("/categories");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Email or phone number already exists",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
 
   return (
     <Form {...form}>
@@ -143,14 +104,10 @@ const StudentRegisterForm = () => {
             name="dob"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="date-input">Date of Birth</FormLabel>
+                <FormLabel>Date of Birth</FormLabel>
 
                 <FormControl>
-                  <DateInput
-                    id="date-input"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
+                  <DateInput value={field.value} onChange={field.onChange} />
                 </FormControl>
 
                 <FormMessage />
@@ -222,6 +179,8 @@ const StudentRegisterForm = () => {
           />
         </>
 
+        {children}
+
         <div className="flex-between">
           <span className="text-sm">
             Already have account?{" "}
@@ -243,4 +202,4 @@ const StudentRegisterForm = () => {
     </Form>
   );
 };
-export default StudentRegisterForm;
+export default BaseRegisterForm;

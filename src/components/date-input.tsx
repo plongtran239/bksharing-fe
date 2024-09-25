@@ -16,9 +16,10 @@ import { MIN_DATE } from "@/constants/date";
 interface DateInputProps {
   value: Date;
   onChange: (date: Date) => void;
+  id: string;
 }
 
-const DateInput = ({ value, onChange }: DateInputProps) => {
+const DateInput = ({ value, onChange, id }: DateInputProps) => {
   const [month, setMonth] = useState<Date>(new Date());
 
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
@@ -59,6 +60,7 @@ const DateInput = ({ value, onChange }: DateInputProps) => {
         placeholder="dd/MM/yyyy"
         onChange={handleInputChange}
         value={inputValue}
+        id={id}
       />
 
       <Popover>

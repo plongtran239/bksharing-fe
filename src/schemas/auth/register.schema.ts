@@ -7,6 +7,7 @@ import { LoginRequest, LoginResponse } from "@/schemas/auth";
 const RegisterRequest = LoginRequest.extend({
   phoneNumber: z
     .string()
+    .trim()
     .min(10, {
       message: "Phone number must be at least 10 characters",
     })
@@ -22,7 +23,7 @@ const RegisterRequest = LoginRequest.extend({
     .max(256, {
       message: "Name must be at most 256 characters",
     }),
-  confirmPassword: z.string().min(8).max(256),
+  confirmPassword: z.string().trim().min(8).max(256),
   dob: z
     .date()
     .min(new Date(MIN_DATE), {
@@ -34,34 +35,41 @@ const RegisterRequest = LoginRequest.extend({
   gender: z.nativeEnum(GENDERS),
 }).strict();
 
-const Achivement = z
+const AchivementRequest = z
   .object({
     achievementType: z.nativeEnum(ACHIEVEMENT_TYPES),
-    organization: z.string(),
-    description: z.string(),
-    startDate: z.date(),
-    endDate: z.date(),
+    organization: z
+      .string()
+      .trim()
+      .min(1, {
+        message: "Organization must be at least 1 character",
+      })
+      .max(256, {
+        message: "Organization must be at most 256 characters",
+      }),
+    description: z.string().trim(),
+    startDate: z
+      .date()
+      .min(new Date(MIN_DATE), {
+        message: `Start date must be greater than ${MIN_DATE}`,
+      })
+      .max(new Date(), {
+        message: "Start date must be less than current date",
+      }),
+    endDate: z
+      .date()
+      .min(new Date(MIN_DATE), {
+        message: `Start date must be greater than ${MIN_DATE}`,
+      })
+      .max(new Date(), {
+        message: "Start date must be less than current date",
+      }),
   })
   .extend({
-    position: z.string().optional(), // only for EXPERIENCE
-    major: z.string().optional(), // only for EDUCATION
-    name: z.string().optional(), // only for CERTIFICATION
+    position: z.string().trim().optional(), // only for EXPERIENCE
+    major: z.string().trim().optional(), // only for EDUCATION
+    name: z.string().trim().optional(), // only for CERTIFICATION
   })
-  .refine(
-    (data) => {
-      switch (data.achievementType) {
-        case ACHIEVEMENT_TYPES.EXPERIENCE:
-          return !!data.position;
-        case ACHIEVEMENT_TYPES.EDUCATION:
-          return !!data.major;
-        case ACHIEVEMENT_TYPES.CERTIFICATION:
-          return !!data.name;
-      }
-    },
-    {
-      message: "Required field missing based on achievement type",
-    }
-  )
   .superRefine(
     ({ startDate, endDate, achievementType, position, major, name }, ctx) => {
       if (startDate >= endDate) {
@@ -74,7 +82,7 @@ const Achivement = z
 
       switch (achievementType) {
         case ACHIEVEMENT_TYPES.EXPERIENCE:
-          if (position === "") {
+          if (!position) {
             ctx.addIssue({
               code: "custom",
               message: "Position is required",
@@ -83,7 +91,7 @@ const Achivement = z
           }
           break;
         case ACHIEVEMENT_TYPES.EDUCATION:
-          if (major === "") {
+          if (!major) {
             ctx.addIssue({
               code: "custom",
               message: "Major is required",
@@ -92,7 +100,7 @@ const Achivement = z
           }
           break;
         case ACHIEVEMENT_TYPES.CERTIFICATION:
-          if (name === "") {
+          if (!name) {
             ctx.addIssue({
               code: "custom",
               message: "Name is required",
@@ -117,7 +125,7 @@ const StudentRegisterRequest = RegisterRequest.superRefine(
 );
 
 const MentorRegisterRequest = RegisterRequest.extend({
-  achievements: z.array(Achivement),
+  achievements: z.array(AchivementRequest).nonempty(),
 })
   .strict()
   .superRefine(({ password, confirmPassword }, ctx) => {
@@ -132,7 +140,11 @@ const MentorRegisterRequest = RegisterRequest.extend({
 
 const RegisterResponse = LoginResponse;
 
+type RegisterRequestType = z.infer<typeof RegisterRequest>;
+
 type StudentRegisterRequestType = z.infer<typeof StudentRegisterRequest>;
+
+type AchivementRequestType = z.infer<typeof AchivementRequest>;
 
 type MentorRegisterRequestType = z.infer<typeof MentorRegisterRequest>;
 
@@ -142,6 +154,9 @@ export {
   StudentRegisterRequest,
   MentorRegisterRequest,
   RegisterResponse,
+  AchivementRequest,
+  type RegisterRequestType,
+  type AchivementRequestType,
   type StudentRegisterRequestType,
   type MentorRegisterRequestType,
   type RegisterResponseType,
