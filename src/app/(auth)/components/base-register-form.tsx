@@ -104,10 +104,14 @@ const BaseRegisterForm = ({
             name="dob"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Date of Birth</FormLabel>
+                <FormLabel htmlFor="date-of-birth">Date of Birth</FormLabel>
 
                 <FormControl>
-                  <DateInput value={field.value} onChange={field.onChange} />
+                  <DateInput
+                    id="date-of-birth"
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 </FormControl>
 
                 <FormMessage />
