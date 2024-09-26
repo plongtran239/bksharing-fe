@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { UseFormReturn } from "react-hook-form";
+import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import DateInput from "@/components/date-input";
 import { PasswordInput } from "@/components/password-input";
@@ -22,30 +22,20 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
-import {
-  MentorRegisterRequestType,
-  StudentRegisterRequestType,
-} from "@/schemas/auth";
 
-interface IBaseRegisterFormProps {
-  form: UseFormReturn<StudentRegisterRequestType | MentorRegisterRequestType>;
-  onSubmit: (
-    values: StudentRegisterRequestType | MentorRegisterRequestType
-  ) => Promise<void>;
+interface IBaseRegisterFormProps<T extends FieldValues> {
+  form: UseFormReturn<T>;
+  onSubmit: (values: T) => Promise<void>;
   loading: boolean;
   children?: React.ReactNode;
 }
 
-const BaseRegisterForm = ({
+const BaseRegisterForm = <T extends FieldValues>({
   form,
   onSubmit,
   loading,
   children,
-}: IBaseRegisterFormProps) => {
-  const isFormValuesEmpty = Object.values(form.getValues()).some(
-    (value) => value === "" || value === undefined
-  );
-
+}: IBaseRegisterFormProps<T>) => {
   return (
     <Form {...form}>
       <form
@@ -54,13 +44,13 @@ const BaseRegisterForm = ({
         noValidate
       >
         {/* Email & Phone */}
-        <div className="flex-between gap-5">
+        <div className="flex-between gap-5 max-lg:flex-col">
           <FormField
             control={form.control}
-            name="email"
+            name={"email" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel required>Email Address</FormLabel>
                 <FormControl>
                   <Input type="email" placeholder="email" {...field} />
                 </FormControl>
@@ -71,12 +61,12 @@ const BaseRegisterForm = ({
 
           <FormField
             control={form.control}
-            name="phoneNumber"
+            name={"phoneNumber" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Phone Number</FormLabel>
+                <FormLabel required>Phone Number</FormLabel>
                 <FormControl>
-                  <Input placeholder="phone number" {...field} />
+                  <Input type="tel" placeholder="phone number" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -88,10 +78,10 @@ const BaseRegisterForm = ({
         <div className="flex-between gap-5 max-lg:flex-col">
           <FormField
             control={form.control}
-            name="name"
+            name={"name" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Full Name</FormLabel>
+                <FormLabel required>Full Name</FormLabel>
                 <FormControl>
                   <Input placeholder="full name" {...field} />
                 </FormControl>
@@ -101,10 +91,12 @@ const BaseRegisterForm = ({
           />
           <FormField
             control={form.control}
-            name="dob"
+            name={"dob" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel htmlFor="date-of-birth">Date of Birth</FormLabel>
+                <FormLabel htmlFor="date-of-birth" required>
+                  Date of Birth
+                </FormLabel>
 
                 <FormControl>
                   <DateInput
@@ -121,10 +113,10 @@ const BaseRegisterForm = ({
 
           <FormField
             control={form.control}
-            name="gender"
+            name={"gender" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Gender</FormLabel>
+                <FormLabel required>Gender</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -156,10 +148,10 @@ const BaseRegisterForm = ({
         <>
           <FormField
             control={form.control}
-            name="password"
+            name={"password" as Path<T>}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel required>Password</FormLabel>
                 <FormControl>
                   <PasswordInput placeholder="password" {...field} />
                 </FormControl>
@@ -170,10 +162,10 @@ const BaseRegisterForm = ({
 
           <FormField
             control={form.control}
-            name="confirmPassword"
+            name={"confirmPassword" as Path<T>}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
+                <FormLabel required>Confirm Password</FormLabel>
                 <FormControl>
                   <PasswordInput placeholder="confirm password" {...field} />
                 </FormControl>
@@ -196,7 +188,7 @@ const BaseRegisterForm = ({
           <Button
             type="submit"
             disabled={
-              form.formState.isSubmitting || isFormValuesEmpty || loading
+              form.formState.isSubmitting || !form.formState.isValid || loading
             }
           >
             Submit

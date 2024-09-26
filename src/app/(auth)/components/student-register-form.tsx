@@ -1,17 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
-import DateInput from "@/components/date-input";
-import { PasswordInput } from "@/components/password-input";
-import { Button } from "@/components/ui/button";
+import BaseRegisterForm from "@/app/(auth)/components/base-register-form";
+import { useAppContext } from "@/app/app-provider";
 import {
-  Form,
   FormControl,
   FormField,
   FormItem,
@@ -19,16 +16,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { GENDERS } from "@/constants/enum";
+// import {
+//   Select,
+//   SelectContent,
+//   SelectItem,
+//   SelectTrigger,
+//   SelectValue,
+// } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+// import { EDUCATION_LEVELS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+// import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import {
   StudentRegisterRequest,
   StudentRegisterRequestType,
@@ -41,6 +39,8 @@ const StudentRegisterForm = () => {
 
   const router = useRouter();
 
+  const { setUser } = useAppContext();
+
   const form = useForm<StudentRegisterRequestType>({
     resolver: zodResolver(StudentRegisterRequest),
     defaultValues: {
@@ -51,12 +51,12 @@ const StudentRegisterForm = () => {
       confirmPassword: "",
       gender: undefined,
       dob: undefined,
+      // major: "",
+      // educationalLevel: undefined,
+      addressBase: "",
+      addressDetail: "",
     },
   });
-
-  const isFormValuesEmpty = Object.values(form.getValues()).some(
-    (value) => value === "" || value === undefined
-  );
 
   const onSubmit = async (values: StudentRegisterRequestType) => {
     setLoading(true);
@@ -64,9 +64,15 @@ const StudentRegisterForm = () => {
     try {
       const result = await authApi.studentRegister(values);
 
+      const { accessToken, avatar, name } = result.payload.data;
+
       await authApi.auth({
-        sessionToken: result.payload.data.accessToken,
+        sessionToken: accessToken,
       });
+
+      localStorage.setItem("user", JSON.stringify({ avatar, name }));
+
+      setUser({ avatar, name });
 
       toast({
         title: "Success",
@@ -86,161 +92,86 @@ const StudentRegisterForm = () => {
   };
 
   return (
-    <Form {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="space-y-5"
-        noValidate
-      >
-        {/* Email & Phone */}
-        <div className="flex-between gap-5">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Email Address</FormLabel>
+    <BaseRegisterForm form={form} onSubmit={onSubmit} loading={loading}>
+      <Separator />
+
+      {/* Educational Level & Major */}
+      {/* <div className="flex-between gap-5">
+        <FormField
+          control={form.control}
+          name="educationalLevel"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Educational Level</FormLabel>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl>
-                  <Input type="email" placeholder="email" {...field} />
+                  <SelectTrigger
+                    className={cn("text-sm", {
+                      "text-muted-foreground": !field.value,
+                    })}
+                  >
+                    <SelectValue placeholder="select educational level" />
+                  </SelectTrigger>
                 </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                <SelectContent>
+                  {Object.values(EDUCATION_LEVELS).map((item) => (
+                    <SelectItem key={item} value={item}>
+                      {convertToCapitalizeCase(item)}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-          <FormField
-            control={form.control}
-            name="phoneNumber"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Phone Number</FormLabel>
-                <FormControl>
-                  <Input placeholder="phone number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
+        <FormField
+          control={form.control}
+          name="major"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Major</FormLabel>
+              <FormControl>
+                <Input placeholder="major" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div> */}
 
-        {/* Name, DOB & Gender */}
-        <div className="flex-between gap-5 max-lg:flex-col">
-          <FormField
-            control={form.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="full name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="dob"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel htmlFor="date-input">Date of Birth</FormLabel>
+      {/* Address Base & Address Detail */}
+      <div className="flex-between gap-5 max-lg:flex-col">
+        <FormField
+          control={form.control}
+          name="addressBase"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Address Base</FormLabel>
+              <FormControl>
+                <Input placeholder="address base" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
-                <FormControl>
-                  <DateInput
-                    id="date-input"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Gender</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger
-                      className={cn("text-sm", {
-                        "text-muted-foreground": !field.value,
-                      })}
-                    >
-                      <SelectValue placeholder="select gender" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    {Object.values(GENDERS).map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {convertToCapitalizeCase(item)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </div>
-
-        {/* Password & Confirm Password */}
-        <>
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <PasswordInput placeholder="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="confirmPassword"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Confirm Password</FormLabel>
-                <FormControl>
-                  <PasswordInput placeholder="confirm password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </>
-
-        <div className="flex-between">
-          <span className="text-sm">
-            Already have account?{" "}
-            <Link href="/login" className="text-blue-500">
-              <span className="hover:underline">Login</span>
-            </Link>
-          </span>
-
-          <Button
-            type="submit"
-            disabled={
-              form.formState.isSubmitting || isFormValuesEmpty || loading
-            }
-          >
-            Submit
-          </Button>
-        </div>
-      </form>
-    </Form>
+        <FormField
+          control={form.control}
+          name="addressDetail"
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel>Address Detail</FormLabel>
+              <FormControl>
+                <Input placeholder="address detail" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </div>
+    </BaseRegisterForm>
   );
 };
 export default StudentRegisterForm;

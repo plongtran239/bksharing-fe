@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { ACHIEVEMENT_TYPES, GENDERS } from "@/constants/enum";
+import { ACHIEVEMENT_TYPES, EDUCATION_LEVELS, GENDERS } from "@/constants/enum";
 import { LoginRequest, LoginResponse } from "@/schemas/auth";
 
 const RegisterRequest = LoginRequest.extend({
@@ -112,17 +112,20 @@ const AchivementRequest = z
     }
   );
 
-const StudentRegisterRequest = RegisterRequest.superRefine(
-  ({ password, confirmPassword }, ctx) => {
-    if (password !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
+const StudentRegisterRequest = RegisterRequest.extend({
+  addressBase: z.string().trim().optional(),
+  addressDetail: z.string().trim().optional(),
+  major: z.string().trim().optional(),
+  educationalLevel: z.nativeEnum(EDUCATION_LEVELS).optional(),
+}).superRefine(({ password, confirmPassword }, ctx) => {
+  if (password !== confirmPassword) {
+    ctx.addIssue({
+      code: "custom",
+      message: "Passwords do not match",
+      path: ["confirmPassword"],
+    });
   }
-);
+});
 
 const MentorRegisterRequest = RegisterRequest.extend({
   achievements: z.array(AchivementRequest).nonempty(),
