@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
+import { useAppContext } from "@/app/app-provider";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +29,8 @@ const LoginForm = () => {
 
   const { toast } = useToast();
 
+  const { setUser } = useAppContext();
+
   const form = useForm<LoginRequestType>({
     resolver: zodResolver(LoginRequest),
     defaultValues: {
@@ -45,7 +48,13 @@ const LoginForm = () => {
     try {
       const result = await authApi.login(values);
 
-      await authApi.auth({ sessionToken: result.payload.data.accessToken });
+      const { accessToken, name, avatar } = result.payload.data;
+
+      localStorage.setItem("user", JSON.stringify({ name, avatar }));
+
+      setUser({ name, avatar });
+
+      await authApi.auth({ sessionToken: accessToken });
 
       toast({
         title: "Success",

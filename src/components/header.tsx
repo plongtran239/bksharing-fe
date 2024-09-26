@@ -1,9 +1,12 @@
+"use client";
+
 import { KeyRound, User } from "lucide-react";
-import { cookies } from "next/headers";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect } from "react";
 
 import LogoutButton from "@/app/(home)/components/logout-button";
+import { useAppContext } from "@/app/app-provider";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -15,9 +18,16 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const Header = () => {
-  const cookieStore = cookies();
+  const { user, setUser } = useAppContext();
 
-  const token = cookieStore.get("sessionToken")?.value;
+  useEffect(() => {
+    const user = localStorage.getItem("user");
+
+    if (user) {
+      setUser(JSON.parse(user));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <header className="flex-between container py-5">
@@ -46,18 +56,18 @@ const Header = () => {
         </ul>
 
         <>
-          {token ? (
+          {user ? (
             <DropdownMenu>
               <DropdownMenuTrigger className="flex-between gap-2">
                 <Image
-                  src="/images/default-user.png"
+                  src={user.avatar || "/images/default-user.png"}
                   alt="avatar"
                   width={32}
                   height={32}
                   className="rounded-full"
                   priority
                 />
-                <span>Long Tran</span>
+                <span>{user.name}</span>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuLabel>My Account</DropdownMenuLabel>

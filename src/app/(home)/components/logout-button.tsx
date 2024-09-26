@@ -4,6 +4,7 @@ import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import authApi from "@/apis/auth.api";
+import { useAppContext } from "@/app/app-provider";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 
@@ -11,6 +12,8 @@ const LogoutButton = () => {
   const router = useRouter();
 
   const { toast } = useToast();
+
+  const { setUser } = useAppContext();
 
   const handleLogout = async () => {
     try {
@@ -21,6 +24,10 @@ const LogoutButton = () => {
         description: "Logout successfully!",
       });
 
+      localStorage.removeItem("user");
+
+      setUser(null);
+
       router.push("/");
       router.refresh();
     } catch (error) {
@@ -29,8 +36,8 @@ const LogoutButton = () => {
   };
 
   return (
-    <DropdownMenuItem>
-      <button onClick={handleLogout} className="flex-center gap-2">
+    <DropdownMenuItem onClick={handleLogout}>
+      <button className="flex-center gap-2">
         <LogOutIcon size={16} />
         Logout
       </button>
