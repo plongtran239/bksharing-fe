@@ -75,7 +75,7 @@ const BaseRegisterForm = <T extends FieldValues>({
         </div>
 
         {/* Name, DOB & Gender */}
-        <div className="flex-between gap-5 max-lg:flex-col">
+        <div className="flex-between gap-5 max-xl:flex-col">
           <FormField
             control={form.control}
             name={"name" as Path<T>}
@@ -177,7 +177,7 @@ const BaseRegisterForm = <T extends FieldValues>({
 
         {children}
 
-        <div className="flex-between">
+        <div className="flex-between max-sm:flex-col max-sm:gap-5">
           <span className="text-sm">
             Already have account?{" "}
             <Link href="/login" className="text-blue-500">

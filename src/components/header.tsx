@@ -30,82 +30,84 @@ const Header = () => {
   }, []);
 
   return (
-    <header className="flex-between container py-5">
-      <Link href="/" className="flex items-center gap-2">
-        <Image
-          src="/images/logo-icon.png"
-          alt="logo"
-          width={35}
-          height={35}
-          priority
-        />
+    <header className="fixed top-0 z-50 w-full bg-white shadow">
+      <div className="flex-between container py-5 max-sm:px-5">
+        <Link href="/" className="mr-2 flex items-center gap-4">
+          <Image
+            src="/images/logo-icon.png"
+            alt="logo"
+            width={35}
+            height={35}
+            priority
+          />
 
-        <span className="text-xl text-[#5B5B5B] dark:text-white">
-          BK Sharing
-        </span>
-      </Link>
+          <span className="text-xl text-[#5B5B5B] dark:text-white">
+            BK Sharing
+          </span>
+        </Link>
 
-      <div className="flex-between gap-20">
-        <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white">
-          <li className="hover:underline">
-            <Link href="/">Home</Link>
-          </li>
-          <li>Courses</li>
-          <li>Mentors</li>
-          <li>Blogs</li>
-        </ul>
+        <div className="flex-between gap-20">
+          <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-sm:hidden">
+            <li className="hover:underline">
+              <Link href="/">Home</Link>
+            </li>
+            <li>Courses</li>
+            <li>Mentors</li>
+            <li>Blogs</li>
+          </ul>
 
-        <>
-          {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex-between gap-2">
-                <Image
-                  src={user.avatar || "/images/default-user.png"}
-                  alt="avatar"
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                  priority
-                />
-                <span>{user.name}</span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+          <>
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex-between gap-2">
+                  <Image
+                    src={user.avatar || "/images/default-user.png"}
+                    alt="avatar"
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    priority
+                  />
+                  <span>{user.name}</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-                <DropdownMenuSeparator />
+                  <DropdownMenuSeparator />
 
-                <Link href="/me">
-                  <DropdownMenuItem className="flex items-center gap-2">
-                    <User size={16} />
-                    Profile
-                  </DropdownMenuItem>
+                  <Link href="/me">
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <User size={16} />
+                      Profile
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <Link href="/change-password">
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <KeyRound size={16} />
+                      Change Password
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <DropdownMenuSeparator />
+
+                  <LogoutButton />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex-between gap-5 max-sm:hidden">
+                <Link href="/login">
+                  <Button className="w-28 rounded-full">Login</Button>
                 </Link>
-
-                <Link href="/change-password">
-                  <DropdownMenuItem className="flex items-center gap-2">
-                    <KeyRound size={16} />
-                    Change Password
-                  </DropdownMenuItem>
+                <Link href="/register">
+                  <Button className="w-28 rounded-full" variant="outline">
+                    Register
+                  </Button>
                 </Link>
-
-                <DropdownMenuSeparator />
-
-                <LogoutButton />
-              </DropdownMenuContent>
-            </DropdownMenu>
-          ) : (
-            <div className="flex-between gap-5">
-              <Link href="/login">
-                <Button className="w-28 rounded-full">Login</Button>
-              </Link>
-              <Link href="/register">
-                <Button className="w-28 rounded-full" variant="outline">
-                  Register
-                </Button>
-              </Link>
-            </div>
-          )}
-        </>
+              </div>
+            )}
+          </>
+        </div>
       </div>
     </header>
   );

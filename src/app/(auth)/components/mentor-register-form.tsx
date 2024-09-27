@@ -200,7 +200,7 @@ const MentorRegisterForm = () => {
                           "text-muted-foreground": !field.value,
                         })}
                       >
-                        <SelectValue placeholder="select achievement type" />
+                        <SelectValue placeholder="select type" />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>

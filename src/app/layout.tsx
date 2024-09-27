@@ -5,6 +5,8 @@ import { cookies } from "next/headers";
 import "./globals.css";
 
 import AppProvider from "@/app/app-provider";
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 
@@ -40,7 +42,11 @@ export default function RootLayout({
           disableTransitionOnChange
         >
           <AppProvider initialSessionToken={sessionToken?.value}>
-            {children}
+            <Header />
+
+            <div className="mt-[76px]">{children}</div>
+
+            <Footer />
           </AppProvider>
           <Toaster />
         </ThemeProvider>

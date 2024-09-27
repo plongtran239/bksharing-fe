@@ -9,7 +9,7 @@ const AuthLayout = ({
   return (
     <main className="container">
       <div className="flex-center">
-        <div className="my-10 w-1/2 max-sm:w-fit">
+        <div className="m-10 w-1/2 min-w-[360px] rounded-xl p-10 shadow-2xl">
           <div className="flex-center">
             <Link href="/">
               <Image

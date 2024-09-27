@@ -3,8 +3,6 @@ import { Metadata } from "next";
 import Image from "next/image";
 
 import Card from "@/app/(home)/components/card";
-import Footer from "@/components/footer";
-import Header from "@/components/header";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
@@ -16,8 +14,6 @@ export const metadata: Metadata = {
 export default function Home() {
   return (
     <main>
-      <Header />
-
       {/* Section 1 */}
       <section className="bg-[#9DCCFF]/30 dark:bg-[#9DCCFF]/10">
         <div className="flex-between container gap-10 py-10">
@@ -121,8 +117,6 @@ export default function Home() {
           </li>
         </ul>
       </section>
-
-      <Footer />
     </main>
   );
 }

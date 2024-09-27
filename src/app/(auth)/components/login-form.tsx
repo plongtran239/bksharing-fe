@@ -78,7 +78,7 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
         <FormField
           control={form.control}
           name="email"
@@ -107,7 +107,7 @@ const LoginForm = () => {
           )}
         />
 
-        <div className="flex-between">
+        <div className="flex-between max-sm:flex-col max-sm:gap-5">
           <span className="text-sm">
             Don&apos;t have account?{" "}
             <Link href="/register" className="text-blue-500">
