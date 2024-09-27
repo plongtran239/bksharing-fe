@@ -33,6 +33,7 @@ const RegisterRequest = LoginRequest.extend({
       message: "Date of birth must be less than current date",
     }),
   gender: z.nativeEnum(GENDERS),
+  cv: z.string().trim().optional(),
 }).strict();
 
 const AchivementRequest = z

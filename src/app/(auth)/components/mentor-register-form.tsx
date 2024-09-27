@@ -10,6 +10,7 @@ import authApi from "@/apis/auth.api";
 import BaseRegisterForm from "@/app/(auth)/components/base-register-form";
 import { useAppContext } from "@/app/app-provider";
 import DateInput from "@/components/date-input";
+import FileInput from "@/components/file-input";
 import { Button } from "@/components/ui/button";
 import {
   FormControl,
@@ -55,6 +56,7 @@ const MentorRegisterForm = () => {
       confirmPassword: "",
       gender: undefined,
       dob: undefined,
+      cv: "",
       achievements: [
         {
           achievementType: undefined,
@@ -103,6 +105,8 @@ const MentorRegisterForm = () => {
   const onSubmit = async (values: MentorRegisterRequestType) => {
     setLoading(true);
 
+    return console.log({ values });
+
     try {
       const result = await authApi.mentorRegsiter(values);
 
@@ -137,6 +141,29 @@ const MentorRegisterForm = () => {
     <BaseRegisterForm form={form} onSubmit={onSubmit} loading={loading}>
       <Separator />
 
+      <FormField
+        control={form.control}
+        name="cv"
+        render={({ field }) => (
+          <FormItem className="w-full">
+            <FormLabel htmlFor="cv" className="flex-center mb-2" required>
+              Resume / CV
+            </FormLabel>
+            <FormControl>
+              <FileInput
+                id="cv"
+                accept="application/pdf"
+                value={field.value}
+                onChange={field.onChange}
+              />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+        )}
+      />
+
+      <Separator />
+
       {/* Achievements */}
       {fields.map((field, index) => (
         <div key={field.id} className="space-y-5">
@@ -150,7 +177,7 @@ const MentorRegisterForm = () => {
               onClick={() => handleRemoveAchievement(index)}
             >
               <X
-                size={20}
+                size={16}
                 className="rounded-full text-primary hover:border hover:border-destructive hover:text-destructive"
               />
             </button>
