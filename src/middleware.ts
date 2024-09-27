@@ -1,12 +1,16 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const privatePaths = ["/me", "/change-password", "/categories"];
+const privatePaths = ["/users", "/change-password", "/categories"];
 const publicPaths = ["/login", "/register"];
 
 export const middleware = (request: NextRequest) => {
   const { pathname } = request.nextUrl;
 
   const sessionToken = request.cookies.get("sessionToken")?.value;
+
+  if (pathname === "/users") {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
 
   if (privatePaths.some((path) => pathname.startsWith(path)) && !sessionToken) {
     return NextResponse.redirect(new URL("/login", request.url));
@@ -20,5 +24,5 @@ export const middleware = (request: NextRequest) => {
 };
 
 export const config = {
-  matcher: ["/me", "/login", "/register", "/change-password", "/categories"],
+  matcher: ["/login", "/register", "/change-password", "/categories", "/users"],
 };

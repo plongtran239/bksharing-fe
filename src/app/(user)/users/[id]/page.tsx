@@ -1,11 +1,11 @@
 import { Metadata } from "next";
 import Image from "next/image";
 
-import About from "@/app/(user)/me/components/about";
-import Achievements from "@/app/(user)/me/components/achievements";
-import Education from "@/app/(user)/me/components/education";
-import Experience from "@/app/(user)/me/components/experience";
-import SkillsCertifications from "@/app/(user)/me/components/skills-certifications";
+import About from "@/app/(user)/users/[id]/components/about";
+import Achievements from "@/app/(user)/users/[id]/components/achievements";
+import Education from "@/app/(user)/users/[id]/components/education";
+import Experience from "@/app/(user)/users/[id]/components/experience";
+import SkillsCertifications from "@/app/(user)/users/[id]/components/skills-certifications";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
@@ -16,7 +16,15 @@ export const metadata: Metadata = {
   description: "Your profile information",
 };
 
-const Me = () => {
+const User = ({
+  params,
+}: {
+  params: {
+    id: string;
+  };
+}) => {
+  const { id } = params;
+
   return (
     <section className="bg-[#f4f2ee]">
       <div className="container flex gap-5 py-5">
@@ -45,7 +53,7 @@ const Me = () => {
 
             <div className="flex-between mt-10 px-10">
               <div>
-                <h1 className="text-2xl font-bold">Long Tran</h1>
+                <h1 className="text-2xl font-bold">{`User ${id}`}</h1>
                 <p className="text-sm">
                   <span className="text-gray-500">Joined:</span> 01/01/2021
                 </p>
@@ -167,4 +175,4 @@ const Me = () => {
     </section>
   );
 };
-export default Me;
+export default User;

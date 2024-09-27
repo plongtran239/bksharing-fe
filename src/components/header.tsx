@@ -81,7 +81,7 @@ const Header = () => {
 
                   <DropdownMenuSeparator />
 
-                  <Link href="/me">
+                  <Link href="/users/id">
                     <DropdownMenuItem className="flex items-center gap-2">
                       <User size={16} />
                       Profile
