@@ -3,7 +3,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 
 import categoryApi from "@/apis/category.api";
 import { Button } from "@/components/ui/button";
@@ -18,17 +17,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { useToast } from "@/hooks/use-toast";
-import { CategoryType } from "@/schemas/category.schema";
-
-const FormSchema = z.object({
-  categoryIds: z
-    .array(z.number())
-    .refine((value) => value.some((item) => item), {
-      message: "You have to select at least one item.",
-    }),
-});
-
-type FormSchemaType = z.infer<typeof FormSchema>;
+import {
+  CategoryType,
+  InterestedCategoryRequest,
+  InterestedCategoryRequestType,
+} from "@/schemas/category.schema";
 
 interface ICategoryFormProps {
   categories: CategoryType[];
@@ -39,14 +32,14 @@ const CategoryForm = ({ categories }: ICategoryFormProps) => {
 
   const { toast } = useToast();
 
-  const form = useForm<FormSchemaType>({
-    resolver: zodResolver(FormSchema),
+  const form = useForm<InterestedCategoryRequestType>({
+    resolver: zodResolver(InterestedCategoryRequest),
     defaultValues: {
       categoryIds: [],
     },
   });
 
-  const onSubmit = async (values: FormSchemaType) => {
+  const onSubmit = async (values: InterestedCategoryRequestType) => {
     try {
       await categoryApi.selectInterestedCategory({
         categoryIds: values.categoryIds,

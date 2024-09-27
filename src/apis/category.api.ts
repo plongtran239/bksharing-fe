@@ -1,8 +1,11 @@
 import http from "@/http";
-import { CategoryResType } from "@/schemas/category.schema";
+import { CategoryResponseType } from "@/schemas/category.schema";
 
 const categoryApi = {
-  getCategoryList: () => http.get<CategoryResType>("/client/categories"),
+  getCategoryList: () =>
+    http.get<CategoryResponseType>("/client/categories", {
+      cache: "no-store",
+    }),
 
   selectInterestedCategory: (body: { categoryIds: number[] }) =>
     http.post("/client/categories/students", body),

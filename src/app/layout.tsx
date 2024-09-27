@@ -8,7 +8,7 @@ import AppProvider from "@/app/app-provider";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 
-const poppins = Poppins({
+const fontFamily = Poppins({
   weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
   display: "swap",
@@ -31,7 +31,7 @@ export default function RootLayout({
   const sessionToken = cookieStore.get("sessionToken");
 
   return (
-    <html lang="en" className={poppins.className} suppressHydrationWarning>
+    <html lang="en" className={fontFamily.className} suppressHydrationWarning>
       <body>
         <ThemeProvider
           attribute="class"

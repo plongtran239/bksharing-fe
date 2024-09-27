@@ -162,7 +162,7 @@ const MentorRegisterForm = () => {
               name={`achievements.${index}.achievementType`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Achievement Type</FormLabel>
+                  <FormLabel required>Type</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
