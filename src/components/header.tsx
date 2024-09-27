@@ -17,6 +17,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
+const menuItems = [
+  { label: "Home", href: "/" },
+  { label: "Courses", href: "/courses" },
+  { label: "Mentors", href: "/mentors" },
+  { label: "Blogs", href: "/blogs" },
+];
+
 const Header = () => {
   const { user, setUser } = useAppContext();
 
@@ -47,13 +54,12 @@ const Header = () => {
         </Link>
 
         <div className="flex-between gap-20">
-          <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-sm:hidden">
-            <li className="hover:underline">
-              <Link href="/">Home</Link>
-            </li>
-            <li>Courses</li>
-            <li>Mentors</li>
-            <li>Blogs</li>
+          <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-lg:hidden">
+            {menuItems.map((item, index) => (
+              <li key={index} className="hover:underline">
+                <Link href={item.href}>{item.label}</Link>
+              </li>
+            ))}
           </ul>
 
           <>
