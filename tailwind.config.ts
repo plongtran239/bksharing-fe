@@ -63,6 +63,12 @@ const config: Config = {
           DEFAULT: "hsl(var(--toast-success))",
           foreground: "hsl(var(--toast-foreground))",
         },
+        icon: {
+          "1": "hsl(var(--icon-1))",
+          "2": "hsl(var(--icon-2))",
+          "3": "hsl(var(--icon-3))",
+          foreground: "hsl(var(--icon-foreground))",
+        },
       },
       borderRadius: {
         lg: "var(--radius)",

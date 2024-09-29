@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { X } from "lucide-react";
+import { PlusIcon, X } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -356,7 +356,13 @@ const MentorRegisterForm = () => {
       ))}
 
       <div className="flex-center">
-        <Button type="button" className="" onClick={handleAddAchievement}>
+        <Button
+          variant="outline"
+          type="button"
+          className="flex-center gap-2"
+          onClick={handleAddAchievement}
+        >
+          <PlusIcon size={16} />
           Add Achievement
         </Button>
       </div>

@@ -16,17 +16,17 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-// import {
-//   Select,
-//   SelectContent,
-//   SelectItem,
-//   SelectTrigger,
-//   SelectValue,
-// } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-// import { EDUCATION_LEVELS } from "@/constants/enum";
+import { EDUCATION_LEVELS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-// import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import {
   StudentRegisterRequest,
   StudentRegisterRequestType,
@@ -51,8 +51,8 @@ const StudentRegisterForm = () => {
       confirmPassword: "",
       gender: undefined,
       dob: undefined,
-      // major: "",
-      // educationalLevel: undefined,
+      major: "",
+      educationalLevel: undefined,
       addressBase: "",
       addressDetail: "",
     },
@@ -96,7 +96,7 @@ const StudentRegisterForm = () => {
       <Separator />
 
       {/* Educational Level & Major */}
-      {/* <div className="flex-between gap-5">
+      <div className="flex-between gap-5">
         <FormField
           control={form.control}
           name="educationalLevel"
@@ -110,7 +110,7 @@ const StudentRegisterForm = () => {
                       "text-muted-foreground": !field.value,
                     })}
                   >
-                    <SelectValue placeholder="select educational level" />
+                    <SelectValue placeholder="select level" />
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
@@ -139,7 +139,7 @@ const StudentRegisterForm = () => {
             </FormItem>
           )}
         />
-      </div> */}
+      </div>
 
       {/* Address Base & Address Detail */}
       <div className="flex-between gap-5 max-lg:flex-col">

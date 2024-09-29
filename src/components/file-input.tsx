@@ -66,7 +66,7 @@ const FileInput = ({
       ) : (
         <div className="flex-center">
           <Button
-            variant="secondary"
+            variant="outline"
             onClick={handleUploadFile}
             className="flex-center gap-2"
           >

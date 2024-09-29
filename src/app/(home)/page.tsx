@@ -15,13 +15,13 @@ export default function Home() {
   return (
     <main>
       {/* Section 1 */}
-      <section className="bg-[#9DCCFF]/30 dark:bg-[#9DCCFF]/10">
+      <section className="bg-secondary">
         <div className="flex-between container gap-10 py-10">
           <div className="flex-1">
-            <h2 className="text-3xl font-semibold leading-normal text-[#2F327D] dark:text-primary">
+            <h2 className="text-3xl font-semibold leading-normal text-secondary-foreground dark:text-primary">
               BK Sharing - Online Platform Connecting Mentors And Learners
             </h2>
-            <p className="mt-4 pr-10 text-justify text-lg leading-normal text-[#696984] dark:text-white">
+            <p className="mt-4 pr-10 text-justify text-lg leading-normal dark:text-white">
               We provide a platform for mentors to share their knowledge and
               experience with learners who are eager to learn.
             </p>
@@ -43,10 +43,12 @@ export default function Home() {
       <section className="container mt-32">
         <div className="flex-center flex-col">
           <h2 className="text-3xl">
-            <span className="text-[#2F327D] dark:text-white">All-In-One </span>
+            <span className="text-secondary-foreground dark:text-white">
+              All-In-One{" "}
+            </span>
             <span className="text-primary">Cloud Software</span>
           </h2>
-          <p className="mt-4 w-1/2 text-center text-[#696984] dark:text-white">
+          <p className="mt-4 w-1/2 text-center dark:text-white">
             BK Sharing is one powerful online software suite that combines all
             the tools needed to run a successful school or office.
           </p>
@@ -56,7 +58,7 @@ export default function Home() {
           <li className="flex-1">
             <Card
               icon={<ReceiptTextIcon size={25} className="text-white" />}
-              backgroundIcon="#5B72EE"
+              backgroundIcon="icon-1"
               heading="Online Billing, Invoicing, & Contracts"
               content="Simple and secure control of your organization’s financial and legal transactions. Send customized invoices and contracts"
             />
@@ -64,7 +66,7 @@ export default function Home() {
           <li className="flex-1">
             <Card
               icon={<CalendarRangeIcon size={25} className="text-white" />}
-              backgroundIcon="#00CBB8"
+              backgroundIcon="icon-2"
               heading="Easy Scheduling & Attendance Tracking"
               content="Schedule and reserve classrooms at one campus or multiple campuses. Keep detailed records of student attendance"
             />
@@ -72,7 +74,7 @@ export default function Home() {
           <li className="flex-1">
             <Card
               icon={<UsersIcon size={25} className="text-white" />}
-              backgroundIcon="#29B9E7"
+              backgroundIcon="icon-3"
               heading="Mentors & Learners Management"
               content="Manage student and staff information, contact details, attendance, and performance records"
             />
@@ -84,7 +86,9 @@ export default function Home() {
       <section className="container my-32">
         <div className="flex-center flex-col">
           <h2 className="text-3xl">
-            <span className="text-[#2F327D] dark:text-white">What is </span>
+            <span className="text-secondary-foreground dark:text-white">
+              What is{" "}
+            </span>
             <span className="text-primary">BK Sharing?</span>
           </h2>
           <p className="mt-4 w-1/2 text-center text-[#696984] dark:text-white">

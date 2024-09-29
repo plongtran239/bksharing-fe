@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { cookies } from "next/headers";
@@ -50,6 +51,8 @@ export default function RootLayout({
           </AppProvider>
           <Toaster />
         </ThemeProvider>
+
+        <SpeedInsights />
       </body>
     </html>
   );
