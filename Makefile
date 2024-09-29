@@ -1,5 +1,4 @@
 default:
-	clear
 	make up
 
 bootstrap: 
@@ -8,6 +7,13 @@ bootstrap:
 
 up:
 	yarn dev
+
+check:
+	yarn lint
+	yarn prettier:check
+
+format:
+	yarn prettier:write
 
 install:
 	yarn install
