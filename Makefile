@@ -1,8 +1,7 @@
-default:
-	make up
+default: up
 
-bootstrap: 
-	make install
+bootstrap: install 
+	cp .env.example .env
 	make up
 
 up:

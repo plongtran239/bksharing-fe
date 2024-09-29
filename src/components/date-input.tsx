@@ -55,7 +55,7 @@ const DateInput = ({ value, onChange, id }: DateInputProps) => {
   };
 
   return (
-    <div className="flex-between relative">
+    <div className="flex-between relative w-full">
       <Input
         placeholder="dd/MM/yyyy"
         onChange={handleInputChange}
