@@ -14,11 +14,7 @@ const Card = ({ icon, backgroundIcon, heading, content }: ICardProps) => {
     <div className="relative h-64 w-full flex-col rounded-xl p-5 text-center shadow-2xl dark:bg-white">
       {/* icon */}
       <div className="flex-center absolute -top-8 left-0 w-full">
-        <div
-          className={cn("w-fit rounded-full p-4", {
-            [`bg-${backgroundIcon}`]: backgroundIcon,
-          })}
-        >
+        <div className={cn("w-fit rounded-full p-4", backgroundIcon)}>
           {icon}
         </div>
       </div>

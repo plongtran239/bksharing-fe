@@ -1,3 +1,4 @@
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
@@ -21,6 +22,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
+import { childVariants, parentVariants } from "@/constants/motion";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
 
 interface IBaseRegisterFormProps<T extends FieldValues> {
@@ -38,146 +40,167 @@ const BaseRegisterForm = <T extends FieldValues>({
 }: IBaseRegisterFormProps<T>) => {
   return (
     <Form {...form}>
-      <form
+      <motion.form
         onSubmit={form.handleSubmit(onSubmit)}
         className="space-y-5"
         noValidate
+        initial="hidden"
+        animate="show"
+        variants={parentVariants}
       >
         {/* Email & Phone */}
         <div className="flex-between gap-5 max-lg:flex-col">
-          <FormField
-            control={form.control}
-            name={"email" as Path<T>}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel required>Email Address</FormLabel>
-                <FormControl>
-                  <Input type="email" placeholder="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"email" as Path<T>}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel required>Email Address</FormLabel>
+                  <FormControl>
+                    <Input type="email" placeholder="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
 
-          <FormField
-            control={form.control}
-            name={"phoneNumber" as Path<T>}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel required>Phone Number</FormLabel>
-                <FormControl>
-                  <Input type="tel" placeholder="phone number" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"phoneNumber" as Path<T>}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel required>Phone Number</FormLabel>
+                  <FormControl>
+                    <Input type="tel" placeholder="phone number" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
         </div>
 
         {/* Name, DOB & Gender */}
         <div className="flex-between gap-5 max-xl:flex-col">
-          <FormField
-            control={form.control}
-            name={"name" as Path<T>}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel required>Full Name</FormLabel>
-                <FormControl>
-                  <Input placeholder="full name" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name={"dob" as Path<T>}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel htmlFor="date-of-birth" required>
-                  Date of Birth
-                </FormLabel>
-
-                <FormControl>
-                  <DateInput
-                    id="date-of-birth"
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                </FormControl>
-
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name={"gender" as Path<T>}
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel required>Gender</FormLabel>
-                <Select
-                  onValueChange={field.onChange}
-                  defaultValue={field.value}
-                >
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"name" as Path<T>}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel required>Full Name</FormLabel>
                   <FormControl>
-                    <SelectTrigger
-                      className={cn("text-sm", {
-                        "text-muted-foreground": !field.value,
-                      })}
-                    >
-                      <SelectValue placeholder="select gender" />
-                    </SelectTrigger>
+                    <Input placeholder="full name" {...field} />
                   </FormControl>
-                  <SelectContent>
-                    {Object.values(GENDERS).map((item) => (
-                      <SelectItem key={item} value={item}>
-                        {convertToCapitalizeCase(item)}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"dob" as Path<T>}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel htmlFor="date-of-birth" required>
+                    Date of Birth
+                  </FormLabel>
+
+                  <FormControl>
+                    <DateInput
+                      id="date-of-birth"
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"gender" as Path<T>}
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel required>Gender</FormLabel>
+                  <Select
+                    onValueChange={field.onChange}
+                    defaultValue={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger
+                        className={cn("text-sm", {
+                          "text-muted-foreground": !field.value,
+                        })}
+                      >
+                        <SelectValue placeholder="select gender" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(GENDERS).map((item) => (
+                        <SelectItem key={item} value={item}>
+                          {convertToCapitalizeCase(item)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
         </div>
 
         {/* Password & Confirm Password */}
         <>
-          <FormField
-            control={form.control}
-            name={"password" as Path<T>}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel required>Password</FormLabel>
-                <FormControl>
-                  <PasswordInput placeholder="password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"password" as Path<T>}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput placeholder="password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
 
-          <FormField
-            control={form.control}
-            name={"confirmPassword" as Path<T>}
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel required>Confirm Password</FormLabel>
-                <FormControl>
-                  <PasswordInput placeholder="confirm password" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name={"confirmPassword" as Path<T>}
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>Confirm Password</FormLabel>
+                  <FormControl>
+                    <PasswordInput placeholder="confirm password" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
         </>
 
         {children}
 
-        <div className="flex-between max-sm:flex-col max-sm:gap-5">
+        <motion.div
+          className="flex-between max-sm:flex-col max-sm:gap-5"
+          variants={childVariants}
+        >
           <span className="text-sm">
             Already have account?{" "}
             <Link href="/login" className="text-blue-500">
@@ -193,8 +216,8 @@ const BaseRegisterForm = <T extends FieldValues>({
           >
             Submit
           </Button>
-        </div>
-      </form>
+        </motion.div>
+      </motion.form>
     </Form>
   );
 };

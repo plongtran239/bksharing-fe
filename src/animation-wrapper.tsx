@@ -2,18 +2,12 @@
 
 import { AnimatePresence, AnimationProps, motion } from "framer-motion";
 
+import { defaultAnimationProps } from "@/constants/motion";
+
 interface IProps {
   children: React.ReactNode;
   animationProps?: AnimationProps;
-  visible?: boolean;
 }
-
-export const defaultAnimationProps: AnimationProps = {
-  initial: { opacity: 0, y: -15 },
-  animate: { opacity: 1, y: 0 },
-  exit: { opacity: 0, y: -15 },
-  transition: { delay: 0.2 },
-};
 
 const AnimationWrapper = ({
   children,

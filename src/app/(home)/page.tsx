@@ -16,28 +16,60 @@ export default function Home() {
   return (
     <main>
       {/* Section 1 */}
-      <AnimationWrapper>
+      <AnimationWrapper
+        animationProps={{
+          transition: {
+            delay: 0,
+          },
+        }}
+      >
         <section className="bg-secondary">
           <div className="flex-between container gap-10 py-10">
-            <div className="flex-1">
-              <h2 className="text-3xl font-semibold leading-normal text-secondary-foreground dark:text-primary">
-                BK Sharing - Online Platform Connecting Mentors And Learners
-              </h2>
-              <p className="mt-4 pr-10 text-justify text-lg leading-normal dark:text-white">
-                We provide a platform for mentors to share their knowledge and
-                experience with learners who are eager to learn.
-              </p>
+            <AnimationWrapper
+              animationProps={{
+                initial: {
+                  opacity: 0,
+                  x: -100,
+                },
+                transition: {
+                  delay: 0.2,
+                },
+              }}
+            >
+              <div className="flex-1">
+                <h2 className="text-3xl font-semibold leading-normal text-secondary-foreground dark:text-primary">
+                  BK Sharing - Online Platform Connecting Mentors And Learners
+                </h2>
+                <p className="mt-4 pr-10 text-justify text-lg leading-normal dark:text-white">
+                  We provide a platform for mentors to share their knowledge and
+                  experience with learners who are eager to learn.
+                </p>
 
-              <Button className="mt-4">Start Exploring</Button>
-            </div>
+                <Button className="mt-4">Start Exploring</Button>
+              </div>
+            </AnimationWrapper>
 
-            <Image
-              src="/images/landing-1.png"
-              alt=""
-              width={500}
-              height={500}
-              priority
-            />
+            <AnimationWrapper
+              animationProps={{
+                initial: {
+                  opacity: 0,
+                  x: 100,
+                },
+                transition: {
+                  delay: 0.2,
+                },
+              }}
+            >
+              <div className="relative h-[300px] w-[500px]">
+                <Image
+                  src="/images/landing-1.png"
+                  alt=""
+                  fill
+                  priority
+                  sizes="(max-width: 640px) 100vw,"
+                />
+              </div>
+            </AnimationWrapper>
           </div>
         </section>
       </AnimationWrapper>
@@ -68,23 +100,25 @@ export default function Home() {
             <li className="flex-1">
               <Card
                 icon={<ReceiptTextIcon size={25} className="text-white" />}
-                backgroundIcon="icon-1"
+                backgroundIcon="bg-icon-1"
                 heading="Online Billing, Invoicing, & Contracts"
                 content="Simple and secure control of your organization’s financial and legal transactions. Send customized invoices and contracts"
               />
             </li>
+
             <li className="flex-1">
               <Card
                 icon={<CalendarRangeIcon size={25} className="text-white" />}
-                backgroundIcon="icon-2"
+                backgroundIcon="bg-icon-2"
                 heading="Easy Scheduling & Attendance Tracking"
                 content="Schedule and reserve classrooms at one campus or multiple campuses. Keep detailed records of student attendance"
               />
             </li>
+
             <li className="flex-1">
               <Card
                 icon={<UsersIcon size={25} className="text-white" />}
-                backgroundIcon="icon-3"
+                backgroundIcon="bg-icon-3"
                 heading="Mentors & Learners Management"
                 content="Manage student and staff information, contact details, attendance, and performance records"
               />

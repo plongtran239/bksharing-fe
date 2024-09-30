@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -19,6 +20,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { childVariants, parentVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { LoginRequest, LoginRequestType } from "@/schemas/auth";
 
@@ -78,36 +80,49 @@ const LoginForm = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-5">
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email Address</FormLabel>
-              <FormControl>
-                <Input placeholder="email" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+      <motion.form
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full space-y-5"
+        initial="hidden"
+        animate="show"
+        variants={parentVariants}
+      >
+        <motion.div variants={childVariants}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email Address</FormLabel>
+                <FormControl>
+                  <Input placeholder="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
 
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Password</FormLabel>
-              <FormControl>
-                <PasswordInput placeholder="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <motion.div variants={childVariants}>
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <PasswordInput placeholder="password" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
 
-        <div className="flex-between max-sm:flex-col max-sm:gap-5">
+        <motion.div
+          className="flex-between max-sm:flex-col max-sm:gap-5"
+          variants={childVariants}
+        >
           <span className="text-sm">
             Don&apos;t have account?{" "}
             <Link href="/register" className="text-blue-500">
@@ -116,9 +131,9 @@ const LoginForm = () => {
           </span>
 
           <span className="text-sm text-blue-500">Forgot Password?</span>
-        </div>
+        </motion.div>
 
-        <div className="flex justify-end">
+        <motion.div className="flex justify-end" variants={childVariants}>
           <Button
             type="submit"
             disabled={
@@ -127,8 +142,8 @@ const LoginForm = () => {
           >
             Submit
           </Button>
-        </div>
-      </form>
+        </motion.div>
+      </motion.form>
     </Form>
   );
 };

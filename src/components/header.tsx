@@ -66,7 +66,7 @@ const Header = () => {
         </Link>
 
         <div className="flex-between gap-20">
-          <ul className="flex-between gap-10 text-[#5B5B5B] transition-all dark:text-white max-lg:hidden">
+          <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-lg:hidden">
             {menuItems.map((item, index) => (
               <li
                 key={index}
