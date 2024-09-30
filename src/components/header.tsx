@@ -1,8 +1,10 @@
 "use client";
 
+import { motion } from "framer-motion";
 import { KeyRound, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 import LogoutButton from "@/app/(home)/components/logout-button";
@@ -16,6 +18,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 const menuItems = [
   { label: "Home", href: "/" },
@@ -36,6 +39,16 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const path = usePathname();
+
+  const isActive = (href: string) => {
+    if (href === "/") {
+      return path === href;
+    }
+
+    return path.startsWith(href);
+  };
+
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow">
       <div className="flex-between container py-5 max-sm:px-5">
@@ -54,14 +67,26 @@ const Header = () => {
         </Link>
 
         <div className="flex-between gap-20">
-          <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-lg:hidden">
+          <ul className="flex-between gap-10 text-[#5B5B5B] transition-all dark:text-white max-lg:hidden">
             {menuItems.map((item, index) => (
-              <li key={index} className="hover:underline">
-                <Link href={item.href}>{item.label}</Link>
+              <li
+                key={index}
+                className={`${isActive(item.href) && "font-semibold text-primary"}`}
+              >
+                <motion.div
+                  whileHover={{
+                    scale: 1.1,
+                    transition: {
+                      duration: 0.3,
+                      ease: "easeInOut",
+                    },
+                  }}
+                >
+                  <Link href={item.href}>{item.label}</Link>
+                </motion.div>
               </li>
             ))}
           </ul>
-
           <>
             {user ? (
               <DropdownMenu>
