@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, AnimationProps, motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
 
 interface IProps {
   children: React.ReactNode;
