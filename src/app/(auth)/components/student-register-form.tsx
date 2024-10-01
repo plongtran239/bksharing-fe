@@ -100,7 +100,7 @@ const StudentRegisterForm = () => {
       </motion.div>
 
       {/* Educational Level & Major */}
-      <div className="flex-between gap-5 max-lg:flex-col">
+      <div className="flex-between gap-5 max-sm:flex-col">
         <motion.div className="w-full" variants={childVariants}>
           <FormField
             control={form.control}
@@ -153,7 +153,7 @@ const StudentRegisterForm = () => {
       </div>
 
       {/* Address Base & Address Detail */}
-      <div className="flex-between gap-5 max-lg:flex-col">
+      <div className="flex-between gap-5 max-sm:flex-col">
         <motion.div className="w-full" variants={childVariants}>
           <FormField
             control={form.control}

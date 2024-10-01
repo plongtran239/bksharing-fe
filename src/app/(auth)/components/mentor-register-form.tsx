@@ -189,7 +189,7 @@ const MentorRegisterForm = () => {
             </button>
           </motion.div>
 
-          <div className="flex-between gap-5 max-lg:flex-col">
+          <div className="flex-between gap-5 max-sm:flex-col">
             <motion.div variants={childVariants} className="w-full">
               <FormField
                 control={form.control}
@@ -311,7 +311,7 @@ const MentorRegisterForm = () => {
             </motion.div>
           </div>
 
-          <div className="flex-between gap-5 max-lg:flex-col">
+          <div className="flex-between gap-5 max-sm:flex-col">
             <motion.div className="w-full" variants={childVariants}>
               <FormField
                 control={form.control}

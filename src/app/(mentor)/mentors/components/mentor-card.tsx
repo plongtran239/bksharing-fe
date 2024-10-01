@@ -6,7 +6,12 @@ const MentorCard = () => {
     <div className="flex-center w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl">
       <div className="flex-center flex-col gap-4">
         <div className="relative h-40 w-40">
-          <Image src="/images/default-user.png" alt="mentor avatar" fill />
+          <Image
+            src="/images/default-user.png"
+            alt="mentor avatar"
+            fill
+            sizes="(max-width: 640px) 100px,"
+          />
         </div>
 
         <p className="text-xl font-semibold text-black">Tran Phuoc Long</p>

@@ -4,14 +4,14 @@ import { createContext, useContext, useState } from "react";
 
 import { clientSessionToken } from "@/http";
 
-type User = {
+export type UserType = {
   name: string;
   avatar: string | null;
 };
 
 const AppContext = createContext<{
-  user: User | null;
-  setUser: (user: User | null) => void;
+  user: UserType | null;
+  setUser: (user: UserType | null) => void;
 }>({
   user: null,
   setUser: () => {},
@@ -29,7 +29,7 @@ const AppProvider = ({
   children: React.ReactNode;
   initialSessionToken?: string;
 }>) => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<UserType | null>(null);
 
   useState(() => {
     if (typeof window !== "undefined") {

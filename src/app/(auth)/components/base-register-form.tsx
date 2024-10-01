@@ -49,7 +49,7 @@ const BaseRegisterForm = <T extends FieldValues>({
         variants={parentVariants}
       >
         {/* Email & Phone */}
-        <div className="flex-between gap-5 max-lg:flex-col">
+        <div className="flex-between gap-5 max-sm:flex-col">
           <motion.div className="w-full" variants={childVariants}>
             <FormField
               control={form.control}
@@ -84,7 +84,7 @@ const BaseRegisterForm = <T extends FieldValues>({
         </div>
 
         {/* Name, DOB & Gender */}
-        <div className="flex-between gap-5 max-xl:flex-col">
+        <div className="flex-between gap-5 max-sm:flex-col">
           <motion.div className="w-full" variants={childVariants}>
             <FormField
               control={form.control}
