@@ -41,7 +41,7 @@ const Mentor = () => {
     <main className="pb-10">
       {/* Search & Filter */}
       <AnimationWrapper>
-        <div className="bg-secondary py-10">
+        <div className="bg-secondary py-10 max-sm:px-5">
           <div className="container">
             <SearchFilter />
           </div>
@@ -59,15 +59,15 @@ const Mentor = () => {
           },
         }}
       >
-        <div className="container mt-5">
+        <div className="container mt-10">
           {/* Mentor List */}
-          <p className="text-lg font-semibold">Mentors (8)</p>
+          <p className="text-lg font-semibold max-sm:px-5">Mentors (8)</p>
 
           <motion.div
             initial="hidden"
             animate="show"
             variants={parent}
-            className="mt-5 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-10"
+            className="mt-10 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5"
           >
             {[1, 2, 3, 4, 5, 6, 7, 8].map((mentor, index) => (
               <motion.div variants={child} key={index}>

@@ -8,9 +8,9 @@ const Footer = () => {
     <footer className="flex-center flex-col bg-third py-10">
       <div className="flex-center w-full flex-col">
         <p className="text-[#B2B3CF]">Subscribe to get our Newsletter</p>
-        <div className="flex-center mt-4 w-1/4 gap-4 max-xl:w-1/2 max-sm:flex-col">
+        <div className="flex-center mt-4 w-1/4 gap-4 max-xl:w-1/2 max-sm:w-4/5 max-sm:flex-col">
           <Input className="w-full rounded-full px-4 text-white" />
-          <Button className="w-24 rounded-full">Subscribe</Button>
+          <Button className="w-24 rounded-full max-sm:w-full">Subscribe</Button>
         </div>
       </div>
 

@@ -1,9 +1,13 @@
 import { CircleUserIcon, HeartIcon } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const MentorCard = () => {
   return (
-    <div className="flex-center w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl">
+    <Link
+      href="/users/id"
+      className="flex-center w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
+    >
       <div className="flex-center flex-col gap-4">
         <div className="relative h-40 w-40">
           <Image
@@ -40,7 +44,7 @@ const MentorCard = () => {
           1,1k
         </span>
       </div>
-    </div>
+    </Link>
   );
 };
 export default MentorCard;

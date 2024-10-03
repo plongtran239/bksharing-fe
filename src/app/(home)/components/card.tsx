@@ -11,7 +11,7 @@ interface ICardProps {
 
 const Card = ({ icon, backgroundIcon, heading, content }: ICardProps) => {
   return (
-    <div className="relative h-64 w-full flex-col rounded-xl p-5 text-center shadow-2xl dark:bg-white">
+    <div className="relative min-h-[320px] flex-col rounded-xl p-10 text-center shadow-2xl dark:bg-white max-lg:h-[272px] max-lg:w-2/3 max-sm:min-h-80 max-sm:w-full">
       {/* icon */}
       <div className="flex-center absolute -top-8 left-0 w-full">
         <div className={cn("w-fit rounded-full p-4", backgroundIcon)}>
