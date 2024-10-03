@@ -36,14 +36,14 @@ const ChangePasswordForm = () => {
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="w-2/3 space-y-8 rounded-xl bg-white p-10 shadow-xl"
+        className="w-1/2 space-y-5 rounded-xl bg-white p-10 shadow-xl max-xl:w-full max-sm:mx-5 max-sm:px-5"
       >
         <FormField
           control={form.control}
           name="oldPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Old Password</FormLabel>
+              <FormLabel required>Old Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="old password" {...field} />
               </FormControl>
@@ -57,7 +57,7 @@ const ChangePasswordForm = () => {
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>New Password</FormLabel>
+              <FormLabel required>New Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="new password" {...field} />
               </FormControl>
@@ -71,7 +71,7 @@ const ChangePasswordForm = () => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Confirm Password</FormLabel>
+              <FormLabel required>Confirm Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="confirm password" {...field} />
               </FormControl>

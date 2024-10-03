@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 const Login = () => {
   return (
     <motion.section
-      className="my-10 w-1/2 min-w-[360px] rounded-xl p-10 shadow-2xl max-xl:w-full max-sm:mx-5"
+      className="w-1/2 min-w-[360px] rounded-xl bg-white p-10 shadow-2xl max-xl:w-full max-sm:mx-5 max-sm:px-5"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

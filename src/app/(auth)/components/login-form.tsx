@@ -93,7 +93,7 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Email Address</FormLabel>
+                <FormLabel required>Email Address</FormLabel>
                 <FormControl>
                   <Input placeholder="email" {...field} />
                 </FormControl>
@@ -109,7 +109,7 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Password</FormLabel>
+                <FormLabel required>Password</FormLabel>
                 <FormControl>
                   <PasswordInput placeholder="password" {...field} />
                 </FormControl>
@@ -133,7 +133,10 @@ const LoginForm = () => {
           <span className="text-sm text-blue-500">Forgot Password?</span>
         </motion.div>
 
-        <motion.div className="flex justify-end" variants={childVariants}>
+        <motion.div
+          className="flex justify-end max-sm:justify-center"
+          variants={childVariants}
+        >
           <Button
             type="submit"
             disabled={

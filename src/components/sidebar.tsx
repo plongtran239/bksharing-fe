@@ -96,14 +96,14 @@ const Sidebar = ({ menuItems, isActive, user }: IProps) => {
 
                 <DropdownMenuSeparator />
 
-                <Link href="/users/id">
+                <Link href="/users/id" onClick={handleClick}>
                   <DropdownMenuItem className="flex items-center gap-2">
                     <UserIcon size={16} />
                     Profile
                   </DropdownMenuItem>
                 </Link>
 
-                <Link href="/change-password">
+                <Link href="/change-password" onClick={handleClick}>
                   <DropdownMenuItem className="flex items-center gap-2">
                     <KeyRoundIcon size={16} />
                     Change Password

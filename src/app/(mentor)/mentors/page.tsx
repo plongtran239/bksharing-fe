@@ -1,4 +1,5 @@
 import * as motion from "framer-motion/client";
+import { Metadata } from "next";
 
 import AnimationWrapper from "@/animation-wrapper";
 import MentorCard from "@/app/(mentor)/mentors/components/mentor-card";
@@ -12,6 +13,11 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+
+export const metadata: Metadata = {
+  title: "Mentors | BK Sharing",
+  description: "Find mentors to help you grow your career.",
+};
 
 const parent = {
   hidden: {
