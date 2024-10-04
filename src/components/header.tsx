@@ -1,56 +1,15 @@
 "use client";
 
-import {
-  GraduationCapIcon,
-  HomeIcon,
-  KeyRoundIcon,
-  LibraryIcon,
-  TextQuoteIcon,
-  UserIcon,
-} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-import LogoutButton from "@/app/(home)/components/logout-button";
 import { useAppContext } from "@/app/app-provider";
+import AvatarDropdown from "@/components/avatar-dropdown";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-
-export type MenuItemsType = {
-  label: string;
-  href: string;
-  icon: JSX.Element;
-}[];
-
-const menuItems: MenuItemsType = [
-  { label: "Home", href: "/", icon: <HomeIcon size={18} strokeWidth={2.5} /> },
-  {
-    label: "Courses",
-    href: "/courses",
-    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
-  },
-  {
-    label: "Mentors",
-    href: "/mentors",
-    icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
-  },
-  {
-    label: "Blogs",
-    href: "/blogs",
-    icon: <TextQuoteIcon size={18} strokeWidth={2.5} />,
-  },
-];
 
 const Header = () => {
   const path = usePathname();
@@ -91,47 +50,12 @@ const Header = () => {
           </span>
         </Link>
 
-        <div className="flex-between gap-20">
-          <Navbar menuItems={menuItems} isActive={isActive} />
+        <div className="flex-between gap-20 max-lg:gap-5">
+          <Navbar isActive={isActive} />
 
           <>
             {user ? (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex-between gap-2 max-lg:hidden">
-                  <Image
-                    src={user.avatar || "/images/default-user.png"}
-                    alt="avatar"
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                    priority
-                  />
-                  <span>{user.name}</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
-                  <DropdownMenuSeparator />
-
-                  <Link href="/users/id">
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      <UserIcon size={16} />
-                      Profile
-                    </DropdownMenuItem>
-                  </Link>
-
-                  <Link href="/change-password">
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      <KeyRoundIcon size={16} />
-                      Change Password
-                    </DropdownMenuItem>
-                  </Link>
-
-                  <DropdownMenuSeparator />
-
-                  <LogoutButton />
-                </DropdownMenuContent>
-              </DropdownMenu>
+              <AvatarDropdown user={user} />
             ) : (
               <div className="flex-between gap-5 max-lg:hidden">
                 <Link href="/login">
@@ -146,48 +70,7 @@ const Header = () => {
             )}
           </>
 
-          <div className="flex-between gap-5 lg:hidden">
-            {user && (
-              <DropdownMenu>
-                <DropdownMenuTrigger className="flex-between gap-2">
-                  <Image
-                    src={user.avatar || "/images/default-user.png"}
-                    alt="avatar"
-                    width={32}
-                    height={32}
-                    className="rounded-full"
-                    priority
-                  />
-                  <span className="max-sm:hidden">{user.name}</span>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent>
-                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
-                  <DropdownMenuSeparator />
-
-                  <Link href="/users/id">
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      <UserIcon size={16} />
-                      Profile
-                    </DropdownMenuItem>
-                  </Link>
-
-                  <Link href="/change-password">
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      <KeyRoundIcon size={16} />
-                      Change Password
-                    </DropdownMenuItem>
-                  </Link>
-
-                  <DropdownMenuSeparator />
-
-                  <LogoutButton />
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-
-            <Sidebar menuItems={menuItems} isActive={isActive} user={user} />
-          </div>
+          <Sidebar isActive={isActive} user={user} className="lg:hidden" />
         </div>
       </div>
     </header>

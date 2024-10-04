@@ -1,21 +1,11 @@
 import { motion } from "framer-motion";
-import { KeyRoundIcon, MenuIcon, UserIcon } from "lucide-react";
-import Image from "next/image";
+import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import LogoutButton from "@/app/(home)/components/logout-button";
 import { UserType } from "@/app/app-provider";
-import { MenuItemsType } from "@/components/header";
+import AvatarDropdown from "@/components/avatar-dropdown";
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
@@ -25,14 +15,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { NavbarMenuItems } from "@/constants/menu-item";
+import { cn } from "@/lib/utils";
 
 interface IProps {
-  menuItems: MenuItemsType;
   isActive: (href: string) => boolean;
   user: UserType | null;
+  className?: string;
 }
 
-const Sidebar = ({ menuItems, isActive, user }: IProps) => {
+const Sidebar = ({ isActive, user, className }: IProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -41,17 +33,19 @@ const Sidebar = ({ menuItems, isActive, user }: IProps) => {
 
   return (
     <Sheet open={open} onOpenChange={handleClick}>
-      <SheetTrigger onClick={() => setOpen(true)}>
+      <SheetTrigger onClick={() => setOpen(true)} className={cn("", className)}>
         <MenuIcon size={20} />
       </SheetTrigger>
       <SheetContent className="flex w-80 flex-col items-start justify-between">
         <ul className="mt-10 flex flex-col items-start justify-between gap-10 text-[#5B5B5B]">
           <SheetTitle className="hidden"></SheetTitle>
           <SheetDescription className="hidden"></SheetDescription>
-          {menuItems.map((item, index) => (
+          {NavbarMenuItems.map((item, index) => (
             <li
               key={index}
-              className={`${isActive(item.href) && "font-semibold text-primary"} flex-between w-full`}
+              className={cn("flex-between w-full", {
+                "font-semibold text-primary": isActive(item.href),
+              })}
             >
               <motion.div
                 whileHover={{
@@ -79,44 +73,11 @@ const Sidebar = ({ menuItems, isActive, user }: IProps) => {
           </div>
 
           {user ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="flex-between gap-2">
-                <Image
-                  src={user.avatar || "/images/default-user.png"}
-                  alt="avatar"
-                  width={32}
-                  height={32}
-                  className="rounded-full"
-                  priority
-                />
-                <span>{user.name}</span>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent>
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-
-                <DropdownMenuSeparator />
-
-                <Link href="/users/id" onClick={handleClick}>
-                  <DropdownMenuItem className="flex items-center gap-2">
-                    <UserIcon size={16} />
-                    Profile
-                  </DropdownMenuItem>
-                </Link>
-
-                <Link href="/change-password" onClick={handleClick}>
-                  <DropdownMenuItem className="flex items-center gap-2">
-                    <KeyRoundIcon size={16} />
-                    Change Password
-                  </DropdownMenuItem>
-                </Link>
-
-                <DropdownMenuSeparator />
-
-                <div onClick={handleClick}>
-                  <LogoutButton />
-                </div>
-              </DropdownMenuContent>
-            </DropdownMenu>
+            <AvatarDropdown
+              user={user}
+              handleClick={handleClick}
+              mobileDisplayName={true}
+            />
           ) : (
             <div className="flex-center gap-5">
               <Link href="/login">

@@ -1,20 +1,22 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 
-import { MenuItemsType } from "@/components/header";
+import { NavbarMenuItems } from "@/constants/menu-item";
+import { cn } from "@/lib/utils";
 
 interface IProps {
-  menuItems: MenuItemsType;
   isActive: (href: string) => boolean;
 }
 
-const Navbar = ({ menuItems, isActive }: IProps) => {
+const Navbar = ({ isActive }: IProps) => {
   return (
     <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-lg:hidden">
-      {menuItems.map((item, index) => (
+      {NavbarMenuItems.map((item, index) => (
         <li
           key={index}
-          className={`${isActive(item.href) && "font-semibold text-primary"}`}
+          className={cn({
+            "font-semibold text-primary": isActive(item.href),
+          })}
         >
           <motion.div
             whileHover={{
