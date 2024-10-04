@@ -24,9 +24,10 @@ const LogoutButton = () => {
         description: "Logout successfully!",
       });
 
-      localStorage.removeItem("user");
-
       setUser(null);
+
+      localStorage.removeItem("user");
+      localStorage.removeItem("sessionToken");
 
       router.push("/");
       router.refresh();

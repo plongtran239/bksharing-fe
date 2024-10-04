@@ -110,15 +110,13 @@ const MentorRegisterForm = () => {
     try {
       const result = await authApi.mentorRegsiter(values);
 
-      const { accessToken, avatar, name } = result.payload.data;
+      const data = result.payload.data;
 
       await authApi.auth({
-        sessionToken: accessToken,
+        sessionToken: data.accessToken,
       });
 
-      localStorage.setItem("user", JSON.stringify({ avatar, name }));
-
-      setUser({ avatar, name });
+      setUser(data);
 
       toast({
         title: "Success",

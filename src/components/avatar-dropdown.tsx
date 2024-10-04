@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AvatarDropdownMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { UserType } from "@/providers/app.provider";
+import { UserType } from "@/schemas/user";
 
 interface IProps {
   user: UserType;
@@ -67,7 +67,9 @@ const AvatarDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <LogoutButton />
+        <button onClick={handleClick} className="w-full">
+          <LogoutButton />
+        </button>
       </DropdownMenuContent>
     </DropdownMenu>
   );

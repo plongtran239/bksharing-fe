@@ -1,4 +1,4 @@
-import http from "@/http";
+import http from "@/lib/http";
 import { convertDateToLocaleDateString } from "@/lib/utils";
 import {
   LoginRequestType,

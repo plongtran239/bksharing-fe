@@ -14,7 +14,7 @@ const InterestedCategory = async () => {
   } = await categoryApi.getCategoryList();
 
   return (
-    <section className="flex-center mt-20">
+    <section className="flex-center min-h-[calc(100vh-75px-260px)] py-10 max-sm:px-5">
       <CategoryForm categories={categories} />
     </section>
   );

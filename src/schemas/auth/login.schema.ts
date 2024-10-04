@@ -11,6 +11,7 @@ const LoginRequest = z
 
 const LoginResponse = z.object({
   data: z.object({
+    id: z.number(),
     name: z.string(),
     accessToken: z.string(),
     avatar: z.string().nullable(),

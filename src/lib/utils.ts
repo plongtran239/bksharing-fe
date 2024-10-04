@@ -19,3 +19,7 @@ export function convertToCapitalizeCase(text: string): string {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");
 }
+
+export function normalizePath(path: string) {
+  return path.startsWith("/") ? path.slice(1) : path;
+}

@@ -1,13 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 
-import { clientSessionToken } from "@/http";
-
-export type UserType = {
-  name: string;
-  avatar: string | null;
-};
+import { UserType } from "@/schemas/user";
 
 const AppContext = createContext<{
   user: UserType | null;
@@ -24,23 +25,30 @@ export const useAppContext = () => {
 
 const AppProvider = ({
   children,
-  initialSessionToken = "",
 }: Readonly<{
   children: React.ReactNode;
-  initialSessionToken?: string;
 }>) => {
-  const [user, setUser] = useState<UserType | null>(null);
-
-  useState(() => {
-    if (typeof window !== "undefined") {
-      clientSessionToken.value = initialSessionToken;
-    }
+  const [userState, setUserState] = useState<UserType | null>(() => {
+    return null;
   });
+
+  const setUser = useCallback(
+    (user: UserType | null) => {
+      setUserState(user);
+      localStorage.setItem("user", JSON.stringify(user));
+    },
+    [setUserState]
+  );
+
+  useEffect(() => {
+    const _user = localStorage.getItem("user");
+    setUserState(_user ? JSON.parse(_user) : null);
+  }, [setUserState]);
 
   return (
     <AppContext.Provider
       value={{
-        user,
+        user: userState,
         setUser,
       }}
     >

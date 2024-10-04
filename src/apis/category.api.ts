@@ -1,5 +1,5 @@
-import http from "@/http";
-import { CategoryResponseType } from "@/schemas/category.schema";
+import http from "@/lib/http";
+import { CategoryResponseType } from "@/schemas/category";
 
 const categoryApi = {
   getCategoryList: () =>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import envConfig from "@/config";
+import { normalizePath } from "@/lib/utils";
 import { LoginResponseType } from "@/schemas/auth";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
@@ -18,36 +19,36 @@ class HttpError extends Error {
   }
 }
 
-class SessionToken {
-  private token = "";
-
-  get value() {
-    return this.token;
-  }
-
-  set value(token: string) {
-    if (typeof window === "undefined") {
-      throw new Error("Cannot set session token on the server side");
-    }
-    this.token = token;
-  }
-}
-
-export const clientSessionToken = new SessionToken();
+export const isClient = () => typeof window !== "undefined";
 
 const request = async <Response>(
   method: "GET" | "POST" | "PUT" | "DELETE",
   url: string,
   options?: CustomOptions | undefined
 ) => {
-  const body = options?.body ? JSON.stringify(options.body) : undefined;
+  let body: FormData | string | undefined = undefined;
 
-  const baseHeader = {
-    "Content-Type": "application/json",
-    Authorization: clientSessionToken.value
-      ? `Bearer ${clientSessionToken.value}`
-      : "",
-  };
+  if (options?.body instanceof FormData) {
+    body = options.body;
+  } else if (options?.body) {
+    body = JSON.stringify(options.body);
+  }
+
+  const baseHeaders: {
+    [key: string]: string;
+  } =
+    body instanceof FormData
+      ? {}
+      : {
+          "Content-Type": "application/json",
+        };
+
+  if (isClient()) {
+    const sessionToken = localStorage.getItem("sessionToken");
+    if (sessionToken) {
+      baseHeaders.Authorization = `Bearer ${sessionToken}`;
+    }
+  }
 
   // If baseUrl is not passed (or passed undefined) then get from envConfig.NEXT_PUBLIC_API_ENDPOINT
   // If baseUrl is passed then get from baseUrl, pass "" is equivalent to calling the API to the Next.js server
@@ -63,7 +64,7 @@ const request = async <Response>(
   const res = await fetch(fullUrl, {
     ...options,
     headers: {
-      ...baseHeader,
+      ...baseHeaders,
       ...options?.headers,
     },
     body,
@@ -81,10 +82,18 @@ const request = async <Response>(
     throw new HttpError(data);
   }
 
-  if (["/login", "/register"].some((path) => url.includes(path))) {
-    clientSessionToken.value = (payload as LoginResponseType).data.accessToken;
-  } else if (url.includes("/logout")) {
-    clientSessionToken.value = "";
+  if (isClient()) {
+    if (
+      ["auth/login", "auth/students/register", "auth/mentors/register"].some(
+        (item) => item === normalizePath(url)
+      )
+    ) {
+      const { accessToken } = (payload as LoginResponseType).data;
+      localStorage.setItem("sessionToken", accessToken);
+    }
+    // else if ("auth/logout" === normalizePath(url)) {
+    //   localStorage.removeItem("sessionToken");
+    // }
   }
 
   return data;

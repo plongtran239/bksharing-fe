@@ -1,7 +1,6 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
-import { cookies } from "next/headers";
 import "react-datepicker/dist/react-datepicker.css";
 
 import "./globals.css";
@@ -11,6 +10,7 @@ import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import AppProvider from "@/providers/app.provider";
+import StreamClientProvider from "@/providers/stream-client.provider";
 
 const fontFamily = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -31,9 +31,6 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = cookies();
-  const sessionToken = cookieStore.get("sessionToken");
-
   return (
     <html lang="en" className={fontFamily.className} suppressHydrationWarning>
       <body>
@@ -43,12 +40,14 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppProvider initialSessionToken={sessionToken?.value}>
-            <Header />
+          <AppProvider>
+            <StreamClientProvider>
+              <Header />
 
-            <div className="mt-[76px]">{children}</div>
+              <div className="mt-[76px]">{children}</div>
 
-            <Footer />
+              <Footer />
+            </StreamClientProvider>
           </AppProvider>
           <Toaster />
         </ThemeProvider>

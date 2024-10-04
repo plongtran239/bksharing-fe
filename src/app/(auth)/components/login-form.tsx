@@ -50,13 +50,11 @@ const LoginForm = () => {
     try {
       const result = await authApi.login(values);
 
-      const { accessToken, name, avatar } = result.payload.data;
+      const data = result.payload.data;
 
-      localStorage.setItem("user", JSON.stringify({ name, avatar }));
+      setUser(data);
 
-      setUser({ name, avatar });
-
-      await authApi.auth({ sessionToken: accessToken });
+      await authApi.auth({ sessionToken: data.accessToken });
 
       toast({
         title: "Success",
