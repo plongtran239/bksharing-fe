@@ -1,7 +1,4 @@
-// import dynamic from "next/dynamic";
-import MeetingCard from "@/components/meeting-card";
-
-// const Meeting = dynamic(() => import("@/components/meeting"), { ssr: false });
+import MeetingTypeList from "@/components/meeting-type-list";
 
 const MeetingRoom = () => {
   const now = new Date();
@@ -18,7 +15,7 @@ const MeetingRoom = () => {
 
   return (
     <section className="container py-10 max-sm:px-5">
-      <section className="size-full text-white">
+      <div className="size-full text-white">
         <div className="h-[303px] w-full rounded-[20px] bg-meeting-hero bg-cover">
           <div className="flex h-full flex-col justify-between p-10">
             {/* <h2 className="rounded py-2 text-base font-normal">
@@ -33,42 +30,9 @@ const MeetingRoom = () => {
             </div>
           </div>
         </div>
+      </div>
 
-        {/* <MeetingTypeList /> */}
-        <div className="mt-5 grid w-full grid-cols-4 gap-5 max-lg:grid-cols-2 max-sm:grid-cols-1">
-          <MeetingCard
-            icon="plus"
-            title="New Meeting"
-            description="Set up a new meeting"
-            className="bg-icon-4"
-            // handleClick={() => setMeetingState("isJoiningMeeting")}
-          />
-
-          <MeetingCard
-            icon="user-plus"
-            title="Join Meeting"
-            description="Via invitation link"
-            className="bg-icon-3"
-            // handleClick={() => setMeetingState("isJoiningMeeting")}
-          />
-
-          <MeetingCard
-            icon="calendar-plus"
-            title="Schedule Meeting"
-            description="Plan a meeting"
-            className="bg-icon-5"
-            // handleClick={() => setMeetingState("isJoiningMeeting")}
-          />
-
-          <MeetingCard
-            icon="video"
-            title="View Recordings"
-            description="Meeting recordings"
-            className="bg-icon-1"
-            // handleClick={() => setMeetingState("isJoiningMeeting")}
-          />
-        </div>
-      </section>
+      <MeetingTypeList />
     </section>
   );
 };

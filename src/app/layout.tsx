@@ -2,6 +2,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import { cookies } from "next/headers";
+import "react-datepicker/dist/react-datepicker.css";
 
 import "./globals.css";
 
