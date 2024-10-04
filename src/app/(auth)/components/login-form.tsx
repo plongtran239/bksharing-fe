@@ -8,7 +8,6 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
-import { useAppContext } from "@/app/app-provider";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,6 +21,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { childVariants, parentVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/providers/app.provider";
 import { LoginRequest, LoginRequestType } from "@/schemas/auth";
 
 const LoginForm = () => {

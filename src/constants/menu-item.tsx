@@ -1,11 +1,11 @@
 import {
-  CameraIcon,
   GraduationCapIcon,
   HomeIcon,
   KeyRoundIcon,
   LibraryIcon,
   TextQuoteIcon,
   UserIcon,
+  VideoIcon,
 } from "lucide-react";
 
 type MenuItemsType = {
@@ -47,7 +47,7 @@ const AvatarDropdownMenuItems: MenuItemsType = [
   {
     label: "Meeting",
     href: "/meeting",
-    icon: <CameraIcon size={16} />,
+    icon: <VideoIcon size={16} />,
   },
 ];
 

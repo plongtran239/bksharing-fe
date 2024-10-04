@@ -6,11 +6,11 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "./globals.css";
 
-import AppProvider from "@/app/app-provider";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import AppProvider from "@/providers/app.provider";
 
 const fontFamily = Poppins({
   weight: ["300", "400", "500", "600", "700"],

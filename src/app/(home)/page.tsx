@@ -2,8 +2,8 @@ import { CalendarRangeIcon, ReceiptTextIcon, UsersIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 
-import AnimationWrapper from "@/animation-wrapper";
 import Card from "@/app/(home)/components/card";
+import AnimationWrapper from "@/components/animation-wrapper";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {

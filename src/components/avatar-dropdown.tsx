@@ -2,7 +2,6 @@ import Image from "next/image";
 import Link from "next/link";
 
 import LogoutButton from "@/app/(home)/components/logout-button";
-import { UserType } from "@/app/app-provider";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,6 +12,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { AvatarDropdownMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
+import { UserType } from "@/providers/app.provider";
 
 interface IProps {
   user: UserType;
@@ -29,7 +29,12 @@ const AvatarDropdown = ({
 }: IProps) => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className={cn("flex-between gap-2", className)}>
+      <DropdownMenuTrigger
+        className={cn(
+          "flex-between gap-2 focus-within:border-none focus-visible:border-none",
+          className
+        )}
+      >
         <Image
           src={user.avatar || "/images/default-user.png"}
           alt="avatar"
@@ -39,7 +44,7 @@ const AvatarDropdown = ({
           priority
         />
         <span
-          className={cn("max-sm:hidden", {
+          className={cn("text-black max-sm:hidden", {
             "max-sm:block": mobileDisplayName,
           })}
         >

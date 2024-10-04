@@ -1,9 +1,9 @@
 import * as motion from "framer-motion/client";
 import { Metadata } from "next";
 
-import AnimationWrapper from "@/animation-wrapper";
 import MentorCard from "@/app/(mentor)/mentors/components/mentor-card";
 import SearchFilter from "@/app/(mentor)/mentors/components/search-filter";
+import AnimationWrapper from "@/components/animation-wrapper";
 import {
   Pagination,
   PaginationContent,

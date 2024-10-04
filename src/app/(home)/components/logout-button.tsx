@@ -4,9 +4,9 @@ import { LogOutIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import authApi from "@/apis/auth.api";
-import { useAppContext } from "@/app/app-provider";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/providers/app.provider";
 
 const LogoutButton = () => {
   const router = useRouter();

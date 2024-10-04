@@ -3,9 +3,9 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import AnimationWrapper from "@/animation-wrapper";
 import MentorRegisterForm from "@/app/(auth)/components/mentor-register-form";
 import StudentRegisterForm from "@/app/(auth)/components/student-register-form";
+import AnimationWrapper from "@/components/animation-wrapper";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parentVariants } from "@/constants/motion";
 

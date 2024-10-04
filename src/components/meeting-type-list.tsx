@@ -151,9 +151,7 @@ const MeetingTypeList = () => {
       >
         <div className="mt-5 w-full space-y-5">
           <div>
-            <Label htmlFor="description" required>
-              Description
-            </Label>
+            <Label htmlFor="description">Description</Label>
             <Input
               id="description"
               placeholder="description"

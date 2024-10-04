@@ -5,11 +5,11 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
-import { useAppContext } from "@/app/app-provider";
 import AvatarDropdown from "@/components/avatar-dropdown";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
+import { useAppContext } from "@/providers/app.provider";
 
 const Header = () => {
   const path = usePathname();

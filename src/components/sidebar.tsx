@@ -3,7 +3,6 @@ import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
-import { UserType } from "@/app/app-provider";
 import AvatarDropdown from "@/components/avatar-dropdown";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
+import { UserType } from "@/providers/app.provider";
 
 interface IProps {
   isActive: (href: string) => boolean;

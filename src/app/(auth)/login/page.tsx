@@ -3,8 +3,8 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import AnimationWrapper from "@/animation-wrapper";
 import LoginForm from "@/app/(auth)/components/login-form";
+import AnimationWrapper from "@/components/animation-wrapper";
 
 export const metadata: Metadata = {
   title: "Login | BK Sharing",

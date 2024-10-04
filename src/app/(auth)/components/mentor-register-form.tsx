@@ -9,7 +9,6 @@ import { useFieldArray, useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
 import BaseRegisterForm from "@/app/(auth)/components/base-register-form";
-import { useAppContext } from "@/app/app-provider";
 import DateInput from "@/components/date-input";
 import FileInput from "@/components/file-input";
 import { Button } from "@/components/ui/button";
@@ -34,6 +33,7 @@ import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 import {
   MentorRegisterRequest,
   MentorRegisterRequestType,

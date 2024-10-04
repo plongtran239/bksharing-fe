@@ -36,7 +36,7 @@ const MeetingModal = ({
 }: MeetingModalProps) => {
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="w-full max-w-[520px] border-none p-10">
+      <DialogContent className="w-full max-w-[520px] rounded-xl border-none p-10 max-sm:w-4/5">
         <DialogTitle className="hidden">{}</DialogTitle>
         <DialogDescription className="hidden">{}</DialogDescription>
         <div className="flex-center flex-col">
