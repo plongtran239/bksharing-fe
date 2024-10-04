@@ -179,6 +179,7 @@ const User = ({
                       alt="Avatar"
                       fill
                       className="rounded-full"
+                      sizes="(max-width: 640px) 100px,"
                     />
                   </div>
 

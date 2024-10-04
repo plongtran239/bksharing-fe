@@ -146,7 +146,46 @@ const Header = () => {
             )}
           </>
 
-          <div className="lg:hidden">
+          <div className="flex-between gap-5 lg:hidden">
+            {user && (
+              <DropdownMenu>
+                <DropdownMenuTrigger className="flex-between gap-2">
+                  <Image
+                    src={user.avatar || "/images/default-user.png"}
+                    alt="avatar"
+                    width={32}
+                    height={32}
+                    className="rounded-full"
+                    priority
+                  />
+                  <span className="max-sm:hidden">{user.name}</span>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
+                  <DropdownMenuSeparator />
+
+                  <Link href="/users/id">
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <UserIcon size={16} />
+                      Profile
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <Link href="/change-password">
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      <KeyRoundIcon size={16} />
+                      Change Password
+                    </DropdownMenuItem>
+                  </Link>
+
+                  <DropdownMenuSeparator />
+
+                  <LogoutButton />
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
             <Sidebar menuItems={menuItems} isActive={isActive} user={user} />
           </div>
         </div>

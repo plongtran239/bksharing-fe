@@ -71,6 +71,8 @@ const config: Config = {
           "1": "hsl(var(--icon-1))",
           "2": "hsl(var(--icon-2))",
           "3": "hsl(var(--icon-3))",
+          "4": "hsl(var(--icon-4))",
+          "5": "hsl(var(--icon-5))",
           foreground: "hsl(var(--icon-foreground))",
         },
       },
@@ -78,6 +80,9 @@ const config: Config = {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
+      },
+      backgroundImage: {
+        "meeting-hero": "url('/images/meeting-hero.png')",
       },
     },
   },
