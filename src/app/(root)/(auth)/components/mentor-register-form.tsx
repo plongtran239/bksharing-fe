@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
-import BaseRegisterForm from "@/app/(auth)/components/base-register-form";
+import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
 import DateInput from "@/components/date-input";
 import FileInput from "@/components/file-input";
 import { Button } from "@/components/ui/button";

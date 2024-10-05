@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import LogoutButton from "@/app/(home)/components/logout-button";
+import LogoutButton from "@/app/(root)/(home)/components/logout-button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -67,9 +67,7 @@ const AvatarDropdown = ({
 
         <DropdownMenuSeparator />
 
-        <button onClick={handleClick} className="w-full">
-          <LogoutButton />
-        </button>
+        <LogoutButton handleClick={handleClick} />
       </DropdownMenuContent>
     </DropdownMenu>
   );

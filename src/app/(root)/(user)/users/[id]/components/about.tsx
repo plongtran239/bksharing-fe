@@ -3,7 +3,7 @@
 import { PencilIcon } from "lucide-react";
 import { useState } from "react";
 
-import Modal from "@/app/(user)/users/[id]/components/modal";
+import Modal from "@/app/(root)/(user)/users/[id]/components/modal";
 
 const About = () => {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,6 +1,6 @@
 import MeetingTypeList from "@/components/meeting-type-list";
 
-const MeetingRoom = () => {
+const MeetingHome = () => {
   const now = new Date();
 
   const time = now.toLocaleTimeString("en-US", {
@@ -36,4 +36,4 @@ const MeetingRoom = () => {
     </section>
   );
 };
-export default MeetingRoom;
+export default MeetingHome;

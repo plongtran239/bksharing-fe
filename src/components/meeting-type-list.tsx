@@ -1,5 +1,6 @@
 "use client";
 
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { CalendarCheckIcon, PlayIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -9,6 +10,8 @@ import MeetingCard from "@/components/meeting-card";
 import MeetingModal from "@/components/meeting-modal";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useToast } from "@/hooks/use-toast";
+import { useAppContext } from "@/providers/app.provider";
 
 type MeetingType =
   | "isScheduleMeeting"
@@ -19,6 +22,10 @@ type MeetingType =
 const MeetingTypeList = () => {
   const router = useRouter();
 
+  const { toast } = useToast();
+
+  const { user } = useAppContext();
+
   const [meetingState, setMeetingState] = useState<MeetingType>(undefined);
 
   const [meetingValues, setMeetingValues] = useState({
@@ -26,6 +33,52 @@ const MeetingTypeList = () => {
     dateTime: new Date(),
     link: "",
   });
+
+  // const [callDetail, setCallDetail] = useState<Call>();
+
+  const client = useStreamVideoClient();
+
+  const createMeeting = async () => {
+    if (!client || !user) {
+      return;
+    }
+
+    try {
+      const id = crypto.randomUUID();
+
+      const call = client.call("default", id);
+
+      if (!call) {
+        throw new Error("Failed to create a call");
+      }
+
+      const startAt =
+        meetingValues.dateTime.toISOString() ||
+        new Date(Date.now()).toISOString();
+
+      const description = meetingValues.description || "No description";
+
+      await call.getOrCreate({
+        data: {
+          starts_at: startAt,
+          custom: {
+            description,
+          },
+        },
+      });
+
+      // setCallDetail(call);
+
+      toast({
+        title: "Meeting Created",
+        description: "Meeting has been created successfully!",
+      });
+
+      router.push(`/meeting/${call.id}`);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mt-5 grid w-full grid-cols-4 gap-5 text-white max-lg:grid-cols-2 max-sm:grid-cols-1">
@@ -69,7 +122,7 @@ const MeetingTypeList = () => {
         className="text-center"
         buttonText="Start Meeting"
         buttonIcon={<PlayIcon size={16} strokeWidth={2.5} />}
-        // handleClick={createMeeting}
+        handleClick={createMeeting}
       />
 
       {/* Join Meeting Modal */}

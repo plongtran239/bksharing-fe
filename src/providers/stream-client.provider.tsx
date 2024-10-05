@@ -3,7 +3,7 @@
 import { StreamVideo, StreamVideoClient } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 
-// import { tokenProvider } from "@/actions/stream.action";
+import { tokenProvider } from "@/actions/stream.action";
 import envConfig from "@/config";
 import { useAppContext } from "@/providers/app.provider";
 
@@ -15,21 +15,21 @@ const StreamClientProvider = ({ children }: { children: React.ReactNode }) => {
   const [videoClient, setVideoClient] = useState<StreamVideoClient | null>();
 
   useEffect(() => {
-    // if (!user) {
-    //   throw new Error("User is not set");
-    // }
+    if (!user) {
+      return;
+    }
 
     if (!apiKey) {
       throw new Error("Stream API key is not set");
     }
 
-    const client = new StreamVideoClient({
+    const client = StreamVideoClient.getOrCreateInstance({
       apiKey,
-      // user: {
-      //   id: user.id.toString(),
-      //   name: user.name,
-      // },
-      // tokenProvider: () => tokenProvider(user.id.toString()),
+      user: {
+        id: user.id.toString(),
+        name: user.name,
+      },
+      tokenProvider: () => tokenProvider(user.id.toString()),
     });
 
     setVideoClient(client);

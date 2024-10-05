@@ -7,7 +7,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
-import BaseRegisterForm from "@/app/(auth)/components/base-register-form";
+import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
 import {
   FormControl,
   FormField,

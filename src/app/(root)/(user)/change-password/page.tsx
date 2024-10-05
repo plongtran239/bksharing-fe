@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import ChangePasswordForm from "@/app/(user)/change-password/components/change-password-form";
+import ChangePasswordForm from "@/app/(root)/(user)/change-password/components/change-password-form";
 
 export const metadata: Metadata = {
   title: "Change Password | BK Sharing",

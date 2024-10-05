@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
-import LoginForm from "@/app/(auth)/components/login-form";
+import LoginForm from "@/app/(root)/(auth)/components/login-form";
 import AnimationWrapper from "@/components/animation-wrapper";
 
 export const metadata: Metadata = {

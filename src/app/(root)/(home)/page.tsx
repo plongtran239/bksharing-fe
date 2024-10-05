@@ -2,7 +2,7 @@ import { CalendarRangeIcon, ReceiptTextIcon, UsersIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 
-import Card from "@/app/(home)/components/card";
+import Card from "@/app/(root)/(home)/components/card";
 import AnimationWrapper from "@/components/animation-wrapper";
 import { Button } from "@/components/ui/button";
 

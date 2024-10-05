@@ -8,7 +8,11 @@ import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
 
-const LogoutButton = () => {
+interface LogoutButtonProps {
+  handleClick?: () => void;
+}
+
+const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
   const router = useRouter();
 
   const { toast } = useToast();
@@ -37,7 +41,12 @@ const LogoutButton = () => {
   };
 
   return (
-    <DropdownMenuItem onClick={handleLogout}>
+    <DropdownMenuItem
+      onClick={() => {
+        handleLogout();
+        handleClick && handleClick();
+      }}
+    >
       <button className="flex-center gap-2">
         <LogOutIcon size={16} />
         Logout

@@ -6,11 +6,11 @@ import {
 import { Metadata } from "next";
 import Image from "next/image";
 
-import About from "@/app/(user)/users/[id]/components/about";
-import Achievements from "@/app/(user)/users/[id]/components/achievements";
-import Education from "@/app/(user)/users/[id]/components/education";
-import Experience from "@/app/(user)/users/[id]/components/experience";
-import SkillsCertifications from "@/app/(user)/users/[id]/components/skills-certifications";
+import About from "@/app/(root)/(user)/users/[id]/components/about";
+import Achievements from "@/app/(root)/(user)/users/[id]/components/achievements";
+import Education from "@/app/(root)/(user)/users/[id]/components/education";
+import Experience from "@/app/(root)/(user)/users/[id]/components/experience";
+import SkillsCertifications from "@/app/(root)/(user)/users/[id]/components/skills-certifications";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
