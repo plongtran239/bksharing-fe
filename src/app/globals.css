@@ -117,4 +117,73 @@
     justify-content: space-between;
     align-items: center;
   }
+
+  .show-block {
+    width: 100%;
+    max-width: 350px;
+    display: block;
+    animation: show 0.7s forwards linear;
+  }
+}
+
+/* ======== stream css overrides ======== */
+.str-video__call-stats {
+  max-width: 500px;
+  position: relative;
+}
+
+.str-video__speaker-layout__wrapper {
+  max-height: 700px;
+}
+
+.str-video__participant-details {
+  color: white;
+}
+
+.str-video__menu-container {
+  color: white;
+}
+
+.str-video__notification {
+  color: white;
+}
+
+.str-video__composite-button__button-group {
+  background-color: hsl(var(--primary));
+  color: white;
+}
+
+.str-video__composite-button__button-group:not(
+    .str-video__composite-button__button-group--disabled
+  ):hover {
+  background-color: hsl(var(--primary));
+}
+
+.str-video__composite-button__button-group
+  .str-video__call-controls__button.str-video__menu-toggle-button {
+  background-color: white;
+}
+
+.str-video__avatar--initials-fallback {
+  color: white;
+}
+
+.str-video__participant-list {
+  background-color: white;
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  height: 100%;
+}
+
+@keyframes show {
+  0% {
+    animation-timing-function: ease-in;
+    width: 0%;
+  }
+
+  100% {
+    animation-timing-function: ease-in;
+    width: 100%;
+  }
 }

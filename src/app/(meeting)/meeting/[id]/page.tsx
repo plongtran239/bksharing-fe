@@ -3,6 +3,7 @@
 import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
 import { useState } from "react";
 
+import Header from "@/components/header";
 import MeetingRoom from "@/components/meeting-room";
 import MeetingSetup from "@/components/meeting-setup";
 import useGetCallById from "@/hooks/use-get-call-by-id";
@@ -27,9 +28,16 @@ const Meeting = ({
       <StreamCall call={call}>
         <StreamTheme>
           {!isSetupComplete ? (
-            <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
+            <>
+              <Header />
+              <div className="bg-secondary">
+                <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
+              </div>
+            </>
           ) : (
-            <MeetingRoom />
+            <div className="bg-secondary">
+              <MeetingRoom />
+            </div>
           )}
         </StreamTheme>
       </StreamCall>

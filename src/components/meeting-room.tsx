@@ -3,7 +3,6 @@
 import {
   CallControls,
   CallParticipantsList,
-  CallStatsButton,
   CallingState,
   PaginatedGridLayout,
   SpeakerLayout,
@@ -56,7 +55,7 @@ const MeetingRoom = () => {
   };
 
   return (
-    <main className="relative h-screen w-full overflow-hidden pt-4 text-white">
+    <main className="relative h-screen w-full overflow-hidden text-white">
       <div className="relative flex size-full items-center justify-center">
         <div className="flex size-full max-w-[1000px] items-center">
           <CallLayout />
@@ -76,7 +75,7 @@ const MeetingRoom = () => {
 
         <DropdownMenu>
           <div className="flex items-center">
-            <DropdownMenuTrigger className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
+            <DropdownMenuTrigger className="cursor-pointer rounded-full bg-primary p-2 hover:bg-primary/80">
               <LayoutList size={20} className="text-white" />
             </DropdownMenuTrigger>
           </div>
@@ -91,16 +90,16 @@ const MeetingRoom = () => {
                 >
                   {item}
                 </DropdownMenuItem>
-                <DropdownMenuSeparator className="border-dark-1" />
+                {index !== 2 && <DropdownMenuSeparator />}
               </div>
             ))}
           </DropdownMenuContent>
         </DropdownMenu>
 
-        <CallStatsButton />
+        {/* <CallStatsButton /> */}
 
         <button onClick={() => setShowParticipants((prev) => !prev)}>
-          <div className="cursor-pointer rounded-2xl bg-[#19232d] px-4 py-2 hover:bg-[#4c535b]">
+          <div className="cursor-pointer rounded-full bg-primary p-2 hover:bg-primary/80">
             <Users size={20} className="text-white" />
           </div>
         </button>

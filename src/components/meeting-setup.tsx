@@ -31,16 +31,16 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
   }, [isMicCamEnabled, call.camera, call.microphone]);
 
   return (
-    <div className="flex-center container min-h-[calc(100vh-75px-260px)] w-full py-10">
+    <div className="flex-center container h-screen w-full py-10">
       <div className="flex-center gap-20 max-lg:flex-col max-lg:gap-5">
-        <div className="flex-center rounded-xl bg-black">
-          <VideoPreview />
+        <div className="flex-center w-[600px] rounded-xl bg-black max-sm:w-[calc(100vw-40px)]">
+          <VideoPreview className="w-full border-primary" />
         </div>
 
         <div className="flex-center flex-col gap-5 max-lg:mt-10">
           <h1 className="text-center text-2xl font-semibold">Ready to join?</h1>
 
-          <div className="flex items-center justify-center gap-3">
+          <div className="flex items-center justify-center gap-5">
             <label className="flex items-center justify-center gap-2 font-medium">
               <input
                 type="checkbox"
@@ -49,9 +49,8 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
               />
               Join with mic and camera
             </label>
+            <DeviceSettings />
           </div>
-
-          <DeviceSettings />
 
           <Button
             className="rounded-md bg-primary px-4 py-2.5"
