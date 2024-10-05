@@ -6,6 +6,7 @@ import {
   UserPlusIcon,
   VideoIcon,
 } from "lucide-react";
+import { ReactNode } from "react";
 
 import { cn } from "@/lib/utils";
 
@@ -13,7 +14,9 @@ interface MeetingCardProps {
   className?: string;
   icon: string;
   title: string;
-  description: string;
+  date?: string;
+  description?: string;
+  children?: ReactNode;
   handleClick?: () => void;
 }
 
@@ -21,8 +24,10 @@ const MeetingCard = ({
   className,
   icon,
   title,
+  date,
   description,
   handleClick,
+  children,
 }: MeetingCardProps) => {
   return (
     <section
@@ -40,9 +45,12 @@ const MeetingCard = ({
       </div>
 
       <div className="flex flex-col gap-2">
-        <h1 className="text-2xl font-bold">{title}</h1>
-        <p className="text-lg font-normal">{description}</p>
+        <h1 className="text-2xl font-semibold">{title}</h1>
+        {date && <p className="text-sm">{new Date(date).toLocaleString()}</p>}
+        {description && <p className="text-sm">{description}</p>}
       </div>
+
+      {children}
     </section>
   );
 };
