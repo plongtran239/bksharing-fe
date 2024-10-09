@@ -23,7 +23,10 @@ export const POST = async () => {
     {
       status: 200,
       headers: {
-        "Set-Cookie": `sessionToken=; Path=/; HttpOnly`,
+        "Set-Cookie": [
+          `sessionToken=; HttpOnly; Path=/; SameSite=Strict; Secure`,
+          `role=; HttpOnly; Path=/; SameSite=Strict; Secure`,
+        ].join(", "),
       },
     }
   );

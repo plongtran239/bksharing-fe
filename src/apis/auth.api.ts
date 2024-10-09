@@ -31,7 +31,7 @@ const authApi = {
       ],
     }),
 
-  auth: (body: { sessionToken: string }) =>
+  auth: (body: { sessionToken: string; role: string }) =>
     http.post("/api/auth", body, {
       baseUrl: "",
     }),

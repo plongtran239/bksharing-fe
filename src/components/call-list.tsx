@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 
 import MeetingCard from "@/components/meeting-card";
 import { Button } from "@/components/ui/button";
+import envConfig from "@/config";
 import { useGetCalls } from "@/hooks/use-get-calls";
 import { useToast } from "@/hooks/use-toast";
 
@@ -110,7 +111,7 @@ const CallList = ({ type }: CallListProps) => {
                   navigator.clipboard.writeText(
                     type === "recordings"
                       ? (meeting as CallRecording).url
-                      : `${process.env.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id}`
+                      : `${envConfig.NEXT_PUBLIC_BASE_URL}/meeting/${(meeting as Call).id}`
                   );
                   toast({
                     title: "Link Copied",

@@ -70,6 +70,7 @@ const StudentRegisterForm = () => {
 
       await authApi.auth({
         sessionToken: data.accessToken,
+        role: data.accountType,
       });
 
       setUser(data);

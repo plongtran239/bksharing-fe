@@ -54,7 +54,10 @@ const LoginForm = () => {
 
       setUser(data);
 
-      await authApi.auth({ sessionToken: data.accessToken });
+      authApi.auth({
+        sessionToken: data.accessToken,
+        role: data.accountType,
+      });
 
       toast({
         title: "Success",
