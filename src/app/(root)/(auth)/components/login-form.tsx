@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { ROLES } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
@@ -64,8 +65,11 @@ const LoginForm = () => {
         description: "Login successfully!",
       });
 
-      router.push("/");
-      router.refresh();
+      if (data.accountType === ROLES.ADMIN) {
+        router.push("/admin");
+      } else {
+        router.push("/");
+      }
     } catch (error) {
       console.log(error);
 

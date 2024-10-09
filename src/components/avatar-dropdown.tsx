@@ -19,6 +19,7 @@ interface IProps {
   handleClick?: () => void;
   className?: string;
   mobileDisplayName?: boolean;
+  isAdmin?: boolean;
 }
 
 const AvatarDropdown = ({
@@ -26,6 +27,7 @@ const AvatarDropdown = ({
   handleClick,
   className,
   mobileDisplayName,
+  isAdmin,
 }: IProps) => {
   return (
     <DropdownMenu>
@@ -46,26 +48,31 @@ const AvatarDropdown = ({
         <span
           className={cn("text-black max-sm:hidden", {
             "max-sm:block": mobileDisplayName,
+            "max-lg:hidden": isAdmin,
           })}
         >
           {user.name}
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        {!isAdmin && (
+          <>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-        <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
 
-        {AvatarDropdownMenuItems.map((item, index) => (
-          <Link key={index} href={item.href} onClick={handleClick}>
-            <DropdownMenuItem className="flex items-center gap-2">
-              {item.icon}
-              {item.label}
-            </DropdownMenuItem>
-          </Link>
-        ))}
+            {AvatarDropdownMenuItems.map((item, index) => (
+              <Link key={index} href={item.href} onClick={handleClick}>
+                <DropdownMenuItem className="flex items-center gap-2">
+                  {item.icon}
+                  {item.label}
+                </DropdownMenuItem>
+              </Link>
+            ))}
 
-        <DropdownMenuSeparator />
+            <DropdownMenuSeparator />
+          </>
+        )}
 
         <LogoutButton handleClick={handleClick} />
       </DropdownMenuContent>

@@ -51,4 +51,22 @@ const AvatarDropdownMenuItems: MenuItemsType = [
   },
 ];
 
-export { NavbarMenuItems, AvatarDropdownMenuItems };
+const AdminSidebarMenuItems: MenuItemsType = [
+  {
+    label: "Dashboard",
+    href: "/admin/dashboard",
+    icon: <HomeIcon size={18} strokeWidth={2.5} />,
+  },
+  {
+    label: "Mentors",
+    href: "/admin/mentors",
+    icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
+  },
+  {
+    label: "Categories",
+    href: "/admin/categories",
+    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+  },
+];
+
+export { NavbarMenuItems, AvatarDropdownMenuItems, AdminSidebarMenuItems };

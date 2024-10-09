@@ -3,7 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect } from "react";
 
 import AvatarDropdown from "@/components/avatar-dropdown";
 import Navbar from "@/components/navbar";
@@ -15,23 +14,10 @@ const Header = () => {
   const path = usePathname();
 
   const isActive = (href: string) => {
-    if (href === "/") {
-      return path === href;
-    }
-
-    return path.startsWith(href);
+    return href === "/" ? path === href : path.startsWith(href);
   };
 
-  const { user, setUser } = useAppContext();
-
-  useEffect(() => {
-    const user = localStorage.getItem("user");
-
-    if (user) {
-      setUser(JSON.parse(user));
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { user } = useAppContext();
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow">

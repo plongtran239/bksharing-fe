@@ -51,7 +51,6 @@ const CategoryForm = ({ categories }: ICategoryFormProps) => {
       });
 
       router.push("/");
-      router.refresh();
     } catch (error) {
       console.error(error);
     }
