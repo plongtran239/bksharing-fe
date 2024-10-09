@@ -16,7 +16,7 @@ const AdminSidebar = () => {
   const { user } = useAppContext();
 
   return (
-    <aside className="sticky left-0 top-0 flex h-screen w-fit flex-col justify-between bg-secondary p-6 max-sm:hidden lg:w-[264px]">
+    <aside className="sticky left-0 top-0 flex h-screen flex-col justify-between bg-secondary p-6 max-sm:hidden lg:w-[280px]">
       <div>
         <Link
           href="/admin/dashboard"

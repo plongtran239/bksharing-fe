@@ -20,6 +20,13 @@ export function convertToCapitalizeCase(text: string): string {
     .join(" ");
 }
 
+export function covertCamelCaseToTitleCase(text: string): string {
+  return text
+    .replace(/([A-Z])/g, " $1")
+    .replace(/^./, (str) => str.toUpperCase())
+    .trim();
+}
+
 export function normalizePath(path: string) {
   return path.startsWith("/") ? path.slice(1) : path;
 }

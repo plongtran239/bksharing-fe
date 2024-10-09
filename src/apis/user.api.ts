@@ -1,4 +1,5 @@
 import http from "@/lib/http";
+import { MentorListResponseType } from "@/schemas/user";
 
 const userApi = {
   me: (sessionToken: string) =>
@@ -9,6 +10,13 @@ const userApi = {
     }),
 
   meClient: () => http.get("/accounts/me"),
+
+  adminMentors: (sessionToken: string) =>
+    http.get<MentorListResponseType>("/admin/mentors", {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
 };
 
 export default userApi;
