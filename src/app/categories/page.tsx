@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const InterestedCategory = async () => {
   const {
     payload: { data: categories },
-  } = await categoryApi.getCategoryList();
+  } = await categoryApi.getCategories();
 
   return (
     <section className="flex-center min-h-[calc(100vh-75px-260px)] py-10 max-sm:px-5">

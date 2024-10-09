@@ -7,7 +7,7 @@ const Category = z.object({
   thumbnail: z.string().nullable(),
   description: z.string().nullable(),
   parentCategoryId: z.number().nullable(),
-  childCategories: z.array(z.number()),
+  childCategories: z.array(z.lazy((): z.ZodTypeAny => Category)),
 });
 
 const InterestedCategoryRequest = z.object({

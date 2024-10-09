@@ -16,7 +16,7 @@ const Mentor = User.extend({
   status: z.string(),
 });
 
-const MentorListResponse = z.object({
+const MentorsResponse = z.object({
   data: z.array(Mentor),
   total: z.number(),
 });
@@ -25,13 +25,13 @@ type UserType = z.infer<typeof User>;
 
 type MentorType = z.infer<typeof Mentor>;
 
-type MentorListResponseType = z.infer<typeof MentorListResponse>;
+type MentorsResponseType = z.infer<typeof MentorsResponse>;
 
 export {
   User,
   type UserType,
   Mentor,
   type MentorType,
-  MentorListResponse,
-  type MentorListResponseType,
+  MentorsResponse,
+  type MentorsResponseType,
 };
