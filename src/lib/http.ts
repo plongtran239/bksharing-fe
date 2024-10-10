@@ -22,7 +22,7 @@ class HttpError extends Error {
 export const isClient = () => typeof window !== "undefined";
 
 const request = async <Response>(
-  method: "GET" | "POST" | "PUT" | "DELETE",
+  method: "GET" | "POST" | "PUT" | "PATCH" | "DELETE",
   url: string,
   options?: CustomOptions | undefined
 ) => {
@@ -123,9 +123,17 @@ const http = {
     return request<Response>("PUT", url, { ...options, body });
   },
 
-  delete<Response>(
+  patch<Response>(
     url: string,
     body: any,
+    options?: Omit<CustomOptions, "body"> | undefined
+  ) {
+    return request<Response>("PATCH", url, { ...options, body });
+  },
+
+  delete<Response>(
+    url: string,
+    body?: any,
     options?: Omit<CustomOptions, "body"> | undefined
   ) {
     return request<Response>("DELETE", url, { ...options, body });

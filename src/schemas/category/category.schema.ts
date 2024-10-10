@@ -18,6 +18,12 @@ const InterestedCategoryRequest = z.object({
     }),
 });
 
+const CategoryRequest = z.object({
+  name: z.string(),
+  description: z.string(),
+  parentCategoryId: z.number().optional(),
+});
+
 const CategoryResponse = z.object({
   data: z.array(Category),
   total: z.number(),
@@ -27,6 +33,8 @@ type CategoryType = z.infer<typeof Category>;
 
 type InterestedCategoryRequestType = z.infer<typeof InterestedCategoryRequest>;
 
+type CategoryRequestType = z.infer<typeof CategoryRequest>;
+
 type CategoryResponseType = z.infer<typeof CategoryResponse>;
 
 export {
@@ -34,6 +42,8 @@ export {
   type CategoryType,
   InterestedCategoryRequest,
   type InterestedCategoryRequestType,
+  CategoryRequest,
+  type CategoryRequestType,
   CategoryResponse,
   type CategoryResponseType,
 };

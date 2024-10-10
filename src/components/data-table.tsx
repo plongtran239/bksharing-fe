@@ -66,7 +66,7 @@ const DataTable = <T,>({ data, columns }: IDataTableProps<T>) => {
   return (
     <div className="">
       {/* Heading */}
-      <div className="flex items-center py-4">
+      <div className="flex-between gap-2">
         <Input
           placeholder="Search by name"
           value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
@@ -104,7 +104,7 @@ const DataTable = <T,>({ data, columns }: IDataTableProps<T>) => {
       </div>
 
       {/* Table */}
-      <div className="rounded-md border">
+      <div className="mt-5 rounded-md border">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -156,7 +156,7 @@ const DataTable = <T,>({ data, columns }: IDataTableProps<T>) => {
       </div>
 
       {/* Count selected & navigation */}
-      <div className="flex items-center justify-end space-x-2 py-4">
+      <div className="mt-5 flex items-center justify-end space-x-2">
         <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.

@@ -63,6 +63,11 @@ const AdminSidebarMenuItems: MenuItemsType = [
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
   },
   {
+    label: "Upcomings",
+    href: "/admin/upcomings",
+    icon: <VideoIcon size={18} strokeWidth={2.5} />,
+  },
+  {
     label: "Categories",
     href: "/admin/categories",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,

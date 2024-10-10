@@ -7,6 +7,24 @@ const categoryApi = {
       cache: "no-store",
     }),
 
+  createCategory: (body: {
+    name: string;
+    description: string;
+    parentCategoryId?: number;
+  }) => http.post("/admin/categories", body),
+
+  updateCategory: (
+    categoryId: number,
+    body: {
+      name: string;
+      description: string;
+      parentCategoryId?: number;
+    }
+  ) => http.patch(`/admin/categories/${categoryId}`, body),
+
+  deleteCategory: (categoryId: number) =>
+    http.delete(`/admin/categories/${categoryId}`),
+
   getAdminCategories: (sessionToken: string) =>
     http.get<CategoryResponseType>("/admin/categories", {
       headers: {

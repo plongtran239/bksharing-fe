@@ -126,7 +126,7 @@ const CallList = ({ type }: CallListProps) => {
           </MeetingCard>
         ))
       ) : (
-        <h1 className="text-2xl font-bold">{noCallsMessage}</h1>
+        <h1 className="text-lg font-bold">{noCallsMessage}</h1>
       )}
     </div>
   );
