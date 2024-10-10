@@ -67,6 +67,7 @@ const LoginForm = () => {
 
       if (data.accountType === ROLES.ADMIN) {
         router.push("/admin/dashboard");
+        router.refresh();
       } else {
         router.push("/");
       }

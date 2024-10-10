@@ -16,6 +16,7 @@ const userApi = {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
+      cache: "no-store",
     }),
 };
 

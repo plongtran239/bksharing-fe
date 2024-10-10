@@ -30,6 +30,7 @@ const categoryApi = {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
+      cache: "no-store",
     }),
 
   selectInterestedCategory: (body: { categoryIds: number[] }) =>
