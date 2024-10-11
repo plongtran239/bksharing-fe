@@ -184,7 +184,7 @@ const CategoryModal = ({
                         <SelectValue placeholder="select parent category" />
                       </SelectTrigger>
                     </FormControl>
-                    <SelectContent>
+                    <SelectContent className="max-h-[250px]">
                       {filteredCategories.length > 0 ? (
                         filteredCategories.map((item) => (
                           <SelectItem key={item.id} value={item.id.toString()}>

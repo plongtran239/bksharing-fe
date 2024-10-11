@@ -47,6 +47,13 @@ export const middleware = (request: NextRequest) => {
   }
 
   if (
+    role === ROLES.STUDENT &&
+    adminPaths.some((path) => pathname.startsWith(path))
+  ) {
+    return NextResponse.redirect(new URL("/", request.url));
+  }
+
+  if (
     (privatePaths.some((path) => pathname.startsWith(path)) ||
       adminPaths.some((path) => pathname.startsWith(path))) &&
     !sessionToken

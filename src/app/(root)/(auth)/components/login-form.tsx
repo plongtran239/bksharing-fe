@@ -55,7 +55,7 @@ const LoginForm = () => {
 
       setUser(data);
 
-      authApi.auth({
+      await authApi.auth({
         sessionToken: data.accessToken,
         role: data.accountType,
       });
@@ -67,7 +67,6 @@ const LoginForm = () => {
 
       if (data.accountType === ROLES.ADMIN) {
         router.push("/admin/dashboard");
-        router.refresh();
       } else {
         router.push("/");
       }

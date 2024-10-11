@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { MentorsResponseType } from "@/schemas/user";
+import { MentorResponseType, MentorsResponseType } from "@/schemas/user";
 
 const userApi = {
   me: (sessionToken: string) =>
@@ -18,6 +18,9 @@ const userApi = {
       },
       cache: "no-store",
     }),
+
+  getAdminMentor: (id: number) =>
+    http.get<MentorResponseType>(`/admin/mentors/${id}`),
 };
 
 export default userApi;
