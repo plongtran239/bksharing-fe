@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 
-import userApi from "@/apis/user.api";
+import adminApi from "@/apis/admin.api";
 import MentorTable from "@/app/(admin)/admin/mentors/components/mentor-table";
 
 const AdminMentor = async () => {
@@ -8,7 +8,7 @@ const AdminMentor = async () => {
 
   const sessionToken = cookieStore.get("sessionToken")?.value;
 
-  const { payload } = await userApi.getAdminMentors(sessionToken as string);
+  const { payload } = await adminApi.getAdminMentors(sessionToken as string);
 
   return <MentorTable data={payload.data} />;
 };

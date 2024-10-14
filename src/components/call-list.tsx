@@ -34,7 +34,7 @@ const CallList = ({ type }: CallListProps) => {
       case "recordings":
         return recordings;
       case "upcoming":
-        return upcomingCalls;
+        return upcomingCalls?.reverse();
       default:
         return [];
     }
@@ -87,7 +87,7 @@ const CallList = ({ type }: CallListProps) => {
             key={index}
             icon="video"
             title={
-              (meeting as Call).state?.custom?.description ||
+              (meeting as Call).state?.custom?.title ||
               (meeting as CallRecording).filename?.substring(0, 20) ||
               "No Description"
             }

@@ -1,14 +1,26 @@
 import { type ClassValue, clsx } from "clsx";
 import { twMerge } from "tailwind-merge";
 
-import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
+import {
+  DATE_FORMAT_OPTIONS,
+  DATE_TIME_FORMAT_OPTIONS,
+  LOCALE,
+} from "@/constants/date";
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
 export function convertDateToLocaleDateString(date: Date): string {
-  return date.toLocaleDateString(LOCALE, DATE_TIME_FORMAT_OPTIONS);
+  return date.toLocaleDateString(LOCALE, DATE_FORMAT_OPTIONS);
+}
+
+export function convertDateToLocaleString(date: Date): string {
+  return date
+    .toLocaleString(LOCALE, DATE_TIME_FORMAT_OPTIONS)
+    .split(" ")
+    .reverse()
+    .join(" ");
 }
 
 export function convertToCapitalizeCase(text: string): string {

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import userApi from "@/apis/user.api";
+import adminApi from "@/apis/admin.api";
 import {
   Dialog,
   DialogContent,
@@ -26,7 +26,7 @@ const MentorModal = ({
   useEffect(() => {
     async function fetchMentor() {
       if (mentorId) {
-        const { payload } = await userApi.getAdminMentor(mentorId);
+        const { payload } = await adminApi.getAdminMentor(mentorId);
         setMentor(payload.data);
       }
     }

@@ -1,12 +1,22 @@
 "use client";
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
-import { CalendarCheck2Icon, EyeIcon } from "lucide-react";
+import {
+  CalendarCheck2Icon,
+  EyeIcon,
+  UserRoundCheckIcon,
+  UserRoundXIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import adminApi from "@/apis/admin.api";
 import MentorModal from "@/app/(admin)/admin/mentors/components/mentor-modal";
 import DataTable from "@/components/data-table";
+import DatetimeInput from "@/components/datetime-input";
+import MeetingModal from "@/components/meeting-modal";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -16,6 +26,11 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { MENTOR_STATUS } from "@/constants/enum";
+import { useToast } from "@/hooks/use-toast";
 import { MentorType } from "@/schemas/user";
 
 interface IProps {
@@ -23,14 +38,96 @@ interface IProps {
 }
 
 const MentorTable = ({ data }: IProps) => {
+  const router = useRouter();
+
+  const { toast } = useToast();
+
+  const client = useStreamVideoClient();
+
   const [openMentorModal, setOpenMentorModal] = useState(false);
 
-  const [viewMentorId, setViewMentorId] = useState<number | undefined>(
-    undefined
-  );
+  const [openMeetingModal, setOpenMeetingModal] = useState(false);
+
+  const [meetingValues, setMeetingValues] = useState({
+    title: "",
+    startsAt: new Date(),
+  });
+
+  const [mentorId, setMentorId] = useState<number | undefined>(undefined);
 
   const handleOnMentorModalChange = () => {
     setOpenMentorModal(!openMentorModal);
+  };
+
+  const handleProcessMentorApplication = async (
+    mentorId: number,
+    isApproved: boolean
+  ) => {
+    try {
+      await adminApi.approveMentor(mentorId, isApproved);
+
+      const toastMessage = isApproved
+        ? "Mentor application has been accepted!"
+        : "Mentor application has been rejected!";
+
+      toast({
+        title: "Success",
+        description: toastMessage,
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleScheduleInterview = async () => {
+    if (!client || !mentorId) {
+      return;
+    }
+
+    try {
+      const { title, startsAt } = meetingValues;
+
+      const {
+        payload: {
+          data: { cid },
+        },
+      } = await adminApi.interviewMentor(mentorId, {
+        title: title || "Interview Meeting",
+        startsAt: startsAt,
+      });
+
+      const call = client.call("default", cid);
+
+      if (!call) {
+        throw new Error("Failed to create a call");
+      }
+
+      await call.getOrCreate({
+        data: {
+          starts_at: startsAt.toISOString(),
+          custom: {
+            title: title || "Interview Meeting",
+          },
+        },
+      });
+
+      toast({
+        title: "Success",
+        description: "Interview has been scheduled!",
+      });
+    } catch (error) {
+      console.error(error);
+
+      toast({
+        title: "Error",
+        description: "Failed to schedule interview!",
+        variant: "destructive",
+      });
+    }
+
+    setOpenMeetingModal(false);
   };
 
   const columns: ColumnDef<MentorType>[] = [
@@ -128,17 +225,75 @@ const MentorTable = ({ data }: IProps) => {
               <DropdownMenuItem
                 onClick={() => {
                   handleOnMentorModalChange();
-                  setViewMentorId(row.original.id);
+                  setMentorId(row.original.id);
                 }}
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
                 View details
               </DropdownMenuItem>
-              <DropdownMenuItem className="flex items-center gap-2">
-                <CalendarCheck2Icon size={16} />
-                Schedule interview
-              </DropdownMenuItem>
+
+              {![MENTOR_STATUS.ACCEPTED, MENTOR_STATUS.REJECTED].includes(
+                row.original.status
+              ) && (
+                <DropdownMenuItem
+                  onClick={() => {
+                    setOpenMeetingModal(true);
+                    setMentorId(row.original.id);
+                  }}
+                  className="flex items-center gap-2"
+                >
+                  <CalendarCheck2Icon size={16} />
+                  Schedule interview
+                </DropdownMenuItem>
+              )}
+
+              <Separator className="my-1" />
+
+              {row.original.status === MENTOR_STATUS.PENDING ? (
+                <>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleProcessMentorApplication(row.original.id, true)
+                    }
+                    className="flex items-center gap-2"
+                  >
+                    <UserRoundCheckIcon size={16} />
+                    Accept application
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() =>
+                      handleProcessMentorApplication(row.original.id, false)
+                    }
+                    className="flex items-center gap-2"
+                  >
+                    <UserRoundXIcon size={16} />
+                    Reject application
+                  </DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem
+                  onClick={() =>
+                    handleProcessMentorApplication(
+                      row.original.id,
+                      row.original.status === MENTOR_STATUS.REJECTED
+                    )
+                  }
+                  className="flex items-center gap-2"
+                >
+                  {row.original.status === MENTOR_STATUS.ACCEPTED ? (
+                    <>
+                      <UserRoundXIcon size={16} />
+                      Reject application
+                    </>
+                  ) : (
+                    <>
+                      <UserRoundCheckIcon size={16} />
+                      Accept application
+                    </>
+                  )}
+                </DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -153,8 +308,47 @@ const MentorTable = ({ data }: IProps) => {
       <MentorModal
         open={openMentorModal}
         onOpenChange={handleOnMentorModalChange}
-        mentorId={viewMentorId}
+        mentorId={mentorId}
       />
+
+      <MeetingModal
+        isOpen={openMeetingModal}
+        onClose={() => setOpenMeetingModal(false)}
+        title="Schedule Meeting"
+        buttonText="Schedule Interview"
+        buttonIcon={<CalendarCheck2Icon size={16} />}
+        handleClick={handleScheduleInterview}
+      >
+        <div className="mt-5 w-full space-y-5">
+          <div>
+            <Label htmlFor="title">Title</Label>
+            <Input
+              id="title"
+              placeholder="title"
+              className="mt-1"
+              onChange={(e) =>
+                setMeetingValues({ ...meetingValues, title: e.target.value })
+              }
+            />
+          </div>
+
+          <div className="flex w-full flex-col">
+            <Label htmlFor="date" required>
+              Date & Time
+            </Label>
+            <DatetimeInput
+              id="date"
+              selected={meetingValues.startsAt}
+              onChange={(date) =>
+                setMeetingValues({
+                  ...meetingValues,
+                  startsAt: date || new Date(),
+                })
+              }
+            />
+          </div>
+        </div>
+      </MeetingModal>
     </>
   );
 };
