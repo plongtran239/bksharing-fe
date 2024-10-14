@@ -186,7 +186,7 @@ const CategoryTable = ({ data }: IProps) => {
 
   return (
     <>
-      <DataTable columns={columns} data={newData} />
+      <DataTable columns={columns} data={newData} searchBy="name" />
 
       <CategoryModal
         open={openCategoryModal}

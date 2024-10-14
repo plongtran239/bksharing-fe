@@ -16,7 +16,7 @@ const AdminCategory = async () => {
   return (
     <main>
       <div className="flex-between">
-        <h1 className="text-2xl font-semibold text-primary">Category List</h1>
+        <h1 className="text-3xl font-semibold text-primary">Category List</h1>
 
         <AddCategoryButton categories={payload.data} />
       </div>

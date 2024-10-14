@@ -7,15 +7,15 @@ import {
   LOCALE,
 } from "@/constants/date";
 
-export function cn(...inputs: ClassValue[]) {
+function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function convertDateToLocaleDateString(date: Date): string {
+function convertDateToLocaleDateString(date: Date): string {
   return date.toLocaleDateString(LOCALE, DATE_FORMAT_OPTIONS);
 }
 
-export function convertDateToLocaleString(date: Date): string {
+function convertDateToLocaleString(date: Date): string {
   return date
     .toLocaleString(LOCALE, DATE_TIME_FORMAT_OPTIONS)
     .split(" ")
@@ -23,7 +23,18 @@ export function convertDateToLocaleString(date: Date): string {
     .join(" ");
 }
 
-export function convertToCapitalizeCase(text: string): string {
+function convertMilisecondsToLocalString(
+  miliseconds: string,
+  locale = LOCALE,
+  dateTimeFormatOptions = DATE_TIME_FORMAT_OPTIONS
+): string {
+  return new Date(parseInt(miliseconds)).toLocaleString(
+    locale,
+    dateTimeFormatOptions
+  );
+}
+
+function convertToCapitalizeCase(text: string): string {
   text = text.replaceAll("_", " ");
 
   return text
@@ -32,13 +43,23 @@ export function convertToCapitalizeCase(text: string): string {
     .join(" ");
 }
 
-export function covertCamelCaseToTitleCase(text: string): string {
+function covertCamelCaseToTitleCase(text: string): string {
   return text
     .replace(/([A-Z])/g, " $1")
     .replace(/^./, (str) => str.toUpperCase())
     .trim();
 }
 
-export function normalizePath(path: string) {
+function normalizePath(path: string) {
   return path.startsWith("/") ? path.slice(1) : path;
 }
+
+export {
+  cn,
+  convertDateToLocaleString,
+  convertDateToLocaleDateString,
+  convertMilisecondsToLocalString,
+  convertToCapitalizeCase,
+  covertCamelCaseToTitleCase,
+  normalizePath,
+};

@@ -3,10 +3,18 @@ import http from "@/lib/http";
 import { convertDateToLocaleString } from "@/lib/utils";
 import { MentorResponseType, MentorsResponseType } from "@/schemas/user";
 
+type MentorsQuery = {
+  name?: string;
+  email?: string;
+  phoneNumber?: string;
+  status?: MENTOR_STATUS;
+};
+
 const adminApi = {
-  getAdminMentors: (sessionToken: string, status?: MENTOR_STATUS) => {
-    const query = status ? `?status=${status}` : "";
-    return http.get<MentorsResponseType>(`/admin/mentors${query}`, {
+  getAdminMentors: (sessionToken: string, query?: MentorsQuery) => {
+    const params = new URLSearchParams(query).toString();
+
+    return http.get<MentorsResponseType>(`/admin/mentors?${params}`, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

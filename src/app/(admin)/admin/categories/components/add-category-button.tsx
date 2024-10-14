@@ -1,5 +1,6 @@
 "use client";
 
+import { PlusIcon } from "lucide-react";
 import { useState } from "react";
 
 import CategoryModal from "@/app/(admin)/admin/categories/components/category-modal";
@@ -15,7 +16,10 @@ const AddCategoryButton = ({ categories }: { categories: CategoryType[] }) => {
 
   return (
     <>
-      <Button onClick={handleOpenChange}>Add Category</Button>
+      <Button className="px-5" onClick={handleOpenChange}>
+        <PlusIcon className="mr-2" size={16} />
+        Add Category
+      </Button>
 
       <CategoryModal
         open={openCategoryModal}

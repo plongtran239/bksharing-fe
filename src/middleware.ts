@@ -11,7 +11,12 @@ const privatePaths = [
 ];
 const publicPaths = ["/login", "/register"];
 
-const adminPaths = ["/admin/dashboard", "/admin/mentors", "/admin/categories"];
+const adminPaths = [
+  "/admin/dashboard",
+  "/admin/mentors",
+  "/admin/meetings",
+  "/admin/categories",
+];
 
 const invalidPaths = ["/admin", "/users"];
 
@@ -80,6 +85,7 @@ export const config = {
 
     "/admin/dashboard",
     "/admin/mentors",
+    "/admin/meetings",
     "/admin/categories",
   ],
 };

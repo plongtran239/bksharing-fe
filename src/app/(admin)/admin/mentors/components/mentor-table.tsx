@@ -259,7 +259,7 @@ const MentorTable = ({ data }: IProps) => {
                     className="flex items-center gap-2"
                   >
                     <UserRoundCheckIcon size={16} />
-                    Accept application
+                    Accept
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() =>
@@ -268,7 +268,7 @@ const MentorTable = ({ data }: IProps) => {
                     className="flex items-center gap-2"
                   >
                     <UserRoundXIcon size={16} />
-                    Reject application
+                    Reject
                   </DropdownMenuItem>
                 </>
               ) : (
@@ -284,12 +284,12 @@ const MentorTable = ({ data }: IProps) => {
                   {row.original.status === MENTOR_STATUS.ACCEPTED ? (
                     <>
                       <UserRoundXIcon size={16} />
-                      Reject application
+                      Reject
                     </>
                   ) : (
                     <>
                       <UserRoundCheckIcon size={16} />
-                      Accept application
+                      Accept
                     </>
                   )}
                 </DropdownMenuItem>
@@ -303,7 +303,7 @@ const MentorTable = ({ data }: IProps) => {
 
   return (
     <>
-      <DataTable data={data} columns={columns} />
+      <DataTable data={data} columns={columns} searchBy="name" />
 
       <MentorModal
         open={openMentorModal}

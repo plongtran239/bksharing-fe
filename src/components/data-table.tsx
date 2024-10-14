@@ -36,9 +36,18 @@ import { covertCamelCaseToTitleCase } from "@/lib/utils";
 interface IDataTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
+  searchBy?: string;
+  hasSearch?: boolean;
+  children?: React.ReactNode;
 }
 
-const DataTable = <T,>({ data, columns }: IDataTableProps<T>) => {
+const DataTable = <T,>({
+  data,
+  columns,
+  searchBy,
+  hasSearch = true,
+  children,
+}: IDataTableProps<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
@@ -67,14 +76,19 @@ const DataTable = <T,>({ data, columns }: IDataTableProps<T>) => {
     <div className="">
       {/* Heading */}
       <div className="flex-between gap-2">
-        <Input
-          placeholder="Search by name"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+        {hasSearch && searchBy && (
+          <Input
+            placeholder={`Search by ${searchBy}`}
+            value={
+              (table.getColumn(searchBy)?.getFilterValue() as string) ?? ""
+            }
+            onChange={(event) =>
+              table.getColumn(searchBy)?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
+        )}
+        {children}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
