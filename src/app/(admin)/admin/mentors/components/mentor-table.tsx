@@ -31,6 +31,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
+import { convertToCapitalizeCase } from "@/lib/utils";
 import { MentorType } from "@/schemas/user";
 
 interface IProps {
@@ -117,6 +118,9 @@ const MentorTable = ({ data }: IProps) => {
         title: "Success",
         description: "Interview has been scheduled!",
       });
+
+      router.push("/admin/meetings");
+      router.refresh();
     } catch (error) {
       console.error(error);
 
@@ -204,7 +208,9 @@ const MentorTable = ({ data }: IProps) => {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <div className="capitalize">{row.getValue("status")}</div>
+        <div className="capitalize">
+          {convertToCapitalizeCase(row.getValue("status"))}
+        </div>
       ),
     },
     {
@@ -303,7 +309,13 @@ const MentorTable = ({ data }: IProps) => {
 
   return (
     <>
-      <DataTable data={data} columns={columns} searchBy="name" />
+      <DataTable
+        data={data}
+        columns={columns}
+        searchBy="name"
+        filterBy="status"
+        filterOptions={Object.values(MENTOR_STATUS)}
+      />
 
       <MentorModal
         open={openMentorModal}

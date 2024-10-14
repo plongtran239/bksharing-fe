@@ -1,4 +1,5 @@
 import {
+  BookCopyIcon,
   GraduationCapIcon,
   HomeIcon,
   KeyRoundIcon,
@@ -70,7 +71,7 @@ const AdminSidebarMenuItems: MenuItemsType = [
   {
     label: "Categories",
     href: "/admin/categories",
-    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+    icon: <BookCopyIcon size={18} strokeWidth={2.5} />,
   },
 ];
 

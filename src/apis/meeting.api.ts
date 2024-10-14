@@ -7,6 +7,7 @@ const MeetingApi = {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
+      cache: "no-store",
     });
   },
 };

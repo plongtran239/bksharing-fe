@@ -28,16 +28,17 @@ function convertMilisecondsToLocalString(
   locale = LOCALE,
   dateTimeFormatOptions = DATE_TIME_FORMAT_OPTIONS
 ): string {
-  return new Date(parseInt(miliseconds)).toLocaleString(
-    locale,
-    dateTimeFormatOptions
-  );
+  return new Date(parseInt(miliseconds)).toLocaleString(locale, {
+    ...dateTimeFormatOptions,
+    timeZone: "UTC",
+  });
 }
 
 function convertToCapitalizeCase(text: string): string {
   text = text.replaceAll("_", " ");
 
   return text
+    .toLowerCase()
     .split(" ")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(" ");

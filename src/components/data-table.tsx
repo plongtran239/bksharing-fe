@@ -24,6 +24,14 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import {
   Table,
   TableBody,
   TableCell,
@@ -31,22 +39,25 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { covertCamelCaseToTitleCase } from "@/lib/utils";
+import {
+  convertToCapitalizeCase,
+  covertCamelCaseToTitleCase,
+} from "@/lib/utils";
 
 interface IDataTableProps<T> {
   data: T[];
   columns: ColumnDef<T>[];
   searchBy?: string;
-  hasSearch?: boolean;
-  children?: React.ReactNode;
+  filterBy?: string;
+  filterOptions?: string[];
 }
 
 const DataTable = <T,>({
   data,
   columns,
   searchBy,
-  hasSearch = true,
-  children,
+  filterBy,
+  filterOptions,
 }: IDataTableProps<T>) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
@@ -76,11 +87,11 @@ const DataTable = <T,>({
     <div className="">
       {/* Heading */}
       <div className="flex-between gap-2">
-        {hasSearch && searchBy && (
+        {searchBy && (
           <Input
             placeholder={`Search by ${searchBy}`}
             value={
-              (table.getColumn(searchBy)?.getFilterValue() as string) ?? ""
+              table.getColumn(searchBy)?.getFilterValue() as string | undefined
             }
             onChange={(event) =>
               table.getColumn(searchBy)?.setFilterValue(event.target.value)
@@ -88,7 +99,35 @@ const DataTable = <T,>({
             className="max-w-sm"
           />
         )}
-        {children}
+
+        {filterBy && filterOptions && (
+          <Select
+            defaultValue="all"
+            onValueChange={(value) => {
+              if (value === "all") {
+                table.getColumn(filterBy)?.setFilterValue(undefined);
+                return;
+              }
+              table.getColumn(filterBy)?.setFilterValue(value);
+            }}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All {filterBy}</SelectItem>
+
+              <Separator className="my-1" />
+
+              {filterOptions.map((status) => (
+                <SelectItem key={status} value={status}>
+                  {convertToCapitalizeCase(status)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        )}
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
