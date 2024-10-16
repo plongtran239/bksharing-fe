@@ -8,6 +8,7 @@ import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import authApi from "@/apis/auth.api";
+import fileApi from "@/apis/file.api";
 import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
 import DateInput from "@/components/date-input";
 import FileInput from "@/components/file-input";
@@ -20,6 +21,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -29,7 +31,7 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import { ACHIEVEMENT_TYPES, FOLDER, RESOURCE_TYPE } from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
@@ -46,6 +48,8 @@ const MentorRegisterForm = () => {
 
   const router = useRouter();
 
+  const [cvFile, setCvFile] = useState<File | undefined>(undefined);
+
   const { setUser } = useAppContext();
 
   const form = useForm<MentorRegisterRequestType>({
@@ -58,7 +62,6 @@ const MentorRegisterForm = () => {
       confirmPassword: "",
       gender: undefined,
       dob: undefined,
-      cv: "",
       achievements: [
         {
           achievementType: undefined,
@@ -107,8 +110,31 @@ const MentorRegisterForm = () => {
   const onSubmit = async (values: MentorRegisterRequestType) => {
     setLoading(true);
 
+    if (!cvFile) {
+      toast({
+        title: "Error",
+        description: "Resume / CV is required",
+        variant: "destructive",
+      });
+
+      return;
+    }
+
     try {
-      const result = await authApi.mentorRegsiter(values);
+      const {
+        payload: { data: createdSignedUrl },
+      } = await fileApi.createSignedUrl({
+        fileName: cvFile.name,
+        resourceType: RESOURCE_TYPE.RAW.toLowerCase(),
+        folder: FOLDER.FILES.toLowerCase(),
+      });
+
+      await fileApi.uploadFile(createdSignedUrl.uploadedUrl, cvFile);
+
+      const result = await authApi.mentorRegsiter({
+        ...values,
+        fileId: createdSignedUrl.fileId,
+      });
 
       const data = result.payload.data;
 
@@ -143,26 +169,23 @@ const MentorRegisterForm = () => {
       </motion.div>
 
       <motion.div variants={childVariants}>
-        <FormField
-          control={form.control}
-          name="cv"
-          render={({ field }) => (
-            <FormItem className="w-full">
-              <FormLabel htmlFor="cv" className="flex-center mb-2" required>
-                Resume / CV
-              </FormLabel>
-              <FormControl>
-                <FileInput
-                  id="cv"
-                  accept="application/pdf"
-                  value={field.value}
-                  onChange={field.onChange}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        <div>
+          <Label htmlFor="cv" className="flex-center mb-2" required>
+            Resume / CV
+          </Label>
+          <FileInput
+            id="cv"
+            accept="application/pdf"
+            value={cvFile?.name}
+            onChange={(e) => {
+              if (e.target.files && e.target.files.length > 0) {
+                setCvFile(e.target.files[0]);
+              } else {
+                setCvFile(undefined);
+              }
+            }}
+          />
+        </div>
       </motion.div>
 
       <motion.div variants={childVariants}>

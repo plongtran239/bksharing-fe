@@ -2,7 +2,7 @@
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { PlayIcon, XIcon } from "lucide-react";
+import { EyeIcon, PlayIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/data-table";
@@ -15,6 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { MEETING_STATUS } from "@/constants/enum";
 import {
   convertMilisecondsToLocalString,
@@ -105,8 +106,18 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
               <DropdownMenuItem
+                onClick={() => {}}
+                className="flex items-center gap-2"
+              >
+                <EyeIcon size={16} />
+                View Detail
+              </DropdownMenuItem>
+
+              <Separator className="my-1" />
+
+              <DropdownMenuItem
                 onClick={() => {
-                  router.push(`/meeting/${row.original.id}`);
+                  router.push(`/meeting/${row.original.cid}`);
                 }}
                 className="flex items-center gap-2"
               >
@@ -117,6 +128,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
               <DropdownMenuItem
                 onClick={() => {}}
                 className="flex items-center gap-2"
+                disabled
               >
                 <XIcon size={16} />
                 Cancel Meeting

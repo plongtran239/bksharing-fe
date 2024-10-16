@@ -5,6 +5,7 @@ import { ACHIEVEMENT_TYPES, EDUCATION_LEVELS, GENDERS } from "@/constants/enum";
 import { LoginRequest, LoginResponse } from "@/schemas/auth";
 
 const RegisterRequest = LoginRequest.extend({
+  email: z.string().email(),
   phoneNumber: z
     .string()
     .trim()
@@ -33,7 +34,6 @@ const RegisterRequest = LoginRequest.extend({
       message: "Date of birth must be less than current date",
     }),
   gender: z.nativeEnum(GENDERS),
-  cv: z.string().trim().optional(),
 }).strict();
 
 const AchivementRequest = z
@@ -130,6 +130,7 @@ const StudentRegisterRequest = RegisterRequest.extend({
 
 const MentorRegisterRequest = RegisterRequest.extend({
   achievements: z.array(AchivementRequest).nonempty(),
+  fileId: z.number().optional(),
 })
   .strict()
   .superRefine(({ password, confirmPassword }, ctx) => {

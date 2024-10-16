@@ -214,7 +214,7 @@ const BaseRegisterForm = <T extends FieldValues>({
               form.formState.isSubmitting || !form.formState.isValid || loading
             }
           >
-            Submit
+            {loading ? "Loading..." : "Register"}
           </Button>
         </motion.div>
       </motion.form>

@@ -47,6 +47,18 @@ enum PARTICIPANT_ROLE {
   USER = "USER",
 }
 
+enum RESOURCE_TYPE {
+  IMAGE = "IMAGE",
+  RAW = "RAW",
+  VIDEO = "VIDEO",
+}
+
+enum FOLDER {
+  IMAGES = "IMAGES",
+  VIDEOS = "VIDEOS",
+  FILES = "FILES",
+}
+
 export {
   ROLES,
   GENDERS,
@@ -56,4 +68,6 @@ export {
   MEETING_STATUS,
   MEETING_TYPE,
   PARTICIPANT_ROLE,
+  RESOURCE_TYPE,
+  FOLDER,
 };

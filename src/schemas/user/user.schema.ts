@@ -11,7 +11,7 @@ const User = z.object({
 
 const Mentor = User.extend({
   accountId: z.number(),
-  email: z.string(),
+  email: z.string().email(),
   phoneNumber: z.string(),
   registeredAt: z.string(),
   status: z.nativeEnum(MENTOR_STATUS),
