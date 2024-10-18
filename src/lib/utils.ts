@@ -11,8 +11,12 @@ function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-function convertDateToLocaleDateString(date: Date): string {
-  return date.toLocaleDateString(LOCALE, DATE_FORMAT_OPTIONS);
+function convertDateToLocaleDateString(
+  date: Date,
+  locale = LOCALE,
+  dateFormatOptions = DATE_FORMAT_OPTIONS
+): string {
+  return date.toLocaleDateString(locale, dateFormatOptions);
 }
 
 function convertDateToLocaleString(date: Date): string {
@@ -28,10 +32,10 @@ function convertMilisecondsToLocaleString(
   locale = LOCALE,
   dateTimeFormatOptions = DATE_TIME_FORMAT_OPTIONS
 ): string {
-  return new Date(parseInt(miliseconds)).toLocaleString(locale, {
-    ...dateTimeFormatOptions,
-    timeZone: "UTC",
-  });
+  return new Date(parseInt(miliseconds)).toLocaleString(
+    locale,
+    dateTimeFormatOptions
+  );
 }
 
 function convertMilisecondsToLocaleDateString(
@@ -39,10 +43,10 @@ function convertMilisecondsToLocaleDateString(
   locale = LOCALE,
   dateFormatOptions = DATE_FORMAT_OPTIONS
 ): string {
-  return new Date(parseInt(miliseconds)).toLocaleDateString(locale, {
-    ...dateFormatOptions,
-    timeZone: "UTC",
-  });
+  return new Date(parseInt(miliseconds)).toLocaleDateString(
+    locale,
+    dateFormatOptions
+  );
 }
 
 function convertToCapitalizeCase(text: string): string {

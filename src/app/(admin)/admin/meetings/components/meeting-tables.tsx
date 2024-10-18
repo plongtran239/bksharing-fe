@@ -74,7 +74,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
           {convertMilisecondsToLocaleString(row.getValue("startsAt"), "en-US", {
             hour: "2-digit",
             minute: "2-digit",
-            day: "numeric",
+            day: "2-digit",
             month: "short",
             year: "numeric",
           })}
