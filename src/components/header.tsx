@@ -8,6 +8,7 @@ import AvatarDropdown from "@/components/avatar-dropdown";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
+import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
 
 const Header = () => {
@@ -18,6 +19,8 @@ const Header = () => {
   };
 
   const { user } = useAppContext();
+
+  const isAdmin = user?.accountType === ROLES.ADMIN;
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow">
@@ -37,7 +40,7 @@ const Header = () => {
         </Link>
 
         <div className="flex-between gap-20 max-lg:gap-5">
-          <Navbar isActive={isActive} />
+          <Navbar isActive={isActive} isAdmin={isAdmin} />
 
           <>
             {user ? (
@@ -56,7 +59,9 @@ const Header = () => {
             )}
           </>
 
-          <Sidebar isActive={isActive} user={user} className="lg:hidden" />
+          {!isAdmin && (
+            <Sidebar isActive={isActive} user={user} className="lg:hidden" />
+          )}
         </div>
       </div>
     </header>

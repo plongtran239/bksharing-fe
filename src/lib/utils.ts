@@ -23,13 +23,24 @@ function convertDateToLocaleString(date: Date): string {
     .join(" ");
 }
 
-function convertMilisecondsToLocalString(
+function convertMilisecondsToLocaleString(
   miliseconds: string,
   locale = LOCALE,
   dateTimeFormatOptions = DATE_TIME_FORMAT_OPTIONS
 ): string {
   return new Date(parseInt(miliseconds)).toLocaleString(locale, {
     ...dateTimeFormatOptions,
+    timeZone: "UTC",
+  });
+}
+
+function convertMilisecondsToLocaleDateString(
+  miliseconds: string,
+  locale = LOCALE,
+  dateFormatOptions = DATE_FORMAT_OPTIONS
+): string {
+  return new Date(parseInt(miliseconds)).toLocaleDateString(locale, {
+    ...dateFormatOptions,
     timeZone: "UTC",
   });
 }
@@ -59,7 +70,8 @@ export {
   cn,
   convertDateToLocaleString,
   convertDateToLocaleDateString,
-  convertMilisecondsToLocalString,
+  convertMilisecondsToLocaleString,
+  convertMilisecondsToLocaleDateString,
   convertToCapitalizeCase,
   covertCamelCaseToTitleCase,
   normalizePath,

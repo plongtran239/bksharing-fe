@@ -10,7 +10,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { AvatarDropdownMenuItems } from "@/constants/menu-item";
+import { ROLES } from "@/constants/enum";
+import {
+  AdminAvatarDropdownMenuItems,
+  AvatarDropdownMenuItems,
+} from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
 import { UserType } from "@/schemas/user";
 
@@ -61,14 +65,23 @@ const AvatarDropdown = ({
 
             <DropdownMenuSeparator />
 
-            {AvatarDropdownMenuItems.map((item, index) => (
-              <Link key={index} href={item.href} onClick={handleClick}>
-                <DropdownMenuItem className="flex items-center gap-2">
-                  {item.icon}
-                  {item.label}
-                </DropdownMenuItem>
-              </Link>
-            ))}
+            {user.accountType === ROLES.ADMIN
+              ? AdminAvatarDropdownMenuItems.map((item, index) => (
+                  <Link key={index} href={item.href} onClick={handleClick}>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      {item.icon}
+                      {item.label}
+                    </DropdownMenuItem>
+                  </Link>
+                ))
+              : AvatarDropdownMenuItems.map((item, index) => (
+                  <Link key={index} href={item.href} onClick={handleClick}>
+                    <DropdownMenuItem className="flex items-center gap-2">
+                      {item.icon}
+                      {item.label}
+                    </DropdownMenuItem>
+                  </Link>
+                ))}
 
             <DropdownMenuSeparator />
           </>

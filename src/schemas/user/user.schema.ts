@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { MENTOR_STATUS, ROLES } from "@/constants/enum";
+import { ACHIEVEMENT_TYPES, MENTOR_STATUS, ROLES } from "@/constants/enum";
 
 const User = z.object({
   id: z.number(),
@@ -15,6 +15,24 @@ const Mentor = User.extend({
   phoneNumber: z.string(),
   registeredAt: z.string(),
   status: z.nativeEnum(MENTOR_STATUS),
+  cv: z.object({
+    url: z.string(),
+  }),
+  achievements: z.array(
+    z
+      .object({
+        type: z.nativeEnum(ACHIEVEMENT_TYPES),
+        organization: z.string(),
+        description: z.string(),
+        startDate: z.string(),
+        endDate: z.string(),
+      })
+      .extend({
+        position: z.string().trim().optional(), // only for EXPERIENCE
+        major: z.string().trim().optional(), // only for EDUCATION
+        name: z.string().trim().optional(), // only for CERTIFICATION
+      })
+  ),
 });
 
 const MentorDetail = Mentor;

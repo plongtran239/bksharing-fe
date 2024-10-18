@@ -18,7 +18,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { MEETING_STATUS } from "@/constants/enum";
 import {
-  convertMilisecondsToLocalString,
+  convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
 import { MeetingType } from "@/schemas/meeting/meeting.schema";
@@ -71,7 +71,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       },
       cell: ({ row }) => (
         <div>
-          {convertMilisecondsToLocalString(row.getValue("startsAt"), "en-US", {
+          {convertMilisecondsToLocaleString(row.getValue("startsAt"), "en-US", {
             hour: "2-digit",
             minute: "2-digit",
             day: "numeric",

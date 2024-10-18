@@ -6,11 +6,8 @@ import {
 import { Metadata } from "next";
 import Image from "next/image";
 
-import About from "@/app/(root)/(user)/users/[id]/components/about";
-import Achievements from "@/app/(root)/(user)/users/[id]/components/achievements";
-import Education from "@/app/(root)/(user)/users/[id]/components/education";
-import Experience from "@/app/(root)/(user)/users/[id]/components/experience";
-import SkillsCertifications from "@/app/(root)/(user)/users/[id]/components/skills-certifications";
+import ProfileSection from "@/app/(root)/(user)/users/[id]/components/profile-section";
+import Achievement from "@/components/achievement";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
@@ -123,21 +120,88 @@ const User = ({
                     </div>
 
                     {/* About */}
-                    <About />
+                    <ProfileSection title="About" isAbout>
+                      <p className="">
+                        Hello, i am Long Tran, i am a developer Lorem ipsum
+                        dolor sit amet consectetur adipisicing elit. Asperiores
+                        quos exercitationem aliquid fuga, iusto perferendis
+                        aspernatur laudantium rem sunt? In illo velit, laborum
+                        atque beatae expedita iste blanditiis quia odit? Lorem
+                        ipsum dolor sit amet consectetur, adipisicing elit.
+                        Eaque asperiores nulla voluptate quidem nam atque magnam
+                        suscipit saepe, ea molestias quos nostrum voluptatem
+                        ipsam repellendus dolores est et doloremque soluta.
+                      </p>
+                    </ProfileSection>
+
+                    <Separator className="mt-5" />
+
+                    {/* Education */}
+                    <ProfileSection title="Education">
+                      <div className="space-y-5">
+                        <Achievement
+                          field="Software Engineering"
+                          organization="University of Information Technology (UIT)"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
+
+                        <Achievement
+                          field="Software Engineering"
+                          organization="University of Information Technology (UIT)"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
+                      </div>
+                    </ProfileSection>
 
                     <Separator className="mt-5" />
 
                     {/* Experience */}
-                    <Experience />
+                    <ProfileSection title="Experience">
+                      <div className="space-y-5">
+                        <Achievement
+                          field="Frontend Developer"
+                          organization="BK Sharing"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
 
-                    {/* Education */}
-                    <Education />
+                        <Achievement
+                          field="Frontend Developer"
+                          organization="BK Sharing"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
+                      </div>
+                    </ProfileSection>
 
-                    {/* Achievements */}
-                    <Achievements />
+                    <Separator className="mt-5" />
 
-                    {/* Skills & Certifications */}
-                    <SkillsCertifications />
+                    {/* Certifications */}
+                    <ProfileSection title="Certifications">
+                      <div className="space-y-5">
+                        <Achievement
+                          field="AWS Cloud Certification"
+                          organization="Amazon Web Services (AWS)"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
+
+                        <Achievement
+                          field="AWS Cloud Certification"
+                          organization="Amazon Web Services (AWS)"
+                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
+                          startDate="2021"
+                          endDate="2025"
+                        />
+                      </div>
+                    </ProfileSection>
                   </div>
                 </TabsContent>
 

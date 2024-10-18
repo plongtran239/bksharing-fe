@@ -52,6 +52,14 @@ const AvatarDropdownMenuItems: MenuItemsType = [
   },
 ];
 
+const AdminAvatarDropdownMenuItems: MenuItemsType = [
+  {
+    label: "Dashboard",
+    href: "/admin/dashboard",
+    icon: <HomeIcon size={16} />,
+  },
+];
+
 const AdminSidebarMenuItems: MenuItemsType = [
   {
     label: "Dashboard",
@@ -75,4 +83,9 @@ const AdminSidebarMenuItems: MenuItemsType = [
   },
 ];
 
-export { NavbarMenuItems, AvatarDropdownMenuItems, AdminSidebarMenuItems };
+export {
+  NavbarMenuItems,
+  AvatarDropdownMenuItems,
+  AdminAvatarDropdownMenuItems,
+  AdminSidebarMenuItems,
+};
