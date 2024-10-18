@@ -75,7 +75,13 @@ const AvatarDropdown = ({
                   </Link>
                 ))
               : AvatarDropdownMenuItems.map((item, index) => (
-                  <Link key={index} href={item.href} onClick={handleClick}>
+                  <Link
+                    key={index}
+                    href={
+                      item.href === "/users" ? `/users/${user.id}` : item.href
+                    }
+                    onClick={handleClick}
+                  >
                     <DropdownMenuItem className="flex items-center gap-2">
                       {item.icon}
                       {item.label}

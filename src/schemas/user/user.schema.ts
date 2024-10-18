@@ -1,6 +1,11 @@
 import { z } from "zod";
 
-import { ACHIEVEMENT_TYPES, MENTOR_STATUS, ROLES } from "@/constants/enum";
+import {
+  ACHIEVEMENT_TYPES,
+  GENDERS,
+  MENTOR_STATUS,
+  ROLES,
+} from "@/constants/enum";
 
 const User = z.object({
   id: z.number(),
@@ -12,12 +17,17 @@ const User = z.object({
 const Mentor = User.extend({
   accountId: z.number(),
   email: z.string().email(),
+  dob: z.string(),
+  gender: z.nativeEnum(GENDERS),
   phoneNumber: z.string(),
   registeredAt: z.string(),
   status: z.nativeEnum(MENTOR_STATUS),
   cv: z.object({
     url: z.string(),
   }),
+});
+
+const MentorDetail = Mentor.extend({
   achievements: z.array(
     z
       .object({
@@ -34,8 +44,6 @@ const Mentor = User.extend({
       })
   ),
 });
-
-const MentorDetail = Mentor;
 
 const MentorResponse = z.object({
   data: MentorDetail,

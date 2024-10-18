@@ -21,8 +21,12 @@ const adminApi = {
     });
   },
 
-  getAdminMentor: (mentorId: number) =>
-    http.get<MentorResponseType>(`/admin/mentors/${mentorId}`),
+  getDetailMentor: (sessionToken: string, mentorId: number) =>
+    http.get<MentorResponseType>(`/admin/mentors/${mentorId}`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
 
   approveMentor: (mentorId: number, isApproved: boolean) =>
     http.patch(`/admin/mentors/${mentorId}/approvement`, {

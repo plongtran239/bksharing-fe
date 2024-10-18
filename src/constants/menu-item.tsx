@@ -37,7 +37,7 @@ const NavbarMenuItems: MenuItemsType = [
 const AvatarDropdownMenuItems: MenuItemsType = [
   {
     label: "Profile",
-    href: "/users/id",
+    href: "/users",
     icon: <UserIcon size={16} />,
   },
   {

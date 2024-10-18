@@ -13,7 +13,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import adminApi from "@/apis/admin.api";
-import MentorModal from "@/app/(admin)/admin/mentors/components/mentor-modal";
 import DataTable from "@/components/data-table";
 import DatetimeInput from "@/components/datetime-input";
 import MeetingModal from "@/components/meeting-modal";
@@ -45,8 +44,6 @@ const MentorTable = ({ data }: IProps) => {
 
   const client = useStreamVideoClient();
 
-  const [openMentorModal, setOpenMentorModal] = useState(false);
-
   const [openMeetingModal, setOpenMeetingModal] = useState(false);
 
   const [meetingValues, setMeetingValues] = useState({
@@ -55,10 +52,6 @@ const MentorTable = ({ data }: IProps) => {
   });
 
   const [mentorId, setMentorId] = useState<number | undefined>(undefined);
-
-  const handleOnMentorModalChange = () => {
-    setOpenMentorModal(!openMentorModal);
-  };
 
   const handleProcessMentorApplication = async (
     mentorId: number,
@@ -230,8 +223,7 @@ const MentorTable = ({ data }: IProps) => {
 
               <DropdownMenuItem
                 onClick={() => {
-                  handleOnMentorModalChange();
-                  setMentorId(row.original.id);
+                  router.push(`/admin/mentors/${row.original.id}`);
                 }}
                 className="flex items-center gap-2"
               >
@@ -315,12 +307,6 @@ const MentorTable = ({ data }: IProps) => {
         searchBy="name"
         filterBy="status"
         filterOptions={Object.values(MENTOR_STATUS)}
-      />
-
-      <MentorModal
-        open={openMentorModal}
-        onOpenChange={handleOnMentorModalChange}
-        mentorId={mentorId}
       />
 
       <MeetingModal

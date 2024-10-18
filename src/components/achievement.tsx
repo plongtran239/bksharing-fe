@@ -1,3 +1,5 @@
+import { convertMilisecondsToLocaleDateString } from "@/lib/utils";
+
 interface IProps {
   field: string;
   organization: string;
@@ -15,7 +17,7 @@ const Achievement = ({
 }: IProps) => {
   return (
     <div className="flex justify-between">
-      <div className="w-4/5">
+      <div className="w-4/6">
         {/* name / position / major */}
         <p className="text-lg font-semibold text-secondary-foreground">
           {field}
@@ -25,12 +27,16 @@ const Achievement = ({
         <p className="text-black">{organization}</p>
 
         {/* description */}
-        <p className="text-sm text-foreground/70">{description}</p>
+        <p className="text-sm text-foreground/70">
+          {description || "No description"}
+        </p>
       </div>
 
       {/* start date - end date */}
       <p className="">
-        {startDate} - {endDate}
+        {convertMilisecondsToLocaleDateString(startDate).slice(3) +
+          " - " +
+          convertMilisecondsToLocaleDateString(endDate).slice(3)}
       </p>
     </div>
   );
