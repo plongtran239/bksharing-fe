@@ -66,7 +66,6 @@ const MentorDetail = ({ mentor }: { mentor: MentorDetailType }) => {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",
-                timeZone: "Asia/Ho_Chi_Minh",
               })}
             </p>
           </div>

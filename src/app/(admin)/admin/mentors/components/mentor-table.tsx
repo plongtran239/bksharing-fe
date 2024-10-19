@@ -31,6 +31,7 @@ import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { convertToCapitalizeCase } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 import { MentorType } from "@/schemas/user";
 
 interface IProps {
@@ -41,6 +42,8 @@ const MentorTable = ({ data }: IProps) => {
   const router = useRouter();
 
   const { toast } = useToast();
+
+  const { user } = useAppContext();
 
   const client = useStreamVideoClient();
 
@@ -76,7 +79,7 @@ const MentorTable = ({ data }: IProps) => {
   };
 
   const handleScheduleInterview = async () => {
-    if (!client || !mentorId) {
+    if (!client || !mentorId || !user) {
       return;
     }
 
@@ -100,6 +103,16 @@ const MentorTable = ({ data }: IProps) => {
 
       await call.getOrCreate({
         data: {
+          members: [
+            {
+              user_id: user.id.toString(),
+              role: "admin",
+            },
+            {
+              user_id: mentorId.toString(),
+              role: "user",
+            },
+          ],
           starts_at: startsAt.toISOString(),
           custom: {
             title: title || "Interview Meeting",

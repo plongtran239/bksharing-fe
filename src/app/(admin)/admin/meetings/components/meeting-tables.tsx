@@ -77,6 +77,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             day: "2-digit",
             month: "short",
             year: "numeric",
+            timeZone: "UTC",
           })}
         </div>
       ),
