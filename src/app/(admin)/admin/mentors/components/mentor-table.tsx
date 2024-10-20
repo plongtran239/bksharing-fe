@@ -1,7 +1,6 @@
 "use client";
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
-import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
 import {
   CalendarCheck2Icon,
@@ -31,7 +30,6 @@ import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { convertToCapitalizeCase } from "@/lib/utils";
-import { useAppContext } from "@/providers/app.provider";
 import { MentorType } from "@/schemas/user";
 
 interface IProps {

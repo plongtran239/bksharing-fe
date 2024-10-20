@@ -5,7 +5,6 @@ import { useState } from "react";
 
 import Modal from "@/app/(root)/(user)/users/[id]/components/modal";
 import Achievement from "@/components/achievement";
-import DateInput from "@/components/date-input";
 import {
   Collapsible,
   CollapsibleContent,
@@ -80,7 +79,7 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
             </h2>
           </CollapsibleTrigger>
           <div className="flex-center gap-5 pl-5">
-            {!bio && (
+            {type !== "ABOUT" && (
               <div
                 onClick={handleOpenModal}
                 className="rounded-full p-2 hover:bg-primary hover:text-white"
