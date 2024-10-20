@@ -113,6 +113,20 @@ const AchivementRequest = z
     }
   );
 
+const AchievementResponse = z
+  .object({
+    type: z.nativeEnum(ACHIEVEMENT_TYPES),
+    organization: z.string().trim(),
+    description: z.string().trim(),
+    startDate: z.string(),
+    endDate: z.string(),
+  })
+  .extend({
+    position: z.string().trim().optional(), // only for EXPERIENCE
+    major: z.string().trim().optional(), // only for EDUCATION
+    name: z.string().trim().optional(), // only for CERTIFICATION
+  });
+
 const StudentRegisterRequest = RegisterRequest.extend({
   addressBase: z.string().trim().optional(),
   addressDetail: z.string().trim().optional(),
@@ -151,6 +165,8 @@ type StudentRegisterRequestType = z.infer<typeof StudentRegisterRequest>;
 
 type AchivementRequestType = z.infer<typeof AchivementRequest>;
 
+type AchivementResponseType = z.infer<typeof AchievementResponse>;
+
 type MentorRegisterRequestType = z.infer<typeof MentorRegisterRequest>;
 
 type RegisterResponseType = z.infer<typeof RegisterResponse>;
@@ -162,6 +178,7 @@ export {
   AchivementRequest,
   type RegisterRequestType,
   type AchivementRequestType,
+  type AchivementResponseType,
   type StudentRegisterRequestType,
   type MentorRegisterRequestType,
   type RegisterResponseType,

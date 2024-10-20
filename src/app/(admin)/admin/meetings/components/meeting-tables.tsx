@@ -1,10 +1,12 @@
 "use client";
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon, PlayIcon, XIcon } from "lucide-react";
+import { PlayIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
+import MeetingApi from "@/apis/meeting.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -15,16 +17,23 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { MEETING_STATUS } from "@/constants/enum";
+import { useToast } from "@/hooks/use-toast";
 import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 import { MeetingType } from "@/schemas/meeting/meeting.schema";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const router = useRouter();
+
+  const { toast } = useToast();
+
+  const { user } = useAppContext();
+
+  const client = useStreamVideoClient();
 
   const columns: ColumnDef<MeetingType>[] = [
     {
@@ -95,47 +104,90 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
+        const { id: meetingId, cid, startsAt, title } = row.original;
+
+        const handleStartMeeting = async () => {
+          if (!client || !user) {
+            return;
+          }
+
+          try {
+            await MeetingApi.startMeeting(meetingId);
+
+            const call = client.call("default", cid);
+
+            if (!call) {
+              throw new Error("Failed to create a call");
+            }
+
+            await call.getOrCreate({
+              data: {
+                members: [
+                  {
+                    user_id: user.id.toString(),
+                    role: "admin",
+                  },
+                  // {
+                  //   user_id: mentorId.toString(),
+                  //   role: "user",
+                  // },
+                ],
+                starts_at: new Date(Number(startsAt)).toISOString(),
+                custom: {
+                  title: title || "Interview Meeting",
+                },
+              },
+            });
+
+            router.push(`/meeting/${cid}`);
+
+            toast({
+              title: "Success",
+              description: "Meeting started successfully!",
+            });
+          } catch (error) {
+            console.error({ error });
+
+            toast({
+              title: "Error",
+              description: "Failed to start meeting!",
+              variant: "destructive",
+            });
+          }
+        };
+
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <DotsHorizontalIcon className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+          <>
+            {row.getValue("status") === MEETING_STATUS.SCHEDULED && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <DotsHorizontalIcon className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
-              <DropdownMenuItem
-                onClick={() => {}}
-                className="flex items-center gap-2"
-              >
-                <EyeIcon size={16} />
-                View Detail
-              </DropdownMenuItem>
-
-              <Separator className="my-1" />
-
-              <DropdownMenuItem
-                onClick={() => {
-                  router.push(`/meeting/${row.original.cid}`);
-                }}
-                className="flex items-center gap-2"
-              >
-                <PlayIcon size={16} />
-                Start Meeting
-              </DropdownMenuItem>
-
-              <DropdownMenuItem
-                onClick={() => {}}
-                className="flex items-center gap-2"
-                disabled
-              >
-                <XIcon size={16} />
-                Cancel Meeting
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  <DropdownMenuItem
+                    onClick={handleStartMeeting}
+                    className="flex items-center gap-2"
+                  >
+                    <PlayIcon size={16} />
+                    Start Meeting
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => {}}
+                    className="flex items-center gap-2"
+                    disabled
+                  >
+                    <XIcon size={16} />
+                    Cancel Meeting
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+          </>
         );
       },
     },

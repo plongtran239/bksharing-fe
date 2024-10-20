@@ -79,7 +79,7 @@ const MeetingTypeList = () => {
         router.push(`/meeting/${call.id}`);
       }
     } catch (error) {
-      console.error(error);
+      console.error({ error });
     }
   };
 

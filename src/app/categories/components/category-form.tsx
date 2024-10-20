@@ -52,7 +52,7 @@ const CategoryForm = ({ categories }: ICategoryFormProps) => {
 
       router.push("/");
     } catch (error) {
-      console.error(error);
+      console.error({ error });
     }
   };
 

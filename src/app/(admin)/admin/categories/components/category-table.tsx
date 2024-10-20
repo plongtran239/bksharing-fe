@@ -62,7 +62,7 @@ const CategoryTable = ({ data }: IProps) => {
 
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.error({ error });
       toast({
         title: "Error",
         description: "Cannot delete parent category!",

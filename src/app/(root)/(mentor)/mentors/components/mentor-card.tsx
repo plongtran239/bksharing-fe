@@ -5,7 +5,7 @@ import Link from "next/link";
 const MentorCard = () => {
   return (
     <Link
-      href="/users/id"
+      href="#"
       className="flex-center w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
     >
       <div className="flex-center flex-col gap-4">

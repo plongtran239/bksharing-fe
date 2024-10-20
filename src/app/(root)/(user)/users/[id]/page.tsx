@@ -4,21 +4,24 @@ import {
   MessageSquareQuoteIcon,
 } from "lucide-react";
 import { Metadata } from "next";
+import { cookies } from "next/headers";
 import Image from "next/image";
 
+import userApi from "@/apis/user.api";
+import ProfileHeading from "@/app/(root)/(user)/users/[id]/components/profile-heading";
 import ProfileSection from "@/app/(root)/(user)/users/[id]/components/profile-section";
-import Achievement from "@/components/achievement";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 
 export const metadata: Metadata = {
   title: "Profile | BK Sharing",
   description: "Your profile information",
 };
 
-const User = ({
+const User = async ({
   params,
 }: {
   params: {
@@ -27,35 +30,47 @@ const User = ({
 }) => {
   const { id } = params;
 
+  const cookieStore = cookies();
+
+  const sessionToken = cookieStore.get("sessionToken")?.value;
+
+  const {
+    payload: { data },
+  } = await userApi.getMentor(sessionToken as string, id);
+
+  if (!data) {
+    return (
+      <div>
+        <p>User not found</p>
+      </div>
+    );
+  }
+
+  const educations = data.achievements.filter(
+    (achievement) => achievement.type === ACHIEVEMENT_TYPES.EDUCATION
+  );
+
+  const experiences = data.achievements.filter(
+    (achievement) => achievement.type === ACHIEVEMENT_TYPES.EXPERIENCE
+  );
+
+  const certifications = data.achievements.filter(
+    (achievement) => achievement.type === ACHIEVEMENT_TYPES.CERTIFICATION
+  );
+
   return (
     <section className="bg-[#f4f2ee]">
       <div className="container flex gap-10 py-10 max-xl:w-full max-xl:flex-col max-sm:px-5">
         {/* Profile */}
         <div className="h-fit w-3/4 max-xl:w-full">
-          {/* Background image, Avatar */}
           <div className="rounded-xl bg-white px-3 pb-5 pt-3">
-            <div className="relative">
-              <div className="relative h-60 w-full">
-                <Image
-                  src="/images/default-background.png"
-                  alt=""
-                  fill
-                  className="rounded-xl"
-                />
-              </div>
+            {/* Background, Avatar */}
+            <ProfileHeading />
 
-              <Image
-                src="/images/default-user.png"
-                alt="Avatar"
-                width={100}
-                height={100}
-                className="absolute -bottom-5 left-10 rounded-full outline outline-4 outline-white"
-              />
-            </div>
-
+            {/* User info */}
             <div className="flex-between mt-10 px-10 max-xl:flex-col max-xl:space-y-5 max-xl:px-5">
               <div className="max-xl:flex-between max-xl:w-full">
-                <h1 className="text-2xl font-bold">{`User ${id}`}</h1>
+                <h1 className="text-2xl font-bold">{data.name}</h1>
                 <p className="text-sm">
                   <span className="text-gray-500">Joined:</span> 01/01/2021
                 </p>
@@ -120,88 +135,34 @@ const User = ({
                     </div>
 
                     {/* About */}
-                    <ProfileSection title="About" isAbout>
-                      <p className="">
-                        Hello, i am Long Tran, i am a developer Lorem ipsum
-                        dolor sit amet consectetur adipisicing elit. Asperiores
-                        quos exercitationem aliquid fuga, iusto perferendis
-                        aspernatur laudantium rem sunt? In illo velit, laborum
-                        atque beatae expedita iste blanditiis quia odit? Lorem
-                        ipsum dolor sit amet consectetur, adipisicing elit.
-                        Eaque asperiores nulla voluptate quidem nam atque magnam
-                        suscipit saepe, ea molestias quos nostrum voluptatem
-                        ipsam repellendus dolores est et doloremque soluta.
-                      </p>
-                    </ProfileSection>
+                    <ProfileSection title="About" bio={data.bio} type="ABOUT" />
 
                     <Separator className="mt-5" />
 
                     {/* Education */}
-                    <ProfileSection title="Education">
-                      <div className="space-y-5">
-                        <Achievement
-                          field="Software Engineering"
-                          organization="University of Information Technology (UIT)"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-
-                        <Achievement
-                          field="Software Engineering"
-                          organization="University of Information Technology (UIT)"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-                      </div>
-                    </ProfileSection>
+                    <ProfileSection
+                      title="Education"
+                      achievements={educations}
+                      type={ACHIEVEMENT_TYPES.EDUCATION}
+                    />
 
                     <Separator className="mt-5" />
 
                     {/* Experience */}
-                    <ProfileSection title="Experience">
-                      <div className="space-y-5">
-                        <Achievement
-                          field="Frontend Developer"
-                          organization="BK Sharing"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-
-                        <Achievement
-                          field="Frontend Developer"
-                          organization="BK Sharing"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-                      </div>
-                    </ProfileSection>
+                    <ProfileSection
+                      title="Experience"
+                      achievements={experiences}
+                      type={ACHIEVEMENT_TYPES.EXPERIENCE}
+                    />
 
                     <Separator className="mt-5" />
 
                     {/* Certifications */}
-                    <ProfileSection title="Certifications">
-                      <div className="space-y-5">
-                        <Achievement
-                          field="AWS Cloud Certification"
-                          organization="Amazon Web Services (AWS)"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-
-                        <Achievement
-                          field="AWS Cloud Certification"
-                          organization="Amazon Web Services (AWS)"
-                          description="Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe molestias quas reiciendis, iusto dolor provident blanditiis amet minus suscipit sunt ut exercitationem architecto illo quis totam fugiat facere possimus perspiciatis."
-                          startDate="2021"
-                          endDate="2025"
-                        />
-                      </div>
-                    </ProfileSection>
+                    <ProfileSection
+                      title="Certifications"
+                      achievements={certifications}
+                      type={ACHIEVEMENT_TYPES.CERTIFICATION}
+                    />
                   </div>
                 </TabsContent>
 

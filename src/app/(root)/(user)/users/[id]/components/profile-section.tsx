@@ -1,26 +1,69 @@
 "use client";
 
 import { ChevronsUpDownIcon, PencilIcon, PlusIcon } from "lucide-react";
-import { ReactNode, useState } from "react";
+import { useState } from "react";
 
 import Modal from "@/app/(root)/(user)/users/[id]/components/modal";
+import Achievement from "@/components/achievement";
+import DateInput from "@/components/date-input";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import { AchivementResponseType } from "@/schemas/auth";
 
 interface IProps {
   title: string;
-  isAbout?: boolean;
-  children: ReactNode;
+  type: ACHIEVEMENT_TYPES | "ABOUT";
+  bio?: string;
+  achievements?: AchivementResponseType[];
 }
 
-const ProfileSection = ({ title, isAbout, children }: IProps) => {
-  const [isOpen, setIsOpen] = useState(false);
+// type achievementType = {
+//   type: ACHIEVEMENT_TYPES;
+//   major?: string;
+//   position?: string;
+//   name?: string;
+//   organization?: string;
+//   description?: string;
+//   startDate?: string;
+//   endDate?: string;
+// };
+
+const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
+  const [isOpenAbout, setIsOpenAbout] = useState(false);
+
+  const [isOpenEducation, setIsOpenEducation] = useState(false);
+
+  const [isOpenExperience, setIsOpenExperience] = useState(false);
+
+  const [isOpenCertification, setIsOpenCertification] = useState(false);
+
+  const [bioValue, setBioValue] = useState(bio);
+
+  // TODO: Implement achievement modal
+  // const [achievementValue, setAchievementValue] =
+  //   useState<achievementType | null>(null);
 
   const handleOpenModal = () => {
-    setIsOpen(true);
+    switch (type) {
+      case "ABOUT":
+        setIsOpenAbout(true);
+        break;
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        setIsOpenEducation(true);
+        break;
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        setIsOpenExperience(true);
+        break;
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        setIsOpenCertification(true);
+        break;
+      default:
+        break;
+    }
   };
 
   return (
@@ -37,9 +80,9 @@ const ProfileSection = ({ title, isAbout, children }: IProps) => {
             </h2>
           </CollapsibleTrigger>
           <div className="flex-center gap-5 pl-5">
-            {!isAbout && (
+            {!bio && (
               <div
-                onClick={() => {}}
+                onClick={handleOpenModal}
                 className="rounded-full p-2 hover:bg-primary hover:text-white"
               >
                 <PlusIcon size={20} />
@@ -53,10 +96,94 @@ const ProfileSection = ({ title, isAbout, children }: IProps) => {
             </div>
           </div>
         </div>
-        <CollapsibleContent className="mt-5">{children}</CollapsibleContent>
+        <CollapsibleContent className="mt-5 space-y-5">
+          {bio && <p>{bio}</p>}
+
+          {achievements &&
+            achievements.length > 0 &&
+            achievements.map((achievement, index) => (
+              <Achievement
+                key={index}
+                field={
+                  (() => {
+                    switch (achievement.type) {
+                      case ACHIEVEMENT_TYPES.EDUCATION:
+                        return achievement.major;
+                      case ACHIEVEMENT_TYPES.EXPERIENCE:
+                        return achievement.position;
+                      case ACHIEVEMENT_TYPES.CERTIFICATION:
+                        return achievement.name;
+                      default:
+                        return "";
+                    }
+                  })() as string
+                }
+                organization={achievement.organization}
+                description={achievement.description}
+                startDate={achievement.startDate}
+                endDate={achievement.endDate}
+              />
+            ))}
+        </CollapsibleContent>
       </Collapsible>
 
-      <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+      {/* About Modal */}
+      <Modal
+        isOpen={isOpenAbout}
+        setIsOpen={setIsOpenAbout}
+        title="Edit About"
+        description="You can write about your years of experience, industry, or skills.
+            People also talk about their achievements or previous job
+            experiences."
+        type={type}
+        handleCancel={() => {
+          setBioValue(bio);
+          setIsOpenAbout(false);
+        }}
+        handleSave={() => {
+          console.log(bioValue);
+          setIsOpenAbout(false);
+        }}
+      />
+
+      {/* Education Modal */}
+      <Modal
+        isOpen={isOpenEducation}
+        setIsOpen={setIsOpenEducation}
+        title="Add Education"
+        description="You can add your educational qualifications here."
+        type={type}
+        handleCancel={() => {
+          setIsOpenEducation(false);
+        }}
+        handleSave={() => {}}
+      />
+
+      {/* Experience Modal */}
+      <Modal
+        isOpen={isOpenExperience}
+        setIsOpen={setIsOpenExperience}
+        title="Add Experience"
+        description="You can add your work experiences here."
+        type={type}
+        handleCancel={() => {
+          setIsOpenExperience(false);
+        }}
+        handleSave={() => {}}
+      />
+
+      {/* Certification Modal */}
+      <Modal
+        isOpen={isOpenCertification}
+        setIsOpen={setIsOpenCertification}
+        title="Add Certification"
+        description="You can add your certifications here."
+        type={type}
+        handleCancel={() => {
+          setIsOpenCertification(false);
+        }}
+        handleSave={() => {}}
+      />
     </section>
   );
 };

@@ -34,7 +34,7 @@ export const useGetCalls = () => {
 
         setCalls(calls);
       } catch (error) {
-        console.error(error);
+        console.error({ error });
       } finally {
         setIsLoading(false);
       }

@@ -5,13 +5,17 @@ import {
 } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 
+import MeetingApi from "@/apis/meeting.api";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 
 interface MeetingSetupProps {
   setIsSetupComplete: (isSetupComplete: boolean) => void;
 }
 
 const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
+  const { toast } = useToast();
+
   const [isMicCamEnabled, setIsMicCamEnabled] = useState(false);
 
   const call = useCall();
@@ -29,6 +33,31 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
       call.microphone.disable();
     }
   }, [isMicCamEnabled, call.camera, call.microphone]);
+
+  const handleJoinMeeting = async () => {
+    const meetingId = Number(call.id.split("-")[1]);
+
+    try {
+      await MeetingApi.joinMeeting(meetingId);
+
+      await call.join();
+
+      toast({
+        title: "Meeting joined",
+        description: "Joined successfully the meeting!",
+      });
+
+      setIsSetupComplete(true);
+    } catch (error) {
+      console.error({ error });
+
+      toast({
+        title: "Error",
+        description: "Failed to join the meeting",
+        variant: "destructive",
+      });
+    }
+  };
 
   return (
     <div className="flex-center container h-screen w-full py-10">
@@ -54,10 +83,7 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
 
           <Button
             className="rounded-md bg-primary px-4 py-2.5"
-            onClick={() => {
-              call.join();
-              setIsSetupComplete(true);
-            }}
+            onClick={handleJoinMeeting}
           >
             Join meeting
           </Button>

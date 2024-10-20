@@ -35,7 +35,7 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
 
       router.push("/");
     } catch (error) {
-      console.error(error);
+      console.error({ error });
     }
   };
 

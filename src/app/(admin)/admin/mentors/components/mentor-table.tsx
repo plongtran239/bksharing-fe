@@ -43,10 +43,6 @@ const MentorTable = ({ data }: IProps) => {
 
   const { toast } = useToast();
 
-  const { user } = useAppContext();
-
-  const client = useStreamVideoClient();
-
   const [openMeetingModal, setOpenMeetingModal] = useState(false);
 
   const [meetingValues, setMeetingValues] = useState({
@@ -74,50 +70,21 @@ const MentorTable = ({ data }: IProps) => {
 
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.error({ error });
     }
   };
 
   const handleScheduleInterview = async () => {
-    if (!client || !mentorId || !user) {
+    if (!mentorId) {
       return;
     }
 
     try {
       const { title, startsAt } = meetingValues;
 
-      const {
-        payload: {
-          data: { cid },
-        },
-      } = await adminApi.interviewMentor(mentorId, {
+      await adminApi.interviewMentor(mentorId, {
         title: title || "Interview Meeting",
         startsAt: startsAt,
-      });
-
-      const call = client.call("default", cid);
-
-      if (!call) {
-        throw new Error("Failed to create a call");
-      }
-
-      await call.getOrCreate({
-        data: {
-          members: [
-            {
-              user_id: user.id.toString(),
-              role: "admin",
-            },
-            {
-              user_id: mentorId.toString(),
-              role: "user",
-            },
-          ],
-          starts_at: startsAt.toISOString(),
-          custom: {
-            title: title || "Interview Meeting",
-          },
-        },
       });
 
       toast({
@@ -128,7 +95,7 @@ const MentorTable = ({ data }: IProps) => {
       router.push("/admin/meetings");
       router.refresh();
     } catch (error) {
-      console.error(error);
+      console.error({ error });
 
       toast({
         title: "Error",

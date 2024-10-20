@@ -3,10 +3,12 @@
 import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 
+import MeetingApi from "@/apis/meeting.api";
 import { Button } from "@/components/ui/button";
 
 const EndCallButton = () => {
   const call = useCall();
+
   const router = useRouter();
 
   if (!call)
@@ -24,13 +26,24 @@ const EndCallButton = () => {
 
   if (!isMeetingOwner) return null;
 
-  const endCall = async () => {
-    await call.endCall();
-    router.push("/");
+  const handleEndCall = async () => {
+    const meetingId = Number(call.id.split("-")[1]);
+
+    try {
+      await MeetingApi.endMeeting(meetingId);
+
+      await call.endCall();
+
+      router.push("/");
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    }
   };
 
   return (
-    <Button onClick={endCall} variant="destructive">
+    <Button onClick={handleEndCall} variant="destructive">
       End call for everyone
     </Button>
   );
