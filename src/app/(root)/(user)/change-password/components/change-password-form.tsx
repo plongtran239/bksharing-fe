@@ -13,10 +13,7 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  ChangePasswordRequest,
-  ChangePasswordRequestType,
-} from "@/schemas/auth";
+import { ChangePasswordRequest, ChangePasswordRequestType } from "@/schemas";
 
 const ChangePasswordForm = () => {
   const form = useForm<ChangePasswordRequestType>({

@@ -1,7 +1,7 @@
 import { MENTOR_STATUS } from "@/constants/enum";
 import http from "@/lib/http";
 import { convertDateToLocaleString } from "@/lib/utils";
-import { MentorResponseType, MentorsResponseType } from "@/schemas/user";
+import { DetailResponseType, ListResponseType, MentorType } from "@/schemas";
 
 type MentorsQuery = {
   name?: string;
@@ -14,7 +14,7 @@ const adminApi = {
   getAdminMentors: (sessionToken: string, query?: MentorsQuery) => {
     const params = new URLSearchParams(query).toString();
 
-    return http.get<MentorsResponseType>(`/admin/mentors?${params}`, {
+    return http.get<ListResponseType<MentorType>>(`/admin/mentors?${params}`, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
@@ -22,7 +22,7 @@ const adminApi = {
   },
 
   getDetailMentor: (sessionToken: string, mentorId: number) =>
-    http.get<MentorResponseType>(`/admin/mentors/${mentorId}`, {
+    http.get<DetailResponseType<MentorType>>(`/admin/mentors/${mentorId}`, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

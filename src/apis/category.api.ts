@@ -1,32 +1,23 @@
 import http from "@/lib/http";
-import { CategoryResponseType } from "@/schemas/category";
+import { CategoryRequestType, CategoryType, ListResponseType } from "@/schemas";
 
 const categoryApi = {
   getCategories: () =>
-    http.get<CategoryResponseType>("/client/categories", {
+    http.get<ListResponseType<CategoryType>>("/client/categories", {
       cache: "no-store",
     }),
 
-  createCategory: (body: {
-    name: string;
-    description: string;
-    parentCategoryId?: number;
-  }) => http.post("/admin/categories", body),
+  createCategory: (body: CategoryRequestType) =>
+    http.post("/admin/categories", body),
 
-  updateCategory: (
-    categoryId: number,
-    body: {
-      name: string;
-      description: string;
-      parentCategoryId?: number;
-    }
-  ) => http.patch(`/admin/categories/${categoryId}`, body),
+  updateCategory: (categoryId: number, body: CategoryRequestType) =>
+    http.patch(`/admin/categories/${categoryId}`, body),
 
   deleteCategory: (categoryId: number) =>
     http.delete(`/admin/categories/${categoryId}`),
 
   getAdminCategories: (sessionToken: string) =>
-    http.get<CategoryResponseType>("/admin/categories", {
+    http.get<ListResponseType<CategoryType>>("/admin/categories", {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

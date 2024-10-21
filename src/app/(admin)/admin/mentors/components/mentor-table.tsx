@@ -30,7 +30,7 @@ import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { convertToCapitalizeCase } from "@/lib/utils";
-import { MentorType } from "@/schemas/user";
+import { MentorType } from "@/schemas";
 
 interface IProps {
   data: MentorType[];

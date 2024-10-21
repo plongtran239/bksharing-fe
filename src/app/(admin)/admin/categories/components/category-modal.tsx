@@ -34,11 +34,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import {
-  CategoryRequest,
-  CategoryRequestType,
-  CategoryType,
-} from "@/schemas/category";
+import { CategoryRequest, CategoryRequestType, CategoryType } from "@/schemas";
 
 const CategoryModal = ({
   open,
@@ -59,20 +55,11 @@ const CategoryModal = ({
 
   const form = useForm<CategoryRequestType>({
     resolver: zodResolver(CategoryRequest),
-    defaultValues: {
-      name: editCategory?.name || "",
-      description: editCategory?.description || "",
-      parentCategoryId: editCategory?.parentCategoryId || undefined,
-    },
   });
 
   useEffect(() => {
     if (editCategory) {
-      form.reset({
-        name: editCategory.name,
-        description: editCategory.description || "",
-        parentCategoryId: editCategory.parentCategoryId || undefined,
-      });
+      form.reset(editCategory);
     }
   }, [editCategory, form]);
 
@@ -102,8 +89,11 @@ const CategoryModal = ({
       console.log(error);
     } finally {
       form.reset();
-      setIsLoading(false);
+
       onOpenChange();
+
+      setIsLoading(false);
+
       router.refresh();
     }
   };
@@ -172,8 +162,14 @@ const CategoryModal = ({
                 <FormItem className="w-full">
                   <FormLabel>Parent Category</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(Number(value))}
-                    defaultValue={field.value?.toString()}
+                    onValueChange={(value) =>
+                      field.onChange({
+                        target: { value: Number(value) || null },
+                      })
+                    }
+                    defaultValue={
+                      field.value ? field.value.toString() : undefined
+                    }
                   >
                     <FormControl>
                       <SelectTrigger

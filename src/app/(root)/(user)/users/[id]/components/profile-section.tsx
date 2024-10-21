@@ -11,13 +11,13 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
-import { AchivementResponseType } from "@/schemas/auth";
+import { AchivementType } from "@/schemas";
 
 interface IProps {
   title: string;
   type: ACHIEVEMENT_TYPES | "ABOUT";
   bio?: string;
-  achievements?: AchivementResponseType[];
+  achievements?: AchivementType[];
 }
 
 // type achievementType = {

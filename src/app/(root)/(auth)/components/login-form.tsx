@@ -23,7 +23,7 @@ import { ROLES } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
-import { LoginRequest, LoginRequestType } from "@/schemas/auth";
+import { LoginRequest, LoginRequestType } from "@/schemas";
 
 const LoginForm = () => {
   const [loading, setLoading] = useState(false);

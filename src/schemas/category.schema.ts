@@ -4,8 +4,8 @@ const Category = z.object({
   id: z.number(),
   name: z.string(),
   slug: z.string(),
+  description: z.string(),
   thumbnail: z.string().nullable(),
-  description: z.string().nullable(),
   parentCategoryId: z.number().nullable(),
   childCategories: z.array(z.lazy((): z.ZodTypeAny => Category)),
 });
@@ -18,15 +18,10 @@ const InterestedCategoryRequest = z.object({
     }),
 });
 
-const CategoryRequest = z.object({
-  name: z.string(),
-  description: z.string(),
-  parentCategoryId: z.number().optional(),
-});
-
-const CategoryResponse = z.object({
-  data: z.array(Category),
-  total: z.number(),
+const CategoryRequest = Category.pick({
+  name: true,
+  description: true,
+  parentCategoryId: true,
 });
 
 type CategoryType = z.infer<typeof Category>;
@@ -35,8 +30,6 @@ type InterestedCategoryRequestType = z.infer<typeof InterestedCategoryRequest>;
 
 type CategoryRequestType = z.infer<typeof CategoryRequest>;
 
-type CategoryResponseType = z.infer<typeof CategoryResponse>;
-
 export {
   Category,
   type CategoryType,
@@ -44,6 +37,4 @@ export {
   type InterestedCategoryRequestType,
   CategoryRequest,
   type CategoryRequestType,
-  CategoryResponse,
-  type CategoryResponseType,
 };

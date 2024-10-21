@@ -2,24 +2,23 @@ import http from "@/lib/http";
 import { convertDateToLocaleDateString } from "@/lib/utils";
 import {
   LoginRequestType,
-  LoginResponseType,
   MentorRegisterRequestType,
-  RegisterResponseType,
   StudentRegisterRequestType,
-} from "@/schemas/auth";
+} from "@/schemas";
+import { AuthResponseType } from "@/schemas";
 
 const authApi = {
   login: (body: LoginRequestType) =>
-    http.post<LoginResponseType>("/auth/login", body),
+    http.post<AuthResponseType>("/auth/login", body),
 
   studentRegister: (body: StudentRegisterRequestType) =>
-    http.post<RegisterResponseType>("/auth/students/register", {
+    http.post<AuthResponseType>("/auth/students/register", {
       ...body,
       dob: convertDateToLocaleDateString(body.dob),
     }),
 
   mentorRegsiter: (body: MentorRegisterRequestType) =>
-    http.post<RegisterResponseType>("/auth/mentors/register", {
+    http.post<AuthResponseType>("/auth/mentors/register", {
       ...body,
       dob: convertDateToLocaleDateString(body.dob),
       achievements: [

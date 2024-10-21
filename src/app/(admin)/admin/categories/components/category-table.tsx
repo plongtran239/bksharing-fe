@@ -21,7 +21,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
-import { CategoryType } from "@/schemas/category";
+import { CategoryType } from "@/schemas";
 
 type CategoryTableType = CategoryType & { parent: string };
 

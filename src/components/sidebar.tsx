@@ -16,7 +16,7 @@ import {
 } from "@/components/ui/sheet";
 import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { UserType } from "@/schemas/user";
+import { UserType } from "@/schemas";
 
 interface IProps {
   isActive: (href: string) => boolean;

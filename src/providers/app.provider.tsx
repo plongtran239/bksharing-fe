@@ -8,7 +8,7 @@ import {
   useState,
 } from "react";
 
-import { UserType } from "@/schemas/user";
+import { UserType } from "@/schemas";
 
 const AppContext = createContext<{
   user: UserType | null;

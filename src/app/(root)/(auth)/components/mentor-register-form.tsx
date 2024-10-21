@@ -36,10 +36,7 @@ import { childVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
-import {
-  MentorRegisterRequest,
-  MentorRegisterRequestType,
-} from "@/schemas/auth";
+import { MentorRegisterRequest, MentorRegisterRequestType } from "@/schemas";
 
 const MentorRegisterForm = () => {
   const [loading, setLoading] = useState(false);

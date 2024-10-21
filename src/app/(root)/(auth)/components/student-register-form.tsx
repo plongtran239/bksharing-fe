@@ -29,10 +29,7 @@ import { childVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
-import {
-  StudentRegisterRequest,
-  StudentRegisterRequestType,
-} from "@/schemas/auth";
+import { StudentRegisterRequest, StudentRegisterRequestType } from "@/schemas";
 
 const StudentRegisterForm = () => {
   const [loading, setLoading] = useState(false);

@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import envConfig from "@/config";
 import { normalizePath } from "@/lib/utils";
-import { LoginResponseType } from "@/schemas/auth";
+import { AuthResponseType } from "@/schemas";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
@@ -88,7 +88,7 @@ const request = async <Response>(
         (item) => item === normalizePath(url)
       )
     ) {
-      const { accessToken } = (payload as LoginResponseType).data;
+      const { accessToken } = (payload as AuthResponseType).data;
       localStorage.setItem("sessionToken", accessToken);
     }
     // else if ("auth/logout" === normalizePath(url)) {

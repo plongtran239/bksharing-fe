@@ -17,9 +17,9 @@ import {
   convertDateToLocaleDateString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
-import { MentorDetailType } from "@/schemas/user";
+import { MentorType } from "@/schemas";
 
-const MentorDetail = ({ mentor }: { mentor: MentorDetailType }) => {
+const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
   const achievementsByType = (type: string) =>
     mentor.achievements.filter((achievement) => achievement.type === type);
 

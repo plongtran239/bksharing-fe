@@ -21,7 +21,7 @@ import {
   CategoryType,
   InterestedCategoryRequest,
   InterestedCategoryRequestType,
-} from "@/schemas/category";
+} from "@/schemas";
 
 interface ICategoryFormProps {
   categories: CategoryType[];

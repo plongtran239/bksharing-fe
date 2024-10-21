@@ -24,7 +24,7 @@ import {
   convertToCapitalizeCase,
 } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
-import { MeetingType } from "@/schemas/meeting/meeting.schema";
+import { MeetingType } from "@/schemas";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const router = useRouter();

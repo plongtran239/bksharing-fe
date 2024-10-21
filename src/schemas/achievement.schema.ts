@@ -1,40 +1,7 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { ACHIEVEMENT_TYPES, EDUCATION_LEVELS, GENDERS } from "@/constants/enum";
-import { LoginRequest, LoginResponse } from "@/schemas/auth";
-
-const RegisterRequest = LoginRequest.extend({
-  email: z.string().email(),
-  phoneNumber: z
-    .string()
-    .trim()
-    .min(10, {
-      message: "Phone number must be at least 10 characters",
-    })
-    .max(10, {
-      message: "Phone number must be at most 10 characters",
-    }),
-  name: z
-    .string()
-    .trim()
-    .min(6, {
-      message: "Name must be at least 6 characters",
-    })
-    .max(256, {
-      message: "Name must be at most 256 characters",
-    }),
-  confirmPassword: z.string().trim().min(8).max(256),
-  dob: z
-    .date()
-    .min(new Date(MIN_DATE), {
-      message: `Date of birth must be greater than ${MIN_DATE}`,
-    })
-    .max(new Date(), {
-      message: "Date of birth must be less than current date",
-    }),
-  gender: z.nativeEnum(GENDERS),
-}).strict();
+import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 
 const AchivementRequest = z
   .object({
@@ -113,13 +80,13 @@ const AchivementRequest = z
     }
   );
 
-const AchievementResponse = z
+const Achievement = z
   .object({
     type: z.nativeEnum(ACHIEVEMENT_TYPES),
     organization: z.string().trim(),
     description: z.string().trim(),
-    startDate: z.string(),
-    endDate: z.string(),
+    startDate: z.string().trim(),
+    endDate: z.string().trim(),
   })
   .extend({
     position: z.string().trim().optional(), // only for EXPERIENCE
@@ -127,59 +94,10 @@ const AchievementResponse = z
     name: z.string().trim().optional(), // only for CERTIFICATION
   });
 
-const StudentRegisterRequest = RegisterRequest.extend({
-  addressBase: z.string().trim().optional(),
-  addressDetail: z.string().trim().optional(),
-  major: z.string().trim().optional(),
-  educationalLevel: z.nativeEnum(EDUCATION_LEVELS).optional(),
-}).superRefine(({ password, confirmPassword }, ctx) => {
-  if (password !== confirmPassword) {
-    ctx.addIssue({
-      code: "custom",
-      message: "Passwords do not match",
-      path: ["confirmPassword"],
-    });
-  }
-});
-
-const MentorRegisterRequest = RegisterRequest.extend({
-  achievements: z.array(AchivementRequest).nonempty(),
-  fileId: z.number().optional(),
-})
-  .strict()
-  .superRefine(({ password, confirmPassword }, ctx) => {
-    if (password !== confirmPassword) {
-      ctx.addIssue({
-        code: "custom",
-        message: "Passwords do not match",
-        path: ["confirmPassword"],
-      });
-    }
-  });
-
-const RegisterResponse = LoginResponse;
-
-type RegisterRequestType = z.infer<typeof RegisterRequest>;
-
-type StudentRegisterRequestType = z.infer<typeof StudentRegisterRequest>;
-
 type AchivementRequestType = z.infer<typeof AchivementRequest>;
 
-type AchivementResponseType = z.infer<typeof AchievementResponse>;
+type AchivementType = z.infer<typeof Achievement>;
 
-type MentorRegisterRequestType = z.infer<typeof MentorRegisterRequest>;
+export { AchivementRequest, Achievement };
 
-type RegisterResponseType = z.infer<typeof RegisterResponse>;
-
-export {
-  StudentRegisterRequest,
-  MentorRegisterRequest,
-  RegisterResponse,
-  AchivementRequest,
-  type RegisterRequestType,
-  type AchivementRequestType,
-  type AchivementResponseType,
-  type StudentRegisterRequestType,
-  type MentorRegisterRequestType,
-  type RegisterResponseType,
-};
+export type { AchivementRequestType, AchivementType };
