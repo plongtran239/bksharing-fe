@@ -5,18 +5,20 @@ import { useRouter } from "next/navigation";
 
 import MeetingApi from "@/apis/meeting.api";
 import { Button } from "@/components/ui/button";
+import { ROLES } from "@/constants/enum";
+import { useAppContext } from "@/providers/app.provider";
 
 const EndCallButton = () => {
   const call = useCall();
 
   const router = useRouter();
 
-  if (!call)
-    throw new Error(
-      "useStreamCall must be used within a StreamCall component."
-    );
+  const { user } = useAppContext();
+
+  if (!call) throw new Error("Call not found");
 
   const { useLocalParticipant } = useCallStateHooks();
+
   const localParticipant = useLocalParticipant();
 
   const isMeetingOwner =
@@ -34,7 +36,11 @@ const EndCallButton = () => {
 
       await call.endCall();
 
-      router.push("/");
+      if (user?.accountType === ROLES.ADMIN) {
+        router.push("/admin/meetings");
+      } else {
+        router.push("/meeting");
+      }
 
       router.refresh();
     } catch (error) {

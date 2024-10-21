@@ -22,6 +22,10 @@ const MeetingApi = {
   joinMeeting: (meetingId: number) => {
     return http.patch(`/audio-call/${meetingId}/join`);
   },
+
+  leaveMeeting: (meetingId: number) => {
+    return http.patch(`/audio-call/${meetingId}/leave`);
+  },
 };
 
 export default MeetingApi;

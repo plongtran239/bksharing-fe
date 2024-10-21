@@ -3,7 +3,7 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
-import { PlayIcon, XIcon } from "lucide-react";
+import { LogInIcon, PlayIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import MeetingApi from "@/apis/meeting.api";
@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { MEETING_STATUS } from "@/constants/enum";
+import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
   convertMilisecondsToLocaleString,
@@ -101,37 +101,57 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       ),
     },
     {
+      accessorKey: "participants",
+      header: "Candidate",
+      cell: ({ row }) => {
+        const participants = row.original.participants.filter(
+          (participant) => participant.accountType !== ROLES.ADMIN
+        );
+
+        return (
+          <div className="">
+            {participants.map((participant) => (
+              <div key={participant.id} className="">
+                <p>{participant.name}</p>
+              </div>
+            ))}
+          </div>
+        );
+      },
+    },
+    {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        const { id: meetingId, cid, startsAt, title } = row.original;
+        const {
+          id: meetingId,
+          cid,
+          startsAt,
+          title,
+          participants,
+        } = row.original;
+
+        if (!client || !user) {
+          return;
+        }
+
+        const call = client.call("default", cid);
+
+        if (!call) {
+          throw new Error("Failed to create a call");
+        }
 
         const handleStartMeeting = async () => {
-          if (!client || !user) {
-            return;
-          }
-
           try {
             await MeetingApi.startMeeting(meetingId);
 
-            const call = client.call("default", cid);
-
-            if (!call) {
-              throw new Error("Failed to create a call");
-            }
-
             await call.getOrCreate({
               data: {
-                members: [
-                  {
-                    user_id: user.id.toString(),
-                    role: "admin",
-                  },
-                  // {
-                  //   user_id: mentorId.toString(),
-                  //   role: "user",
-                  // },
-                ],
+                members: participants.map((participant) => ({
+                  user_id: participant.id.toString(),
+                  role:
+                    participant.accountType === ROLES.ADMIN ? "admin" : "user",
+                })),
                 starts_at: new Date(Number(startsAt)).toISOString(),
                 custom: {
                   title: title || "Interview Meeting",
@@ -151,6 +171,33 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             toast({
               title: "Error",
               description: "Failed to start meeting!",
+              variant: "destructive",
+            });
+          }
+        };
+
+        const handleJoinMeeting = () => {
+          router.push(`/meeting/${cid}`);
+        };
+
+        const handleEndMeeting = async () => {
+          try {
+            await MeetingApi.endMeeting(meetingId);
+
+            await call.endCall();
+
+            toast({
+              title: "Success",
+              description: "Meeting ended successfully!",
+            });
+
+            router.refresh();
+          } catch (error) {
+            console.error({ error });
+
+            toast({
+              title: "Error",
+              description: "Failed to end meeting!",
               variant: "destructive",
             });
           }
@@ -183,6 +230,36 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                   >
                     <XIcon size={16} />
                     Cancel Meeting
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
+
+            {row.getValue("status") === MEETING_STATUS.ONGOING && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-8 w-8 p-0">
+                    <span className="sr-only">Open menu</span>
+                    <DotsHorizontalIcon className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
+                  <DropdownMenuItem
+                    onClick={handleJoinMeeting}
+                    className="flex items-center gap-2"
+                  >
+                    <LogInIcon size={16} />
+                    Join Meeting
+                  </DropdownMenuItem>
+
+                  <DropdownMenuItem
+                    onClick={handleEndMeeting}
+                    className="flex items-center gap-2"
+                  >
+                    <XIcon size={16} />
+                    End Meeting
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

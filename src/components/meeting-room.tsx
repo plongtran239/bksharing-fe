@@ -6,10 +6,12 @@ import {
   CallingState,
   PaginatedGridLayout,
   SpeakerLayout,
+  useCall,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import { LayoutList, Users } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import {
@@ -20,28 +22,29 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
+import MeetingApi from "@/apis/meeting.api";
 import EndCallButton from "@/components/end-call-button";
+import { Button } from "@/components/ui/button";
+import { ROLES } from "@/constants/enum";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 
 type CallLayoutType = "grid" | "speaker-left" | "speaker-right";
 
 const MeetingRoom = () => {
-  const searchParams = useSearchParams();
-
-  const isPersonalRoom = !!searchParams.get("personal");
-
   const router = useRouter();
+
+  const call = useCall();
+
+  const { user } = useAppContext();
 
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
 
   const [showParticipants, setShowParticipants] = useState(false);
 
   const { useCallCallingState } = useCallStateHooks();
-  const callingState = useCallCallingState();
 
-  if (callingState !== CallingState.JOINED) {
-    return <div>Loading...</div>;
-  }
+  const callingState = useCallCallingState();
 
   const CallLayout = () => {
     switch (layout) {
@@ -53,6 +56,43 @@ const MeetingRoom = () => {
         return <SpeakerLayout participantsBarPosition="right" />;
     }
   };
+
+  if (!call || !user) {
+    return;
+  }
+
+  const handleLeave = async () => {
+    const meetingId = Number(call.id.split("-")[1]);
+
+    try {
+      await MeetingApi.leaveMeeting(meetingId);
+
+      if (user.accountType === ROLES.ADMIN) {
+        router.push("/admin/meetings");
+      } else {
+        router.push("/meeting");
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  if (callingState === CallingState.JOINING) {
+    return <div>Loading...</div>;
+  }
+
+  if (callingState === CallingState.LEFT) {
+    return (
+      <div className="flex-center h-screen gap-5">
+        <p>Call has ended</p>
+        <Link href={"/"}>
+          <Button>Back</Button>
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <main className="relative h-screen w-full overflow-hidden text-white">
@@ -71,7 +111,7 @@ const MeetingRoom = () => {
 
       {/* video layout and call controls */}
       <div className="fixed bottom-0 flex w-full flex-wrap items-center justify-center gap-5 max-sm:bottom-10">
-        <CallControls onLeave={() => router.push("/")} />
+        <CallControls onLeave={handleLeave} />
 
         <DropdownMenu>
           <div className="flex items-center">
@@ -104,7 +144,7 @@ const MeetingRoom = () => {
           </div>
         </button>
 
-        {!isPersonalRoom && <EndCallButton />}
+        <EndCallButton />
       </div>
     </main>
   );
