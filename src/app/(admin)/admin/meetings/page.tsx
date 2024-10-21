@@ -1,15 +1,12 @@
-import { cookies } from "next/headers";
-
 import MeetingApi from "@/apis/meeting.api";
 import MeetingTable from "@/app/(admin)/admin/meetings/components/meeting-tables";
 import { Separator } from "@/components/ui/separator";
+import { useGetToken } from "@/hooks/use-get-token";
 
 const AdminUpcoming = async () => {
-  const cookieStore = cookies();
+  const sessionToken = useGetToken();
 
-  const sessionToken = cookieStore.get("sessionToken")?.value;
-
-  const { payload } = await MeetingApi.getMeetings(sessionToken as string);
+  const { payload } = await MeetingApi.getMeetings(sessionToken);
 
   return (
     <div>

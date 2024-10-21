@@ -1,18 +1,14 @@
-import { cookies } from "next/headers";
-
 import categoryApi from "@/apis/category.api";
 import AddCategoryButton from "@/app/(admin)/admin/categories/components/add-category-button";
 import CategoryTable from "@/app/(admin)/admin/categories/components/category-table";
 import { Separator } from "@/components/ui/separator";
+import { useGetToken } from "@/hooks/use-get-token";
 
 const AdminCategory = async () => {
-  const cookieStore = cookies();
+  const sessionToken = useGetToken();
 
-  const sessionToken = cookieStore.get("sessionToken")?.value;
+  const { payload } = await categoryApi.getAdminCategories(sessionToken);
 
-  const { payload } = await categoryApi.getAdminCategories(
-    sessionToken as string
-  );
   return (
     <main>
       <div className="flex-between">

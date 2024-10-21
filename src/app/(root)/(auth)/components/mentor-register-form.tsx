@@ -3,12 +3,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { PlusIcon, X } from "lucide-react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
-import authApi from "@/apis/auth.api";
-import fileApi from "@/apis/file.api";
 import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
 import DateInput from "@/components/date-input";
 import FileInput from "@/components/file-input";
@@ -31,23 +27,33 @@ import {
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
-import { ACHIEVEMENT_TYPES, FOLDER, RESOURCE_TYPE } from "@/constants/enum";
+import {
+  ACHIEVEMENT_TYPES,
+  FOLDER,
+  RESOURCE_TYPE,
+  ROLES,
+} from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
+import { useRegister } from "@/hooks/use-register";
 import { useToast } from "@/hooks/use-toast";
+import { useUploadFile } from "@/hooks/use-upload-file";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
-import { useAppContext } from "@/providers/app.provider";
 import { MentorRegisterRequest, MentorRegisterRequestType } from "@/schemas";
 
 const MentorRegisterForm = () => {
-  const [loading, setLoading] = useState(false);
-
   const { toast } = useToast();
 
-  const router = useRouter();
+  const {
+    file: cvFile,
+    setFile: setCvFile,
+    uploadFile,
+    isLoading: isUploadFileLoading,
+  } = useUploadFile({
+    resourceType: RESOURCE_TYPE.RAW.toLowerCase(),
+    folder: FOLDER.FILES.toLowerCase(),
+  });
 
-  const [cvFile, setCvFile] = useState<File | undefined>(undefined);
-
-  const { setUser } = useAppContext();
+  const { register, isLoading: isRegisterLoading } = useRegister(ROLES.MENTOR);
 
   const form = useForm<MentorRegisterRequestType>({
     resolver: zodResolver(MentorRegisterRequest),
@@ -105,66 +111,28 @@ const MentorRegisterForm = () => {
   };
 
   const onSubmit = async (values: MentorRegisterRequestType) => {
-    setLoading(true);
+    const createdSignedUrl = await uploadFile(cvFile);
 
-    if (!cvFile) {
-      toast({
-        title: "Error",
-        description: "Resume / CV is required",
-        variant: "destructive",
-      });
-
+    if (!createdSignedUrl) {
       return;
     }
 
-    try {
-      const {
-        payload: { data: createdSignedUrl },
-      } = await fileApi.createSignedUrl({
-        fileName: cvFile.name,
-        resourceType: RESOURCE_TYPE.RAW.toLowerCase(),
-        folder: FOLDER.FILES.toLowerCase(),
-      });
+    const fileId = createdSignedUrl?.fileId;
 
-      await fileApi.uploadFile(createdSignedUrl.uploadedUrl, cvFile);
-
-      const result = await authApi.mentorRegsiter({
-        ...values,
-        fileId: createdSignedUrl.fileId,
-      });
-
-      const data = result.payload.data;
-
-      await authApi.auth({
-        sessionToken: data.accessToken,
-        role: data.accountType,
-      });
-
-      setUser(data);
-
-      toast({
-        title: "Success",
-        description: "Register successfully!",
-      });
-
-      router.push("/categories");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Email or phone number already exists",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+    register(values, fileId);
   };
 
   return (
-    <BaseRegisterForm form={form} onSubmit={onSubmit} loading={loading}>
+    <BaseRegisterForm
+      form={form}
+      onSubmit={onSubmit}
+      loading={isRegisterLoading || isUploadFileLoading}
+    >
       <motion.div variants={childVariants}>
         <Separator />
       </motion.div>
 
+      {/* Resume / CV */}
       <motion.div variants={childVariants}>
         <div>
           <Label htmlFor="cv" className="flex-center mb-2" required>

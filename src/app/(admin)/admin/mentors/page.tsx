@@ -1,15 +1,12 @@
-import { cookies } from "next/headers";
-
 import adminApi from "@/apis/admin.api";
 import MentorTable from "@/app/(admin)/admin/mentors/components/mentor-table";
 import { Separator } from "@/components/ui/separator";
+import { useGetToken } from "@/hooks/use-get-token";
 
 const AdminMentor = async () => {
-  const cookieStore = cookies();
+  const sessionToken = useGetToken();
 
-  const sessionToken = cookieStore.get("sessionToken")?.value;
-
-  const { payload } = await adminApi.getAdminMentors(sessionToken as string);
+  const { payload } = await adminApi.getAdminMentors(sessionToken);
 
   return (
     <main>

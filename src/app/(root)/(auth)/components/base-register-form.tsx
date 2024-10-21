@@ -3,6 +3,7 @@ import Link from "next/link";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import DateInput from "@/components/date-input";
+import Loader from "@/components/loader";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -210,11 +211,9 @@ const BaseRegisterForm = <T extends FieldValues>({
 
           <Button
             type="submit"
-            disabled={
-              form.formState.isSubmitting || !form.formState.isValid || loading
-            }
+            disabled={form.formState.isSubmitting || loading}
           >
-            {loading ? "Loading..." : "Register"}
+            {loading ? <Loader /> : "Register"}
           </Button>
         </motion.div>
       </motion.form>

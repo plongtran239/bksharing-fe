@@ -1,9 +1,7 @@
-import { cookies } from "next/headers";
+import { useGetToken } from "@/hooks/use-get-token";
 
 export const POST = async () => {
-  const cookieStore = cookies();
-
-  const sessionToken = cookieStore.get("sessionToken");
+  const sessionToken = useGetToken();
 
   if (!sessionToken) {
     return Response.json(

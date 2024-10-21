@@ -1,11 +1,11 @@
 import { ChevronLeftIcon } from "lucide-react";
-import { cookies } from "next/headers";
 import Link from "next/link";
 
 import adminApi from "@/apis/admin.api";
 import MentorDetail from "@/app/(admin)/admin/mentors/components/mentor-detail";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { useGetToken } from "@/hooks/use-get-token";
 
 const AdminMentorDetail = async ({
   params: { id },
@@ -14,13 +14,11 @@ const AdminMentorDetail = async ({
     id: number;
   };
 }) => {
-  const cookieStore = cookies();
-
-  const sessionToken = cookieStore.get("sessionToken")?.value;
+  const sessionToken = useGetToken();
 
   const {
     payload: { data },
-  } = await adminApi.getDetailMentor(sessionToken as string, id);
+  } = await adminApi.getDetailMentor(sessionToken, id);
 
   return (
     <main>

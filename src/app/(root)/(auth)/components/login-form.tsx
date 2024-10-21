@@ -3,11 +3,9 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import authApi from "@/apis/auth.api";
+import Loader from "@/components/loader";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,68 +17,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { ROLES } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
-import { useToast } from "@/hooks/use-toast";
-import { useAppContext } from "@/providers/app.provider";
+import { useLogin } from "@/hooks/use-login";
 import { LoginRequest, LoginRequestType } from "@/schemas";
 
 const LoginForm = () => {
-  const [loading, setLoading] = useState(false);
-
-  const router = useRouter();
-
-  const { toast } = useToast();
-
-  const { setUser } = useAppContext();
+  const { login, loading } = useLogin();
 
   const form = useForm<LoginRequestType>({
     resolver: zodResolver(LoginRequest),
-    defaultValues: {
-      email: "",
-      password: "",
-    },
   });
 
-  const isFormValuesEmpty = Object.values(form.getValues()).some(
-    (value) => value === ""
-  );
-
   const onSubmit = async (values: LoginRequestType) => {
-    setLoading(true);
-    try {
-      const result = await authApi.login(values);
-
-      const data = result.payload.data;
-
-      setUser(data);
-
-      await authApi.auth({
-        sessionToken: data.accessToken,
-        role: data.accountType,
-      });
-
-      toast({
-        title: "Success",
-        description: "Login successfully!",
-      });
-
-      if (data.accountType === ROLES.ADMIN) {
-        router.push("/admin/dashboard");
-      } else {
-        router.push("/");
-      }
-    } catch (error) {
-      console.log(error);
-
-      toast({
-        title: "Error",
-        description: "Invalid username or password",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+    login(values);
   };
 
   return (
@@ -145,10 +94,10 @@ const LoginForm = () => {
           <Button
             type="submit"
             disabled={
-              form.formState.isSubmitting || isFormValuesEmpty || loading
+              form.formState.isSubmitting || !form.formState.isValid || loading
             }
           >
-            Submit
+            {loading ? <Loader /> : "Login"}
           </Button>
         </motion.div>
       </motion.form>

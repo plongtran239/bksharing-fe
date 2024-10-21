@@ -1,6 +1,13 @@
+import { Metadata } from "next";
+
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import MeetingTypeList from "@/components/meeting-type-list";
+
+export const metadata: Metadata = {
+  title: "Meeting | BK Sharing",
+  description: "Meeting",
+};
 
 const MeetingHome = () => {
   const now = new Date();
@@ -23,10 +30,6 @@ const MeetingHome = () => {
         <div className="size-full text-white">
           <div className="h-[303px] w-full rounded-[20px] bg-meeting-hero bg-cover">
             <div className="flex h-full flex-col justify-between p-10">
-              {/* <h2 className="rounded py-2 text-base font-normal">
-             Upcoming Meeting at: 12:30 PM
-           </h2> */}
-              <h2></h2>
               <div className="flex flex-col gap-2">
                 <h1 className="text-4xl font-extrabold lg:text-7xl">{time}</h1>
                 <p className="text-sky-1 text-lg font-medium lg:text-2xl">

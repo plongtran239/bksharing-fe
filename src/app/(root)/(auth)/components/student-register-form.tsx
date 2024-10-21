@@ -2,11 +2,8 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-import authApi from "@/apis/auth.api";
 import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
 import {
   FormControl,
@@ -24,73 +21,25 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
-import { EDUCATION_LEVELS } from "@/constants/enum";
+import { EDUCATION_LEVELS, ROLES } from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
-import { useToast } from "@/hooks/use-toast";
+import { useRegister } from "@/hooks/use-register";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
-import { useAppContext } from "@/providers/app.provider";
 import { StudentRegisterRequest, StudentRegisterRequestType } from "@/schemas";
 
 const StudentRegisterForm = () => {
-  const [loading, setLoading] = useState(false);
-
-  const { toast } = useToast();
-
-  const router = useRouter();
-
-  const { setUser } = useAppContext();
+  const { isLoading, register } = useRegister(ROLES.STUDENT);
 
   const form = useForm<StudentRegisterRequestType>({
     resolver: zodResolver(StudentRegisterRequest),
-    defaultValues: {
-      email: "",
-      phoneNumber: "",
-      name: "",
-      password: "",
-      confirmPassword: "",
-      gender: undefined,
-      dob: undefined,
-      major: "",
-      educationalLevel: undefined,
-      addressBase: "",
-      addressDetail: "",
-    },
   });
 
   const onSubmit = async (values: StudentRegisterRequestType) => {
-    setLoading(true);
-
-    try {
-      const result = await authApi.studentRegister(values);
-
-      const data = result.payload.data;
-
-      await authApi.auth({
-        sessionToken: data.accessToken,
-        role: data.accountType,
-      });
-
-      setUser(data);
-
-      toast({
-        title: "Success",
-        description: "Register successfully!",
-      });
-
-      router.push("/categories");
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Email or phone number already exists",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(false);
-    }
+    register(values);
   };
 
   return (
-    <BaseRegisterForm form={form} onSubmit={onSubmit} loading={loading}>
+    <BaseRegisterForm form={form} onSubmit={onSubmit} loading={isLoading}>
       <motion.div variants={childVariants}>
         <Separator />
       </motion.div>

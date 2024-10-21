@@ -4,7 +4,6 @@ import {
   MessageSquareQuoteIcon,
 } from "lucide-react";
 import { Metadata } from "next";
-import { cookies } from "next/headers";
 import Image from "next/image";
 
 import userApi from "@/apis/user.api";
@@ -15,6 +14,7 @@ import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import { useGetToken } from "@/hooks/use-get-token";
 
 export const metadata: Metadata = {
   title: "Profile | BK Sharing",
@@ -30,9 +30,7 @@ const User = async ({
 }) => {
   const { id } = params;
 
-  const cookieStore = cookies();
-
-  const sessionToken = cookieStore.get("sessionToken")?.value;
+  const sessionToken = useGetToken();
 
   const {
     payload: { data },
