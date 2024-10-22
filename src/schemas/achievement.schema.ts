@@ -31,7 +31,8 @@ const AchivementRequest = z
       })
       .max(new Date(), {
         message: "Start date must be less than current date",
-      }),
+      })
+      .optional(),
   })
   .extend({
     position: z.string().trim().optional(), // only for EXPERIENCE
@@ -40,7 +41,7 @@ const AchivementRequest = z
   })
   .superRefine(
     ({ startDate, endDate, achievementType, position, major, name }, ctx) => {
-      if (startDate >= endDate) {
+      if (endDate && startDate >= endDate) {
         ctx.addIssue({
           code: "custom",
           message: "End date must be greater than start date",

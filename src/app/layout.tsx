@@ -6,9 +6,10 @@ import "react-datepicker/dist/react-datepicker.css";
 
 import "./globals.css";
 
-import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
 import AppProvider from "@/providers/app.provider";
+import StreamClientProvider from "@/providers/stream-client.provider";
+import ThemeProvider from "@/providers/theme-provider";
 
 const fontFamily = Poppins({
   weight: ["300", "400", "500", "600", "700"],
@@ -38,7 +39,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <AppProvider>{children}</AppProvider>
+          <AppProvider>
+            <StreamClientProvider>{children}</StreamClientProvider>
+          </AppProvider>
           <Toaster />
         </ThemeProvider>
 

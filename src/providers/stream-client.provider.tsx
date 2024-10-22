@@ -15,29 +15,27 @@ const StreamClientProvider = ({ children }: { children: React.ReactNode }) => {
   const [videoClient, setVideoClient] = useState<StreamVideoClient | null>();
 
   useEffect(() => {
-    if (!user) {
-      return;
-    }
-
     if (!apiKey) {
       throw new Error("Stream API key is not set");
     }
 
-    const client = StreamVideoClient.getOrCreateInstance({
-      apiKey,
-      user: {
-        id: user.id.toString(),
-        name: user.name,
-        type: "authenticated",
-      },
-      tokenProvider: () => tokenProvider(user.id.toString()),
-    });
+    if (user) {
+      const client = StreamVideoClient.getOrCreateInstance({
+        apiKey,
+        user: {
+          id: user.id.toString(),
+          name: user.name,
+          type: "authenticated",
+        },
+        tokenProvider: () => tokenProvider(user.id.toString()),
+      });
 
-    setVideoClient(client);
+      setVideoClient(client);
+    }
   }, [apiKey, user]);
 
   if (!videoClient) {
-    return null;
+    return children;
   }
 
   return <StreamVideo client={videoClient}>{children}</StreamVideo>;

@@ -14,7 +14,7 @@ import {
 import { MIN_DATE } from "@/constants/date";
 
 interface DateInputProps {
-  value: Date;
+  value: Date | undefined;
   onChange: (date: Date) => void;
   id: string;
 }
