@@ -25,7 +25,9 @@ const authApi = {
         ...body.achievements.map((achievement) => ({
           ...achievement,
           startDate: convertDateToLocaleDateString(achievement.startDate),
-          endDate: convertDateToLocaleDateString(achievement.endDate),
+          endDate: achievement.endDate
+            ? convertDateToLocaleDateString(achievement.endDate)
+            : undefined,
         })),
       ],
     }),
