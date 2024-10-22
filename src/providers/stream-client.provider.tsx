@@ -28,6 +28,7 @@ const StreamClientProvider = ({ children }: { children: React.ReactNode }) => {
       user: {
         id: user.id.toString(),
         name: user.name,
+        type: "authenticated",
       },
       tokenProvider: () => tokenProvider(user.id.toString()),
     });

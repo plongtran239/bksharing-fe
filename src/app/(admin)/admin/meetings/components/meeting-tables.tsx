@@ -143,8 +143,6 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
 
         const handleStartMeeting = async () => {
           try {
-            await MeetingApi.startMeeting(meetingId);
-
             await call.getOrCreate({
               data: {
                 members: participants.map((participant) => ({
@@ -158,6 +156,8 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                 },
               },
             });
+
+            await MeetingApi.startMeeting(meetingId);
 
             router.push(`/meeting/${cid}`);
 
