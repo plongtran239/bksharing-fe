@@ -17,7 +17,7 @@ const Achievement = ({
 }: IProps) => {
   return (
     <div className="flex justify-between">
-      <div className="w-4/6">
+      <div className="w-4/6 space-y-1">
         {/* name / position / major */}
         <p className="text-lg font-semibold text-secondary-foreground">
           {field}

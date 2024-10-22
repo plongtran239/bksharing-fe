@@ -59,7 +59,11 @@ const CategoryModal = ({
 
   useEffect(() => {
     if (editCategory) {
-      form.reset(editCategory);
+      form.reset({
+        name: editCategory.name,
+        description: editCategory.description,
+        parentCategoryId: editCategory.parentCategoryId || undefined,
+      });
     }
   }, [editCategory, form]);
 
@@ -164,7 +168,7 @@ const CategoryModal = ({
                   <Select
                     onValueChange={(value) =>
                       field.onChange({
-                        target: { value: Number(value) || null },
+                        target: { value: parseInt(value) },
                       })
                     }
                     defaultValue={

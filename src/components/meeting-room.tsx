@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-import MeetingApi from "@/apis/meeting.api";
+// import MeetingApi from "@/apis/meeting.api";
 import EndCallButton from "@/components/end-call-button";
 import { Button } from "@/components/ui/button";
 import { ROLES } from "@/constants/enum";
@@ -62,21 +62,21 @@ const MeetingRoom = () => {
   }
 
   const handleLeave = async () => {
-    const meetingId = Number(call.id.split("-")[1]);
+    // const meetingId = Number(call.id.split("-")[1]);
 
-    try {
-      await MeetingApi.leaveMeeting(meetingId);
+    // try {
+    // await MeetingApi.leaveMeeting(meetingId);
 
-      if (user.accountType === ROLES.ADMIN) {
-        router.push("/admin/meetings");
-      } else {
-        router.push("/meeting");
-      }
-
-      router.refresh();
-    } catch (error) {
-      console.error({ error });
+    if (user.accountType === ROLES.ADMIN) {
+      router.push("/admin/meetings");
+    } else {
+      router.push("/meeting");
     }
+
+    //   router.refresh();
+    // } catch (error) {
+    //   console.error({ error });
+    // }
   };
 
   if (callingState === CallingState.JOINING) {

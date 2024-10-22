@@ -95,7 +95,7 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
             </div>
           </div>
         </div>
-        <CollapsibleContent className="mt-5 space-y-5">
+        <CollapsibleContent className="space-y-5 pt-2">
           {bio && <p>{bio}</p>}
 
           {achievements &&
