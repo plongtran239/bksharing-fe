@@ -10,6 +10,15 @@ const User = z.object({
   accountType: z.nativeEnum(ROLES),
 });
 
+const Account = z.object({
+  email: z.string().email(),
+  name: z.string(),
+  phoneNumber: z.string(),
+  gender: z.nativeEnum(GENDERS),
+  dob: z.string(),
+  address: z.string(),
+});
+
 const Mentor = User.extend({
   accountId: z.number(),
   email: z.string().email(),
@@ -27,6 +36,10 @@ const Mentor = User.extend({
 
 type UserType = z.infer<typeof User>;
 
+type AccountType = z.infer<typeof Account>;
+
 type MentorType = z.infer<typeof Mentor>;
 
-export { User, type UserType, Mentor, type MentorType };
+export { User, Account, Mentor };
+
+export type { UserType, AccountType, MentorType };

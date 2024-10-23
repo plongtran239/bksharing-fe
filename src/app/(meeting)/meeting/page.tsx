@@ -1,26 +1,35 @@
 import { Metadata } from "next";
 
+// import MeetingApi from "@/apis/meeting.api";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import MeetingTypeList from "@/components/meeting-type-list";
+
+// import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 export const metadata: Metadata = {
   title: "Meeting | BK Sharing",
   description: "Meeting",
 };
 
-const MeetingHome = () => {
-  const now = new Date();
+const now = new Date();
 
-  const time = now.toLocaleTimeString("en-US", {
-    hour: "2-digit",
-    minute: "2-digit",
-    timeZone: "Asia/Ho_Chi_Minh",
-  });
-  const date = new Intl.DateTimeFormat("en-US", {
-    dateStyle: "full",
-    timeZone: "Asia/Ho_Chi_Minh",
-  }).format(now);
+const time = now.toLocaleTimeString("en-US", {
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "Asia/Ho_Chi_Minh",
+});
+const date = new Intl.DateTimeFormat("en-US", {
+  dateStyle: "full",
+  timeZone: "Asia/Ho_Chi_Minh",
+}).format(now);
+
+const MeetingHome = async () => {
+  // const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
+  // const {
+  //   payload: { data },
+  // } = await MeetingApi.getClientMeetings(sessionToken);
 
   return (
     <main>

@@ -9,7 +9,7 @@ export const metadata: Metadata = {
 
 const ChangePassword = () => {
   return (
-    <section className="bg-[#9DCCFF]/30">
+    <section className="bg-secondary">
       <div className="flex-center container py-10 max-sm:py-5 lg:min-h-[calc(100vh-75px-260px)]">
         <ChangePasswordForm />
       </div>

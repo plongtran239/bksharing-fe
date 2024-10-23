@@ -2,8 +2,17 @@ import http from "@/lib/http";
 import { ListResponseType, MeetingType } from "@/schemas";
 
 const MeetingApi = {
-  getMeetings: (sessionToken: string) => {
+  getAdminMeetings: (sessionToken: string) => {
     return http.get<ListResponseType<MeetingType>>("/admin/audio-call", {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+      cache: "no-store",
+    });
+  },
+
+  getClientMeetings: (sessionToken: string) => {
+    return http.get<ListResponseType<MeetingType>>("/client/audio-call", {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

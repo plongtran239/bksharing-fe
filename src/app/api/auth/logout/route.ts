@@ -1,7 +1,7 @@
-import { useGetToken } from "@/hooks/use-get-token";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 export const POST = async () => {
-  const sessionToken = useGetToken();
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   if (!sessionToken) {
     return Response.json(

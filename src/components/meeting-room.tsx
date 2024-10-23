@@ -73,7 +73,7 @@ const MeetingRoom = () => {
       router.push("/meeting");
     }
 
-    //   router.refresh();
+    router.refresh();
     // } catch (error) {
     //   console.error({ error });
     // }

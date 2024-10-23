@@ -10,6 +10,7 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { Progress } from "@/components/ui/progress";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { AchivementType } from "@/schemas";
 
@@ -78,6 +79,7 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
               />
             </h2>
           </CollapsibleTrigger>
+
           <div className="flex-center gap-5 pl-5">
             {type !== "ABOUT" && (
               <div
@@ -95,33 +97,39 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
             </div>
           </div>
         </div>
-        <CollapsibleContent className="space-y-5 pt-2">
-          {bio && <p>{bio}</p>}
 
-          {achievements &&
-            achievements.length > 0 &&
-            achievements.map((achievement, index) => (
-              <Achievement
-                key={index}
-                field={
-                  (() => {
-                    switch (achievement.type) {
-                      case ACHIEVEMENT_TYPES.EDUCATION:
-                        return achievement.major;
-                      case ACHIEVEMENT_TYPES.EXPERIENCE:
-                        return achievement.position;
-                      case ACHIEVEMENT_TYPES.CERTIFICATION:
-                        return achievement.name;
-                      default:
-                        return "";
-                    }
-                  })() as string
-                }
-                organization={achievement.organization}
-                description={achievement.description}
-                startDate={achievement.startDate}
-                endDate={achievement.endDate}
-              />
+        <Progress value={100} className="h-1 w-[100px]" />
+
+        <CollapsibleContent className="space-y-5 pt-2">
+          {type === "ABOUT" && (bio ? <p>{bio}</p> : <p>No about</p>)}
+
+          {type !== "ABOUT" &&
+            (achievements && achievements.length > 0 ? (
+              achievements.map((achievement, index) => (
+                <Achievement
+                  key={index}
+                  field={
+                    (() => {
+                      switch (achievement.type) {
+                        case ACHIEVEMENT_TYPES.EDUCATION:
+                          return achievement.major;
+                        case ACHIEVEMENT_TYPES.EXPERIENCE:
+                          return achievement.position;
+                        case ACHIEVEMENT_TYPES.CERTIFICATION:
+                          return achievement.name;
+                        default:
+                          return "";
+                      }
+                    })() as string
+                  }
+                  organization={achievement.organization}
+                  description={achievement.description}
+                  startDate={achievement.startDate}
+                  endDate={achievement.endDate}
+                />
+              ))
+            ) : (
+              <p>No {title.toLowerCase()}</p>
             ))}
         </CollapsibleContent>
       </Collapsible>

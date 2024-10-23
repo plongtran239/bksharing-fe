@@ -2,6 +2,7 @@ import {
   BookCopyIcon,
   GraduationCapIcon,
   HomeIcon,
+  InfoIcon,
   KeyRoundIcon,
   LibraryIcon,
   TextQuoteIcon,
@@ -44,6 +45,11 @@ const AvatarDropdownMenuItems: MenuItemsType = [
     label: "Change Password",
     href: "/change-password",
     icon: <KeyRoundIcon size={16} />,
+  },
+  {
+    label: "Personal Information",
+    href: "/user-info",
+    icon: <InfoIcon size={16} />,
   },
   {
     label: "Meeting",

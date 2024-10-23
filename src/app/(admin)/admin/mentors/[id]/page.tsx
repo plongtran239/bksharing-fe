@@ -5,7 +5,7 @@ import adminApi from "@/apis/admin.api";
 import MentorDetail from "@/app/(admin)/admin/mentors/components/mentor-detail";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { useGetToken } from "@/hooks/use-get-token";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const AdminMentorDetail = async ({
   params: { id },
@@ -14,7 +14,7 @@ const AdminMentorDetail = async ({
     id: number;
   };
 }) => {
-  const sessionToken = useGetToken();
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   const {
     payload: { data },

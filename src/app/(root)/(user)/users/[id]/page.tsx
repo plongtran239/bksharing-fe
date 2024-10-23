@@ -13,8 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ACHIEVEMENT_TYPES } from "@/constants/enum";
-import { useGetToken } from "@/hooks/use-get-token";
+import { ACHIEVEMENT_TYPES, ROLES } from "@/constants/enum";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 export const metadata: Metadata = {
   title: "Profile | BK Sharing",
@@ -30,11 +30,17 @@ const User = async ({
 }) => {
   const { id } = params;
 
-  const sessionToken = useGetToken();
+  const { sessionToken, role } = useGetFromCookie(["sessionToken", "role"]);
 
-  const {
-    payload: { data },
-  } = await userApi.getMentor(sessionToken as string, id);
+  let data = null;
+
+  if (role === ROLES.MENTOR) {
+    const {
+      payload: { data: mentor },
+    } = await userApi.getMentor(sessionToken, id);
+
+    data = mentor;
+  }
 
   if (!data) {
     return (
@@ -56,6 +62,25 @@ const User = async ({
     (achievement) => achievement.type === ACHIEVEMENT_TYPES.CERTIFICATION
   );
 
+  const { name, bio } = data;
+
+  const handleCalculateProfileCompletion = () => {
+    const totalSections = 5;
+    const sectionWeight = 100 / totalSections;
+
+    const completedSections = [
+      name,
+      bio,
+      educations.length,
+      experiences.length,
+      certifications.length,
+    ].filter(Boolean).length;
+
+    return completedSections * sectionWeight;
+  };
+
+  const completion = handleCalculateProfileCompletion();
+
   return (
     <section className="bg-[#f4f2ee]">
       <div className="container flex gap-10 py-10 max-xl:w-full max-xl:flex-col max-sm:px-5">
@@ -63,29 +88,26 @@ const User = async ({
         <div className="h-fit w-3/4 max-xl:w-full">
           <div className="rounded-xl bg-white px-3 pb-5 pt-3">
             {/* Background, Avatar */}
-            <ProfileHeading />
+            <ProfileHeading name={name} />
 
             {/* User info */}
-            <div className="flex-between mt-10 px-10 max-xl:flex-col max-xl:space-y-5 max-xl:px-5">
-              <div className="max-xl:flex-between max-xl:w-full">
-                <h1 className="text-2xl font-bold">{data.name}</h1>
-                <p className="text-sm">
-                  <span className="text-gray-500">Joined:</span> 01/01/2021
-                </p>
+            <div className="mt-5 grid grid-cols-3">
+              <div className="max-lg:flex-center max-w-[400px]">
+                {/* <h1 className="line-clamp-1 text-2xl font-bold">{data.name}</h1> */}
               </div>
 
               <div className="">
                 <div className="flex-center flex-col">
-                  <div className="mb-2 flex gap-2">
-                    Your profile completion: <span>20%</span>
+                  <div className="mb-2 flex gap-2 text-sm">
+                    completion: <span>{completion}%</span>
                   </div>
-                  <Progress value={20} />
+                  <Progress value={completion} className="w-[200px]" />
                 </div>
               </div>
 
-              <div className="">
+              <div className="flex justify-end">
                 <Button className="" size="default">
-                  Become Mentor
+                  My Schedule
                 </Button>
               </div>
             </div>

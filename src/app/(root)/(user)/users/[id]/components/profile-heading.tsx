@@ -10,7 +10,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 
-const ProfileHeading = () => {
+const ProfileHeading = ({ name }: { name: string }) => {
   return (
     <TooltipProvider>
       <div className="relative">
@@ -20,10 +20,15 @@ const ProfileHeading = () => {
             src="/images/default-background.png"
             alt=""
             fill
-            className="group-hover rounded-xl"
+            className="group-hover rounded-xl brightness-75"
             sizes="(max-width: 640px) 100px,"
             priority
           />
+
+          <div className="absolute bottom-2 left-44 z-10 text-2xl font-semibold text-white">
+            {name}
+          </div>
+
           <Tooltip delayDuration={200}>
             <TooltipTrigger asChild>
               <div className="absolute right-5 top-5 rounded-full bg-white p-2">

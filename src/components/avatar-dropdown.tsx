@@ -74,20 +74,27 @@ const AvatarDropdown = ({
                     </DropdownMenuItem>
                   </Link>
                 ))
-              : AvatarDropdownMenuItems.map((item, index) => (
-                  <Link
-                    key={index}
-                    href={
-                      item.href === "/users" ? `/users/${user.id}` : item.href
-                    }
-                    onClick={handleClick}
-                  >
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      {item.icon}
-                      {item.label}
-                    </DropdownMenuItem>
-                  </Link>
-                ))}
+              : AvatarDropdownMenuItems.map((item, index) => {
+                  if (user.accountType === ROLES.STUDENT) {
+                    if (item.label === "Meeting" || item.label === "Profile")
+                      return null;
+                  }
+
+                  return (
+                    <Link
+                      key={index}
+                      href={
+                        item.href === "/users" ? `/users/${user.id}` : item.href
+                      }
+                      onClick={handleClick}
+                    >
+                      <DropdownMenuItem className="flex items-center gap-2">
+                        {item.icon}
+                        {item.label}
+                      </DropdownMenuItem>
+                    </Link>
+                  );
+                })}
 
             <DropdownMenuSeparator />
           </>
