@@ -14,7 +14,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 export const metadata: Metadata = {
   title: "Mentors | BK Sharing",
@@ -39,11 +38,9 @@ const child = {
 };
 
 const Mentor = async () => {
-  const { sessionToken } = useGetFromCookie(["sessionToken"]);
-
   const {
     payload: { data: mentors },
-  } = await userApi.getMentorList(sessionToken);
+  } = await userApi.getMentorList();
 
   return (
     <main className="pb-10">
