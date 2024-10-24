@@ -26,7 +26,7 @@ const Profile = async ({ slug }: { slug: string }) => {
     const completedSections = [
       bio,
       name,
-      classifiedAchievements.map((achievement) => achievement.length),
+      ...classifiedAchievements.map((achievement) => achievement.length),
     ].filter(Boolean).length;
 
     return completedSections * sectionWeight;

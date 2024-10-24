@@ -92,7 +92,7 @@ const ProfileSection = ({
     } catch (error) {
       console.error({ error });
     } finally {
-      type === "ABOUT" ? setBioValue(bio as string) : form.reset();
+      type === "ABOUT" ? setBioValue(bioValue) : form.reset();
 
       setIsLoading(false);
     }

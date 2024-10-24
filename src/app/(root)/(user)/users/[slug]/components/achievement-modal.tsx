@@ -66,14 +66,16 @@ const AchievementModal = ({
 
           <DialogDescription>{description}</DialogDescription>
 
-          {type === "ABOUT" && bio && setBio && (
-            <Textarea
-              rows={5}
-              className="my-10 text-black"
-              placeholder="Enter your about..."
-              value={bio}
-              onChange={(e) => setBio(e.target.value)}
-            />
+          {type === "ABOUT" && setBio && (
+            <div>
+              <Textarea
+                rows={5}
+                className="mb-5 mt-3 text-black"
+                placeholder="Enter your about..."
+                value={bio}
+                onChange={(e) => setBio(e.target.value)}
+              />
+            </div>
           )}
 
           {type !== "ABOUT" && form && (
