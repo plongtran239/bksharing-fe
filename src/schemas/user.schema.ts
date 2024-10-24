@@ -15,8 +15,9 @@ const Account = z.object({
   name: z.string(),
   phoneNumber: z.string(),
   gender: z.nativeEnum(GENDERS),
-  dob: z.string(),
-  address: z.string(),
+  dob: z.date(),
+  addressBase: z.string().optional(),
+  addressDetail: z.string().optional(),
 });
 
 const Mentor = User.extend({

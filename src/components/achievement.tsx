@@ -15,6 +15,12 @@ const Achievement = ({
   startDate,
   endDate,
 }: IProps) => {
+  const start = convertMilisecondsToLocaleDateString(startDate).slice(3);
+
+  const end = endDate
+    ? convertMilisecondsToLocaleDateString(endDate).slice(3)
+    : "Now";
+
   return (
     <div className="flex justify-between">
       <div className="w-4/6 space-y-1">
@@ -34,9 +40,7 @@ const Achievement = ({
 
       {/* start date - end date */}
       <p className="">
-        {convertMilisecondsToLocaleDateString(startDate).slice(3) +
-          " - " +
-          convertMilisecondsToLocaleDateString(endDate).slice(3)}
+        {start} - {end}
       </p>
     </div>
   );

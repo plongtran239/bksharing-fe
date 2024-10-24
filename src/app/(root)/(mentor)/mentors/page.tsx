@@ -1,6 +1,7 @@
 import * as motion from "framer-motion/client";
 import { Metadata } from "next";
 
+import userApi from "@/apis/user.api";
 import MentorCard from "@/app/(root)/(mentor)/mentors/components/mentor-card";
 import SearchFilter from "@/app/(root)/(mentor)/mentors/components/search-filter";
 import AnimationWrapper from "@/components/animation-wrapper";
@@ -13,6 +14,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 export const metadata: Metadata = {
   title: "Mentors | BK Sharing",
@@ -36,7 +38,13 @@ const child = {
   show: { opacity: 1, y: 0 },
 };
 
-const Mentor = () => {
+const Mentor = async () => {
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
+  const {
+    payload: { data: mentors },
+  } = await userApi.getMentorList(sessionToken);
+
   return (
     <main className="pb-10">
       {/* Search & Filter */}
@@ -69,9 +77,9 @@ const Mentor = () => {
             variants={parent}
             className="mt-10 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5"
           >
-            {[1, 2, 3, 4, 5, 6, 7, 8].map((mentor, index) => (
+            {mentors.map((mentor, index) => (
               <motion.div variants={child} key={index}>
-                <MentorCard />
+                <MentorCard data={mentor} />
               </motion.div>
             ))}
           </motion.div>

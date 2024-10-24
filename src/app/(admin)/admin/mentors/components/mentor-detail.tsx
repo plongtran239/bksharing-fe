@@ -14,7 +14,7 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import {
-  convertDateToLocaleDateString,
+  convertMilisecondsToLocaleDateString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
 import { MentorType } from "@/schemas";
@@ -62,7 +62,7 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
             </p>
             <p>
               <span className="font-semibold">Birthday: </span>
-              {convertDateToLocaleDateString(new Date(mentor.dob), "en-US", {
+              {convertMilisecondsToLocaleDateString(mentor.dob, "en-US", {
                 day: "2-digit",
                 month: "long",
                 year: "numeric",

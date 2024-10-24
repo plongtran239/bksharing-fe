@@ -26,6 +26,10 @@ const LoginForm = () => {
 
   const form = useForm<LoginRequestType>({
     resolver: zodResolver(LoginRequest),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const onSubmit = async (values: LoginRequestType) => {

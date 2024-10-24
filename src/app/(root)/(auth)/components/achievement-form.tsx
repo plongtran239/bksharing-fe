@@ -213,11 +213,7 @@ const AchievementForm = ({ form }: IProps) => {
                       Start Date
                     </FormLabel>
                     <FormControl>
-                      <DateInput
-                        id="start-date"
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <DateInput id="start-date" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -233,11 +229,7 @@ const AchievementForm = ({ form }: IProps) => {
                   <FormItem className="w-full">
                     <FormLabel htmlFor="end-date">End Date</FormLabel>
                     <FormControl>
-                      <DateInput
-                        id="end-date"
-                        value={field.value}
-                        onChange={field.onChange}
-                      />
+                      <DateInput id="end-date" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

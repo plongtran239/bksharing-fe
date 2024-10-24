@@ -32,6 +32,17 @@ const StudentRegisterForm = () => {
 
   const form = useForm<StudentRegisterRequestType>({
     resolver: zodResolver(StudentRegisterRequest),
+    defaultValues: {
+      name: "",
+      email: "",
+      dob: undefined,
+      gender: undefined,
+      phoneNumber: "",
+      password: "",
+      confirmPassword: "",
+      educationLevel: undefined,
+      major: "",
+    },
   });
 
   const onSubmit = async (values: StudentRegisterRequestType) => {
@@ -49,10 +60,10 @@ const StudentRegisterForm = () => {
         <motion.div className="w-full" variants={childVariants}>
           <FormField
             control={form.control}
-            name="educationalLevel"
+            name="educationLevel"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Educational Level</FormLabel>
+                <FormLabel required>Education Level</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -86,44 +97,9 @@ const StudentRegisterForm = () => {
             name="major"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Major</FormLabel>
+                <FormLabel required>Major</FormLabel>
                 <FormControl>
                   <Input placeholder="major" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </motion.div>
-      </div>
-
-      {/* Address Base & Address Detail */}
-      <div className="flex-between gap-5 max-sm:flex-col">
-        <motion.div className="w-full" variants={childVariants}>
-          <FormField
-            control={form.control}
-            name="addressBase"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Address Base</FormLabel>
-                <FormControl>
-                  <Input placeholder="address base" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </motion.div>
-
-        <motion.div className="w-full" variants={childVariants}>
-          <FormField
-            control={form.control}
-            name="addressDetail"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel>Address Detail</FormLabel>
-                <FormControl>
-                  <Input placeholder="address detail" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

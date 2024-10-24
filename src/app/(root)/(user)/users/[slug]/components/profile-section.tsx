@@ -3,7 +3,7 @@
 import { ChevronsUpDownIcon, PencilIcon, PlusIcon } from "lucide-react";
 import { useState } from "react";
 
-import Modal from "@/app/(root)/(user)/users/[id]/components/modal";
+import Modal from "@/app/(root)/(user)/users/[slug]/components/modal";
 import Achievement from "@/components/achievement";
 import {
   Collapsible,
@@ -19,6 +19,7 @@ interface IProps {
   type: ACHIEVEMENT_TYPES | "ABOUT";
   bio?: string;
   achievements?: AchivementType[];
+  isOwnProfile: boolean;
 }
 
 // type achievementType = {
@@ -32,7 +33,13 @@ interface IProps {
 //   endDate?: string;
 // };
 
-const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
+const ProfileSection = ({
+  title,
+  type,
+  achievements,
+  bio,
+  isOwnProfile,
+}: IProps) => {
   const [isOpenAbout, setIsOpenAbout] = useState(false);
 
   const [isOpenEducation, setIsOpenEducation] = useState(false);
@@ -69,7 +76,7 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
   return (
     <section className="mt-5">
       <Collapsible defaultOpen>
-        <div className="flex-between w-full rounded-sm">
+        <div className="flex-between w-full gap-5 rounded-sm">
           <CollapsibleTrigger className="w-full">
             <h2 className="flex-between group w-full gap-1 rounded-sm text-left text-2xl font-semibold text-primary hover:bg-primary/30">
               {title}
@@ -80,22 +87,23 @@ const ProfileSection = ({ title, type, achievements, bio }: IProps) => {
             </h2>
           </CollapsibleTrigger>
 
-          <div className="flex-center gap-5 pl-5">
-            {type !== "ABOUT" && (
-              <div
-                onClick={handleOpenModal}
-                className="rounded-full p-2 hover:bg-primary hover:text-white"
-              >
-                <PlusIcon size={20} />
-              </div>
-            )}
+          {isOwnProfile && type !== "ABOUT" && (
+            <div
+              onClick={handleOpenModal}
+              className="rounded-full p-2 hover:bg-primary hover:text-white"
+            >
+              <PlusIcon size={20} />
+            </div>
+          )}
+
+          {isOwnProfile && (
             <div
               onClick={handleOpenModal}
               className="rounded-full p-2 hover:bg-primary hover:text-white"
             >
               <PencilIcon size={20} />
             </div>
-          </div>
+          )}
         </div>
 
         <Progress value={100} className="h-1 w-[100px]" />

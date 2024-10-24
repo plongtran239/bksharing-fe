@@ -1,9 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
-// import DateInput from "@/components/date-input";
+import DateInput from "@/components/date-input";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -14,17 +16,30 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { GENDERS } from "@/constants/enum";
+import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { Account, AccountType } from "@/schemas";
 
-const UserInfoForm = () => {
+const UserInfoForm = ({ data }: { data: AccountType }) => {
+  const [verified] = useState(false);
+
+  const defaultDob = new Date(Number(data.dob));
+
   const form = useForm<AccountType>({
     resolver: zodResolver(Account),
-    // defaultValues: {
-    //   email: "",
-    //   firstName: "",
-    //   lastName: "",
-    //   phone: "",
-    // },
+    defaultValues: {
+      ...data,
+      dob: defaultDob,
+      addressBase: data.addressBase || "",
+      addressDetail: data.addressDetail || "",
+    },
   });
 
   const onsubmit = (values: AccountType) => {
@@ -38,33 +53,35 @@ const UserInfoForm = () => {
         className="w-2/3 rounded-xl bg-white p-10 shadow-xl max-xl:w-full max-lg:w-full max-sm:mx-5 max-sm:px-5"
       >
         <div className="grid-cols-2 gap-x-10 gap-y-5 max-lg:space-y-5 lg:grid">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel required>Email</FormLabel>
-                <FormControl>
-                  <Input placeholder="email" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+          <div>
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel required>Email</FormLabel>
+                  <FormControl>
+                    <Input placeholder="email" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
-          <FormField
-            control={form.control}
-            name="gender"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Gender</FormLabel>
-                <FormControl>
-                  <Input placeholder="gender" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
+          <p className="mt-7 flex items-center gap-2">
+            {verified ? (
+              <>
+                <CheckCircleIcon size={20} className="text-green-500" />
+                Your email is verified
+              </>
+            ) : (
+              <>
+                <XCircleIcon size={20} className="text-red-500" />
+                Your email is not verified
+              </>
             )}
-          />
+          </p>
 
           <FormField
             control={form.control}
@@ -74,21 +91,6 @@ const UserInfoForm = () => {
                 <FormLabel required>Fullname</FormLabel>
                 <FormControl>
                   <Input placeholder="fullname" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={form.control}
-            name="dob"
-            render={({}) => (
-              <FormItem>
-                <FormLabel>Date of Birth</FormLabel>
-                <FormControl>
-                  <Input />
-                  {/* <DateInput /> */}
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -111,12 +113,69 @@ const UserInfoForm = () => {
 
           <FormField
             control={form.control}
-            name="address"
+            name="gender"
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel>Gender</FormLabel>
+                <Select onValueChange={field.onChange} value={field.value}>
+                  <FormControl>
+                    <SelectTrigger
+                      className={cn("text-sm", {
+                        "text-muted-foreground": !field.value,
+                      })}
+                    >
+                      <SelectValue placeholder="select gender" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.values(GENDERS).map((item) => (
+                      <SelectItem key={item} value={item}>
+                        {convertToCapitalizeCase(item)}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="dob"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address</FormLabel>
+                <FormLabel htmlFor="dob">Date of Birth</FormLabel>
                 <FormControl>
-                  <Input placeholder="address" {...field} />
+                  <DateInput id="dob" defaultValue={defaultDob} {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="addressBase"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address Base</FormLabel>
+                <FormControl>
+                  <Input placeholder="base" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="addressDetail"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address Detail</FormLabel>
+                <FormControl>
+                  <Input placeholder="detail" {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -124,7 +183,7 @@ const UserInfoForm = () => {
           />
         </div>
 
-        <div className="mt-10 flex justify-start">
+        <div className="mt-10 flex justify-center">
           <Button type="submit">Submit</Button>
         </div>
       </form>

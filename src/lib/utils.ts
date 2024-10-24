@@ -6,6 +6,8 @@ import {
   DATE_TIME_FORMAT_OPTIONS,
   LOCALE,
 } from "@/constants/date";
+import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import { AchivementType } from "@/schemas";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -70,6 +72,12 @@ function normalizePath(path: string) {
   return path.startsWith("/") ? path.slice(1) : path;
 }
 
+function classifyAchievements(achievements: AchivementType[]) {
+  return Object.values(ACHIEVEMENT_TYPES).map((type) => {
+    return achievements.filter((achievement) => achievement.type === type);
+  });
+}
+
 export {
   cn,
   convertDateToLocaleString,
@@ -79,4 +87,5 @@ export {
   convertToCapitalizeCase,
   covertCamelCaseToTitleCase,
   normalizePath,
+  classifyAchievements,
 };

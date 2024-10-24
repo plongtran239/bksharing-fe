@@ -7,7 +7,7 @@ const privatePaths = [
   "/categories",
   "/meeting",
   "/recordings",
-  "/users",
+  "/user-info",
 ];
 const publicPaths = ["/login", "/register"];
 
@@ -78,7 +78,7 @@ export const config = {
     "/categories",
     "/meeting",
     "/recordings",
-    "/users/:path*",
+    "/user-info",
 
     "/users",
     "/admin",

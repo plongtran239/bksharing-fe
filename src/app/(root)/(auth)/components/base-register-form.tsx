@@ -113,11 +113,7 @@ const BaseRegisterForm = <T extends FieldValues>({
                   </FormLabel>
 
                   <FormControl>
-                    <DateInput
-                      id="date-of-birth"
-                      value={field.value}
-                      onChange={field.onChange}
-                    />
+                    <DateInput id="date-of-birth" {...field} />
                   </FormControl>
 
                   <FormMessage />
