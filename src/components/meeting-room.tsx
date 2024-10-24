@@ -22,7 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
-// import MeetingApi from "@/apis/meeting.api";
+// import meetingApi from "@/apis/meeting.api";
 import EndCallButton from "@/components/end-call-button";
 import { Button } from "@/components/ui/button";
 import { ROLES } from "@/constants/enum";
@@ -65,7 +65,7 @@ const MeetingRoom = () => {
     // const meetingId = Number(call.id.split("-")[1]);
 
     // try {
-    // await MeetingApi.leaveMeeting(meetingId);
+    // await meetingApi.leaveMeeting(meetingId);
 
     if (user.accountType === ROLES.ADMIN) {
       router.push("/admin/meetings");

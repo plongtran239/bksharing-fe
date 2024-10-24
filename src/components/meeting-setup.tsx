@@ -7,7 +7,7 @@ import {
 } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 
-import MeetingApi from "@/apis/meeting.api";
+import meetingApi from "@/apis/meeting.api";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
@@ -66,7 +66,7 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
     const meetingId = Number(call.id.split("-")[1]);
 
     try {
-      await MeetingApi.joinMeeting(meetingId);
+      await meetingApi.joinMeeting(meetingId);
 
       await call.join();
 

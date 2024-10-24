@@ -1,8 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import userApi from "@/apis/user.api";
+import Loader from "@/components/loader";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
 import {
@@ -13,20 +16,51 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { ChangePasswordRequest, ChangePasswordRequestType } from "@/schemas";
 
 const ChangePasswordForm = () => {
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+
   const form = useForm<ChangePasswordRequestType>({
     resolver: zodResolver(ChangePasswordRequest),
     defaultValues: {
-      oldPassword: "",
+      currentPassword: "",
       newPassword: "",
       confirmPassword: "",
     },
   });
 
-  const onSubmit = (values: ChangePasswordRequestType) => {
-    console.log(values);
+  const onSubmit = async (values: ChangePasswordRequestType) => {
+    try {
+      setLoading(true);
+
+      await userApi.changePassword(values);
+
+      form.reset();
+
+      toast({
+        title: "Success",
+        description: "Change password successfully",
+      });
+    } catch (error) {
+      console.error({ error });
+
+      toast({
+        title: "Error",
+        description: (
+          error as {
+            payload: {
+              message: string;
+            };
+          }
+        ).payload.message,
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -37,10 +71,10 @@ const ChangePasswordForm = () => {
       >
         <FormField
           control={form.control}
-          name="oldPassword"
+          name="currentPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel required>Old Password</FormLabel>
+              <FormLabel required>Current Password</FormLabel>
               <FormControl>
                 <PasswordInput placeholder="old password" {...field} />
               </FormControl>
@@ -78,7 +112,14 @@ const ChangePasswordForm = () => {
         />
 
         <div className="flex-center">
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            disabled={
+              !form.formState.isValid || form.formState.isSubmitting || loading
+            }
+          >
+            {loading ? <Loader /> : "Change Password"}
+          </Button>
         </div>
       </form>
     </Form>

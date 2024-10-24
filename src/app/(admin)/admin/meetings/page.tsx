@@ -1,4 +1,4 @@
-import MeetingApi from "@/apis/meeting.api";
+import meetingApi from "@/apis/meeting.api";
 import MeetingTable from "@/app/(admin)/admin/meetings/components/meeting-tables";
 import { Separator } from "@/components/ui/separator";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
@@ -6,7 +6,7 @@ import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 const AdminUpcoming = async () => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
-  const { payload } = await MeetingApi.getAdminMeetings(sessionToken);
+  const { payload } = await meetingApi.getAdminMeetings(sessionToken);
 
   return (
     <div>

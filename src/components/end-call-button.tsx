@@ -3,7 +3,7 @@
 import { useCall, useCallStateHooks } from "@stream-io/video-react-sdk";
 import { useRouter } from "next/navigation";
 
-import MeetingApi from "@/apis/meeting.api";
+import meetingApi from "@/apis/meeting.api";
 import { Button } from "@/components/ui/button";
 import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
@@ -32,7 +32,7 @@ const EndCallButton = () => {
     const meetingId = Number(call.id.split("-")[1]);
 
     try {
-      await MeetingApi.endMeeting(meetingId);
+      await meetingApi.endMeeting(meetingId);
 
       await call.endCall();
 

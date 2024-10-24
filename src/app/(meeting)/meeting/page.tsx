@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-// import MeetingApi from "@/apis/meeting.api";
+// import meetingApi from "@/apis/meeting.api";
 import Footer from "@/components/footer";
 import Header from "@/components/header";
 import MeetingTypeList from "@/components/meeting-type-list";
@@ -29,7 +29,7 @@ const MeetingHome = async () => {
 
   // const {
   //   payload: { data },
-  // } = await MeetingApi.getClientMeetings(sessionToken);
+  // } = await meetingApi.getClientMeetings(sessionToken);
 
   return (
     <main>

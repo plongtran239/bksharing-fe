@@ -8,6 +8,9 @@ import {
 } from "@/schemas";
 
 const userApi = {
+  changePassword: (body: { currentPassword: string; newPassword: string }) =>
+    http.post("/accounts/change-password", body),
+
   getMe: (sessionToken: string) =>
     http.get<DetailResponseType<AccountType>>(`accounts/me`, {
       headers: {

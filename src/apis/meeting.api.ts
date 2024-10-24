@@ -1,7 +1,7 @@
 import http from "@/lib/http";
 import { ListResponseType, MeetingType } from "@/schemas";
 
-const MeetingApi = {
+const meetingApi = {
   getAdminMeetings: (sessionToken: string) => {
     return http.get<ListResponseType<MeetingType>>("/admin/audio-call", {
       headers: {
@@ -37,4 +37,4 @@ const MeetingApi = {
   },
 };
 
-export default MeetingApi;
+export default meetingApi;

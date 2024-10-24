@@ -6,7 +6,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { LogInIcon, PlayIcon, XIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import MeetingApi from "@/apis/meeting.api";
+import meetingApi from "@/apis/meeting.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -157,7 +157,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
               },
             });
 
-            await MeetingApi.startMeeting(meetingId);
+            await meetingApi.startMeeting(meetingId);
 
             router.push(`/meeting/${cid}`);
 
@@ -182,7 +182,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
 
         const handleEndMeeting = async () => {
           try {
-            await MeetingApi.endMeeting(meetingId);
+            await meetingApi.endMeeting(meetingId);
 
             await call.endCall();
 
