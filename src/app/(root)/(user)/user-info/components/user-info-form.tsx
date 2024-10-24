@@ -2,10 +2,13 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import userApi from "@/apis/user.api";
 import DateInput from "@/components/date-input";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -24,11 +27,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
+import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { Account, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
   const [verified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
 
   const defaultDob = new Date(Number(data.dob));
 
@@ -42,14 +49,29 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
     },
   });
 
-  const onsubmit = (values: AccountType) => {
-    console.log(values);
+  const onSubmit = async (values: AccountType) => {
+    try {
+      setLoading(true);
+
+      await userApi.updateMe(values);
+
+      toast({
+        title: "Success",
+        description: "Your information has been updated",
+      });
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onsubmit)}
+        onSubmit={form.handleSubmit(onSubmit)}
         className="w-2/3 rounded-xl bg-white p-10 shadow-xl max-xl:w-full max-lg:w-full max-sm:mx-5 max-sm:px-5"
       >
         <div className="grid-cols-2 gap-x-10 gap-y-5 max-lg:space-y-5 lg:grid">
@@ -184,7 +206,12 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
         </div>
 
         <div className="mt-10 flex justify-center">
-          <Button type="submit">Submit</Button>
+          <Button
+            type="submit"
+            disabled={loading || form.formState.isSubmitting}
+          >
+            {loading ? <Loader /> : "Submit"}
+          </Button>
         </div>
       </form>
     </Form>

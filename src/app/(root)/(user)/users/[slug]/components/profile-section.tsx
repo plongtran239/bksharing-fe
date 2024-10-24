@@ -1,9 +1,13 @@
 "use client";
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import { ChevronsUpDownIcon, PencilIcon, PlusIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
-import Modal from "@/app/(root)/(user)/users/[slug]/components/modal";
+import userApi from "@/apis/user.api";
+import AchievementModal from "@/app/(root)/(user)/users/[slug]/components/achievement-modal";
 import Achievement from "@/components/achievement";
 import {
   Collapsible,
@@ -12,64 +16,85 @@ import {
 } from "@/components/ui/collapsible";
 import { Progress } from "@/components/ui/progress";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
-import { AchivementType } from "@/schemas";
+import { useToast } from "@/hooks/use-toast";
+import { convertToCapitalizeCase } from "@/lib/utils";
+import {
+  AchivementRequest,
+  AchivementRequestType,
+  AchivementType,
+} from "@/schemas";
 
 interface IProps {
   title: string;
   type: ACHIEVEMENT_TYPES | "ABOUT";
   bio?: string;
   achievements?: AchivementType[];
+  mentorId: number;
   isOwnProfile: boolean;
 }
-
-// type achievementType = {
-//   type: ACHIEVEMENT_TYPES;
-//   major?: string;
-//   position?: string;
-//   name?: string;
-//   organization?: string;
-//   description?: string;
-//   startDate?: string;
-//   endDate?: string;
-// };
 
 const ProfileSection = ({
   title,
   type,
   achievements,
   bio,
+  mentorId,
   isOwnProfile,
 }: IProps) => {
-  const [isOpenAbout, setIsOpenAbout] = useState(false);
+  const { toast } = useToast();
+  const router = useRouter();
+  const [isOpenModal, setIsOpenModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [isOpenEducation, setIsOpenEducation] = useState(false);
-
-  const [isOpenExperience, setIsOpenExperience] = useState(false);
-
-  const [isOpenCertification, setIsOpenCertification] = useState(false);
-
-  const [bioValue, setBioValue] = useState(bio);
-
-  // TODO: Implement achievement modal
-  // const [achievementValue, setAchievementValue] =
-  //   useState<achievementType | null>(null);
+  const [bioValue, setBioValue] = useState(bio || "");
+  const form = useForm<AchivementRequestType>({
+    resolver: zodResolver(AchivementRequest),
+    defaultValues: {
+      achievementType: type as ACHIEVEMENT_TYPES,
+      description: "",
+      organization: "",
+      startDate: undefined,
+      endDate: undefined,
+      major: "",
+      position: "",
+      name: "",
+    },
+  });
 
   const handleOpenModal = () => {
-    switch (type) {
-      case "ABOUT":
-        setIsOpenAbout(true);
-        break;
-      case ACHIEVEMENT_TYPES.EDUCATION:
-        setIsOpenEducation(true);
-        break;
-      case ACHIEVEMENT_TYPES.EXPERIENCE:
-        setIsOpenExperience(true);
-        break;
-      case ACHIEVEMENT_TYPES.CERTIFICATION:
-        setIsOpenCertification(true);
-        break;
-      default:
-        break;
+    setIsOpenModal(!isOpenModal);
+  };
+
+  const handleCancel = () => {
+    setIsOpenModal(false);
+
+    type === "ABOUT" ? setBioValue(bio as string) : form.reset();
+  };
+
+  const handleSave = async () => {
+    try {
+      setIsLoading(true);
+
+      type === "ABOUT"
+        ? await userApi.updateMe({ bio: bioValue })
+        : await userApi.addMentorAchievement(mentorId, form.getValues());
+
+      router.refresh();
+
+      toast({
+        title: "success",
+        description: `${
+          type === "ABOUT" ? "Update" : "Add"
+        } ${type.toLowerCase()} successfully`,
+      });
+
+      handleOpenModal();
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      type === "ABOUT" ? setBioValue(bio as string) : form.reset();
+
+      setIsLoading(false);
     }
   };
 
@@ -98,7 +123,7 @@ const ProfileSection = ({
 
           {isOwnProfile && (
             <div
-              onClick={handleOpenModal}
+              onClick={type === "ABOUT" ? handleOpenModal : undefined}
               className="rounded-full p-2 hover:bg-primary hover:text-white"
             >
               <PencilIcon size={20} />
@@ -117,18 +142,11 @@ const ProfileSection = ({
                 <Achievement
                   key={index}
                   field={
-                    (() => {
-                      switch (achievement.type) {
-                        case ACHIEVEMENT_TYPES.EDUCATION:
-                          return achievement.major;
-                        case ACHIEVEMENT_TYPES.EXPERIENCE:
-                          return achievement.position;
-                        case ACHIEVEMENT_TYPES.CERTIFICATION:
-                          return achievement.name;
-                        default:
-                          return "";
-                      }
-                    })() as string
+                    {
+                      [ACHIEVEMENT_TYPES.EDUCATION]: achievement.major,
+                      [ACHIEVEMENT_TYPES.EXPERIENCE]: achievement.position,
+                      [ACHIEVEMENT_TYPES.CERTIFICATION]: achievement.name,
+                    }[achievement.type] as string
                   }
                   organization={achievement.organization}
                   description={achievement.description}
@@ -142,63 +160,25 @@ const ProfileSection = ({
         </CollapsibleContent>
       </Collapsible>
 
-      {/* About Modal */}
-      <Modal
-        isOpen={isOpenAbout}
-        setIsOpen={setIsOpenAbout}
-        title="Edit About"
-        description="You can write about your years of experience, industry, or skills.
-            People also talk about their achievements or previous job
-            experiences."
-        type={type}
-        handleCancel={() => {
-          setBioValue(bio);
-          setIsOpenAbout(false);
-        }}
-        handleSave={() => {
-          console.log(bioValue);
-          setIsOpenAbout(false);
-        }}
-      />
-
-      {/* Education Modal */}
-      <Modal
-        isOpen={isOpenEducation}
-        setIsOpen={setIsOpenEducation}
-        title="Add Education"
-        description="You can add your educational qualifications here."
-        type={type}
-        handleCancel={() => {
-          setIsOpenEducation(false);
-        }}
-        handleSave={() => {}}
-      />
-
-      {/* Experience Modal */}
-      <Modal
-        isOpen={isOpenExperience}
-        setIsOpen={setIsOpenExperience}
-        title="Add Experience"
-        description="You can add your work experiences here."
-        type={type}
-        handleCancel={() => {
-          setIsOpenExperience(false);
-        }}
-        handleSave={() => {}}
-      />
-
-      {/* Certification Modal */}
-      <Modal
-        isOpen={isOpenCertification}
-        setIsOpen={setIsOpenCertification}
-        title="Add Certification"
-        description="You can add your certifications here."
-        type={type}
-        handleCancel={() => {
-          setIsOpenCertification(false);
-        }}
-        handleSave={() => {}}
-      />
+      {[...Object.values(ACHIEVEMENT_TYPES), "ABOUT"].map((achievementType) => (
+        <AchievementModal
+          key={achievementType}
+          isOpen={isOpenModal && type === achievementType}
+          title={`Add ${convertToCapitalizeCase(achievementType)}`}
+          description={
+            type === "ABOUT"
+              ? "You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences."
+              : `You can add your ${achievementType.toLowerCase()} here.`
+          }
+          type={achievementType as ACHIEVEMENT_TYPES | "ABOUT"}
+          handleCancel={handleCancel}
+          handleSave={handleSave}
+          isLoading={isLoading}
+          form={form}
+          bio={bioValue}
+          setBio={setBioValue}
+        />
+      ))}
     </section>
   );
 };

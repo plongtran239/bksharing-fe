@@ -16,22 +16,15 @@ const AchivementRequest = z
         message: "Organization must be at most 256 characters",
       }),
     description: z.string().trim(),
-    startDate: z
-      .date()
-      .min(new Date(MIN_DATE), {
-        message: `Start date must be greater than ${MIN_DATE}`,
-      })
-      .max(new Date(), {
-        message: "Start date must be less than current date",
-      }),
+    startDate: z.date().min(new Date(MIN_DATE), {
+      message: `Start date must be greater than ${MIN_DATE}`,
+    }),
     endDate: z
       .date()
       .min(new Date(MIN_DATE), {
         message: `Start date must be greater than ${MIN_DATE}`,
       })
-      .max(new Date(), {
-        message: "Start date must be less than current date",
-      })
+
       .optional(),
   })
   .extend({

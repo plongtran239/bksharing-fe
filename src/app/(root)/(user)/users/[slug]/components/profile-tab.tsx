@@ -32,6 +32,7 @@ const ProfileTab = ({ data }: { data: MentorType }) => {
         title="About"
         bio={data.bio}
         type="ABOUT"
+        mentorId={data.id}
         isOwnProfile={isOwnProfile}
       />
 
@@ -42,6 +43,7 @@ const ProfileTab = ({ data }: { data: MentorType }) => {
         title="Education"
         achievements={educations}
         type={ACHIEVEMENT_TYPES.EDUCATION}
+        mentorId={data.id}
         isOwnProfile={isOwnProfile}
       />
 
@@ -52,6 +54,7 @@ const ProfileTab = ({ data }: { data: MentorType }) => {
         title="Experience"
         achievements={experiences}
         type={ACHIEVEMENT_TYPES.EXPERIENCE}
+        mentorId={data.id}
         isOwnProfile={isOwnProfile}
       />
 
@@ -62,6 +65,7 @@ const ProfileTab = ({ data }: { data: MentorType }) => {
         title="Certifications"
         achievements={certifications}
         type={ACHIEVEMENT_TYPES.CERTIFICATION}
+        mentorId={data.id}
         isOwnProfile={isOwnProfile}
       />
     </div>

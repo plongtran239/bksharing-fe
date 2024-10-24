@@ -1,7 +1,8 @@
 import http from "@/lib/http";
+import { convertDateToLocaleDateString } from "@/lib/utils";
 import {
   AccountType,
-  AchivementType,
+  AchivementRequestType,
   DetailResponseType,
   MentorType,
 } from "@/schemas";
@@ -14,8 +15,16 @@ const userApi = {
       },
     }),
 
+  updateMe: (body: Partial<AccountType>) =>
+    http.patch(`accounts/me`, {
+      ...body,
+      dob: body.dob ? convertDateToLocaleDateString(body.dob) : undefined,
+    }),
+
   getMentorList: () =>
-    http.get<DetailResponseType<MentorType[]>>(`client/mentors`),
+    http.get<DetailResponseType<MentorType[]>>(`client/mentors`, {
+      cache: "no-store",
+    }),
 
   getMentorDetail: (mentorId: string) =>
     http.get<DetailResponseType<MentorType>>(`client/mentors/${mentorId}`),
@@ -27,17 +36,30 @@ const userApi = {
       },
     }),
 
-  addMentorAchievement: (mentorId: number, achievement: AchivementType) =>
-    http.post(`client/mentors/${mentorId}/achievements`, achievement),
+  addMentorAchievement: (
+    mentorId: number,
+    achievement: AchivementRequestType
+  ) =>
+    http.post(`client/mentors/${mentorId}/achievements`, {
+      ...achievement,
+      startDate: convertDateToLocaleDateString(achievement.startDate),
+      endDate: achievement.endDate
+        ? convertDateToLocaleDateString(achievement.endDate)
+        : undefined,
+    }),
 
   updateMentorAchievement: (
     mentorId: number,
     achievementId: number,
-    achievement: AchivementType
+    achievement: AchivementRequestType
   ) =>
     http.patch(`client/mentors/${mentorId}/achievements`, {
-      id: achievementId,
       ...achievement,
+      id: achievementId,
+      startDate: convertDateToLocaleDateString(achievement.startDate),
+      endDate: achievement.endDate
+        ? convertDateToLocaleDateString(achievement.endDate)
+        : undefined,
     }),
 };
 

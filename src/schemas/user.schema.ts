@@ -16,6 +16,7 @@ const Account = z.object({
   phoneNumber: z.string(),
   gender: z.nativeEnum(GENDERS),
   dob: z.date(),
+  bio: z.string().optional(),
   addressBase: z.string().optional(),
   addressDetail: z.string().optional(),
 });
