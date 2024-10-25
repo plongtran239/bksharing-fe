@@ -98,7 +98,7 @@ const LoginForm = () => {
           <Button
             type="submit"
             disabled={
-              form.formState.isSubmitting || !form.formState.isValid || loading
+              form.formState.isSubmitting || !form.formState.isDirty || loading
             }
           >
             {loading ? <Loader /> : "Login"}

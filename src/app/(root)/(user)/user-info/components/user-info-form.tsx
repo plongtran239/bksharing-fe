@@ -28,7 +28,11 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import {
+  cn,
+  convertDateToLocaleDateString,
+  convertToCapitalizeCase,
+} from "@/lib/utils";
 import { Account, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
@@ -37,13 +41,10 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const defaultDob = new Date(Number(data.dob));
-
   const form = useForm<AccountType>({
     resolver: zodResolver(Account),
     defaultValues: {
       ...data,
-      dob: defaultDob,
       addressBase: data.addressBase || "",
       addressDetail: data.addressDetail || "",
     },
@@ -169,7 +170,17 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
               <FormItem>
                 <FormLabel htmlFor="dob">Date of Birth</FormLabel>
                 <FormControl>
-                  <DateInput id="dob" defaultValue={defaultDob} {...field} />
+                  <DateInput
+                    id="dob"
+                    defaultValue={
+                      field.value
+                        ? convertDateToLocaleDateString(
+                            new Date(Number(field.value))
+                          )
+                        : ""
+                    }
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>

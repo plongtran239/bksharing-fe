@@ -24,7 +24,11 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import {
+  cn,
+  convertDateToLocaleDateString,
+  convertToCapitalizeCase,
+} from "@/lib/utils";
 
 interface IBaseRegisterFormProps<T extends FieldValues> {
   form: UseFormReturn<T>;
@@ -50,7 +54,7 @@ const BaseRegisterForm = <T extends FieldValues>({
         variants={parentVariants}
       >
         {/* Email & Phone */}
-        <div className="flex-between gap-5 max-sm:flex-col">
+        <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
           <motion.div className="w-full" variants={childVariants}>
             <FormField
               control={form.control}
@@ -85,7 +89,7 @@ const BaseRegisterForm = <T extends FieldValues>({
         </div>
 
         {/* Name, DOB & Gender */}
-        <div className="flex-between gap-5 max-sm:flex-col">
+        <div className="grid grid-cols-3 gap-5 max-sm:grid-cols-1">
           <motion.div className="w-full" variants={childVariants}>
             <FormField
               control={form.control}
@@ -113,7 +117,16 @@ const BaseRegisterForm = <T extends FieldValues>({
                   </FormLabel>
 
                   <FormControl>
-                    <DateInput id="date-of-birth" {...field} />
+                    <DateInput
+                      id="date-of-birth"
+                      defaultValue={
+                        field.value
+                          ? convertDateToLocaleDateString(field.value)
+                          : ""
+                      }
+                      {...field}
+                      onChange={field.onChange}
+                    />
                   </FormControl>
 
                   <FormMessage />
@@ -207,7 +220,9 @@ const BaseRegisterForm = <T extends FieldValues>({
 
           <Button
             type="submit"
-            disabled={form.formState.isSubmitting || loading}
+            disabled={
+              form.formState.isSubmitting || !form.formState.isDirty || loading
+            }
           >
             {loading ? <Loader /> : "Register"}
           </Button>

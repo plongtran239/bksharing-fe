@@ -56,7 +56,7 @@ const StudentRegisterForm = () => {
       </motion.div>
 
       {/* Educational Level & Major */}
-      <div className="flex-between gap-5 max-sm:flex-col">
+      <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
         <motion.div className="w-full" variants={childVariants}>
           <FormField
             control={form.control}

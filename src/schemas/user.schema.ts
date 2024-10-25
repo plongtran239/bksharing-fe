@@ -1,5 +1,6 @@
 import { z } from "zod";
 
+import { MIN_DATE } from "@/constants/date";
 import { GENDERS, MENTOR_STATUS, ROLES } from "@/constants/enum";
 import { Achievement } from "@/schemas";
 
@@ -12,10 +13,20 @@ const User = z.object({
 
 const Account = z.object({
   email: z.string().email(),
-  name: z.string(),
-  phoneNumber: z.string(),
+  name: z.string().min(6).max(256),
+  phoneNumber: z
+    .string()
+    .regex(/^\d{10}$/)
+    .trim(),
   gender: z.nativeEnum(GENDERS),
-  dob: z.date(),
+  dob: z
+    .date()
+    .min(new Date(MIN_DATE), {
+      message: `Date of birth must be greater than ${MIN_DATE}`,
+    })
+    .max(new Date(), {
+      message: "Date of birth must be less than current date",
+    }),
   bio: z.string().optional(),
   addressBase: z.string().optional(),
   addressDetail: z.string().optional(),

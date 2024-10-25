@@ -8,36 +8,31 @@ const RegisterRequest = LoginRequest.extend({
   email: z.string().email(),
   phoneNumber: z
     .string()
-    .trim()
-    .min(10, {
-      message: "Phone number must be at least 10 characters",
-    })
-    .max(10, {
-      message: "Phone number must be at most 10 characters",
-    }),
+    .regex(/^\d{10}$/)
+    .trim(),
   name: z
     .string()
     .trim()
     .min(6, {
-      message: "Name must be at least 6 characters",
+      message: "at least 6 characters",
     })
     .max(256, {
-      message: "Name must be at most 256 characters",
+      message: "at most 256 characters",
     }),
   confirmPassword: z.string().trim().min(8).max(256),
   dob: z
     .date()
     .min(new Date(MIN_DATE), {
-      message: `Date of birth must be greater than ${MIN_DATE}`,
+      message: `must be greater than ${MIN_DATE}`,
     })
     .max(new Date(), {
-      message: "Date of birth must be less than current date",
+      message: "must be less than current date",
     }),
   gender: z.nativeEnum(GENDERS),
 }).strict();
 
 const StudentRegisterRequest = RegisterRequest.extend({
-  major: z.string().trim(),
+  major: z.string().trim().min(2).max(256),
   educationLevel: z.nativeEnum(EDUCATION_LEVELS),
 }).superRefine(({ password, confirmPassword }, ctx) => {
   if (password !== confirmPassword) {

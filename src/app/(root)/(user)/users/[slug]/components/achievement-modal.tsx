@@ -23,6 +23,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import { convertDateToLocaleDateString } from "@/lib/utils";
 import { AchivementRequestType } from "@/schemas";
 
 interface IModalProps {
@@ -55,11 +56,6 @@ const AchievementModal = ({
     [ACHIEVEMENT_TYPES.EXPERIENCE]: "position",
     [ACHIEVEMENT_TYPES.CERTIFICATION]: "name",
   }[type as ACHIEVEMENT_TYPES] as "major" | "position" | "name";
-
-  const [defaultStartDate, defaultEndDate] = [
-    form?.getValues("startDate"),
-    form?.getValues("endDate"),
-  ];
 
   return (
     <Dialog open={isOpen} onOpenChange={handleCancel} modal>
@@ -129,7 +125,7 @@ const AchievementModal = ({
                   )}
                 />
 
-                <div className="flex-between gap-5">
+                <div className="grid grid-cols-2 gap-5">
                   <FormField
                     control={form.control}
                     name="startDate"
@@ -141,7 +137,11 @@ const AchievementModal = ({
                         <FormControl>
                           <DateInput
                             id="startDate"
-                            defaultValue={defaultStartDate}
+                            defaultValue={
+                              field.value
+                                ? convertDateToLocaleDateString(field.value)
+                                : ""
+                            }
                             {...field}
                           />
                         </FormControl>
@@ -159,7 +159,11 @@ const AchievementModal = ({
                         <FormControl>
                           <DateInput
                             id="endDate"
-                            defaultValue={defaultEndDate}
+                            defaultValue={
+                              field.value
+                                ? convertDateToLocaleDateString(field.value)
+                                : ""
+                            }
                             {...field}
                           />
                         </FormControl>

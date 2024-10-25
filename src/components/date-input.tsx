@@ -15,8 +15,8 @@ import { MIN_DATE } from "@/constants/date";
 
 interface DateInputProps {
   value: Date | undefined;
-  defaultValue?: Date;
-  onChange: (date: Date) => void;
+  defaultValue?: string;
+  onChange: (date: Date | undefined) => void;
   id: string;
 }
 
@@ -26,9 +26,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
 
     const [selectedDate, setSelectedDate] = useState<Date | undefined>(value);
 
-    const [inputValue, setInputValue] = useState(
-      defaultValue ? format(defaultValue, "dd/MM/yyyy") : ""
-    );
+    const [inputValue, setInputValue] = useState(defaultValue);
 
     const handleDayPickerSelect = (date: Date | undefined) => {
       if (!date) {
@@ -51,8 +49,11 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
       if (isValid(parsedDate)) {
         setSelectedDate(parsedDate);
         setMonth(parsedDate);
-      } else {
+      }
+
+      if (e.target.value === "") {
         setSelectedDate(undefined);
+        return onChange(undefined);
       }
 
       return onChange(parsedDate);

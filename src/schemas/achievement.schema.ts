@@ -10,21 +10,20 @@ const AchivementRequest = z
       .string()
       .trim()
       .min(1, {
-        message: "Organization must be at least 1 character",
+        message: "must be at least 1 character",
       })
       .max(256, {
-        message: "Organization must be at most 256 characters",
+        message: "must be at most 256 characters",
       }),
     description: z.string().trim(),
     startDate: z.date().min(new Date(MIN_DATE), {
-      message: `Start date must be greater than ${MIN_DATE}`,
+      message: `must be greater than ${MIN_DATE}`,
     }),
     endDate: z
       .date()
       .min(new Date(MIN_DATE), {
-        message: `Start date must be greater than ${MIN_DATE}`,
+        message: `must be greater than ${MIN_DATE}`,
       })
-
       .optional(),
   })
   .extend({
@@ -37,7 +36,7 @@ const AchivementRequest = z
       if (endDate && startDate >= endDate) {
         ctx.addIssue({
           code: "custom",
-          message: "End date must be greater than start date",
+          message: "must be greater than start date",
           path: ["endDate"],
         });
       }
@@ -47,7 +46,7 @@ const AchivementRequest = z
           if (!position) {
             ctx.addIssue({
               code: "custom",
-              message: "Position is required",
+              message: "required",
               path: ["position"],
             });
           }
@@ -56,7 +55,7 @@ const AchivementRequest = z
           if (!major) {
             ctx.addIssue({
               code: "custom",
-              message: "Major is required",
+              message: "required",
               path: ["major"],
             });
           }
@@ -65,7 +64,7 @@ const AchivementRequest = z
           if (!name) {
             ctx.addIssue({
               code: "custom",
-              message: "Name is required",
+              message: "required",
               path: ["name"],
             });
           }

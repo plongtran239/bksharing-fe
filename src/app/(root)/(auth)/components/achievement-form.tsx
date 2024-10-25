@@ -148,7 +148,13 @@ const AchievementForm = ({ form }: IProps) => {
             </button>
           </motion.div>
 
-          <div className="flex-between gap-5 max-sm:flex-col">
+          <div
+            className={cn("grid grid-cols-2 gap-5 max-sm:grid-cols-1", {
+              "grid-cols-3":
+                form.watch(`achievements.${index}.achievementType`) !==
+                undefined,
+            })}
+          >
             <motion.div variants={childVariants} className="w-full">
               <FormField
                 control={form.control}
@@ -202,7 +208,7 @@ const AchievementForm = ({ form }: IProps) => {
             </motion.div>
           </div>
 
-          <div className="flex-between gap-5 max-sm:flex-col">
+          <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
             <motion.div className="w-full" variants={childVariants}>
               <FormField
                 control={form.control}
