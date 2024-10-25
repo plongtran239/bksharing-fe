@@ -42,6 +42,8 @@ const CategoryTable = ({ data }: IProps) => {
     undefined
   );
 
+  const [isLoading, setIsLoading] = useState(false);
+
   const [openCategoryModal, setOpenCategoryModal] = useState(false);
 
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
@@ -52,6 +54,7 @@ const CategoryTable = ({ data }: IProps) => {
 
   const handleDeleteCategory = async (id: number) => {
     try {
+      setIsLoading(true);
       await categoryApi.deleteCategory(id);
       toast({
         title: "Success",
@@ -68,6 +71,8 @@ const CategoryTable = ({ data }: IProps) => {
         description: "Cannot delete parent category!",
         variant: "destructive",
       });
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -205,6 +210,7 @@ const CategoryTable = ({ data }: IProps) => {
         onConfirm={() => {
           handleDeleteCategory(deleteCategoryId as number);
         }}
+        isLoading={isLoading}
       >
         <DialogTitle>Are you absolutely sure?</DialogTitle>
         <DialogDescription>

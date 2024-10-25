@@ -64,6 +64,9 @@ const userApi = {
         ? convertDateToLocaleDateString(achievement.endDate)
         : undefined,
     }),
+
+  deleteMentorAchievement: (mentorId: number, achievementId: number) =>
+    http.delete(`client/mentors/${mentorId}/achievements/${achievementId}`),
 };
 
 export default userApi;

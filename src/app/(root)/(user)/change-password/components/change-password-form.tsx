@@ -115,7 +115,7 @@ const ChangePasswordForm = () => {
           <Button
             type="submit"
             disabled={
-              !form.formState.isValid || form.formState.isSubmitting || loading
+              !form.formState.isDirty || form.formState.isSubmitting || loading
             }
           >
             {loading ? <Loader /> : "Change Password"}

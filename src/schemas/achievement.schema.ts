@@ -76,6 +76,7 @@ const AchivementRequest = z
 
 const Achievement = z
   .object({
+    id: z.number().optional(),
     type: z.nativeEnum(ACHIEVEMENT_TYPES),
     organization: z.string().trim(),
     description: z.string().trim(),

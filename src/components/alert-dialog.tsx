@@ -1,5 +1,6 @@
 import { FC, ReactNode } from "react";
 
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -13,6 +14,7 @@ interface IProps {
   onOpenChange: () => void;
   onCancel: () => void;
   onConfirm: () => void;
+  isLoading: boolean;
   children: ReactNode;
 }
 
@@ -21,6 +23,7 @@ const AlertDialog: FC<IProps> = ({
   onOpenChange,
   onCancel,
   onConfirm,
+  isLoading,
   children,
 }) => {
   return (
@@ -28,11 +31,15 @@ const AlertDialog: FC<IProps> = ({
       <DialogContent className="">
         <DialogHeader>{children}</DialogHeader>
         <DialogFooter>
-          <Button variant="outline" onClick={onCancel}>
+          <Button variant="outline" onClick={onCancel} disabled={isLoading}>
             Cancel
           </Button>
-          <Button variant="destructive" onClick={onConfirm}>
-            Delete
+          <Button
+            variant="destructive"
+            onClick={onConfirm}
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader /> : "Delete"}
           </Button>
         </DialogFooter>
       </DialogContent>

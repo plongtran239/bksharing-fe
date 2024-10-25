@@ -56,6 +56,11 @@ const AchievementModal = ({
     [ACHIEVEMENT_TYPES.CERTIFICATION]: "name",
   }[type as ACHIEVEMENT_TYPES] as "major" | "position" | "name";
 
+  const [defaultStartDate, defaultEndDate] = [
+    form?.getValues("startDate"),
+    form?.getValues("endDate"),
+  ];
+
   return (
     <Dialog open={isOpen} onOpenChange={handleCancel} modal>
       <DialogContent className="">
@@ -134,7 +139,11 @@ const AchievementModal = ({
                           Start Date
                         </FormLabel>
                         <FormControl>
-                          <DateInput id="startDate" {...field} />
+                          <DateInput
+                            id="startDate"
+                            defaultValue={defaultStartDate}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -148,7 +157,11 @@ const AchievementModal = ({
                       <FormItem className="w-full">
                         <FormLabel htmlFor="endDate">End Date</FormLabel>
                         <FormControl>
-                          <DateInput id="endDate" {...field} />
+                          <DateInput
+                            id="endDate"
+                            defaultValue={defaultEndDate}
+                            {...field}
+                          />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -190,7 +203,7 @@ const AchievementModal = ({
                 isLoading ||
                 (type !== "ABOUT" &&
                   form &&
-                  (form.formState.isSubmitting || !form.formState.isValid))
+                  (form.formState.isSubmitting || !form.formState.isDirty))
               }
               onClick={
                 type !== "ABOUT" && form

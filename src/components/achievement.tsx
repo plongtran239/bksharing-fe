@@ -1,4 +1,8 @@
-import { convertMilisecondsToLocaleDateString } from "@/lib/utils";
+"usse client";
+
+import { PencilIcon, TrashIcon } from "lucide-react";
+
+import { cn, convertMilisecondsToLocaleDateString } from "@/lib/utils";
 
 interface IProps {
   field: string;
@@ -6,6 +10,9 @@ interface IProps {
   description: string;
   startDate: string;
   endDate: string;
+  isEdit?: boolean;
+  handleEdit?: () => void;
+  handleDelete?: () => void;
 }
 
 const Achievement = ({
@@ -14,6 +21,9 @@ const Achievement = ({
   description,
   startDate,
   endDate,
+  isEdit,
+  handleEdit,
+  handleDelete,
 }: IProps) => {
   const start = convertMilisecondsToLocaleDateString(startDate).slice(3);
 
@@ -22,7 +32,11 @@ const Achievement = ({
     : "Now";
 
   return (
-    <div className="flex justify-between">
+    <div
+      className={cn("flex justify-between", {
+        "bg-slate-100": isEdit,
+      })}
+    >
       <div className="w-4/6 space-y-1">
         {/* name / position / major */}
         <p className="text-lg font-semibold text-secondary-foreground">
@@ -39,9 +53,22 @@ const Achievement = ({
       </div>
 
       {/* start date - end date */}
-      <p className="">
-        {start} - {end}
-      </p>
+      <div className="flex gap-5">
+        <span>
+          {start} - {end}
+        </span>
+        {isEdit && (
+          <div className="flex-center flex-col gap-2 rounded-l-xl bg-secondary">
+            <div className="p-2 hover:text-primary" onClick={handleEdit}>
+              <PencilIcon size={16} className="" />
+            </div>
+
+            <div className="p-2 hover:text-destructive" onClick={handleDelete}>
+              <TrashIcon size={16} className="" />
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 };
