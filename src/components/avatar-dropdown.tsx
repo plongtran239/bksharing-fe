@@ -45,6 +45,7 @@ const AvatarDropdown = ({
           <Image
             src={user.avatar?.originalUrl || "/images/default-user.png"}
             alt="avatar"
+            sizes="(max-width: 640px) 100px,"
             fill
             priority
             className="rounded-full"

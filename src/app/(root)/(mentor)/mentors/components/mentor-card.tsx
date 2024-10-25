@@ -20,6 +20,7 @@ const MentorCard = ({ data }: { data: MentorType }) => {
             fill
             sizes="(max-width: 640px) 100px,"
             className="rounded-full"
+            priority
           />
         </div>
 

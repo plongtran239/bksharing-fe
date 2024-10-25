@@ -7,7 +7,14 @@ const AuthResponse = z.object({
   id: z.number(),
   name: z.string(),
   accessToken: z.string(),
-  avatar: z.string().nullable(),
+  avatar: z
+    .object({
+      fileId: z.number(),
+      fileSize: z.number(),
+      originalUrl: z.string(),
+      versions: z.array(z.string()),
+    })
+    .nullable(),
   accountType: z.nativeEnum(ROLES),
 });
 
