@@ -31,13 +31,14 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
     <div className="space-y-5">
       <div className="flex justify-between">
         <div className="flex items-center gap-5">
-          <div className="relative h-[120px] w-[120px] rounded-full border-2 border-primary">
+          <div className="relative h-[120px] w-[120px]">
             <Image
-              src={mentor.avatar || "/images/default-user.png"}
+              src={mentor.thumbnail?.originalUrl || "/images/default-user.png"}
               alt="avatar"
               fill
               sizes="(max-width: 640px) 100px,"
               priority
+              className="rounded-full border-2 border-primary"
             />
           </div>
 
