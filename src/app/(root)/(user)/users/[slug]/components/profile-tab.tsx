@@ -8,7 +8,13 @@ import { classifyAchievements } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 import { MentorType } from "@/schemas";
 
-const ProfileTab = ({ data }: { data: MentorType }) => {
+const ProfileTab = ({
+  data,
+  completion,
+}: {
+  data: MentorType;
+  completion: number;
+}) => {
   const { user } = useAppContext();
 
   const [educations, experiences, certifications] = classifyAchievements(
@@ -20,12 +26,14 @@ const ProfileTab = ({ data }: { data: MentorType }) => {
   return (
     <div className="rounded-xl bg-white p-5">
       {/* Warning */}
-      <div className="rounded bg-[#FFF2CC] p-3 text-sm outline outline-1 outline-[#D6B656]">
-        Complete your profile to
-        <span className="font-semibold"> schedule a meeting </span>
-        with mentors or
-        <span className="font-semibold"> become a mentor</span>.
-      </div>
+      {completion < 100 && isOwnProfile && (
+        <div className="mb-5 rounded bg-[#FFF2CC] p-3 text-sm outline outline-1 outline-[#D6B656]">
+          Complete your profile to
+          <span className="font-semibold"> schedule a meeting </span>
+          with mentors or
+          <span className="font-semibold"> become a mentor</span>.
+        </div>
+      )}
 
       {/* About */}
       <ProfileSection

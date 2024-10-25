@@ -41,14 +41,15 @@ const AvatarDropdown = ({
           className
         )}
       >
-        <Image
-          src={user.avatar || "/images/default-user.png"}
-          alt="avatar"
-          width={32}
-          height={32}
-          className="rounded-full"
-          priority
-        />
+        <div className="relative h-[32px] w-[32px]">
+          <Image
+            src={user.avatar?.originalUrl || "/images/default-user.png"}
+            alt="avatar"
+            fill
+            priority
+            className="rounded-full"
+          />
+        </div>
         <span
           className={cn("text-black max-sm:hidden", {
             "max-sm:block": mobileDisplayName,

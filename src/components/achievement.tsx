@@ -2,6 +2,12 @@
 
 import { PencilIcon, TrashIcon } from "lucide-react";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { cn, convertMilisecondsToLocaleDateString } from "@/lib/utils";
 
 interface IProps {
@@ -57,16 +63,36 @@ const Achievement = ({
         <span>
           {start} - {end}
         </span>
-        {isEdit && (
-          <div className="flex-center flex-col gap-2 rounded-l-xl bg-secondary">
-            <div className="p-2 hover:text-primary" onClick={handleEdit}>
-              <PencilIcon size={16} className="" />
-            </div>
 
-            <div className="p-2 hover:text-destructive" onClick={handleDelete}>
-              <TrashIcon size={16} className="" />
+        {isEdit && (
+          <TooltipProvider>
+            <div className="flex-center flex-col gap-2 rounded-l-xl bg-secondary">
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div className="p-2 hover:text-primary" onClick={handleEdit}>
+                    <PencilIcon size={16} className="" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="translate-x-10 translate-y-8">
+                  Edit
+                </TooltipContent>
+              </Tooltip>
+
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    className="p-2 hover:text-destructive"
+                    onClick={handleDelete}
+                  >
+                    <TrashIcon size={16} className="" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent className="translate-x-12 translate-y-9">
+                  Delete
+                </TooltipContent>
+              </Tooltip>
             </div>
-          </div>
+          </TooltipProvider>
         )}
       </div>
     </div>

@@ -15,10 +15,11 @@ const MentorCard = ({ data }: { data: MentorType }) => {
       <div className="flex-center flex-col gap-4">
         <div className="relative h-40 w-40">
           <Image
-            src={avatar || "/images/default-user.png"}
+            src={avatar?.originalUrl || "/images/default-user.png"}
             alt="mentor avatar"
             fill
             sizes="(max-width: 640px) 100px,"
+            className="rounded-full"
           />
         </div>
 

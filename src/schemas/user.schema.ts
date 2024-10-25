@@ -7,8 +7,15 @@ import { Achievement } from "@/schemas";
 const User = z.object({
   id: z.number(),
   name: z.string(),
-  avatar: z.string().nullable(),
   accountType: z.nativeEnum(ROLES),
+  avatar: z
+    .object({
+      fileId: z.number(),
+      fileSize: z.number(),
+      originalUrl: z.string(),
+      versions: z.array(z.string()),
+    })
+    .nullable(),
 });
 
 const Account = z.object({
@@ -30,6 +37,8 @@ const Account = z.object({
   bio: z.string().optional(),
   addressBase: z.string().optional(),
   addressDetail: z.string().optional(),
+
+  avatarId: z.number().optional(),
 });
 
 const Mentor = User.extend({
@@ -45,6 +54,14 @@ const Mentor = User.extend({
     url: z.string(),
   }),
   achievements: z.array(Achievement),
+  thumbnail: z
+    .object({
+      fileId: z.number(),
+      fileSize: z.number(),
+      originalUrl: z.string(),
+      versions: z.array(z.string()),
+    })
+    .optional(),
 });
 
 type UserType = z.infer<typeof User>;

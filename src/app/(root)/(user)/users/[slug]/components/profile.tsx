@@ -15,7 +15,7 @@ import { classifyAchievements } from "@/lib/utils";
 const Profile = async ({ slug }: { slug: string }) => {
   const { data: profile } = await useGetProfile(slug);
 
-  const { name, bio, achievements } = profile;
+  const { name, bio, achievements, thumbnail, accountId } = profile;
 
   const classifiedAchievements = classifyAchievements(achievements);
 
@@ -38,10 +38,14 @@ const Profile = async ({ slug }: { slug: string }) => {
     <div className="h-fit w-3/4 max-xl:w-full">
       <div className="rounded-xl bg-white px-3 pb-5 pt-3">
         {/* Background, Avatar */}
-        <ProfileHeading name={name} />
+        <ProfileHeading
+          name={name}
+          avatarUrl={thumbnail?.originalUrl}
+          accountId={accountId}
+        />
 
         {/* User info */}
-        <div className="mt-5 grid grid-cols-3">
+        <div className="mt-10 grid grid-cols-3">
           <div className="max-lg:flex-center max-w-[400px]">
             {/* <h1 className="line-clamp-1 text-2xl font-bold">{data.name}</h1> */}
           </div>
@@ -89,7 +93,7 @@ const Profile = async ({ slug }: { slug: string }) => {
 
           <div className="mt-10 w-full">
             <TabsContent value="profile">
-              <ProfileTab data={profile} />
+              <ProfileTab data={profile} completion={completion} />
             </TabsContent>
 
             <TabsContent value="reviews">

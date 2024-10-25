@@ -22,6 +22,12 @@ import {
 } from "@/components/ui/collapsible";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
@@ -179,7 +185,7 @@ const ProfileSection = ({
   };
 
   return (
-    <section className="mt-5">
+    <section className="">
       <Collapsible defaultOpen>
         <div className="flex-between w-full gap-5 rounded-sm">
           <CollapsibleTrigger className="w-full">
@@ -192,51 +198,76 @@ const ProfileSection = ({
             </h2>
           </CollapsibleTrigger>
 
-          <div
-            onClick={handleOpenModal}
-            className={cn(
-              "hidden rounded-full p-2 hover:bg-primary hover:text-white",
-              {
-                block: type !== "ABOUT" && !isEdit && isOwnProfile,
-              }
-            )}
-          >
-            <PlusIcon size={20} />
-          </div>
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  onClick={handleOpenModal}
+                  className={cn(
+                    "hidden rounded-full p-2 hover:bg-primary hover:text-white",
+                    {
+                      block: type !== "ABOUT" && !isEdit && isOwnProfile,
+                    }
+                  )}
+                >
+                  <PlusIcon size={20} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent align="center">
+                <p className="text-xs">Add {type.toLowerCase()}</p>
+              </TooltipContent>
+            </Tooltip>
 
-          <div
-            onClick={
-              type === "ABOUT" ? handleOpenModal : () => setIsEdit(!isEdit)
-            }
-            className={cn(
-              "rounded-full p-2 hover:bg-primary hover:text-white",
-              {
-                hidden:
-                  isEdit ||
-                  !isOwnProfile ||
-                  (type !== "ABOUT" &&
-                    achievements &&
-                    achievements.length === 0),
-              }
-            )}
-          >
-            <PencilIcon size={20} />
-          </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  onClick={
+                    type === "ABOUT"
+                      ? handleOpenModal
+                      : () => setIsEdit(!isEdit)
+                  }
+                  className={cn(
+                    "rounded-full p-2 hover:bg-primary hover:text-white",
+                    {
+                      hidden:
+                        isEdit ||
+                        !isOwnProfile ||
+                        (type !== "ABOUT" &&
+                          achievements &&
+                          achievements.length === 0),
+                    }
+                  )}
+                >
+                  <PencilIcon size={20} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent align="center">
+                <p className="text-xs">Edit {type.toLowerCase()}</p>
+              </TooltipContent>
+            </Tooltip>
 
-          <div
-            onClick={() => {
-              setIsEdit(false);
-              handleCancel();
-            }}
-            className={cn(
-              "rounded-full p-2 hover:bg-primary hover:text-white",
-              {
-                hidden: !isEdit,
-              }
-            )}
-          >
-            <CheckIcon size={20} className="" />
-          </div>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <div
+                  onClick={() => {
+                    setIsEdit(false);
+                    handleCancel();
+                  }}
+                  className={cn(
+                    "rounded-full p-2 hover:bg-primary hover:text-white",
+                    {
+                      hidden: !isEdit,
+                    }
+                  )}
+                >
+                  <CheckIcon size={20} />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent align="center">
+                <p className="text-xs">Done</p>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </div>
 
         <Progress value={100} className="h-1 w-[100px]" />
