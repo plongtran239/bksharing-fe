@@ -27,18 +27,13 @@ const Meeting = ({
     <main>
       <StreamCall call={call}>
         <StreamTheme>
-          {!isSetupComplete ? (
-            <>
-              <Header />
-              <div className="bg-secondary">
-                <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
-              </div>
-            </>
-          ) : (
-            <div className="bg-secondary">
+          <div className="bg-secondary">
+            {!isSetupComplete ? (
+              <MeetingSetup setIsSetupComplete={setIsSetupComplete} />
+            ) : (
               <MeetingRoom />
-            </div>
-          )}
+            )}
+          </div>
         </StreamTheme>
       </StreamCall>
     </main>

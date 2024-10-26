@@ -97,6 +97,7 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
 
   return (
     <>
+      //TODO: Implement Header fot this component
       {isAuthorized ? (
         <div className="flex-center container h-screen w-full py-10">
           <div className="flex-center gap-20 max-lg:flex-col max-lg:gap-5">
