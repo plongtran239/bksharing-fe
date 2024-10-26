@@ -1,30 +1,30 @@
-import { motion } from "framer-motion";
+"use client";
+
 import { MenuIcon } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
 import AvatarDropdown from "@/components/avatar-dropdown";
+import Navbar from "@/components/navbar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
-  SheetClose,
   SheetContent,
   SheetDescription,
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
-import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { UserType } from "@/schemas";
+import { AccountType } from "@/schemas";
 
 interface IProps {
-  isActive: (href: string) => boolean;
-  user: UserType | null;
+  user: AccountType | null;
+  role: string;
   className?: string;
 }
 
-const Sidebar = ({ isActive, user, className }: IProps) => {
+const Sidebar = ({ user, role, className }: IProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -40,31 +40,7 @@ const Sidebar = ({ isActive, user, className }: IProps) => {
         <ul className="mt-10 flex flex-col items-start justify-between gap-10 text-[#5B5B5B]">
           <SheetTitle className="hidden"></SheetTitle>
           <SheetDescription className="hidden"></SheetDescription>
-          {NavbarMenuItems.map((item, index) => (
-            <li
-              key={index}
-              className={cn("flex-between w-full", {
-                "font-semibold text-primary": isActive(item.href),
-              })}
-            >
-              <motion.div
-                whileHover={{
-                  scale: 1.1,
-                  transition: {
-                    duration: 0.3,
-                    ease: "easeInOut",
-                  },
-                }}
-              >
-                <Link href={item.href}>
-                  <SheetClose className="flex-center gap-1">
-                    {item.icon}
-                    {item.label}
-                  </SheetClose>
-                </Link>
-              </motion.div>
-            </li>
-          ))}
+          <Navbar role={role} isSidebar />
         </ul>
 
         <div className="w-full">
@@ -75,6 +51,7 @@ const Sidebar = ({ isActive, user, className }: IProps) => {
           {user ? (
             <AvatarDropdown
               user={user}
+              role={role}
               handleClick={handleClick}
               mobileDisplayName={true}
             />

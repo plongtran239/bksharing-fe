@@ -69,7 +69,7 @@ const DateInput = forwardRef<HTMLInputElement, DateInputProps>(
           ref={ref}
         />
 
-        <Popover>
+        <Popover modal>
           <PopoverTrigger className="absolute right-3 text-muted-foreground hover:text-primary">
             <CalendarIcon size={16} />
           </PopoverTrigger>

@@ -1,26 +1,24 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
+import userApi from "@/apis/user.api";
 import AvatarDropdown from "@/components/avatar-dropdown";
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { Button } from "@/components/ui/button";
-import { ROLES } from "@/constants/enum";
-import { useAppContext } from "@/providers/app.provider";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
-const Header = () => {
-  const path = usePathname();
+const Header = async () => {
+  const { sessionToken, role } = useGetFromCookie(["sessionToken", "role"]);
 
-  const isActive = (href: string) => {
-    return href === "/" ? path === href : path.startsWith(href);
-  };
+  let user = null;
 
-  const { user } = useAppContext();
-
-  const isAdmin = user?.accountType === ROLES.ADMIN;
+  if (sessionToken) {
+    const {
+      payload: { data },
+    } = await userApi.getMe(sessionToken);
+    user = data;
+  }
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white shadow">
@@ -40,11 +38,11 @@ const Header = () => {
         </Link>
 
         <div className="flex-between gap-20 max-lg:gap-5">
-          <Navbar isActive={isActive} isAdmin={isAdmin} />
+          <Navbar role={role} />
 
           <>
             {user ? (
-              <AvatarDropdown user={user} />
+              <AvatarDropdown user={user} role={role} />
             ) : (
               <div className="flex-between gap-5 max-lg:hidden">
                 <Link href="/login">
@@ -59,9 +57,7 @@ const Header = () => {
             )}
           </>
 
-          {!isAdmin && (
-            <Sidebar isActive={isActive} user={user} className="lg:hidden" />
-          )}
+          <Sidebar user={user} role={role} className="lg:hidden" />
         </div>
       </div>
     </header>

@@ -16,23 +16,25 @@ import {
   AvatarDropdownMenuItems,
 } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { UserType } from "@/schemas";
+import { AccountType } from "@/schemas";
 
 interface IProps {
-  user: UserType;
+  user: AccountType;
+  role: string;
   handleClick?: () => void;
   className?: string;
   mobileDisplayName?: boolean;
-  isAdmin?: boolean;
 }
 
 const AvatarDropdown = ({
   user,
+  role,
   handleClick,
   className,
   mobileDisplayName,
-  isAdmin,
 }: IProps) => {
+  const isAdmin = role === ROLES.ADMIN;
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
@@ -43,7 +45,7 @@ const AvatarDropdown = ({
       >
         <div className="relative h-[32px] w-[32px]">
           <Image
-            src={user.avatar?.originalUrl || "/images/default-user.png"}
+            src={user.thumbnail?.originalUrl || "/images/default-user.png"}
             alt="avatar"
             sizes="(max-width: 640px) 100px,"
             fill
@@ -61,46 +63,36 @@ const AvatarDropdown = ({
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
-        {!isAdmin && (
-          <>
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
-            <DropdownMenuSeparator />
+        <DropdownMenuSeparator />
 
-            {user.accountType === ROLES.ADMIN
-              ? AdminAvatarDropdownMenuItems.map((item, index) => (
-                  <Link key={index} href={item.href} onClick={handleClick}>
-                    <DropdownMenuItem className="flex items-center gap-2">
-                      {item.icon}
-                      {item.label}
-                    </DropdownMenuItem>
-                  </Link>
-                ))
-              : AvatarDropdownMenuItems.map((item, index) => {
-                  if (user.accountType === ROLES.STUDENT) {
-                    if (item.label === "Meeting" || item.label === "Profile")
-                      return null;
-                  }
+        {isAdmin
+          ? AdminAvatarDropdownMenuItems.map((item, index) => (
+              <Link key={index} href={item.href} onClick={handleClick}>
+                <DropdownMenuItem className="flex items-center gap-2">
+                  {item.icon}
+                  {item.label}
+                </DropdownMenuItem>
+              </Link>
+            ))
+          : AvatarDropdownMenuItems.map((item, index) => {
+              if (role === ROLES.STUDENT) {
+                if (item.label === "Meeting" || item.label === "Profile")
+                  return null;
+              }
 
-                  return (
-                    <Link
-                      key={index}
-                      href={
-                        item.href === "/users" ? `/users/${user.id}` : item.href
-                      }
-                      onClick={handleClick}
-                    >
-                      <DropdownMenuItem className="flex items-center gap-2">
-                        {item.icon}
-                        {item.label}
-                      </DropdownMenuItem>
-                    </Link>
-                  );
-                })}
+              return (
+                <Link key={index} href={item.href} onClick={handleClick}>
+                  <DropdownMenuItem className="flex items-center gap-2">
+                    {item.icon}
+                    {item.label}
+                  </DropdownMenuItem>
+                </Link>
+              );
+            })}
 
-            <DropdownMenuSeparator />
-          </>
-        )}
+        <DropdownMenuSeparator />
 
         <LogoutButton handleClick={handleClick} />
       </DropdownMenuContent>

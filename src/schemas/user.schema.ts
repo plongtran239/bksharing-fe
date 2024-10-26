@@ -37,8 +37,15 @@ const Account = z.object({
   bio: z.string().optional(),
   addressBase: z.string().optional(),
   addressDetail: z.string().optional(),
-
   avatarId: z.number().optional(),
+  thumbnail: z
+    .object({
+      fileId: z.number(),
+      fileSize: z.number(),
+      originalUrl: z.string(),
+      versions: z.array(z.string()),
+    })
+    .optional(),
 });
 
 const Mentor = User.extend({

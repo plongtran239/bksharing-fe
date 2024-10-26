@@ -45,6 +45,7 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
     resolver: zodResolver(Account),
     defaultValues: {
       ...data,
+      dob: data.dob ? new Date(Number(data.dob)) : undefined,
       addressBase: data.addressBase || "",
       addressDetail: data.addressDetail || "",
     },
@@ -219,7 +220,9 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
         <div className="mt-10 flex justify-center">
           <Button
             type="submit"
-            disabled={loading || form.formState.isSubmitting}
+            disabled={
+              loading || form.formState.isSubmitting || !form.formState.isDirty
+            }
           >
             {loading ? <Loader /> : "Submit"}
           </Button>

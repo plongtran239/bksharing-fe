@@ -1,25 +1,45 @@
+"use client";
+
 import { motion } from "framer-motion";
 import { HomeIcon } from "lucide-react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { useCallback } from "react";
 
 import { Button } from "@/components/ui/button";
+import { SheetClose } from "@/components/ui/sheet";
+import { ROLES } from "@/constants/enum";
 import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
 
 interface IProps {
-  isActive: (href: string) => boolean;
-  isAdmin?: boolean;
+  role: string;
+  isSidebar?: boolean;
 }
 
-const Navbar = ({ isActive, isAdmin = false }: IProps) => {
+const Navbar = ({ role, isSidebar }: IProps) => {
+  const path = usePathname();
+
+  const isActive = useCallback(
+    (href: string) => {
+      return href === "/" ? path === href : path.startsWith(href);
+    },
+    [path]
+  );
+
   return (
-    <ul className="flex-between gap-10 text-[#5B5B5B] dark:text-white max-lg:hidden">
-      {!isAdmin ? (
+    <ul
+      className={cn("flex-between gap-10 max-lg:hidden", {
+        "max-lg:flex-between flex-col gap-10": isSidebar,
+      })}
+    >
+      {role !== ROLES.ADMIN ? (
         NavbarMenuItems.map((item, index) => (
           <li
             key={index}
             className={cn({
               "font-semibold text-primary": isActive(item.href),
+              "flex-between w-full": isSidebar,
             })}
           >
             <motion.div
@@ -32,8 +52,23 @@ const Navbar = ({ isActive, isAdmin = false }: IProps) => {
               }}
             >
               <Link href={item.href} className="flex-center gap-1">
-                <span className="max-xl:hidden">{item.icon}</span>
-                {item.label}
+                {isSidebar ? (
+                  <SheetClose className="flex-center gap-1">
+                    <span className="max-xl:hidden">{item.icon}</span>
+                    {item.label}
+                  </SheetClose>
+                ) : (
+                  <>
+                    <span
+                      className={cn("max-xl:hidden", {
+                        "max-xl:inline": isSidebar,
+                      })}
+                    >
+                      {item.icon}
+                    </span>
+                    {item.label}
+                  </>
+                )}
               </Link>
             </motion.div>
           </li>

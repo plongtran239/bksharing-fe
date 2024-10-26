@@ -8,12 +8,10 @@ import AvatarDropdown from "@/components/avatar-dropdown";
 import { Separator } from "@/components/ui/separator";
 import { AdminSidebarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { useAppContext } from "@/providers/app.provider";
+import { AccountType } from "@/schemas";
 
-const AdminSidebar = () => {
+const AdminSidebar = ({ user, role }: { user: AccountType; role: string }) => {
   const pathname = usePathname();
-
-  const { user } = useAppContext();
 
   return (
     <aside className="sticky left-0 top-0 flex h-screen flex-col justify-between bg-secondary p-6 max-sm:hidden lg:w-[280px]">
@@ -67,7 +65,7 @@ const AdminSidebar = () => {
       <div className="">
         <Separator className="mb-5 bg-secondary-foreground" />
         <div className="flex-center">
-          {user && <AvatarDropdown user={user} isAdmin />}
+          <AvatarDropdown user={user} role={role} />
         </div>
       </div>
     </aside>

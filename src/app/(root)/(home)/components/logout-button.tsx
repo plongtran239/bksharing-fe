@@ -34,6 +34,7 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
       localStorage.removeItem("sessionToken");
 
       router.push("/");
+      router.refresh();
     } catch (error) {
       console.error({ error });
     }
