@@ -3,7 +3,6 @@
 import { StreamCall, StreamTheme } from "@stream-io/video-react-sdk";
 import { useState } from "react";
 
-import Header from "@/components/header";
 import MeetingRoom from "@/components/meeting-room";
 import MeetingSetup from "@/components/meeting-setup";
 import useGetCallById from "@/hooks/use-get-call-by-id";
