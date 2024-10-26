@@ -19,13 +19,12 @@ export const useLogin = () => {
     try {
       const result = await authApi.login(values);
       const data = result.payload.data;
-
-      setUser(data);
-
       await authApi.auth({
         sessionToken: data.accessToken,
         role: data.accountType,
       });
+
+      setUser(data);
 
       toast({
         title: "Success",
@@ -37,6 +36,8 @@ export const useLogin = () => {
       } else {
         router.push("/");
       }
+
+      router.refresh();
     } catch (error) {
       console.error({ error });
 
