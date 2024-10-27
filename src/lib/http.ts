@@ -1,23 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import envConfig from "@/config";
+import { EntityError, EntityErrorPayload } from "@/lib/exceptions";
 import { normalizePath } from "@/lib/utils";
 import { AuthResponseType } from "@/schemas";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
 };
-
-class HttpError extends Error {
-  status: number;
-  payload: unknown;
-
-  constructor({ status, payload }: { status: number; payload: unknown }) {
-    super(`HTTP error: ${status}`);
-
-    this.status = status;
-    this.payload = payload;
-  }
-}
 
 export const isClient = () => typeof window !== "undefined";
 
@@ -79,7 +68,12 @@ const request = async <Response>(
   };
 
   if (!res.ok) {
-    throw new HttpError(data);
+    throw new EntityError(
+      data as {
+        status: number;
+        payload: EntityErrorPayload;
+      }
+    );
   }
 
   if (isClient()) {

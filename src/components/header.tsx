@@ -42,7 +42,11 @@ const Header = async () => {
 
           <>
             {user ? (
-              <AvatarDropdown user={user} role={role} />
+              <AvatarDropdown
+                name={user.name}
+                avatar={user.thumbnail?.originalUrl}
+                role={role}
+              />
             ) : (
               <div className="flex-between gap-5 max-lg:hidden">
                 <Link href="/login">

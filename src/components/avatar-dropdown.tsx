@@ -16,18 +16,19 @@ import {
   AvatarDropdownMenuItems,
 } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
-import { AccountType } from "@/schemas";
 
 interface IProps {
-  user: AccountType;
-  role: string;
+  name?: string;
+  avatar?: string;
+  role?: string;
   handleClick?: () => void;
   className?: string;
   mobileDisplayName?: boolean;
 }
 
 const AvatarDropdown = ({
-  user,
+  name,
+  avatar,
   role,
   handleClick,
   className,
@@ -45,7 +46,7 @@ const AvatarDropdown = ({
       >
         <div className="relative h-[32px] w-[32px]">
           <Image
-            src={user.thumbnail?.originalUrl || "/images/default-user.png"}
+            src={avatar || "/images/default-user.png"}
             alt="avatar"
             sizes="(max-width: 640px) 100px,"
             fill
@@ -59,7 +60,7 @@ const AvatarDropdown = ({
             "max-lg:hidden": isAdmin,
           })}
         >
-          {user.name}
+          {name}
         </span>
       </DropdownMenuTrigger>
       <DropdownMenuContent>

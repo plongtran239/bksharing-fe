@@ -50,7 +50,8 @@ const Sidebar = ({ user, role, className }: IProps) => {
 
           {user ? (
             <AvatarDropdown
-              user={user}
+              name={user.name}
+              avatar={user.thumbnail?.originalUrl}
               role={role}
               handleClick={handleClick}
               mobileDisplayName={true}

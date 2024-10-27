@@ -23,15 +23,12 @@ import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
-import { useAppContext } from "@/providers/app.provider";
 import { MeetingType } from "@/schemas";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const router = useRouter();
 
   const { toast } = useToast();
-
-  const { user } = useAppContext();
 
   const client = useStreamVideoClient();
 
@@ -131,7 +128,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
           participants,
         } = row.original;
 
-        if (!client || !user) {
+        if (!client) {
           return;
         }
 
