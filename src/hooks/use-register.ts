@@ -56,7 +56,18 @@ export const useRegister = (role: ROLES) => {
         description: "Register successfully!",
       });
 
-      router.push("/");
+      switch (data.accountType) {
+        case ROLES.MENTOR:
+          router.push("/mentor/courses");
+          break;
+        case ROLES.STUDENT:
+          router.push("/");
+          break;
+        default:
+          break;
+      }
+
+      router.refresh();
     } catch (error) {
       console.error({ error });
 

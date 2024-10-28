@@ -40,7 +40,7 @@ const Sidebar = async () => {
           </span>
         </Link>
 
-        <SideNavbar role={role} />
+        <SideNavbar role={role as keyof typeof ROLES} />
       </div>
 
       <div className="">

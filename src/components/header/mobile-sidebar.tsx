@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { ROLES } from "@/constants/enum";
 import { cn } from "@/lib/utils";
 import { AccountType } from "@/schemas";
 
@@ -37,11 +38,12 @@ const MobileSidebar = ({ user, role, className }: IProps) => {
         <MenuIcon size={20} />
       </SheetTrigger>
       <SheetContent className="flex w-80 flex-col items-start justify-between">
-        <ul className="mt-10 flex flex-col items-start justify-between gap-10 text-[#5B5B5B]">
+        <div className="mt-10 flex flex-col items-start justify-between gap-10 text-[#5B5B5B]">
           <SheetTitle className="hidden"></SheetTitle>
           <SheetDescription className="hidden"></SheetDescription>
-          <Navbar role={role} isSidebar />
-        </ul>
+
+          {role !== ROLES.ADMIN && <Navbar isSidebar />}
+        </div>
 
         <div className="w-full">
           <div className="mb-5">

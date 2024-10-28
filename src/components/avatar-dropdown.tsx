@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import LogoutButton from "@/app/(root)/(home)/components/logout-button";
 import {
@@ -11,10 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { ROLES } from "@/constants/enum";
-import {
-  AdminAvatarDropdownMenuItems,
-  AvatarDropdownMenuItems,
-} from "@/constants/menu-item";
+import { AvatarDropdownMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
 
 interface IProps {
@@ -34,7 +34,7 @@ const AvatarDropdown = ({
   className,
   mobileDisplayName,
 }: IProps) => {
-  const isAdmin = role === ROLES.ADMIN;
+  const pathname = usePathname();
 
   return (
     <DropdownMenu>
@@ -57,7 +57,7 @@ const AvatarDropdown = ({
         <span
           className={cn("text-black max-sm:hidden", {
             "max-sm:block": mobileDisplayName,
-            "max-lg:hidden": isAdmin,
+            "max-lg:hidden": role === ROLES.ADMIN || role === ROLES.MENTOR,
           })}
         >
           {name}
@@ -68,30 +68,30 @@ const AvatarDropdown = ({
 
         <DropdownMenuSeparator />
 
-        {isAdmin
-          ? AdminAvatarDropdownMenuItems.map((item, index) => (
+        {AvatarDropdownMenuItems[ROLES[role as keyof typeof ROLES]].map(
+          (item, index) => {
+            if (role === ROLES.MENTOR) {
+              if (
+                (pathname.startsWith("/mentor") &&
+                  item.href.includes("/mentor")) ||
+                (!pathname.startsWith("/mentor") && item.href === "/")
+              ) {
+                return null;
+              }
+            }
+
+            return (
               <Link key={index} href={item.href} onClick={handleClick}>
+                {item.hasSeparator && <DropdownMenuSeparator />}
+
                 <DropdownMenuItem className="flex items-center gap-2">
                   {item.icon}
                   {item.label}
                 </DropdownMenuItem>
               </Link>
-            ))
-          : AvatarDropdownMenuItems.map((item, index) => {
-              if (role === ROLES.STUDENT) {
-                if (item.label === "Meeting" || item.label === "Profile")
-                  return null;
-              }
-
-              return (
-                <Link key={index} href={item.href} onClick={handleClick}>
-                  <DropdownMenuItem className="flex items-center gap-2">
-                    {item.icon}
-                    {item.label}
-                  </DropdownMenuItem>
-                </Link>
-              );
-            })}
+            );
+          }
+        )}
 
         <DropdownMenuSeparator />
 

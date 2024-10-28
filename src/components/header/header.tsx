@@ -6,6 +6,7 @@ import AvatarDropdown from "@/components/avatar-dropdown";
 import MobileSidebar from "@/components/header/mobile-sidebar";
 import Navbar from "@/components/header/navbar";
 import { Button } from "@/components/ui/button";
+import { ROLES } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const Header = async () => {
@@ -38,7 +39,7 @@ const Header = async () => {
         </Link>
 
         <div className="flex-between gap-20 max-lg:gap-5">
-          <Navbar role={role} />
+          {role !== ROLES.ADMIN && <Navbar />}
 
           <>
             {user ? (

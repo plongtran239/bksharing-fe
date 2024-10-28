@@ -8,12 +8,16 @@ import {
   TextQuoteIcon,
   UserIcon,
   VideoIcon,
+  ViewIcon,
 } from "lucide-react";
+
+import { ROLES } from "@/constants/enum";
 
 type MenuItemsType = {
   label: string;
   href: string;
   icon: JSX.Element;
+  hasSeparator?: boolean;
 }[];
 
 const NavbarMenuItems: MenuItemsType = [
@@ -35,12 +39,7 @@ const NavbarMenuItems: MenuItemsType = [
   },
 ];
 
-const AvatarDropdownMenuItems: MenuItemsType = [
-  {
-    label: "Profile",
-    href: "/users/profile",
-    icon: <UserIcon size={16} />,
-  },
+const StudentAvatarDropdownMenuItems: MenuItemsType = [
   {
     label: "Change Password",
     href: "/change-password",
@@ -51,10 +50,31 @@ const AvatarDropdownMenuItems: MenuItemsType = [
     href: "/user-info",
     icon: <InfoIcon size={16} />,
   },
+];
+
+const MentorAvatarDropdownMenuItems: MenuItemsType = [
+  {
+    label: "Profile",
+    href: "/users/profile",
+    icon: <UserIcon size={16} />,
+  },
+  ...StudentAvatarDropdownMenuItems,
   {
     label: "Meeting",
     href: "/meeting",
     icon: <VideoIcon size={16} />,
+  },
+  {
+    label: "Mentor Dashboard",
+    href: "/mentor/courses",
+    icon: <ViewIcon size={16} />,
+    hasSeparator: true,
+  },
+  {
+    label: "Student View",
+    href: "/",
+    icon: <ViewIcon size={16} />,
+    hasSeparator: true,
   },
 ];
 
@@ -97,10 +117,15 @@ const MentorSidebarMenuItems: MenuItemsType = [
   },
 ];
 
-export {
-  NavbarMenuItems,
-  AvatarDropdownMenuItems,
-  AdminAvatarDropdownMenuItems,
-  AdminSidebarMenuItems,
-  MentorSidebarMenuItems,
+const AvatarDropdownMenuItems = {
+  [ROLES.STUDENT]: StudentAvatarDropdownMenuItems,
+  [ROLES.MENTOR]: MentorAvatarDropdownMenuItems,
+  [ROLES.ADMIN]: AdminAvatarDropdownMenuItems,
 };
+
+const SidebarMenuItems = {
+  [ROLES.MENTOR]: MentorSidebarMenuItems,
+  [ROLES.ADMIN]: AdminSidebarMenuItems,
+};
+
+export { NavbarMenuItems, AvatarDropdownMenuItems, SidebarMenuItems };

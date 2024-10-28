@@ -31,10 +31,18 @@ export const useLogin = () => {
         description: "Login successfully!",
       });
 
-      if (data.accountType === ROLES.ADMIN) {
-        router.push("/admin/dashboard");
-      } else {
-        router.push("/");
+      switch (data.accountType) {
+        case ROLES.ADMIN:
+          router.push("/admin/dashboard");
+          break;
+        case ROLES.MENTOR:
+          router.push("/mentor/courses");
+          break;
+        case ROLES.STUDENT:
+          router.push("/");
+          break;
+        default:
+          break;
       }
 
       router.refresh();
