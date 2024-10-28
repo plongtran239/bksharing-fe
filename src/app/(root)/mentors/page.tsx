@@ -2,8 +2,8 @@ import * as motion from "framer-motion/client";
 import { Metadata } from "next";
 
 import userApi from "@/apis/user.api";
-import MentorCard from "@/app/(root)/(mentor)/mentors/components/mentor-card";
-import SearchFilter from "@/app/(root)/(mentor)/mentors/components/search-filter";
+import MentorCard from "@/app/(root)/mentors/components/mentor-card";
+import SearchFilter from "@/app/(root)/mentors/components/search-filter";
 import AnimationWrapper from "@/components/animation-wrapper";
 import {
   Pagination,

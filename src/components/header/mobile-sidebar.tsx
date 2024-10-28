@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 import AvatarDropdown from "@/components/avatar-dropdown";
-import Navbar from "@/components/navbar";
+import Navbar from "@/components/header/navbar";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import {
@@ -24,7 +24,7 @@ interface IProps {
   className?: string;
 }
 
-const Sidebar = ({ user, role, className }: IProps) => {
+const MobileSidebar = ({ user, role, className }: IProps) => {
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -79,4 +79,4 @@ const Sidebar = ({ user, role, className }: IProps) => {
     </Sheet>
   );
 };
-export default Sidebar;
+export default MobileSidebar;

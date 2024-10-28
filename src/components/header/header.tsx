@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import userApi from "@/apis/user.api";
 import AvatarDropdown from "@/components/avatar-dropdown";
-import Navbar from "@/components/navbar";
-import Sidebar from "@/components/sidebar";
+import MobileSidebar from "@/components/header/mobile-sidebar";
+import Navbar from "@/components/header/navbar";
 import { Button } from "@/components/ui/button";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
@@ -61,7 +61,7 @@ const Header = async () => {
             )}
           </>
 
-          <Sidebar user={user} role={role} className="lg:hidden" />
+          <MobileSidebar user={user} role={role} className="lg:hidden" />
         </div>
       </div>
     </header>

@@ -3,11 +3,11 @@ import { Metadata } from "next";
 import Sidebar from "@/components/sidebar/sidebar";
 
 export const metadata: Metadata = {
-  title: "Admin | BK Sharing",
-  description: "Admin page for BK Sharing",
+  title: "Mentor | BK Sharing",
+  description: "Mentor page for BK Sharing",
 };
 
-const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+const MentorLayout = ({ children }: { children: React.ReactNode }) => {
   return (
     <main className="flex justify-center">
       <Sidebar />
@@ -15,4 +15,5 @@ const AdminLayout = ({ children }: { children: React.ReactNode }) => {
     </main>
   );
 };
-export default AdminLayout;
+
+export default MentorLayout;

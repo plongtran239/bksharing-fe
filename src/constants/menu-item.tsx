@@ -89,9 +89,18 @@ const AdminSidebarMenuItems: MenuItemsType = [
   },
 ];
 
+const MentorSidebarMenuItems: MenuItemsType = [
+  {
+    label: "Courses",
+    href: "/mentor/courses",
+    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+  },
+];
+
 export {
   NavbarMenuItems,
   AvatarDropdownMenuItems,
   AdminAvatarDropdownMenuItems,
   AdminSidebarMenuItems,
+  MentorSidebarMenuItems,
 };

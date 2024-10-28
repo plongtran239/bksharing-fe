@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 // import meetingApi from "@/apis/meeting.api";
 import Footer from "@/components/footer";
-import Header from "@/components/header";
+import Header from "@/components/header/header";
 import MeetingTypeList from "@/components/meeting-type-list";
 
 // import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
