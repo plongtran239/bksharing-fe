@@ -7,3 +7,4 @@ export * from "./user.schema";
 export * from "./category.schema";
 export * from "./meeting.schema";
 export * from "./response.schema";
+export * from "./course.schema";
