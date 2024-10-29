@@ -26,6 +26,7 @@ const TargetAudiencePrice = ({ form }: { form: UseFormReturn<CourseType> }) => {
           </Label>
           <Input
             id="price"
+            type="number"
             placeholder="Enter price..."
             className="w-1/4"
             {...form.register("price")}

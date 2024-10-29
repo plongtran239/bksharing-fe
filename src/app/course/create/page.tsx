@@ -1,9 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
+import courseApi from "@/apis/course.api";
 import ChooseCategory from "@/app/course/create/components/choose-category";
 import ChooseType from "@/app/course/create/components/choose-type";
 import Header from "@/app/course/create/components/header";
@@ -11,14 +13,19 @@ import InputInfo from "@/app/course/create/components/input-info";
 import PrerequisiteObjective from "@/app/course/create/components/prerequisite-obj";
 import SetDate from "@/app/course/create/components/set-date";
 import TargetAudiencePrice from "@/app/course/create/components/target-price";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { Course, CourseType } from "@/schemas";
 
 const totalSteps = 6;
 
 const CreateCourse = () => {
+  const router = useRouter();
+  const { toast } = useToast();
   const [step, setStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<CourseType>({
     resolver: zodResolver(Course),
@@ -63,6 +70,25 @@ const CreateCourse = () => {
     return false;
   };
 
+  const handleCreateCourse = async () => {
+    setIsLoading(true);
+
+    try {
+      await courseApi.createCourse(form.getValues());
+
+      router.push("/mentor/courses");
+
+      toast({
+        title: "Success",
+        description: "Course created successfully!",
+      });
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <div>
       {/* Header */}
@@ -97,6 +123,7 @@ const CreateCourse = () => {
           className={cn({
             hidden: step === 1,
           })}
+          disabled={isLoading}
           onClick={() => setStep((prev) => prev - 1)}
         >
           Previous
@@ -114,10 +141,10 @@ const CreateCourse = () => {
           className={cn({
             hidden: step !== totalSteps,
           })}
-          disabled={isDisabledNext()}
-          onClick={() => console.log({ form: form.getValues() })}
+          disabled={isDisabledNext() || isLoading}
+          onClick={handleCreateCourse}
         >
-          Finish
+          {isLoading ? <Loader /> : "Finish"}
         </Button>
       </div>
     </div>
