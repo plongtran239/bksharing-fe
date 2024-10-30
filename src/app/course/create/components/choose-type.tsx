@@ -3,9 +3,9 @@ import { UseFormReturn } from "react-hook-form";
 
 import { COURSE_TYPE } from "@/constants/enum";
 import { cn, convertToCapitalizeCase } from "@/lib/utils";
-import { CourseType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
-const ChooseType = ({ form }: { form: UseFormReturn<CourseType> }) => {
+const ChooseType = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
   return (
     <div className="container space-y-10 text-center">
       <h1 className="text-3xl font-semibold text-secondary-foreground">

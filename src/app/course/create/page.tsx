@@ -15,9 +15,10 @@ import SetDate from "@/app/course/create/components/set-date";
 import TargetAudiencePrice from "@/app/course/create/components/target-price";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { Course, CourseType } from "@/schemas";
+import { CourseRequest, CourseRequestType } from "@/schemas";
 
 const totalSteps = 6;
 
@@ -27,14 +28,15 @@ const CreateCourse = () => {
   const [step, setStep] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<CourseType>({
-    resolver: zodResolver(Course),
+  const form = useForm<CourseRequestType>({
+    resolver: zodResolver(CourseRequest),
     defaultValues: {
       courseType: undefined,
       name: "",
       description: "",
       categoryId: undefined,
       prerequisites: [],
+      status: COURSE_STATUS.DRAFT,
       objectives: [],
       price: undefined,
       targetAudiences: [],

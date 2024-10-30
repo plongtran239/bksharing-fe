@@ -49,7 +49,7 @@ const FileInput = ({
   return (
     <div className={cn(classname)}>
       {value ? (
-        <div className="flex-between group rounded-lg p-2 transition hover:bg-primary/30">
+        <div className="flex-between group rounded-lg bg-primary/30 p-2 transition">
           <div className="flex-center gap-2">
             <Paperclip size={16} />
 

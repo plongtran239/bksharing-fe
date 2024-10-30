@@ -5,9 +5,13 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TARGET_AUDIENCE } from "@/constants/enum";
 import { convertToCapitalizeCase } from "@/lib/utils";
-import { CourseType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
-const TargetAudiencePrice = ({ form }: { form: UseFormReturn<CourseType> }) => {
+const TargetAudiencePrice = ({
+  form,
+}: {
+  form: UseFormReturn<CourseRequestType>;
+}) => {
   return (
     <div className="container space-y-10 text-center">
       <h1 className="text-3xl font-semibold text-secondary-foreground">

@@ -2,9 +2,9 @@ import { UseFormReturn } from "react-hook-form";
 
 import DateInput from "@/components/date-input";
 import { Label } from "@/components/ui/label";
-import { CourseType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
-const SetDate = ({ form }: { form: UseFormReturn<CourseType> }) => {
+const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
   return (
     <div className="space-y-10 text-center">
       <h1 className="text-3xl font-semibold text-secondary-foreground">

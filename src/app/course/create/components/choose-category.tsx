@@ -9,9 +9,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryType, CourseType } from "@/schemas";
+import { CategoryType, CourseRequestType } from "@/schemas";
 
-const ChooseCategory = ({ form }: { form: UseFormReturn<CourseType> }) => {
+const ChooseCategory = ({
+  form,
+}: {
+  form: UseFormReturn<CourseRequestType>;
+}) => {
   const [categories, setCategories] = useState<CategoryType[]>([]);
 
   useEffect(() => {

@@ -1,16 +1,16 @@
-import { TrashIcon } from "lucide-react";
+import { PlusIcon, TrashIcon } from "lucide-react";
 import { useState } from "react";
 import { UseFormReturn } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { CourseType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
 const PrerequisiteObjective = ({
   form,
 }: {
-  form: UseFormReturn<CourseType>;
+  form: UseFormReturn<CourseRequestType>;
 }) => {
   const [prerequisites, setPrerequisites] = useState<string[]>(
     form.getValues("prerequisites").length > 0
@@ -70,21 +70,22 @@ const PrerequisiteObjective = ({
           <Button
             variant="ghost"
             onClick={() => setObjectives([...objectives, ""])}
-            className="text-primary"
+            className="flex-center gap-2 px-3 text-primary"
           >
+            <PlusIcon size={16} />
             Add more objective
           </Button>
         </div>
 
         <div className="flex-center flex-col gap-3">
           <Label htmlFor="prerequisites" className="text-left">
-            Course prerequisites
+            Course prerequisites / requirements
           </Label>
 
           {prerequisites.map((pre, index) => (
             <div key={index} className="flex-center w-full gap-2">
               <Input
-                placeholder="Enter course prerequisite..."
+                placeholder="Enter course prerequisites / requirements..."
                 className="w-1/2"
                 value={pre}
                 onChange={(e) => {
@@ -111,9 +112,10 @@ const PrerequisiteObjective = ({
           <Button
             variant="ghost"
             onClick={() => setPrerequisites([...prerequisites, ""])}
-            className="text-primary"
+            className="flex-center gap-2 px-3 text-primary"
           >
-            Add more prerequisite
+            <PlusIcon size={16} />
+            Add more prerequisite / requirement
           </Button>
         </div>
       </div>

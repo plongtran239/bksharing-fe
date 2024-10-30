@@ -3,9 +3,9 @@ import { UseFormReturn } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { CourseType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
-const InputInfo = ({ form }: { form: UseFormReturn<CourseType> }) => {
+const InputInfo = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
   return (
     <div className="container space-y-10">
       <h1 className="text-center text-3xl font-semibold text-secondary-foreground">

@@ -3,19 +3,23 @@ import {
   ListCollapseIcon,
   MessageSquareQuoteIcon,
 } from "lucide-react";
+import { notFound } from "next/navigation";
 
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
-// import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetProfile } from "@/hooks/use-get-profile";
 import { classifyAchievements } from "@/lib/utils";
 
 const Profile = async ({ slug }: { slug: string }) => {
-  const { data: profile } = await useGetProfile(slug);
+  const result = await useGetProfile(slug);
 
-  const { name, bio, achievements, thumbnail, accountId } = profile;
+  if (!result) {
+    notFound();
+  }
+
+  const { name, bio, achievements, thumbnail, accountId } = result.data;
 
   const classifiedAchievements = classifyAchievements(achievements);
 
@@ -46,9 +50,7 @@ const Profile = async ({ slug }: { slug: string }) => {
 
         {/* User info */}
         <div className="mt-10 grid grid-cols-3">
-          <div className="max-lg:flex-center max-w-[400px]">
-            {/* <h1 className="line-clamp-1 text-2xl font-bold">{data.name}</h1> */}
-          </div>
+          <div className="max-lg:flex-center max-w-[400px]"></div>
 
           <div className="">
             <div className="flex-center flex-col">
@@ -58,12 +60,6 @@ const Profile = async ({ slug }: { slug: string }) => {
               <Progress value={completion} className="w-[200px]" />
             </div>
           </div>
-
-          {/* <div className="flex justify-end">
-            <Button className="" size="default">
-              My Schedule
-            </Button>
-          </div> */}
         </div>
       </div>
 
@@ -76,14 +72,12 @@ const Profile = async ({ slug }: { slug: string }) => {
                 <FileTextIcon size={16} className="max-sm:hidden" />
                 Profile
               </TabsTrigger>
+
               <TabsTrigger value="reviews">
                 <MessageSquareQuoteIcon size={16} className="max-sm:hidden" />
                 Reviews
               </TabsTrigger>
-              {/* <TabsTrigger value="suggestions">
-                    <ListCheckIcon size={16} className="max-sm:hidden" />
-                    Suggestion
-                  </TabsTrigger> */}
+
               <TabsTrigger value="posts">
                 <ListCollapseIcon size={16} className="max-sm:hidden" />
                 Posts
@@ -93,7 +87,7 @@ const Profile = async ({ slug }: { slug: string }) => {
 
           <div className="mt-10 w-full">
             <TabsContent value="profile">
-              <ProfileTab data={profile} completion={completion} />
+              <ProfileTab data={result.data} completion={completion} />
             </TabsContent>
 
             <TabsContent value="reviews">
