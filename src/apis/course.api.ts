@@ -38,6 +38,18 @@ const courseApi = {
         },
       }
     ),
+
+  updateCourse: (courseId: number, body: Partial<CourseRequestType>) =>
+    http.patch(`/client/courses/${courseId}`, {
+      ...body,
+      price: Number(body.price),
+      startDate: body.startDate
+        ? convertDateToLocaleDateString(body.startDate)
+        : undefined,
+      endDate: body.endDate
+        ? convertDateToLocaleDateString(body.endDate)
+        : undefined,
+    }),
 };
 
 export default courseApi;

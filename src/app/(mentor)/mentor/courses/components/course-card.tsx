@@ -1,10 +1,28 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { convertToCapitalizeCase } from "@/lib/utils";
+import { Progress } from "@/components/ui/progress";
+import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
+  const handleCalculateCourseCompletion = () => {
+    const totalSections = 5;
+    const sectionWeight = 100 / totalSections;
+
+    const completedSections = [
+      course.name,
+      course.category,
+      course.image?.fileId,
+      course.objectives.length > 0,
+      course.countOfSections > 0,
+    ].filter(Boolean).length;
+
+    return completedSections * sectionWeight;
+  };
+
+  const completion = handleCalculateCourseCompletion();
+
   return (
     <Link
       href={`/mentor/courses/${course.id}`}
@@ -22,7 +40,9 @@ const CourseCard = ({ course }: { course: CourseType }) => {
 
       <div className="flex-between flex-1 px-5 group-hover:hidden">
         <div className="space-y-1">
-          <h2 className="font-semibold text-black">{course.name}</h2>
+          <h2 className="line-clamp-1 max-w-96 font-semibold text-black">
+            {course.name}
+          </h2>
 
           <p className="text-sm">Category: {course.category.name}</p>
 
@@ -31,13 +51,33 @@ const CourseCard = ({ course }: { course: CourseType }) => {
           </p>
         </div>
 
-        <div className="space-y-2 text-black">
-          <p>
-            {course.countOfSections}{" "}
-            <span>{course.countOfSections === 1 ? "section" : "sections"}</span>
-          </p>
+        <div className="flex items-center justify-end gap-10">
+          <div className="space-y-2">
+            <div className="flex-between">
+              <div>
+                <p
+                  className={cn({
+                    hidden: completion === 100,
+                  })}
+                >
+                  Finish setup your course
+                </p>
+              </div>
+              <p>{completion}% complete</p>
+            </div>
+            <Progress value={completion} className="w-[500px]" />
+          </div>
 
-          <p>{course.totalDuration} hours</p>
+          <div className="space-y-2 text-black">
+            <p>
+              {course.countOfSections}{" "}
+              <span>
+                {course.countOfSections === 1 ? "section" : "sections"}
+              </span>
+            </p>
+
+            <p>{course.totalDuration} hours</p>
+          </div>
         </div>
       </div>
 

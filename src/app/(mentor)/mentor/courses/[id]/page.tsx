@@ -32,6 +32,23 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
     notFound();
   }
 
+  const handleCalculateCourseCompletion = () => {
+    const totalSections = 5;
+    const sectionWeight = 100 / totalSections;
+
+    const completedSections = [
+      course.name,
+      course.category,
+      course.image?.fileId,
+      course.objectives.length > 0,
+      course.sections.length > 0,
+    ].filter(Boolean).length;
+
+    return completedSections * sectionWeight;
+  };
+
+  const completion = handleCalculateCourseCompletion();
+
   return (
     <section>
       <div className="flex-between">
@@ -47,12 +64,24 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
 
       <Separator className="my-5" />
 
+      {completion < 100 && (
+        <div className="mb-5 rounded-xl border border-yellow-200 bg-yellow-100 p-5 text-black">
+          Complete the course information, content to ask for approval from the
+          admin.
+          <p>
+            - Course Information: Course name, category, thumbnail and
+            objectives.
+          </p>
+          <p>- Course Content: Add sections to your course.</p>
+        </div>
+      )}
+
       <Tabs defaultValue="info">
         <div className="flex-center">
           <TabsList>
             <TabsTrigger value="info">Course Information</TabsTrigger>
             <TabsTrigger value="content">Course Content</TabsTrigger>
-            <TabsTrigger value="setting">Course Setting</TabsTrigger>
+            <TabsTrigger value="setting">Course Settings</TabsTrigger>
           </TabsList>
         </div>
 
@@ -62,11 +91,11 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
           </TabsContent>
 
           <TabsContent value="content">
-            <CourseContent />
+            <CourseContent course={course} />
           </TabsContent>
 
           <TabsContent value="setting">
-            <CourseSetting />
+            <CourseSetting course={course} />
           </TabsContent>
         </div>
       </Tabs>

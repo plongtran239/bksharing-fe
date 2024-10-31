@@ -44,7 +44,6 @@ const CreateCourse = () => {
       endDate: undefined,
       isPublic: false,
       imageId: undefined,
-      sections: [],
     },
   });
 
