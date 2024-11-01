@@ -6,6 +6,7 @@ import {
   CourseType,
   DetailResponseType,
   ListResponseType,
+  UpdateCourseSectionRequestType,
 } from "@/schemas";
 
 const courseApi = {
@@ -50,6 +51,13 @@ const courseApi = {
         ? convertDateToLocaleDateString(body.endDate)
         : undefined,
     }),
+
+  updateCourseSections: (
+    courseId: number,
+    body: UpdateCourseSectionRequestType
+  ) => {
+    return http.patch(`/client/courses/${courseId}/sections`, body);
+  },
 };
 
 export default courseApi;

@@ -3,12 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
-import CourseContent from "@/app/(mentor)/mentor/courses/[id]/components/course-content";
-import CourseInfo from "@/app/(mentor)/mentor/courses/[id]/components/course-info";
-import CourseSetting from "@/app/(mentor)/mentor/courses/[id]/components/course-setting";
+import CourseTab from "@/app/(mentor)/mentor/courses/[id]/components/course-tab";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
@@ -65,7 +62,7 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
       <Separator className="my-5" />
 
       {completion < 100 && (
-        <div className="mb-5 rounded-xl border border-yellow-200 bg-yellow-100 p-5 text-black">
+        <div className="mb-5 rounded-xl border border-yellow-200 bg-yellow-100 p-5 text-sm text-black">
           Complete the course information, content to ask for approval from the
           admin.
           <p>
@@ -76,29 +73,7 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
         </div>
       )}
 
-      <Tabs defaultValue="info">
-        <div className="flex-center">
-          <TabsList>
-            <TabsTrigger value="info">Course Information</TabsTrigger>
-            <TabsTrigger value="content">Course Content</TabsTrigger>
-            <TabsTrigger value="setting">Course Settings</TabsTrigger>
-          </TabsList>
-        </div>
-
-        <div className="mt-5">
-          <TabsContent value="info">
-            <CourseInfo course={course} />
-          </TabsContent>
-
-          <TabsContent value="content">
-            <CourseContent course={course} />
-          </TabsContent>
-
-          <TabsContent value="setting">
-            <CourseSetting course={course} />
-          </TabsContent>
-        </div>
-      </Tabs>
+      <CourseTab course={course} />
     </section>
   );
 };

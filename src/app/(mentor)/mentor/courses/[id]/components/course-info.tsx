@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import categoryApi from "@/apis/category.api";
@@ -47,7 +47,13 @@ import {
   CourseRequestType,
 } from "@/schemas";
 
-const CourseInfo = ({ course }: { course: CourseDetailType }) => {
+const CourseInfo = ({
+  course,
+  setIsEdit,
+}: {
+  course: CourseDetailType;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+}) => {
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
@@ -99,6 +105,11 @@ const CourseInfo = ({ course }: { course: CourseDetailType }) => {
     });
   }, [form.formState.errors, toast]);
 
+  useEffect(() => {
+    setIsEdit(form.formState.isDirty);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [form.formState.isDirty]);
+
   const onSubmit = async (values: CourseRequestType) => {
     try {
       setIsLoading(true);
@@ -125,6 +136,8 @@ const CourseInfo = ({ course }: { course: CourseDetailType }) => {
       console.error({ error });
     } finally {
       setIsLoading(false);
+
+      setIsEdit(false);
     }
   };
 

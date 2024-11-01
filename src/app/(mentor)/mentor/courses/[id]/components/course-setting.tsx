@@ -1,7 +1,7 @@
 "use client";
 
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
-import { useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import courseApi from "@/apis/course.api";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 import { CourseDetailType } from "@/schemas";
 
-const CourseSetting = ({ course }: { course: CourseDetailType }) => {
+const CourseSetting = ({
+  course,
+  setIsEdit,
+}: {
+  course: CourseDetailType;
+  setIsEdit: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const { toast } = useToast();
   const [isPublic, setIsPublic] = useState(course.isPublic);
+
+  useEffect(() => {
+    if (isPublic !== course.isPublic) {
+      setIsEdit(true);
+    } else {
+      setIsEdit(false);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isPublic]);
 
   const handleSave = async () => {
     try {
@@ -29,8 +46,15 @@ const CourseSetting = ({ course }: { course: CourseDetailType }) => {
         price: course.price,
         targetAudiences: course.targetAudiences,
       });
+
+      toast({
+        title: "Success",
+        description: "Course settings have been updated",
+      });
     } catch (error) {
       console.error({ error });
+    } finally {
+      setIsEdit(false);
     }
   };
 

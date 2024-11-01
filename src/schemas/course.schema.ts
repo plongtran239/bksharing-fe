@@ -3,7 +3,26 @@ import { z } from "zod";
 import { MIN_DATE } from "@/constants/date";
 import { COURSE_STATUS, COURSE_TYPE, TARGET_AUDIENCE } from "@/constants/enum";
 
+const SectionRequest = z.object({
+  id: z.number().optional(),
+  title: z.string().min(3, {
+    message: "Section title must be at least 3 character long",
+  }),
+  description: z.string().optional(),
+  duration: z.number().min(1, {
+    message: "Duration must be at least 1",
+  }),
+  isPublic: z.boolean().default(false),
+  files: z.array(z.object({ fileId: z.number(), isPublic: z.boolean() })),
+});
+
+const updateCourseSectionRequest = z.object({
+  upsertSections: z.array(SectionRequest),
+  removeSectionIds: z.array(z.number()),
+});
+
 const Section = z.object({
+  id: z.number(),
   title: z.string(),
   description: z.string(),
   duration: z.number(),
@@ -90,11 +109,29 @@ const CourseDetail = CourseBase.extend({
   createdAt: z.date(),
 });
 
+type SectionRequestType = z.infer<typeof SectionRequest>;
+type UpdateCourseSectionRequestType = z.infer<
+  typeof updateCourseSectionRequest
+>;
+type SectionType = z.infer<typeof Section>;
 type CourseRequestType = z.infer<typeof CourseRequest>;
 type CourseType = z.infer<typeof Course>;
 type CourseDetailType = z.infer<typeof CourseDetail>;
-type SectionType = z.infer<typeof Section>;
 
-export { Course, CourseDetail, CourseRequest, Section };
+export {
+  Course,
+  CourseDetail,
+  CourseRequest,
+  Section,
+  SectionRequest,
+  updateCourseSectionRequest,
+};
 
-export type { CourseRequestType, CourseType, CourseDetailType, SectionType };
+export type {
+  CourseRequestType,
+  UpdateCourseSectionRequestType,
+  CourseType,
+  CourseDetailType,
+  SectionType,
+  SectionRequestType,
+};

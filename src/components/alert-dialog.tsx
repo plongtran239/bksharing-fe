@@ -14,7 +14,7 @@ interface IProps {
   onOpenChange: () => void;
   onCancel: () => void;
   onConfirm: () => void;
-  isLoading: boolean;
+  isLoading?: boolean;
   children: ReactNode;
 }
 
