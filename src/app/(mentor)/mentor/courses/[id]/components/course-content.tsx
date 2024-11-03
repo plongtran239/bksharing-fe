@@ -1,15 +1,27 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { PencilIcon, PlusIcon, TrashIcon } from "lucide-react";
+import {
+  ChevronsUpDownIcon,
+  PencilIcon,
+  PlusIcon,
+  TrashIcon,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 
 import courseApi from "@/apis/course.api";
+// import InputFiles from "@/app/(mentor)/mentor/courses/[id]/components/input-files";
 import SectionModal from "@/app/(mentor)/mentor/courses/[id]/components/section-modal";
 import AlertDialog from "@/components/alert-dialog";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
@@ -36,6 +48,7 @@ const CourseContent = ({
   setIsEdit: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { toast } = useToast();
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
@@ -79,6 +92,7 @@ const CourseContent = ({
 
   const handleRemoveSection = (index: number) => {
     setIsEdit(true);
+
     remove(index);
 
     if (sections[index].id) {
@@ -118,7 +132,7 @@ const CourseContent = ({
     });
   };
 
-  const handleEditSection = (index: number, newSection: SectionRequestType) => {
+  const handleEditSection = (newSection: SectionRequestType) => {
     setIsEdit(true);
     const updatedSections = sections.map((section, index) =>
       index === editSection?.index ? newSection : section
@@ -141,8 +155,6 @@ const CourseContent = ({
   };
 
   const handleSave = async () => {
-    console.log("form", form.getValues());
-
     try {
       setIsLoading(true);
 
@@ -152,19 +164,23 @@ const CourseContent = ({
         title: "Success",
         description: "The course curriculum has been successfully updated",
       });
+
+      setIsEdit(false);
+
+      router.refresh();
     } catch (error) {
       console.error({ error });
     } finally {
       setIsLoading(false);
-
-      setIsEdit(false);
     }
   };
 
   return (
     <>
       <div className="flex-between">
-        <h2 className="text-xl text-secondary-foreground">Course Curriculum</h2>
+        <h2 className="text-xl font-semibold text-secondary-foreground">
+          Curriculum
+        </h2>
 
         <Button
           className="flex-center gap-2"
@@ -179,50 +195,68 @@ const CourseContent = ({
 
       <div className="space-y-5">
         {sections.map((section, index) => (
-          <div
-            key={index}
-            className="flex justify-between overflow-hidden rounded-xl border border-primary"
-          >
-            <div className="space-y-2 p-5">
-              <h3 className="flex items-center gap-2 font-semibold text-secondary-foreground">
-                <span className="w-full flex-1">
-                  Section {index + 1}: {section.title}
-                </span>
-              </h3>
-              <p className="text-sm text-black">
+          <Collapsible key={section.id}>
+            {/* Section Title, Duration & Visibility */}
+            <CollapsibleTrigger className="group flex w-full justify-between overflow-hidden rounded-t-xl border border-primary bg-secondary text-left">
+              <div className="w-full space-y-2 p-5">
+                <h3 className="flex items-center gap-2 font-semibold text-secondary-foreground">
+                  <span className="line-clamp-1">
+                    Section {index + 1}: {section.title}
+                  </span>
+                  <ChevronsUpDownIcon
+                    size={16}
+                    className="hidden group-hover:block"
+                  />
+                </h3>
+                <p className="text-sm">
+                  Duration: {section.duration || 0}h -{" "}
+                  {section.isPublic ? "Public" : "Private"}
+                </p>
+              </div>
+
+              <div className="hidden h-full rounded-bl-xl border-b border-l border-primary bg-white px-2 group-hover:flex">
+                <div
+                  className="h-full p-2 hover:text-primary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setEditSection({ section, index });
+                    setIsOpenModal(true);
+                  }}
+                >
+                  <PencilIcon size={16} />
+                </div>
+
+                <div
+                  className="h-full p-2 hover:text-destructive"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    setIsOpenAlert(true);
+                    setDeleteSectionIndex(index);
+                  }}
+                >
+                  <TrashIcon size={16} />
+                </div>
+              </div>
+            </CollapsibleTrigger>
+
+            {/* Description & Files */}
+            <CollapsibleContent className="space-y-5 rounded-b-xl border border-primary border-t-transparent p-5">
+              <p className="line-clamp-3 text-sm text-black">
                 {section.description || "No description"}
               </p>
-              <p className="text-sm">
-                Duration: {section.duration || 0}h -{" "}
-                {section.isPublic ? "Public" : "Private"}
-              </p>
-            </div>
 
-            <div className="flex flex-col items-center justify-evenly bg-secondary px-2">
-              <div
-                className="p-2 hover:text-primary"
-                onClick={() => {
-                  setEditSection({ section, index });
-                  setIsOpenModal(true);
-                }}
-              >
-                <PencilIcon size={16} />
-              </div>
+              <Separator className="my-5" />
 
-              <div
-                className="p-2 hover:text-destructive"
-                onClick={() => {
-                  setIsOpenAlert(true);
-                  setDeleteSectionIndex(index);
-                }}
-              >
-                <TrashIcon size={16} />
-              </div>
-            </div>
-          </div>
+              {/* <InputFiles
+                files={(section.files as any) || undefined}
+                accept=".png, .jpg, .jpeg, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .zip, .rar"
+              /> */}
+            </CollapsibleContent>
+          </Collapsible>
         ))}
       </div>
 
+      {/* Add Section Button */}
       <Button
         className="flex-center mt-5 gap-2"
         onClick={() => setIsOpenModal(true)}

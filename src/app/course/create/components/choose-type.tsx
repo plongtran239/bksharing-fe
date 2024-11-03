@@ -17,7 +17,7 @@ const ChooseType = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
           <button
             key={type}
             className={cn(
-              "w-[300px] space-y-5 rounded-xl border p-5 hover:bg-secondary",
+              "min-h-72 w-[300px] space-y-5 rounded-xl border p-5 hover:bg-secondary",
               {
                 "border-2 border-primary": form.watch("courseType") === type,
               }
@@ -37,10 +37,9 @@ const ChooseType = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
               {convertToCapitalizeCase(type)}
             </p>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Explicabo
-              numquam quasi magni doloremque velit quas sit. Illum recusandae
-              quaerat cumque ipsam accusamus ullam nesciunt dignissimos enim
-              libero nam, reprehenderit odit.
+              {type === COURSE_TYPE.PROGRAM
+                ? "A series of events or activities that are planned to achieve a particular aim."
+                : "A single event or activity."}
             </p>
           </button>
         ))}

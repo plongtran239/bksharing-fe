@@ -1,6 +1,7 @@
 "use client";
 
 import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import courseApi from "@/apis/course.api";
@@ -19,12 +20,15 @@ import { CourseDetailType } from "@/schemas";
 
 const CourseSetting = ({
   course,
+  isEdit,
   setIsEdit,
 }: {
   course: CourseDetailType;
+  isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { toast } = useToast();
+  const router = useRouter();
   const [isPublic, setIsPublic] = useState(course.isPublic);
 
   useEffect(() => {
@@ -51,17 +55,21 @@ const CourseSetting = ({
         title: "Success",
         description: "Course settings have been updated",
       });
+
+      setIsEdit(false);
+
+      router.refresh();
     } catch (error) {
       console.error({ error });
-    } finally {
-      setIsEdit(false);
     }
   };
 
   return (
     <div>
-      <div className="flex-between">
-        <h2 className="text-xl text-secondary-foreground">Settings</h2>
+      <div className="flex-between h-9">
+        <h2 className="text-xl font-semibold text-secondary-foreground">
+          Settings
+        </h2>
       </div>
 
       <Separator className="my-5" />
@@ -114,7 +122,9 @@ const CourseSetting = ({
               ? "This course is visible to everyone."
               : "This course is only visible to you and your students."}
           </p>
-          <Button onClick={handleSave}>Save</Button>
+          <Button disabled={!isEdit} onClick={handleSave}>
+            Save
+          </Button>
         </div>
       </div>
     </div>

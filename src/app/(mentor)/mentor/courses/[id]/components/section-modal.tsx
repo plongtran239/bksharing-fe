@@ -45,7 +45,7 @@ const SectionModal = ({
   description: string;
   handleCancel: () => void;
   handleAddSection: (newSection: SectionRequestType) => void;
-  handleEditSection: (index: number, newSection: SectionRequestType) => void;
+  handleEditSection: (newSection: SectionRequestType) => void;
   editSection?: EditSectionType;
 }) => {
   const form = useForm<SectionRequestType>({
@@ -68,7 +68,7 @@ const SectionModal = ({
 
   const onSubmit = (data: SectionRequestType) => {
     if (editSection?.index !== undefined) {
-      handleEditSection(editSection.index, data);
+      handleEditSection(data);
     } else {
       handleAddSection(data);
     }

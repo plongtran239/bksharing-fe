@@ -21,10 +21,10 @@ const CourseTab = ({ course }: { course: CourseDetailType }) => {
       }}
     >
       <div className="flex-center flex-col">
-        <TabsList>
-          <TabsTrigger value="info">Course Information</TabsTrigger>
-          <TabsTrigger value="content">Course Content</TabsTrigger>
-          <TabsTrigger value="setting">Course Settings</TabsTrigger>
+        <TabsList defaultValue="info">
+          <TabsTrigger value="info">Information</TabsTrigger>
+          <TabsTrigger value="content">Curriculum</TabsTrigger>
+          <TabsTrigger value="setting">Settings</TabsTrigger>
         </TabsList>
         <p className="mt-1 text-sm">
           {isEdit &&
@@ -34,7 +34,7 @@ const CourseTab = ({ course }: { course: CourseDetailType }) => {
 
       <div className="mt-5">
         <TabsContent value="info">
-          <CourseInfo course={course} setIsEdit={setIsEdit} />
+          <CourseInfo course={course} isEdit={isEdit} setIsEdit={setIsEdit} />
         </TabsContent>
 
         <TabsContent value="content">
@@ -46,7 +46,11 @@ const CourseTab = ({ course }: { course: CourseDetailType }) => {
         </TabsContent>
 
         <TabsContent value="setting">
-          <CourseSetting course={course} setIsEdit={setIsEdit} />
+          <CourseSetting
+            course={course}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
+          />
         </TabsContent>
       </div>
     </Tabs>

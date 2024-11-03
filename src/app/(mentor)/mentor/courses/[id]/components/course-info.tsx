@@ -49,9 +49,11 @@ import {
 
 const CourseInfo = ({
   course,
+  isEdit,
   setIsEdit,
 }: {
   course: CourseDetailType;
+  isEdit: boolean;
   setIsEdit: Dispatch<SetStateAction<boolean>>;
 }) => {
   const router = useRouter();
@@ -131,31 +133,29 @@ const CourseInfo = ({
         description: "Course information updated successfully",
       });
 
+      setIsEdit(false);
+
       router.refresh();
     } catch (error) {
       console.error({ error });
     } finally {
       setIsLoading(false);
-
-      setIsEdit(false);
     }
   };
 
   return (
     <>
       <div className="flex-between">
-        <h2 className="text-xl text-secondary-foreground">
-          Course Information
+        <h2 className="text-xl font-semibold text-secondary-foreground">
+          Information
         </h2>
         <Button
           onClick={form.handleSubmit(onSubmit)}
           disabled={
-            isLoading ||
-            uploadFileLoading ||
-            (!Boolean(file) && !form.formState.isDirty)
+            isLoading || uploadFileLoading || (!Boolean(file) && !isEdit)
           }
         >
-          {isLoading || uploadFileLoading ? <Loader /> : "Save Changes"}
+          {isLoading || uploadFileLoading ? <Loader /> : "Save"}
         </Button>
       </div>
 
