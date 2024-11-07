@@ -60,11 +60,6 @@ const MentorAvatarDropdownMenuItems: MenuItemsType = [
   },
   ...StudentAvatarDropdownMenuItems,
   {
-    label: "Meeting",
-    href: "/meeting",
-    icon: <VideoIcon size={16} />,
-  },
-  {
     label: "Mentor Dashboard",
     href: "/mentor/courses",
     icon: <ViewIcon size={16} />,
@@ -101,6 +96,11 @@ const AdminSidebarMenuItems: MenuItemsType = [
     label: "Meetings",
     href: "/admin/meetings",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
+  },
+  {
+    label: "Courses",
+    href: "/admin/courses",
+    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
   },
   {
     label: "Categories",

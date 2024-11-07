@@ -66,7 +66,9 @@ const Mentor = async () => {
       >
         <div className="container mt-10">
           {/* Mentor List */}
-          <p className="text-lg font-semibold max-sm:px-5">Mentors (8)</p>
+          <p className="text-lg font-semibold max-sm:px-5">
+            Mentors ({mentors.length})
+          </p>
 
           <motion.div
             initial="hidden"

@@ -7,7 +7,7 @@ import AnimationWrapper from "@/components/animation-wrapper";
 import { Button } from "@/components/ui/button";
 
 export const metadata: Metadata = {
-  title: "Home | BK Sharing",
+  title: "BK Sharing",
   description:
     "BK Sharing is an online platform connecting mentors and learners",
 };

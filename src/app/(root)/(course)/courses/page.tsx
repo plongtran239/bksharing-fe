@@ -1,9 +1,15 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { Metadata } from "next";
 
 import CategoryCard from "@/app/(root)/(course)/courses/components/category-card";
 import CourseCard from "@/app/(root)/(course)/courses/components/course-card";
 import CourseHistoryCard from "@/app/(root)/(course)/courses/components/course-history-card";
 import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Courses | BK Sharing",
+  description: "Find courses to help you grow your career.",
+};
 
 const Course = () => {
   return (
