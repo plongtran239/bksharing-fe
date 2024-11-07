@@ -13,7 +13,8 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useState } from "react";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -59,10 +60,15 @@ const DataTable = <T,>({
   filterBy,
   filterOptions,
 }: IDataTableProps<T>) => {
+  const params = useSearchParams();
+
+  const status = params.get("status");
+
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
+  const [search, setSearch] = useState("");
 
   const table = useReactTable({
     data,
@@ -83,6 +89,15 @@ const DataTable = <T,>({
     },
   });
 
+  useEffect(() => {
+    if (status) {
+      table.getColumn("status")?.setFilterValue(status);
+    } else {
+      table.getColumn("status")?.setFilterValue(undefined);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [status]);
+
   return (
     <div className="">
       {/* Heading */}
@@ -90,19 +105,19 @@ const DataTable = <T,>({
         {searchBy && (
           <Input
             placeholder={`Search by ${searchBy}`}
-            value={
-              table.getColumn(searchBy)?.getFilterValue() as string | undefined
-            }
-            onChange={(event) =>
-              table.getColumn(searchBy)?.setFilterValue(event.target.value)
-            }
+            value={search}
+            onChange={(event) => {
+              setSearch(event.target.value);
+              table.getColumn(searchBy)?.setFilterValue(event.target.value);
+            }}
             className="max-w-sm"
           />
         )}
 
         {filterBy && filterOptions && (
           <Select
-            defaultValue="all"
+            defaultValue={status || "all"}
+            value={status || "all"}
             onValueChange={(value) => {
               if (value === "all") {
                 table.getColumn(filterBy)?.setFilterValue(undefined);

@@ -11,12 +11,19 @@ import {
   ViewIcon,
 } from "lucide-react";
 
-import { ROLES } from "@/constants/enum";
+import {
+  COURSE_STATUS,
+  MEETING_STATUS,
+  MENTOR_STATUS,
+  ROLES,
+} from "@/constants/enum";
+import { convertToCapitalizeCase } from "@/lib/utils";
 
 type MenuItemsType = {
   label: string;
   href: string;
   icon: JSX.Element;
+  subs?: { label: string; href: string }[];
   hasSeparator?: boolean;
 }[];
 
@@ -91,16 +98,28 @@ const AdminSidebarMenuItems: MenuItemsType = [
     label: "Mentors",
     href: "/admin/mentors",
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
+    subs: Object.values(MENTOR_STATUS).map((status) => ({
+      label: convertToCapitalizeCase(status),
+      href: `/admin/mentors?status=${status}`,
+    })),
   },
   {
     label: "Meetings",
     href: "/admin/meetings",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
+    subs: Object.values(MEETING_STATUS).map((status) => ({
+      label: convertToCapitalizeCase(status),
+      href: `/admin/meetings?status=${status}`,
+    })),
   },
   {
     label: "Courses",
     href: "/admin/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+    subs: Object.values(COURSE_STATUS).map((status) => ({
+      label: convertToCapitalizeCase(status),
+      href: `/admin/courses?status=${status}`,
+    })),
   },
   {
     label: "Categories",
@@ -128,4 +147,9 @@ const SidebarMenuItems = {
   [ROLES.ADMIN]: AdminSidebarMenuItems,
 };
 
-export { NavbarMenuItems, AvatarDropdownMenuItems, SidebarMenuItems };
+export {
+  NavbarMenuItems,
+  AvatarDropdownMenuItems,
+  SidebarMenuItems,
+  AdminSidebarMenuItems,
+};

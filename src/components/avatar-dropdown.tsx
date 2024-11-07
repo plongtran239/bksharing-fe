@@ -1,5 +1,6 @@
 "use client";
 
+import { ChevronUpIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -24,6 +25,7 @@ interface IProps {
   handleClick?: () => void;
   className?: string;
   mobileDisplayName?: boolean;
+  isSidebar?: boolean;
 }
 
 const AvatarDropdown = ({
@@ -33,6 +35,7 @@ const AvatarDropdown = ({
   handleClick,
   className,
   mobileDisplayName,
+  isSidebar,
 }: IProps) => {
   const pathname = usePathname();
 
@@ -40,30 +43,42 @@ const AvatarDropdown = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "flex-between gap-2 focus-within:border-none focus-visible:border-none",
-          className
+          "flex-between gap-2 rounded-xl p-2 text-black focus-within:border-none focus-visible:border-none",
+          className,
+          {
+            "hover:bg-primary hover:text-primary-foreground": isSidebar,
+          }
         )}
       >
-        <div className="relative h-[32px] w-[32px]">
-          <Image
-            src={avatar || "/images/default-user.png"}
-            alt="avatar"
-            sizes="(max-width: 640px) 100px,"
-            fill
-            priority
-            className="rounded-full"
-          />
+        <div className="flex-center gap-2">
+          <div className="relative h-[28px] w-[28px]">
+            <Image
+              src={avatar || "/images/default-user.png"}
+              alt="avatar"
+              sizes="(max-width: 640px) 100px,"
+              fill
+              priority
+              className="rounded-full"
+            />
+          </div>
+          <span
+            className={cn("max-sm:hidden", {
+              "max-sm:block": mobileDisplayName,
+              "max-lg:hidden": role === ROLES.ADMIN || role === ROLES.MENTOR,
+            })}
+          >
+            {name}
+          </span>
         </div>
-        <span
-          className={cn("text-black max-sm:hidden", {
-            "max-sm:block": mobileDisplayName,
-            "max-lg:hidden": role === ROLES.ADMIN || role === ROLES.MENTOR,
-          })}
-        >
-          {name}
-        </span>
+
+        {isSidebar && <ChevronUpIcon size={16} />}
       </DropdownMenuTrigger>
-      <DropdownMenuContent>
+
+      <DropdownMenuContent
+        className={cn({
+          "min-w-[239px]": isSidebar,
+        })}
+      >
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
@@ -71,10 +86,21 @@ const AvatarDropdown = ({
         {AvatarDropdownMenuItems[ROLES[role as keyof typeof ROLES]].map(
           (item, index) => {
             if (role === ROLES.MENTOR) {
+              if (pathname === "/mentors" && item.label === "Student View") {
+                return null;
+              }
+
               if (
-                (pathname.startsWith("/mentor") &&
-                  item.href.includes("/mentor")) ||
-                (!pathname.startsWith("/mentor") && item.href === "/")
+                !pathname.startsWith("/mentor") &&
+                item.label === "Student View"
+              ) {
+                return null;
+              }
+
+              if (
+                pathname.startsWith("/mentor") &&
+                pathname !== "/mentors" &&
+                item.label === "Mentor Dashboard"
               ) {
                 return null;
               }
