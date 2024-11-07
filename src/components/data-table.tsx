@@ -13,7 +13,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import { useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
@@ -60,8 +60,9 @@ const DataTable = <T,>({
   filterBy,
   filterOptions,
 }: IDataTableProps<T>) => {
+  const router = useRouter();
+  const pathname = usePathname();
   const params = useSearchParams();
-
   const status = params.get("status");
 
   const [sorting, setSorting] = useState<SortingState>([]);
@@ -69,6 +70,7 @@ const DataTable = <T,>({
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
   const [rowSelection, setRowSelection] = useState({});
   const [search, setSearch] = useState("");
+  const [filterStatus, setFilterStatus] = useState(status || "all");
 
   const table = useReactTable({
     data,
@@ -93,13 +95,14 @@ const DataTable = <T,>({
     if (filterBy) {
       if (status) {
         table.getColumn("status")?.setFilterValue(status);
+        setFilterStatus(status);
       } else {
         table.getColumn("status")?.setFilterValue(undefined);
+        setFilterStatus("all");
       }
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [status]);
+  }, [status, filterStatus]);
 
   return (
     <div className="">
@@ -119,14 +122,13 @@ const DataTable = <T,>({
 
         {filterBy && filterOptions && (
           <Select
-            defaultValue={status || "all"}
-            value={status || "all"}
+            value={filterStatus || "all"}
             onValueChange={(value) => {
               if (value === "all") {
-                table.getColumn(filterBy)?.setFilterValue(undefined);
-                return;
+                router.replace(pathname);
+              } else {
+                router.replace(`${pathname}?status=${value}`);
               }
-              table.getColumn(filterBy)?.setFilterValue(value);
             }}
           >
             <SelectTrigger className="w-[180px]">

@@ -17,7 +17,6 @@ import {
   SidebarGroupContent,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuAction,
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarMenuSub,
@@ -66,14 +65,30 @@ const AppSidebar = async () => {
             <SidebarMenu className="space-y-2">
               {SidebarMenuItems[role as keyof typeof SidebarMenuItems]?.map(
                 (item) => (
-                  <Collapsible key={item.label} className="group/collapsible">
+                  <Collapsible
+                    key={item.label}
+                    defaultOpen
+                    className="group/collapsible"
+                  >
                     <SidebarMenuItem>
-                      <SidebarMenuButton asChild className="text-base">
-                        <Link href={item.href}>
-                          {item.icon}
-                          {item.label}
-                        </Link>
-                      </SidebarMenuButton>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton asChild className="text-base">
+                          {item.subs ? (
+                            <div className="flex-between">
+                              <div className="flex-center gap-2">
+                                {item.icon}
+                                {item.label}
+                              </div>
+                              {item.subs && <ChevronDown size={20} />}
+                            </div>
+                          ) : (
+                            <Link href={item.href}>
+                              {item.icon}
+                              {item.label}
+                            </Link>
+                          )}
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
 
                       <CollapsibleContent>
                         {item.subs && (
@@ -93,14 +108,6 @@ const AppSidebar = async () => {
                           </SidebarMenuSub>
                         )}
                       </CollapsibleContent>
-
-                      {item.subs && (
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuAction>
-                            <ChevronDown size={20} />
-                          </SidebarMenuAction>
-                        </CollapsibleTrigger>
-                      )}
                     </SidebarMenuItem>
                   </Collapsible>
                 )
