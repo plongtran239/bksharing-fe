@@ -55,13 +55,19 @@ const CategoryModal = ({
 
   const form = useForm<CategoryRequestType>({
     resolver: zodResolver(CategoryRequest),
+    defaultValues: {
+      name: "",
+      description: "",
+      parentCategoryId: undefined,
+    },
   });
 
   useEffect(() => {
     if (editCategory) {
       form.reset({
         name: editCategory.name,
-        description: editCategory.description,
+        description:
+          editCategory.description === null ? "" : editCategory.description,
         parentCategoryId: editCategory.parentCategoryId || undefined,
       });
     }
@@ -72,8 +78,9 @@ const CategoryModal = ({
     : categories;
 
   const onSubmit = async (values: CategoryRequestType) => {
-    setIsLoading(true);
     try {
+      setIsLoading(true);
+
       if (editCategory) {
         await categoryApi.updateCategory(editCategory.id, values);
 
@@ -92,7 +99,11 @@ const CategoryModal = ({
     } catch (error) {
       console.error({ error });
     } finally {
-      form.reset();
+      form.reset({
+        name: "",
+        description: "",
+        parentCategoryId: undefined,
+      });
 
       onOpenChange();
 
@@ -107,7 +118,11 @@ const CategoryModal = ({
       open={open}
       onOpenChange={() => {
         onOpenChange();
-        form.reset();
+        form.reset({
+          name: "",
+          description: "",
+          parentCategoryId: undefined,
+        });
       }}
     >
       <DialogContent className="sm:max-w-[425px]">
@@ -204,7 +219,10 @@ const CategoryModal = ({
             />
 
             <DialogFooter>
-              <Button type="submit">
+              <Button
+                type="submit"
+                disabled={isLoading || !form.formState.isDirty}
+              >
                 {!isLoading ? (editCategory ? "Update" : "Add") : "Loading..."}
               </Button>
             </DialogFooter>

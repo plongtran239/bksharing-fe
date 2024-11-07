@@ -46,7 +46,7 @@ const AppSidebar = async () => {
       <SidebarHeader className="p-5">
         <Link
           href={role === ROLES.ADMIN ? "/admin/dashboard" : "/mentor/courses"}
-          className="max-lg:flex-center flex lg:gap-4 lg:px-4"
+          className="flex-center flex gap-4 px-4"
         >
           <Image
             src="/images/logo-icon.png"
@@ -56,9 +56,7 @@ const AppSidebar = async () => {
             priority
           />
 
-          <span className="text-xl text-secondary-foreground max-lg:hidden">
-            BK Sharing
-          </span>
+          <span className="text-xl text-secondary-foreground">BK Sharing</span>
         </Link>
       </SidebarHeader>
 
@@ -120,6 +118,7 @@ const AppSidebar = async () => {
           avatar={user?.thumbnail?.originalUrl}
           role={role}
           isSidebar
+          mobileDisplayName
         />
       </SidebarFooter>
     </Sidebar>

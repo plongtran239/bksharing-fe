@@ -90,11 +90,14 @@ const DataTable = <T,>({
   });
 
   useEffect(() => {
-    if (status) {
-      table.getColumn("status")?.setFilterValue(status);
-    } else {
-      table.getColumn("status")?.setFilterValue(undefined);
+    if (filterBy) {
+      if (status) {
+        table.getColumn("status")?.setFilterValue(status);
+      } else {
+        table.getColumn("status")?.setFilterValue(undefined);
+      }
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
