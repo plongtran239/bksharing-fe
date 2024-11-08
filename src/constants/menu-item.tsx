@@ -4,8 +4,7 @@ import {
   HomeIcon,
   InfoIcon,
   KeyRoundIcon,
-  LibraryIcon,
-  TextQuoteIcon,
+  LibraryIcon, // TextQuoteIcon,
   UserIcon,
   VideoIcon,
   ViewIcon,
@@ -30,20 +29,20 @@ type MenuItemsType = {
 const NavbarMenuItems: MenuItemsType = [
   { label: "Home", href: "/", icon: <HomeIcon size={18} strokeWidth={2.5} /> },
   {
-    label: "Courses",
-    href: "/courses",
-    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
-  },
-  {
     label: "Mentors",
     href: "/mentors",
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
   },
   {
-    label: "Blogs",
-    href: "/blogs",
-    icon: <TextQuoteIcon size={18} strokeWidth={2.5} />,
+    label: "Courses",
+    href: "/courses",
+    icon: <LibraryIcon size={18} strokeWidth={2.5} />,
   },
+  // {
+  //   label: "Blogs",
+  //   href: "/blogs",
+  //   icon: <TextQuoteIcon size={18} strokeWidth={2.5} />,
+  // },
 ];
 
 const StudentAvatarDropdownMenuItems: MenuItemsType = [

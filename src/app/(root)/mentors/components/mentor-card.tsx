@@ -1,4 +1,4 @@
-import { CircleUserIcon, HeartIcon } from "lucide-react";
+// import { CircleUserIcon, HeartIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +10,8 @@ const MentorCard = ({ data }: { data: MentorType }) => {
   return (
     <Link
       href={`/users/${id}`}
-      className="flex-between min-h-[420px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
+      // className="flex-between min-h-[420px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
+      className="flex-between min-h-[300px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
     >
       <div className="flex-center flex-col gap-4">
         <div className="relative h-40 w-40">
@@ -30,7 +31,7 @@ const MentorCard = ({ data }: { data: MentorType }) => {
       </div>
 
       {/* Free Schedule */}
-      <div className="w-full text-center text-sm">
+      {/* <div className="w-full text-center text-sm">
         <div className="rounded-lg bg-secondary p-2">
           <p>Free schedule: </p>
           <p className="font-semibold text-black">20:00, 22/09/2024</p>
@@ -47,7 +48,7 @@ const MentorCard = ({ data }: { data: MentorType }) => {
             1,1k
           </span>
         </div>
-      </div>
+      </div> */}
     </Link>
   );
 };

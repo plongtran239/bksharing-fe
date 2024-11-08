@@ -4,6 +4,7 @@ import {
   AccountType,
   AchivementRequestType,
   DetailResponseType,
+  ListResponseType,
   MentorType,
 } from "@/schemas";
 
@@ -24,10 +25,19 @@ const userApi = {
       dob: body.dob ? convertDateToLocaleDateString(body.dob) : undefined,
     }),
 
-  getMentorList: () =>
-    http.get<DetailResponseType<MentorType[]>>(`client/mentors`, {
-      cache: "no-store",
-    }),
+  getMentorList: ({
+    pageNumber = 1,
+    pageSize = 10,
+  }: {
+    pageNumber?: number;
+    pageSize?: number;
+  }) =>
+    http.get<ListResponseType<MentorType>>(
+      `client/mentors?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        cache: "no-store",
+      }
+    ),
 
   getMentorDetail: (mentorId: string) =>
     http.get<DetailResponseType<MentorType>>(`client/mentors/${mentorId}`),
