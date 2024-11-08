@@ -2,7 +2,7 @@ import { Metadata } from "next";
 
 import CreateCourse from "@/app/course/create/components/create-course";
 
-export const metedate: Metadata = {
+export const metadata: Metadata = {
   title: "Create Course | BK Sharing",
   description: "Create course page",
 };
