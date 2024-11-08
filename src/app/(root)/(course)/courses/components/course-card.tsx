@@ -3,7 +3,7 @@ import Image from "next/image";
 
 const CourseCard = () => {
   return (
-    <div className="space-y-5 rounded-xl bg-white p-5 transition-all hover:scale-105 hover:shadow-2xl">
+    <div className="space-y-5 rounded-xl border border-primary bg-white p-5 shadow-2xl transition-all hover:scale-105">
       <div className="relative h-[12rem] w-full">
         <Image src="/images/landing-1.png" alt="" fill />
       </div>
@@ -30,12 +30,12 @@ const CourseCard = () => {
       </p>
 
       <div className="flex-between">
-        <p className="flex-center gap-2 text-sm">
+        <div className="flex-center gap-2 text-sm">
           <div className="relative h-5 w-5 rounded-full">
             <Image src="/images/default-user.png" alt="" fill />
           </div>
           <p>Long Tran</p>
-        </p>
+        </div>
 
         <p className="font-semibold text-primary">80$</p>
       </div>

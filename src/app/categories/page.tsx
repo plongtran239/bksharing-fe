@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 import categoryApi from "@/apis/category.api";
-import CategoryForm from "@/app/categories/components/category-form";
+import ChooseInterest from "@/app/categories/components/choose-interest";
 
 export const metadata: Metadata = {
   title: "Interested Category | BK Sharing",
@@ -13,10 +13,6 @@ const InterestedCategory = async () => {
     payload: { data: categories },
   } = await categoryApi.getCategories();
 
-  return (
-    <section className="flex-center min-h-[calc(100vh-75px-260px)] py-10 max-sm:px-5">
-      <CategoryForm categories={categories} />
-    </section>
-  );
+  return <ChooseInterest categories={categories} />;
 };
 export default InterestedCategory;

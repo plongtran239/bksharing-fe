@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 
 // import meetingApi from "@/apis/meeting.api";
-import Footer from "@/components/footer";
+import Footer from "@/components/footer/footer";
 import Header from "@/components/header/header";
 import MeetingTypeList from "@/components/meeting-type-list";
 

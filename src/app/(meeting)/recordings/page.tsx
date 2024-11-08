@@ -1,5 +1,5 @@
 import CallList from "@/components/call-list";
-import Footer from "@/components/footer";
+import Footer from "@/components/footer/footer";
 import Header from "@/components/header/header";
 
 const Recording = () => {

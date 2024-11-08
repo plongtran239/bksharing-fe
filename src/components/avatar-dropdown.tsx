@@ -43,7 +43,7 @@ const AvatarDropdown = ({
     <DropdownMenu>
       <DropdownMenuTrigger
         className={cn(
-          "flex-between gap-2 rounded-xl p-2 text-black focus-within:border-none focus-visible:border-none",
+          "flex-between gap-2 rounded-xl p-1 text-black focus-within:border-none focus-visible:border-none",
           className,
           {
             "hover:bg-primary hover:text-primary-foreground": isSidebar,

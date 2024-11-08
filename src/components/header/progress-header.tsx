@@ -3,7 +3,15 @@ import Link from "next/link";
 
 import { Progress } from "@/components/ui/progress";
 
-const Header = ({ step, total }: { step: number; total: number }) => {
+const ProgressHeader = ({
+  step,
+  totalSteps,
+  exitLink,
+}: {
+  step: number;
+  totalSteps: number;
+  exitLink: string;
+}) => {
   return (
     <>
       <header className="flex-between">
@@ -22,17 +30,19 @@ const Header = ({ step, total }: { step: number; total: number }) => {
             </span>
           </div>
 
-          <div className="p-5">
-            Step {step} of {total}
-          </div>
+          {totalSteps !== 1 && (
+            <div className="p-5">
+              Step {step} of {totalSteps}
+            </div>
+          )}
         </div>
 
-        <Link href="/mentor/courses" className="p-5 font-semibold text-primary">
+        <Link href={exitLink} className="p-5 font-semibold text-primary">
           Exit
         </Link>
       </header>
-      <Progress value={(step / total) * 100} className="h-1" />
+      <Progress value={(step / totalSteps) * 100} className="h-1" />
     </>
   );
 };
-export default Header;
+export default ProgressHeader;
