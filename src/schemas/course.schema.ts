@@ -86,6 +86,7 @@ const CourseBase = z.object({
   id: z.number(),
   name: z.string(),
   courseType: z.nativeEnum(COURSE_TYPE),
+  status: z.nativeEnum(COURSE_STATUS),
   category: z.object({ id: z.number(), name: z.string() }),
   objectives: z.array(z.string()),
   prerequisites: z.array(z.string()),
@@ -100,16 +101,15 @@ const CourseBase = z.object({
       originalUrl: z.string(),
     })
     .nullable(),
+  mentor: z.object({ id: z.number(), name: z.string() }),
 });
 
 const Course = CourseBase.extend({
   countOfSections: z.number(),
-  mentor: z.object({ id: z.number(), name: z.string() }),
 });
 
 const CourseDetail = CourseBase.extend({
   description: z.string().optional(),
-  status: z.nativeEnum(COURSE_STATUS),
   isPublic: z.boolean(),
   isApproved: z.boolean(),
   limitOfStudents: z.number(),

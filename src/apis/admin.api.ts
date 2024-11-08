@@ -1,7 +1,12 @@
 import { MENTOR_STATUS } from "@/constants/enum";
 import http from "@/lib/http";
 import { convertDateToLocaleString } from "@/lib/utils";
-import { DetailResponseType, ListResponseType, MentorType } from "@/schemas";
+import {
+  CourseType,
+  DetailResponseType,
+  ListResponseType,
+  MentorType,
+} from "@/schemas";
 
 type MentorsQuery = {
   name?: string;
@@ -49,6 +54,13 @@ const adminApi = {
     }>(`/admin/mentors/${mentorId}/audio-call`, {
       ...body,
       startsAt: convertDateToLocaleString(body.startsAt),
+    }),
+
+  getAdminCourses: (sessionToken: string) =>
+    http.get<ListResponseType<CourseType>>(`/admin/courses`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
     }),
 };
 
