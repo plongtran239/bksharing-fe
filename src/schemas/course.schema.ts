@@ -16,11 +16,6 @@ const SectionRequest = z.object({
   files: z.array(z.object({ fileId: z.number(), isPublic: z.boolean() })),
 });
 
-const updateCourseSectionRequest = z.object({
-  upsertSections: z.array(SectionRequest),
-  removeSectionIds: z.array(z.number()),
-});
-
 const SectionFile = z.object({
   fileId: z.number(),
   name: z.string(),
@@ -118,31 +113,26 @@ const CourseDetail = CourseBase.extend({
 });
 
 type SectionRequestType = z.infer<typeof SectionRequest>;
-type UpdateCourseSectionRequestType = z.infer<
-  typeof updateCourseSectionRequest
->;
-type SectionFileType = z.infer<typeof SectionFile>;
-type SectionType = z.infer<typeof Section>;
 type CourseRequestType = z.infer<typeof CourseRequest>;
+type SectionType = z.infer<typeof Section>;
+type SectionFileType = z.infer<typeof SectionFile>;
 type CourseType = z.infer<typeof Course>;
 type CourseDetailType = z.infer<typeof CourseDetail>;
 
 export {
+  CourseRequest,
+  SectionRequest,
   Course,
   CourseDetail,
-  CourseRequest,
   SectionFile,
   Section,
-  SectionRequest,
-  updateCourseSectionRequest,
 };
 
 export type {
   CourseRequestType,
-  UpdateCourseSectionRequestType,
-  CourseType,
-  SectionFileType,
-  CourseDetailType,
-  SectionType,
   SectionRequestType,
+  CourseType,
+  CourseDetailType,
+  SectionFileType,
+  SectionType,
 };

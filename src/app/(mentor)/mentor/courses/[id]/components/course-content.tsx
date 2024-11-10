@@ -1,6 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ChevronsUpDownIcon,
   PencilIcon,
@@ -9,13 +8,11 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 
 import courseApi from "@/apis/course.api";
-// import InputFiles from "@/app/(mentor)/mentor/courses/[id]/components/input-files";
+import InputFiles from "@/app/(mentor)/mentor/courses/[id]/components/input-files";
 import SectionModal from "@/app/(mentor)/mentor/courses/[id]/components/section-modal";
 import AlertDialog from "@/components/alert-dialog";
-import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -25,23 +22,10 @@ import {
 import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import {
-  CourseDetailType,
-  SectionRequestType,
-  SectionType,
-  UpdateCourseSectionRequestType,
-  updateCourseSectionRequest,
-} from "@/schemas";
-
-export type EditSectionType = {
-  section: SectionType | SectionRequestType | undefined;
-  index: number | undefined;
-};
+import { CourseDetailType, SectionType } from "@/schemas";
 
 const CourseContent = ({
   course,
-  isEdit,
-  setIsEdit,
 }: {
   course: CourseDetailType;
   isEdit: boolean;
@@ -53,121 +37,35 @@ const CourseContent = ({
   const [isOpenModal, setIsOpenModal] = useState(false);
   const [isOpenAlert, setIsOpenAlert] = useState(false);
 
-  const [sections, setSections] = useState<
-    SectionType[] | SectionRequestType[]
-  >(course.sections);
+  const [deleteSectionId, setDeleteSectionId] = useState<number | undefined>();
 
-  const [deleteSectionIndex, setDeleteSectionIndex] = useState<
-    number | undefined
-  >();
+  const [editSection, setEditSection] = useState<SectionType>();
 
-  const [editSection, setEditSection] = useState<EditSectionType>();
+  const handleOpenChangeAlertDialog = () => {
+    setIsOpenAlert(!isOpenAlert);
+  };
 
-  const form = useForm<UpdateCourseSectionRequestType>({
-    resolver: zodResolver(updateCourseSectionRequest),
-    defaultValues: {
-      upsertSections: course.sections.map((section) => ({
-        id: section.id,
-        title: section.title,
-        description: section.description,
-        duration: section.duration,
-        isPublic: section.isPublic,
-        files: section.files.map((file) => ({
-          fileId: file.fileId,
-        })),
-      })),
-      removeSectionIds: [],
-    },
-  });
-
-  const { append, remove } = useFieldArray({
-    control: form.control,
-    name: "upsertSections",
-  });
-
-  const handleCancelDelete = () => {
-    setDeleteSectionIndex(undefined);
+  const handleCancelAlertDialog = () => {
     setIsOpenAlert(false);
+    setDeleteSectionId(undefined);
   };
 
-  const handleRemoveSection = (index: number) => {
-    setIsEdit(true);
+  const handleDeleteSection = async () => {
+    if (!deleteSectionId) return;
 
-    remove(index);
-
-    if (sections[index].id) {
-      form.setValue(
-        "removeSectionIds",
-        form.getValues("removeSectionIds").concat(sections[index].id)
-      );
-    }
-
-    console.log("form after remove", form.getValues());
-
-    setSections((prev) => prev.filter((_, i) => i !== index));
-
-    setDeleteSectionIndex(undefined);
-
-    toast({
-      title: "Success",
-      description: "The section has been successfully deleted",
-    });
-  };
-
-  const handleAddSection = (newSection: SectionRequestType) => {
-    setIsEdit(true);
-    append(newSection);
-
-    console.log("form after append", form.getValues());
-
-    setSections((prev) => [...prev, newSection]);
-
-    setEditSection(undefined);
-
-    setIsOpenModal(false);
-
-    toast({
-      title: "Success",
-      description: "The section has been successfully added",
-    });
-  };
-
-  const handleEditSection = (newSection: SectionRequestType) => {
-    setIsEdit(true);
-    const updatedSections = sections.map((section, index) =>
-      index === editSection?.index ? newSection : section
-    );
-
-    form.setValue("upsertSections", updatedSections);
-
-    console.log("form after edit", form.getValues());
-
-    setSections(updatedSections);
-
-    setEditSection(undefined);
-
-    setIsOpenModal(false);
-
-    toast({
-      title: "Success",
-      description: "The section has been successfully updated",
-    });
-  };
-
-  const handleSave = async () => {
     try {
       setIsLoading(true);
 
-      await courseApi.updateCourseSections(course.id, form.getValues());
+      await courseApi.deleteCourseSection(course.id, deleteSectionId);
 
       toast({
         title: "Success",
-        description: "The course curriculum has been successfully updated",
+        description: "Section deleted successfully",
       });
 
-      setIsEdit(false);
-
       router.refresh();
+
+      setIsOpenAlert(false);
     } catch (error) {
       console.error({ error });
     } finally {
@@ -181,20 +79,12 @@ const CourseContent = ({
         <h2 className="text-xl font-semibold text-secondary-foreground">
           Curriculum
         </h2>
-
-        <Button
-          className="flex-center gap-2"
-          onClick={handleSave}
-          disabled={isLoading || !isEdit}
-        >
-          {isLoading ? <Loader /> : "Save"}
-        </Button>
       </div>
 
       <Separator className="my-5" />
 
       <div className="space-y-5">
-        {sections.map((section, index) => (
+        {course.sections.map((section, index) => (
           <Collapsible key={section.id}>
             {/* Section Title, Duration & Visibility */}
             <CollapsibleTrigger className="group flex w-full justify-between overflow-hidden rounded-t-xl border border-primary bg-secondary text-left">
@@ -219,7 +109,7 @@ const CourseContent = ({
                   className="h-full p-2 hover:text-primary"
                   onClick={(e) => {
                     e.preventDefault();
-                    setEditSection({ section, index });
+                    setEditSection(section);
                     setIsOpenModal(true);
                   }}
                 >
@@ -231,7 +121,7 @@ const CourseContent = ({
                   onClick={(e) => {
                     e.preventDefault();
                     setIsOpenAlert(true);
-                    setDeleteSectionIndex(index);
+                    setDeleteSectionId(section.id);
                   }}
                 >
                   <TrashIcon size={16} />
@@ -247,10 +137,12 @@ const CourseContent = ({
 
               <Separator className="my-5" />
 
-              {/* <InputFiles
-                files={(section.files as any) || undefined}
+              <InputFiles
+                files={section.files || undefined}
+                courseId={course.id}
+                sectionId={section.id}
                 accept=".png, .jpg, .jpeg, .pdf, .doc, .docx, .ppt, .pptx, .xls, .xlsx, .zip, .rar"
-              /> */}
+              />
             </CollapsibleContent>
           </Collapsible>
         ))}
@@ -267,6 +159,7 @@ const CourseContent = ({
 
       {/* Modal for adding and editing section */}
       <SectionModal
+        courseId={course.id}
         isOpen={isOpenModal}
         title={editSection ? "Edit Section" : "Add Section"}
         description={editSection ? "Edit your section" : "Add your section"}
@@ -274,22 +167,16 @@ const CourseContent = ({
           setEditSection(undefined);
           setIsOpenModal(false);
         }}
-        handleAddSection={handleAddSection}
-        handleEditSection={handleEditSection}
         editSection={editSection}
       />
 
       {/* Alert dialog when delete section */}
       <AlertDialog
         open={isOpenAlert}
-        onOpenChange={handleCancelDelete}
-        onCancel={handleCancelDelete}
-        onConfirm={() => {
-          setIsOpenAlert(false);
-          if (deleteSectionIndex !== undefined) {
-            handleRemoveSection(deleteSectionIndex);
-          }
-        }}
+        onOpenChange={handleOpenChangeAlertDialog}
+        onCancel={handleCancelAlertDialog}
+        onConfirm={handleDeleteSection}
+        isLoading={isLoading}
       >
         <DialogTitle>Are you sure you want to delete this section?</DialogTitle>
         <DialogDescription>

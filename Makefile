@@ -7,6 +7,9 @@ bootstrap: install
 up:
 	yarn dev
 
+build:
+	yarn build
+
 check:
 	yarn lint
 	yarn prettier:check

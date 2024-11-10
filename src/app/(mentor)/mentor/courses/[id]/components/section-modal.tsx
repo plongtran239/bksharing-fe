@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
-import { EditSectionType } from "@/app/(mentor)/mentor/courses/[id]/components/course-content";
+import courseApi from "@/apis/course.api";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -29,28 +31,32 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { SectionRequest, SectionRequestType } from "@/schemas";
+import { useToast } from "@/hooks/use-toast";
+import { SectionRequest, SectionRequestType, SectionType } from "@/schemas";
 
 const SectionModal = ({
+  courseId,
   isOpen,
   title,
   description,
   handleCancel,
-  handleAddSection,
-  handleEditSection,
   editSection,
 }: {
+  courseId: number;
   isOpen: boolean;
   title: string;
   description: string;
   handleCancel: () => void;
-  handleAddSection: (newSection: SectionRequestType) => void;
-  handleEditSection: (newSection: SectionRequestType) => void;
-  editSection?: EditSectionType;
+  editSection?: SectionType;
 }) => {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
   const form = useForm<SectionRequestType>({
     resolver: zodResolver(SectionRequest),
     defaultValues: {
+      id: undefined,
       title: "",
       description: "",
       duration: undefined,
@@ -61,25 +67,34 @@ const SectionModal = ({
 
   useEffect(() => {
     if (editSection) {
-      form.reset(editSection.section);
+      form.reset(editSection);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editSection]);
 
-  const onSubmit = (data: SectionRequestType) => {
-    if (editSection?.index !== undefined) {
-      handleEditSection(data);
-    } else {
-      handleAddSection(data);
-    }
+  const onSubmit = async (data: SectionRequestType) => {
+    try {
+      setIsLoading(true);
 
-    form.reset({
-      title: "",
-      description: "",
-      duration: 0,
-      isPublic: false,
-      files: [],
-    });
+      if (editSection) {
+        await courseApi.updateCourseSections(courseId, editSection.id, data);
+      } else {
+        await courseApi.addCourseSection(courseId, data);
+      }
+
+      toast({
+        title: "Success",
+        description: "The section has been successfully added",
+      });
+
+      cancel();
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const cancel = () => {
@@ -200,9 +215,9 @@ const SectionModal = ({
             </Button>
             <Button
               onClick={form.handleSubmit(onSubmit)}
-              disabled={!form.formState.isDirty}
+              disabled={!form.formState.isDirty || isLoading}
             >
-              {editSection ? "Edit" : "Add"} Section
+              {isLoading ? <Loader /> : editSection ? "Update" : "Add"}
             </Button>
           </DialogFooter>
         </DialogHeader>

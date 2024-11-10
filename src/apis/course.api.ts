@@ -6,7 +6,7 @@ import {
   CourseType,
   DetailResponseType,
   ListResponseType,
-  UpdateCourseSectionRequestType,
+  SectionRequestType,
 } from "@/schemas";
 
 const courseApi = {
@@ -52,12 +52,22 @@ const courseApi = {
         : undefined,
     }),
 
+  addCourseSection: (courseId: number, body: SectionRequestType) =>
+    http.post(`/client/courses/${courseId}/sections`, body),
+
   updateCourseSections: (
     courseId: number,
-    body: UpdateCourseSectionRequestType
+    sectionId: number,
+    body: Partial<SectionRequestType>
   ) => {
-    return http.patch(`/client/courses/${courseId}/sections`, body);
+    return http.patch(
+      `/client/courses/${courseId}/sections/${sectionId}`,
+      body
+    );
   },
+
+  deleteCourseSection: (courseId: number, sectionId: number) =>
+    http.delete(`/client/courses/${courseId}/sections/${sectionId}`),
 };
 
 export default courseApi;

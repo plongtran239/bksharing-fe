@@ -1,22 +1,91 @@
 import { PaperclipIcon, PlusIcon, TrashIcon } from "lucide-react";
-import { useState } from "react";
+import { ChangeEvent, useState } from "react";
 
+import courseApi from "@/apis/course.api";
+import fileApi from "@/apis/file.api";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
+import { FOLDER, RESOURCE_TYPE } from "@/constants/enum";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { SectionFileType } from "@/schemas";
 
 interface IProps {
   files: SectionFileType[] | undefined;
   accept: string;
+  courseId: number;
+  sectionId: number;
   className?: string;
 }
 
-const InputFiles = ({ files: initialFiles, accept, className }: IProps) => {
+const InputFiles = ({
+  files: initialFiles,
+  accept,
+  courseId,
+  sectionId,
+  className,
+}: IProps) => {
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
   const [files, setFiles] = useState<File[] | undefined>(
     initialFiles?.map((file) => new File([], file.name))
   );
+
+  const handleUploadFile = async (e: ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+
+    if (!files) {
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+
+      // Create signed url
+      const result = await Promise.all(
+        Array.from(files).map((file) =>
+          fileApi.createSignedUrl({
+            fileName: file.name,
+            resourceType: RESOURCE_TYPE.RAW.toLowerCase(),
+            folder: FOLDER.FILES.toLowerCase(),
+          })
+        )
+      );
+
+      const uploadFiles = result.map(({ payload: { data } }) => ({
+        fileId: data.fileId,
+        url: data.uploadedUrl,
+      }));
+
+      // Upload file to signed url
+      await Promise.all(
+        uploadFiles.map(({ url }, index) =>
+          fileApi.uploadFile(url, files.item(index) as File)
+        )
+      );
+
+      // Update course section with files
+      await courseApi.updateCourseSections(courseId, sectionId, {
+        files: uploadFiles.map(({ fileId }) => ({
+          fileId: fileId,
+          isPublic: false,
+        })),
+      });
+
+      setFiles((prevFiles) => [...(prevFiles || []), ...Array.from(files)]);
+
+      toast({
+        title: "Success",
+        description: "File uploaded successfully!",
+      });
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleRemoveFile = (index: number) => {
     setFiles((prevFiles) => {
@@ -65,9 +134,16 @@ const InputFiles = ({ files: initialFiles, accept, className }: IProps) => {
           const input = document.getElementById("input") as HTMLInputElement;
           input.click();
         }}
+        disabled={isLoading}
       >
-        <PlusIcon size={16} />
-        Resources
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <PlusIcon size={16} />
+            Resources
+          </>
+        )}
       </Button>
 
       <Input
@@ -76,15 +152,7 @@ const InputFiles = ({ files: initialFiles, accept, className }: IProps) => {
         multiple
         accept={accept}
         className="hidden"
-        onChange={(e) => {
-          const files = e.target.files;
-          if (files) {
-            setFiles((prevFiles) => [
-              ...(prevFiles || []),
-              ...Array.from(files),
-            ]);
-          }
-        }}
+        onChange={handleUploadFile}
       />
     </div>
   );
