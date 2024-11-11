@@ -16,7 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { COURSE_STATUS } from "@/constants/enum";
-import { convertToCapitalizeCase } from "@/lib/utils";
+import { convertToCapitalizeCase, generateNameId } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
@@ -94,7 +94,14 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
               <DropdownMenuItem
-                onClick={() => router.push(`/admin/courses/${row.original.id}`)}
+                onClick={() =>
+                  router.push(
+                    `/admin/courses/${generateNameId({
+                      name: row.original.name,
+                      id: row.original.id,
+                    })}`
+                  )
+                }
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />

@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  PropsWithChildren,
   createContext,
   useCallback,
   useContext,
@@ -23,11 +24,7 @@ export const useAppContext = () => {
   return context;
 };
 
-const AppProvider = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+const AppProvider = ({ children }: PropsWithChildren) => {
   const [userState, setUserState] = useState<UserType | null>(() => {
     return null;
   });

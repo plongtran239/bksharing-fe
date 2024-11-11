@@ -78,6 +78,19 @@ function classifyAchievements(achievements: AchivementType[]) {
   });
 }
 
+function generateNameId({ name, id }: { name: string; id: number }) {
+  return `${name.toLowerCase().replaceAll(" ", "-")}-i${id}`;
+}
+
+function getIdFromNameId(nameId: string) {
+  const arr = nameId.split("-i");
+  return parseInt(arr[arr.length - 1]);
+}
+
+function getNameFromNameId(nameId: string) {
+  return nameId.split("-i")[0].replaceAll("-", " ");
+}
+
 export {
   cn,
   convertDateToLocaleString,
@@ -88,4 +101,7 @@ export {
   covertCamelCaseToTitleCase,
   normalizePath,
   classifyAchievements,
+  generateNameId,
+  getIdFromNameId,
+  getNameFromNameId,
 };

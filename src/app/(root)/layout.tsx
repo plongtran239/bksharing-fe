@@ -1,11 +1,9 @@
+import { PropsWithChildren } from "react";
+
 import Footer from "@/components/footer/footer";
 import Header from "@/components/header/header";
 
-const RootLayout = ({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) => {
+const RootLayout = ({ children }: PropsWithChildren) => {
   return (
     <main>
       <Header />

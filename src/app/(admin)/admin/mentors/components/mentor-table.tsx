@@ -29,7 +29,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { convertToCapitalizeCase } from "@/lib/utils";
+import { convertToCapitalizeCase, generateNameId } from "@/lib/utils";
 import { MentorType } from "@/schemas";
 
 interface IProps {
@@ -201,7 +201,12 @@ const MentorTable = ({ data }: IProps) => {
 
               <DropdownMenuItem
                 onClick={() => {
-                  router.push(`/admin/mentors/${row.original.id}`);
+                  router.push(
+                    `/admin/mentors/${generateNameId({
+                      name: row.original.name,
+                      id: row.original.id,
+                    })}`
+                  );
                 }}
                 className="flex items-center gap-2"
               >

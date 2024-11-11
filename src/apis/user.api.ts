@@ -39,7 +39,7 @@ const userApi = {
       }
     ),
 
-  getMentorDetail: (mentorId: string) =>
+  getMentorDetail: (mentorId: number) =>
     http.get<DetailResponseType<MentorType>>(`client/mentors/${mentorId}`),
 
   getMentorProfile: (sessionToken: string) =>

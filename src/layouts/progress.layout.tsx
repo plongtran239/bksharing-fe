@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction } from "react";
+import { Dispatch, PropsWithChildren, SetStateAction } from "react";
 
 import ProgressFooter from "@/components/footer/progress-footer";
 import ProgressHeader from "@/components/header/progress-header";
@@ -7,7 +7,6 @@ interface IProps {
   step: number;
   setStep: Dispatch<SetStateAction<number>>;
   totalSteps: number;
-  children: ReactNode;
   handleFinish: () => void;
   exitLink: string;
   isLoading?: boolean;
@@ -23,7 +22,7 @@ const ProgressLayout = ({
   isLoading,
   isDisabledNext,
   children,
-}: IProps) => {
+}: PropsWithChildren<IProps>) => {
   return (
     <main className="h-screen">
       <ProgressHeader step={step} totalSteps={totalSteps} exitLink={exitLink} />

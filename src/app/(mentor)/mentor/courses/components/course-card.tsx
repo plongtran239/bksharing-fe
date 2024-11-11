@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { Progress } from "@/components/ui/progress";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn, convertToCapitalizeCase, generateNameId } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseCard = ({ course }: { course: CourseType }) => {
@@ -25,7 +25,10 @@ const CourseCard = ({ course }: { course: CourseType }) => {
 
   return (
     <Link
-      href={`/mentor/courses/${course.id}`}
+      href={`/mentor/courses/${generateNameId({
+        name: course.name,
+        id: course.id,
+      })}`}
       className="group flex items-center overflow-hidden rounded-xl border border-primary"
     >
       <div className="relative h-24 w-24">

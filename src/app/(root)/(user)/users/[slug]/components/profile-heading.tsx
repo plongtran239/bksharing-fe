@@ -147,6 +147,7 @@ const ProfileHeading = ({
                   className="rounded-full outline outline-2 outline-primary"
                   priority
                   fill
+                  sizes="(max-width: 640px) 100px,"
                 />
               </div>
             )}
@@ -162,6 +163,7 @@ const ProfileHeading = ({
                         className="rounded-full outline outline-2 outline-primary group-hover:opacity-30"
                         priority
                         fill
+                        sizes="(max-width: 640px) 100px,"
                       />
                       <div className="absolute bottom-10 left-11">
                         <PencilIcon

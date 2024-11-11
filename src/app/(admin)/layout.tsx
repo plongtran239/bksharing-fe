@@ -1,4 +1,5 @@
 import { Metadata } from "next";
+import { PropsWithChildren } from "react";
 
 import AppBreadCrumb from "@/components/app-breadcrumb";
 import AppSidebar from "@/components/app-sidebar";
@@ -10,7 +11,7 @@ export const metadata: Metadata = {
   description: "Admin page for BK Sharing",
 };
 
-const AdminLayout = ({ children }: { children: React.ReactNode }) => {
+const AdminLayout = ({ children }: PropsWithChildren) => {
   return (
     <SidebarProvider>
       <AppSidebar />

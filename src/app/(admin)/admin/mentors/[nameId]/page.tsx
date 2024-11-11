@@ -2,41 +2,42 @@ import { ChevronLeftIcon } from "lucide-react";
 import Link from "next/link";
 
 import adminApi from "@/apis/admin.api";
-import CourseDetail from "@/app/(admin)/admin/courses/[id]/components/course-detail";
+import MentorDetail from "@/app/(admin)/admin/mentors/components/mentor-detail";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
+import { getIdFromNameId } from "@/lib/utils";
 
-const DetailCoursePage = async ({
-  params: { id },
+const AdminMentorDetail = async ({
+  params: { nameId },
 }: {
   params: {
-    id: number;
+    nameId: string;
   };
 }) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   const {
     payload: { data },
-  } = await adminApi.getDetailCourse(sessionToken, id);
+  } = await adminApi.getDetailMentor(sessionToken, getIdFromNameId(nameId));
 
   return (
     <main>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Course Detail</h1>
+        <h1 className="text-3xl font-semibold text-primary">Mentor Detail</h1>
 
-        <Link href="/admin/courses">
+        <Link href="/admin/mentors">
           <Button className="flex-center gap-2">
             <ChevronLeftIcon size={16} />
-            Back to Course List
+            Back to Mentor List
           </Button>
         </Link>
       </div>
 
       <Separator className="my-5" />
 
-      <CourseDetail course={data} />
+      <MentorDetail mentor={data} />
     </main>
   );
 };
-export default DetailCoursePage;
+export default AdminMentorDetail;

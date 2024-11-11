@@ -76,6 +76,7 @@ const ProfileSection = ({
   }, [bio]);
 
   const defaultValues = {
+    bio: "",
     achievementType: type as ACHIEVEMENT_TYPES,
     description: "",
     organization: "",

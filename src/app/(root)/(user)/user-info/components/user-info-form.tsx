@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckCircleIcon, XCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -36,7 +35,6 @@ import {
 import { Account, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
-  const [verified] = useState(false);
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -44,7 +42,10 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
   const form = useForm<AccountType>({
     resolver: zodResolver(Account),
     defaultValues: {
-      ...data,
+      email: data.email,
+      name: data.name,
+      phoneNumber: data.phoneNumber,
+      gender: data.gender,
       dob: data.dob ? new Date(Number(data.dob)) : undefined,
       addressBase: data.addressBase || "",
       addressDetail: data.addressDetail || "",
@@ -77,7 +78,7 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
         className="w-2/3 rounded-xl bg-white p-10 shadow-xl max-xl:w-full max-lg:w-full max-sm:mx-5 max-sm:px-5"
       >
         <div className="grid-cols-2 gap-x-10 gap-y-5 max-lg:space-y-5 lg:grid">
-          <div>
+          <div className="col-span-2">
             <FormField
               control={form.control}
               name="email"
@@ -92,20 +93,6 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
               )}
             />
           </div>
-
-          <p className="mt-7 flex items-center gap-2">
-            {verified ? (
-              <>
-                <CheckCircleIcon size={20} className="text-green-500" />
-                Your email is verified
-              </>
-            ) : (
-              <>
-                <XCircleIcon size={20} className="text-red-500" />
-                Your email is not verified
-              </>
-            )}
-          </p>
 
           <FormField
             control={form.control}

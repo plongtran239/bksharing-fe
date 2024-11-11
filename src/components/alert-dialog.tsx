@@ -1,4 +1,4 @@
-import { FC, ReactNode } from "react";
+import { PropsWithChildren } from "react";
 
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
@@ -15,17 +15,16 @@ interface IProps {
   onCancel: () => void;
   onConfirm: () => void;
   isLoading?: boolean;
-  children: ReactNode;
 }
 
-const AlertDialog: FC<IProps> = ({
+const AlertDialog = ({
   open,
   onOpenChange,
   onCancel,
   onConfirm,
   isLoading,
   children,
-}) => {
+}: PropsWithChildren<IProps>) => {
   return (
     <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent className="">

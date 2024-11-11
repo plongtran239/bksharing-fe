@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { generateNameId } from "@/lib/utils";
 import { MentorType } from "@/schemas";
 
 const MentorCard = ({ data }: { data: MentorType }) => {
@@ -9,7 +10,10 @@ const MentorCard = ({ data }: { data: MentorType }) => {
 
   return (
     <Link
-      href={`/users/${id}`}
+      href={`/users/${generateNameId({
+        name,
+        id,
+      })}`}
       // className="flex-between min-h-[420px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
       className="flex-between min-h-[300px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
     >

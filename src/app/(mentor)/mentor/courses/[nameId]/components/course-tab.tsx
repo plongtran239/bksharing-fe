@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 
-import CourseContent from "@/app/(mentor)/mentor/courses/[id]/components/course-content";
-import CourseInfo from "@/app/(mentor)/mentor/courses/[id]/components/course-info";
-import CourseSetting from "@/app/(mentor)/mentor/courses/[id]/components/course-setting";
+import CourseContent from "@/app/(mentor)/mentor/courses/[nameId]/components/course-content";
+import CourseInfo from "@/app/(mentor)/mentor/courses/[nameId]/components/course-info";
+import CourseSetting from "@/app/(mentor)/mentor/courses/[nameId]/components/course-setting";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { CourseDetailType } from "@/schemas";
 

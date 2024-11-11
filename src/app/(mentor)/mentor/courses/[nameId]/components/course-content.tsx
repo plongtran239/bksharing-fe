@@ -10,8 +10,8 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
 import courseApi from "@/apis/course.api";
-import InputFiles from "@/app/(mentor)/mentor/courses/[id]/components/input-files";
-import SectionModal from "@/app/(mentor)/mentor/courses/[id]/components/section-modal";
+import InputFiles from "@/app/(mentor)/mentor/courses/[nameId]/components/input-files";
+import SectionModal from "@/app/(mentor)/mentor/courses/[nameId]/components/section-modal";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
 import {

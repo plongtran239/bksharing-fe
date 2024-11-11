@@ -10,7 +10,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { convertToCapitalizeCase } from "@/lib/utils";
+import { convertToCapitalizeCase, getNameFromNameId } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 
 const AppBreadCrumb = () => {
@@ -33,14 +33,15 @@ const AppBreadCrumb = () => {
           <div key={item} className="flex-center gap-2">
             <BreadcrumbItem>
               {index === 1 ? (
-                // <BreadcrumbLink href={"/admin/" + item}>
                 <BreadcrumbLink
                   href={`/${user?.accountType.toLowerCase()}/${item}`}
                 >
                   {convertToCapitalizeCase(item)}
                 </BreadcrumbLink>
               ) : (
-                <BreadcrumbPage>{convertToCapitalizeCase(item)}</BreadcrumbPage>
+                <BreadcrumbPage className="capitalize">
+                  {getNameFromNameId(decodeURIComponent(item).toLowerCase())}
+                </BreadcrumbPage>
               )}
             </BreadcrumbItem>
 

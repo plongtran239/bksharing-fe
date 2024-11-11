@@ -3,14 +3,18 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
-import CourseTab from "@/app/(mentor)/mentor/courses/[id]/components/course-tab";
+import CourseTab from "@/app/(mentor)/mentor/courses/[nameId]/components/course-tab";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
-import { cn } from "@/lib/utils";
+import { cn, getIdFromNameId } from "@/lib/utils";
 
-const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
+const CourseDetail = async ({
+  params: { nameId },
+}: {
+  params: { nameId: string };
+}) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   let course = null;
@@ -19,7 +23,7 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
     try {
       const {
         payload: { data },
-      } = await courseApi.getCourseById(sessionToken, id);
+      } = await courseApi.getCourseById(sessionToken, getIdFromNameId(nameId));
 
       course = data;
     } catch (error) {
