@@ -115,7 +115,11 @@ const AdminSidebarMenuItems: MenuItemsType = [
     label: "Courses",
     href: "/admin/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
-    subs: Object.values(COURSE_STATUS).map((status) => ({
+    subs: [
+      COURSE_STATUS.PENDING,
+      COURSE_STATUS.APPROVED,
+      COURSE_STATUS.REJECTED,
+    ].map((status) => ({
       label: convertToCapitalizeCase(status),
       href: `/admin/courses?status=${status}`,
     })),
@@ -132,6 +136,15 @@ const MentorSidebarMenuItems: MenuItemsType = [
     label: "Courses",
     href: "/mentor/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      COURSE_STATUS.DRAFT,
+      COURSE_STATUS.PENDING,
+      COURSE_STATUS.APPROVED,
+      COURSE_STATUS.REJECTED,
+    ].map((status) => ({
+      label: convertToCapitalizeCase(status),
+      href: `/mentor/courses?status=${status}`,
+    })),
   },
 ];
 

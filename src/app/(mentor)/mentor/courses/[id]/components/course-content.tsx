@@ -85,7 +85,7 @@ const CourseContent = ({
 
       <div className="space-y-5">
         {course.sections.map((section, index) => (
-          <Collapsible key={section.id}>
+          <Collapsible key={section.id} defaultOpen>
             {/* Section Title, Duration & Visibility */}
             <CollapsibleTrigger className="group flex w-full justify-between overflow-hidden rounded-t-xl border border-primary bg-secondary text-left">
               <div className="w-full space-y-2 p-5">
@@ -131,8 +131,18 @@ const CourseContent = ({
 
             {/* Description & Files */}
             <CollapsibleContent className="space-y-5 rounded-b-xl border border-primary border-t-transparent p-5">
-              <p className="line-clamp-3 text-sm text-black">
-                {section.description || "No description"}
+              <p className="text-sm text-black">
+                {section.description !== ""
+                  ? section.description
+                      .trim()
+                      .split("\n")
+                      .map((line, index) => (
+                        <span key={index}>
+                          {line}
+                          <br />
+                        </span>
+                      ))
+                  : "No description"}
               </p>
 
               <Separator className="my-5" />

@@ -25,7 +25,7 @@ const TargetAudiencePrice = ({
 
       <div className="space-y-10">
         <div className="flex-center flex-col gap-2">
-          <Label htmlFor="price" className="text-left">
+          <Label required htmlFor="price" className="text-left">
             Price
           </Label>
           <Input
@@ -38,7 +38,7 @@ const TargetAudiencePrice = ({
         </div>
 
         <div className="flex-center flex-col gap-2">
-          <Label htmlFor="targetAudiences" className="text-left">
+          <Label required htmlFor="targetAudiences" className="text-left">
             Target Audiences
           </Label>
           <MultiSelect

@@ -2,6 +2,7 @@ import { MENTOR_STATUS } from "@/constants/enum";
 import http from "@/lib/http";
 import { convertDateToLocaleString } from "@/lib/utils";
 import {
+  CourseDetailType,
   CourseType,
   DetailResponseType,
   ListResponseType,
@@ -62,6 +63,16 @@ const adminApi = {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
+
+  getDetailCourse: (sessionToken: string, courseId: number) =>
+    http.get<DetailResponseType<CourseDetailType>>(
+      `/admin/courses/${courseId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
 };
 
 export default adminApi;

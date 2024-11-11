@@ -1,6 +1,6 @@
 "use client";
 
-import { CheckCircleIcon, XCircleIcon } from "lucide-react";
+import { CheckCircleIcon, RefreshCwIcon, XCircleIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
@@ -15,6 +15,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
+import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { CourseDetailType } from "@/schemas";
 
@@ -75,35 +76,56 @@ const CourseSetting = ({
       <Separator className="my-5" />
 
       <div className="space-y-5">
-        <div>
+        <div className="space-y-3">
           <Label className="text-lg text-black">Course Status</Label>
-          {course.isApproved ? (
-            <div className="flex items-center gap-2">
-              This course is approved and published
-              <CheckCircleIcon size={16} color="green" />
-            </div>
-          ) : (
-            <div className="flex items-center gap-2">
-              This course is not approved and waiting for approval from the
-              admin
-              <XCircleIcon size={16} color="red" />
-            </div>
-          )}
-        </div>
 
-        <div className="flex items-center gap-5">
-          <Button variant="secondary" className="min-w-36">
-            Delete
-          </Button>
-          <p>
-            Once you delete this course, it will be gone forever. Please be
-            careful.
-          </p>
+          <div>
+            <span className="text-base capitalize">
+              {course.status.toLowerCase()} -{" "}
+            </span>
+
+            {(() => {
+              switch (course.status) {
+                case COURSE_STATUS.DRAFT:
+                  return (
+                    <span className="inline-flex items-center gap-2">
+                      This course is a draft and not published yet
+                      {/* <XCircleIcon size={16} color="red" /> */}
+                    </span>
+                  );
+                case COURSE_STATUS.PENDING:
+                  return (
+                    <span className="inline-flex items-center gap-2">
+                      This course is not approved and waiting for approval from
+                      the admin
+                      <RefreshCwIcon size={16} color="orange" />
+                    </span>
+                  );
+                case COURSE_STATUS.APPROVED:
+                  return (
+                    <span className="inline-flex items-center gap-2">
+                      This course is approved and published
+                      <CheckCircleIcon size={16} color="green" />
+                    </span>
+                  );
+
+                case COURSE_STATUS.REJECTED:
+                  return (
+                    <span className="inline-flex items-center gap-2">
+                      This course is rejected by the admin
+                      <XCircleIcon size={16} color="red" />
+                    </span>
+                  );
+                default:
+                  return null;
+              }
+            })()}
+          </div>
         </div>
 
         <Separator />
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           <Label className="text-lg text-black">Visibility</Label>
           <Select
             defaultValue={isPublic ? "Public" : "Private"}
@@ -125,6 +147,18 @@ const CourseSetting = ({
           <Button disabled={!isEdit} onClick={handleSave}>
             Save
           </Button>
+        </div>
+
+        <Separator />
+
+        <div className="flex items-center gap-5">
+          <Button variant="secondary" className="min-w-36">
+            Delete
+          </Button>
+          <p>
+            Once you delete this course, it will be gone forever. Please be
+            careful.
+          </p>
         </div>
       </div>
     </div>

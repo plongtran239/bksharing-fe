@@ -6,7 +6,9 @@ import courseApi from "@/apis/course.api";
 import CourseTab from "@/app/(mentor)/mentor/courses/[id]/components/course-tab";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { COURSE_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
+import { cn } from "@/lib/utils";
 
 const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
@@ -49,7 +51,23 @@ const CourseDetail = async ({ params: { id } }: { params: { id: number } }) => {
   return (
     <section>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Courses</h1>
+        <div className="flex-center gap-2">
+          <h1 className="align-middle text-3xl font-semibold text-primary">
+            <span>Courses</span>
+          </h1>
+          <span
+            className={cn("rounded-xl px-2 py-1 text-sm text-white", {
+              "bg-foreground/30": course.status === COURSE_STATUS.DRAFT,
+              "bg-secondary text-secondary-foreground":
+                course.status === COURSE_STATUS.PENDING,
+              "bg-green-500 text-white":
+                course.status === COURSE_STATUS.APPROVED,
+              "bg-red-500 text-white": course.status === COURSE_STATUS.REJECTED,
+            })}
+          >
+            {course.status.toLowerCase()}
+          </span>
+        </div>
 
         <Link href="/mentor/courses">
           <Button className="flex-center gap-2">

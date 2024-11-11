@@ -3,6 +3,7 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
@@ -19,6 +20,8 @@ import { convertToCapitalizeCase } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
+  const router = useRouter();
+
   const columns: ColumnDef<CourseType>[] = [
     {
       id: "select",
@@ -59,15 +62,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
         <div className="line-clamp-1 max-w-[300px]">{row.getValue("name")}</div>
       ),
     },
-    // {
-    //   accessorKey: "description",
-    //   header: "Description",
-    //   cell: ({ row }) => (
-    //     <div className="line-clamp-1 max-w-[300px]">
-    //       {row.getValue("description") || "No description"}
-    //     </div>
-    //   ),
-    // },
     {
       accessorKey: "status",
       header: "Status",
@@ -87,7 +81,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
     {
       id: "actions",
       enableHiding: false,
-      cell: ({}) => {
+      cell: ({ row }) => {
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -100,7 +94,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               <DropdownMenuLabel>Actions</DropdownMenuLabel>
 
               <DropdownMenuItem
-                onClick={() => {}}
+                onClick={() => router.push(`/admin/courses/${row.original.id}`)}
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
@@ -119,7 +113,11 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       columns={columns}
       searchBy="name"
       filterBy="status"
-      filterOptions={Object.values(COURSE_STATUS)}
+      filterOptions={[
+        COURSE_STATUS.PENDING,
+        COURSE_STATUS.APPROVED,
+        COURSE_STATUS.REJECTED,
+      ]}
     />
   );
 };

@@ -75,6 +75,7 @@ const CourseInfo = ({
     resolver: zodResolver(CourseRequest),
     defaultValues: {
       ...course,
+      status: course.status,
       imageId: course.image?.fileId,
       categoryId: course.category.id,
       objectives: course.objectives.length > 0 ? course.objectives : [""],
@@ -108,9 +109,9 @@ const CourseInfo = ({
   }, [form.formState.errors, toast]);
 
   useEffect(() => {
-    setIsEdit(form.formState.isDirty);
+    setIsEdit(form.formState.isDirty || Boolean(file));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [form.formState.isDirty]);
+  }, [form.formState.isDirty, file]);
 
   const onSubmit = async (values: CourseRequestType) => {
     try {

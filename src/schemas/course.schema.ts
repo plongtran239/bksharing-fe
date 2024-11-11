@@ -18,9 +18,8 @@ const SectionRequest = z.object({
 
 const SectionFile = z.object({
   fileId: z.number(),
-  name: z.string(),
-  size: z.number(),
-  url: z.string(),
+  fileSize: z.number(),
+  url: z.string().nullable(),
   isPublic: z.boolean(),
 });
 
