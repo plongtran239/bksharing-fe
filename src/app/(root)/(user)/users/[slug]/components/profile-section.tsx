@@ -20,7 +20,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Progress } from "@/components/ui/progress";
 import {
   Tooltip,
@@ -332,13 +331,10 @@ const ProfileSection = ({
         onCancel={() => setDeleteAchievementId(undefined)}
         onConfirm={handleDelete}
         isLoading={isLoading}
-      >
-        <DialogTitle>Are you absolutely sure?</DialogTitle>
-        <DialogDescription>
-          This action cannot be undone. This will permanently delete this
-          achievement from our server.
-        </DialogDescription>
-      </AlertDialog>
+        title="Are you absolutely sure?"
+        description="This action cannot be undone. This will permanently delete this
+          achievement from our server."
+      />
     </section>
   );
 };

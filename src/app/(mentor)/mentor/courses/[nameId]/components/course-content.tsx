@@ -19,7 +19,6 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
-import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
 import { CourseDetailType, SectionType } from "@/schemas";
@@ -187,13 +186,9 @@ const CourseContent = ({
         onCancel={handleCancelAlertDialog}
         onConfirm={handleDeleteSection}
         isLoading={isLoading}
-      >
-        <DialogTitle>Are you sure you want to delete this section?</DialogTitle>
-        <DialogDescription>
-          This action cannot be undone. This will permanently delete this
-          section.
-        </DialogDescription>
-      </AlertDialog>
+        title="Are you sure you want to delete this section?"
+        description="This action cannot be undone. This will permanently delete this section."
+      />
     </>
   );
 };

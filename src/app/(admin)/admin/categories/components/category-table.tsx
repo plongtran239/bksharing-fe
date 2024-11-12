@@ -12,7 +12,6 @@ import AlertDialog from "@/components/alert-dialog";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
-import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -211,13 +210,9 @@ const CategoryTable = ({ data }: IProps) => {
           handleDeleteCategory(deleteCategoryId as number);
         }}
         isLoading={isLoading}
-      >
-        <DialogTitle>Are you absolutely sure?</DialogTitle>
-        <DialogDescription>
-          This action cannot be undone. This will permanently delete this
-          category from our server.
-        </DialogDescription>
-      </AlertDialog>
+        title="Are you sure you want to delete this category?"
+        description="This action cannot be undone. This will permanently delete this category."
+      />
     </>
   );
 };

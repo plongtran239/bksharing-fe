@@ -8,7 +8,6 @@ import fileApi from "@/apis/file.api";
 import AlertDialog from "@/components/alert-dialog";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
-import { DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { FOLDER, RESOURCE_TYPE } from "@/constants/enum";
@@ -204,12 +203,9 @@ const InputFiles = ({
           handleRemoveFile(deleteFileId);
         }}
         isLoading={isLoading}
-      >
-        <DialogTitle>Are you sure you want to delete this file?</DialogTitle>
-        <DialogDescription>
-          This action cannot be undone. This will permanently delete this file.
-        </DialogDescription>
-      </AlertDialog>
+        title="Are you sure you want to delete this file?"
+        description="This action cannot be undone. This will permanently delete this file."
+      />
     </>
   );
 };

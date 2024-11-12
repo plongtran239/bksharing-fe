@@ -1,12 +1,12 @@
-import { PropsWithChildren } from "react";
-
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
 
 interface IProps {
@@ -14,6 +14,8 @@ interface IProps {
   onOpenChange: () => void;
   onCancel: () => void;
   onConfirm: () => void;
+  title: string;
+  description?: string;
   isLoading?: boolean;
 }
 
@@ -23,12 +25,16 @@ const AlertDialog = ({
   onCancel,
   onConfirm,
   isLoading,
-  children,
-}: PropsWithChildren<IProps>) => {
+  title,
+  description,
+}: IProps) => {
   return (
     <Dialog modal open={open} onOpenChange={onOpenChange}>
       <DialogContent className="">
-        <DialogHeader>{children}</DialogHeader>
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
+        </DialogHeader>
         <DialogFooter>
           <Button variant="outline" onClick={onCancel} disabled={isLoading}>
             Cancel
