@@ -41,6 +41,23 @@ const CourseSetting = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isPublic]);
 
+  const handleCalculateCourseCompletion = () => {
+    const totalSections = 5;
+    const sectionWeight = 100 / totalSections;
+
+    const completedSections = [
+      course.name,
+      course.category,
+      course.image?.fileId,
+      course.objectives.length > 0,
+      course.sections.length > 0,
+    ].filter(Boolean).length;
+
+    return completedSections * sectionWeight;
+  };
+
+  const completion = handleCalculateCourseCompletion();
+
   const handleSave = async () => {
     try {
       await courseApi.updateCourse(course.id, {
@@ -58,6 +75,28 @@ const CourseSetting = ({
       });
 
       setIsEdit(false);
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  const handleChangeCourseStatus = async () => {
+    try {
+      await courseApi.updateCourse(course.id, {
+        isPublic,
+        courseType: course.courseType,
+        status: COURSE_STATUS.PENDING,
+        objectives: course.objectives,
+        price: course.price,
+        targetAudiences: course.targetAudiences,
+      });
+
+      toast({
+        title: "Success",
+        description: "Course status has been changed",
+      });
 
       router.refresh();
     } catch (error) {
@@ -88,10 +127,22 @@ const CourseSetting = ({
               switch (course.status) {
                 case COURSE_STATUS.DRAFT:
                   return (
-                    <span className="inline-flex items-center gap-2">
-                      This course is a draft and not published yet
-                      {/* <XCircleIcon size={16} color="red" /> */}
-                    </span>
+                    <div className="inline-flex gap-5">
+                      <span className="inline-flex items-center gap-2">
+                        This course is a draft, complete the course information,
+                        content to ask for approval from the admin.
+                      </span>
+
+                      {completion === 100 && (
+                        <Button
+                          variant="secondary"
+                          className="px-3"
+                          onClick={handleChangeCourseStatus}
+                        >
+                          Submit for review
+                        </Button>
+                      )}
+                    </div>
                   );
                 case COURSE_STATUS.PENDING:
                   return (

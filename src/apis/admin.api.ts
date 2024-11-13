@@ -73,6 +73,11 @@ const adminApi = {
         },
       }
     ),
+
+  approveCourse: (courseId: number, isApproved: boolean) =>
+    http.patch(`/admin/courses/${courseId}/approve`, {
+      isApproved,
+    }),
 };
 
 export default adminApi;

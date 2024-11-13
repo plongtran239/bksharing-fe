@@ -58,7 +58,7 @@ export const useRegister = (role: ROLES) => {
 
       switch (data.accountType) {
         case ROLES.MENTOR:
-          router.push("/mentor/courses");
+          router.push("/users/profile");
           break;
         case ROLES.STUDENT:
           router.push("/");
