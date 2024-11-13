@@ -144,8 +144,6 @@ const CourseContent = ({
                   : "No description"}
               </p>
 
-              <Separator className="my-5" />
-
               <InputFiles
                 files={section.files || undefined}
                 courseId={course.id}

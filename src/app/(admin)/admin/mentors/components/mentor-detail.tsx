@@ -73,7 +73,7 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
         </div>
 
         <div className="flex flex-col gap-2">
-          <Link className="" href={mentor.cv.url} target="_blank">
+          <Link href={mentor.cv.url || "#"} target="_blank">
             <Button className="">View CV / Resume</Button>
           </Link>
         </div>
@@ -114,38 +114,50 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
                   <div className="mt-5 space-y-5">
                     {type === ACHIEVEMENT_TYPES.EDUCATION &&
                       educations.map((achievement, index) => (
-                        <Achievement
+                        <div
                           key={index}
-                          field={achievement.major as string}
-                          organization={achievement.organization}
-                          description={achievement.description}
-                          startDate={achievement.startDate}
-                          endDate={achievement.endDate}
-                        />
+                          className="rounded-xl border border-primary p-5"
+                        >
+                          <Achievement
+                            field={achievement.major as string}
+                            organization={achievement.organization}
+                            description={achievement.description}
+                            startDate={achievement.startDate}
+                            endDate={achievement.endDate}
+                          />
+                        </div>
                       ))}
 
                     {type === ACHIEVEMENT_TYPES.EXPERIENCE &&
                       experiences.map((achievement, index) => (
-                        <Achievement
+                        <div
                           key={index}
-                          field={achievement.position as string}
-                          organization={achievement.organization}
-                          description={achievement.description}
-                          startDate={achievement.startDate}
-                          endDate={achievement.endDate}
-                        />
+                          className="rounded-xl border border-primary p-5"
+                        >
+                          <Achievement
+                            field={achievement.position as string}
+                            organization={achievement.organization}
+                            description={achievement.description}
+                            startDate={achievement.startDate}
+                            endDate={achievement.endDate}
+                          />
+                        </div>
                       ))}
 
                     {type === ACHIEVEMENT_TYPES.CERTIFICATION &&
                       certifications.map((achievement, index) => (
-                        <Achievement
+                        <div
                           key={index}
-                          field={achievement.name as string}
-                          organization={achievement.organization}
-                          description={achievement.description}
-                          startDate={achievement.startDate}
-                          endDate={achievement.endDate}
-                        />
+                          className="rounded-xl border border-primary p-5"
+                        >
+                          <Achievement
+                            field={achievement.name as string}
+                            organization={achievement.organization}
+                            description={achievement.description}
+                            startDate={achievement.startDate}
+                            endDate={achievement.endDate}
+                          />
+                        </div>
                       ))}
                   </div>
                 </CollapsibleContent>

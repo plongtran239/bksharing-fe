@@ -124,6 +124,7 @@ const InputFiles = ({
       <div className={cn(className)}>
         {initialFiles && initialFiles.length > 0 && (
           <>
+            <Separator className="my-5" />
             <div className="my-1 space-y-1">
               {initialFiles.map((file, index) => {
                 return (
