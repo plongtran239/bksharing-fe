@@ -79,6 +79,7 @@ const CourseRequest = z
 const CourseBase = z.object({
   id: z.number(),
   name: z.string(),
+  description: z.string().optional(),
   courseType: z.nativeEnum(COURSE_TYPE),
   status: z.nativeEnum(COURSE_STATUS),
   category: z.object({ id: z.number(), name: z.string() }),
@@ -95,7 +96,18 @@ const CourseBase = z.object({
       originalUrl: z.string(),
     })
     .nullable(),
-  mentor: z.object({ id: z.number(), name: z.string() }),
+  mentor: z.object({
+    id: z.number(),
+    name: z.string(),
+    avatar: z
+      .object({
+        fileId: z.number(),
+        fileSize: z.number(),
+        originalUrl: z.string(),
+        versions: z.array(z.string()),
+      })
+      .optional(),
+  }),
 });
 
 const Course = CourseBase.extend({
@@ -103,12 +115,11 @@ const Course = CourseBase.extend({
 });
 
 const CourseDetail = CourseBase.extend({
-  description: z.string().optional(),
   isPublic: z.boolean(),
   isApproved: z.boolean(),
   limitOfStudents: z.number(),
   sections: z.array(Section),
-  createdAt: z.date(),
+  createdAt: z.string(),
 });
 
 type SectionRequestType = z.infer<typeof SectionRequest>;

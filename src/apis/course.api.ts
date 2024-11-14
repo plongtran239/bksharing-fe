@@ -18,7 +18,10 @@ const courseApi = {
       endDate: convertDateToLocaleDateString(body.endDate),
     }),
 
-  getCourses: () => http.get<ListResponseType<CourseType>>("/client/courses"),
+  getCourses: () =>
+    http.get<ListResponseType<CourseType>>("/client/courses", {
+      cache: "no-store",
+    }),
 
   getCoursesByMentorId: (sessionToken: string, mentorId: number) =>
     http.get<ListResponseType<CourseType>>(

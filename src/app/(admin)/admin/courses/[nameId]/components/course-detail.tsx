@@ -35,7 +35,7 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
             </p>
             <p className="text-black">{course.category.name}</p>
             <p className="text-lg font-medium text-primary">
-              {Intl.NumberFormat("en-EN", {
+              {Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
               }).format(course.price)}

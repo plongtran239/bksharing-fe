@@ -1,6 +1,7 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Metadata } from "next";
 
+import courseApi from "@/apis/course.api";
 import CourseCard from "@/app/(root)/(course)/courses/components/course-card";
 import Welcome from "@/app/(root)/(course)/courses/components/welcome";
 import { Button } from "@/components/ui/button";
@@ -10,7 +11,11 @@ export const metadata: Metadata = {
   description: "Find courses to help you grow your career.",
 };
 
-const Course = () => {
+const Course = async () => {
+  const {
+    payload: { data: courses },
+  } = await courseApi.getCourses();
+
   return (
     <main>
       <div className="bg-secondary">
@@ -22,8 +27,8 @@ const Course = () => {
         <p className="text-2xl font-semibold text-black">Courses</p>
 
         <div className="grid grid-cols-3 gap-10">
-          {[1, 2, 3].map((item) => (
-            <CourseCard key={item} />
+          {courses.map((course) => (
+            <CourseCard key={course.id} course={course} />
           ))}
         </div>
 

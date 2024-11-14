@@ -43,14 +43,17 @@ const CourseCard = ({ course }: { course: CourseType }) => {
 
       <div className="flex-between flex-1 px-5 group-hover:hidden">
         <div className="space-y-1">
-          <h2 className="line-clamp-1 max-w-96 font-semibold text-black">
+          <h2 className="line-clamp-1 max-w-96 font-semibold capitalize text-black">
             {course.name}
           </h2>
 
-          <p className="text-sm">Category: {course.category.name}</p>
+          <p className="text-sm">{course.category.name}</p>
 
           <p className="text-sm">
-            Type: {convertToCapitalizeCase(course.courseType)}
+            <span className="text-black">
+              {convertToCapitalizeCase(course.status)}
+            </span>{" "}
+            - {convertToCapitalizeCase(course.courseType)}
           </p>
         </div>
 

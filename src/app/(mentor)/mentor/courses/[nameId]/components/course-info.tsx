@@ -237,6 +237,7 @@ const CourseInfo = ({
                     e.g. This course will teach you how to create a website from scratch using HTML, CSS, and JavaScript.
                   "
                     id="description"
+                    rows={5}
                     {...field}
                   />
                 </FormControl>
