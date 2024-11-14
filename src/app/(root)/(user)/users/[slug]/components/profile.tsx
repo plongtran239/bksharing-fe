@@ -1,10 +1,11 @@
 import {
   FileTextIcon,
-  ListCollapseIcon,
   MessageSquareQuoteIcon,
+  SquareLibraryIcon,
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
+import CourseTab from "@/app/(root)/(user)/users/[slug]/components/course-tab";
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
 import { Progress } from "@/components/ui/progress";
@@ -73,14 +74,14 @@ const Profile = async ({ slug }: { slug: string }) => {
                 Profile
               </TabsTrigger>
 
+              <TabsTrigger value="courses">
+                <SquareLibraryIcon size={16} className="max-sm:hidden" />
+                Courses
+              </TabsTrigger>
+
               <TabsTrigger value="reviews">
                 <MessageSquareQuoteIcon size={16} className="max-sm:hidden" />
                 Reviews
-              </TabsTrigger>
-
-              <TabsTrigger value="posts">
-                <ListCollapseIcon size={16} className="max-sm:hidden" />
-                Posts
               </TabsTrigger>
             </TabsList>
           </div>
@@ -90,21 +91,13 @@ const Profile = async ({ slug }: { slug: string }) => {
               <ProfileTab data={result.data} completion={completion} />
             </TabsContent>
 
+            <TabsContent value="courses">
+              <CourseTab mentorId={result.data.id} />
+            </TabsContent>
+
             <TabsContent value="reviews">
               <div className="mt-5 rounded-xl bg-white p-5">
                 <p>There are no reviews!</p>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="suggestions">
-              <div className="mt-5 rounded-xl bg-white p-5">
-                <p>There are no suggestions!</p>
-              </div>
-            </TabsContent>
-
-            <TabsContent value="posts">
-              <div className="mt-5 rounded-xl bg-white p-5">
-                <p>There are no posts!</p>
               </div>
             </TabsContent>
           </div>

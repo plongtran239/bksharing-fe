@@ -75,7 +75,7 @@ const CourseInfo = ({
     resolver: zodResolver(CourseRequest),
     defaultValues: {
       ...course,
-      status: course.status,
+      status: undefined,
       imageId: course.image?.fileId,
       categoryId: course.category.id,
       objectives: course.objectives.length > 0 ? course.objectives : [""],

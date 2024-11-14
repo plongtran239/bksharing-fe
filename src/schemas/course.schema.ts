@@ -62,7 +62,7 @@ const CourseRequest = z
     endDate: z.date().min(new Date(MIN_DATE), {
       message: `must be greater than ${MIN_DATE}`,
     }),
-    status: z.nativeEnum(COURSE_STATUS).default(COURSE_STATUS.DRAFT),
+    status: z.nativeEnum(COURSE_STATUS).optional(),
     isPublic: z.boolean().default(false),
     imageId: z.number().optional(),
   })

@@ -1,3 +1,4 @@
+import { MENTOR_STATUS } from "@/constants/enum";
 import http from "@/lib/http";
 import { convertDateToLocaleDateString } from "@/lib/utils";
 import {
@@ -28,12 +29,14 @@ const userApi = {
   getMentorList: ({
     pageNumber = 1,
     pageSize = 10,
+    name = "",
   }: {
     pageNumber?: number;
     pageSize?: number;
+    name?: string;
   }) =>
     http.get<ListResponseType<MentorType>>(
-      `client/mentors?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      `client/mentors?pageNumber=${pageNumber}&pageSize=${pageSize}&status=${MENTOR_STATUS.ACCEPTED}&name=${name}`,
       {
         cache: "no-store",
       }

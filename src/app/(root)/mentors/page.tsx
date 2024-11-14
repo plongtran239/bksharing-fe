@@ -19,10 +19,11 @@ interface MentorProps {
 const Mentor = async ({ searchParams }: MentorProps) => {
   const pageNumber = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 12;
+  const name = searchParams.name;
 
   const {
     payload: { data: mentors, total },
-  } = await userApi.getMentorList({ pageNumber, pageSize });
+  } = await userApi.getMentorList({ pageNumber, pageSize, name });
 
   return (
     <main className="pb-10">
