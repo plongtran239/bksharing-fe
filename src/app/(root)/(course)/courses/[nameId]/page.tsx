@@ -21,6 +21,7 @@ import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import {
   cn,
   convertMilisecondsToLocaleDateString,
+  generateNameId,
   getIdFromNameId,
 } from "@/lib/utils";
 
@@ -73,7 +74,10 @@ const CourseDetailPage = async ({
             <p className="text-sm">
               Created by{" "}
               <Link
-                href={`/users/${course.mentor.id}`}
+                href={`/users/${generateNameId({
+                  id: course.mentor.id,
+                  name: course.mentor.name,
+                })}`}
                 className="capitalize text-secondary-foreground underline"
               >
                 {course.mentor.name}

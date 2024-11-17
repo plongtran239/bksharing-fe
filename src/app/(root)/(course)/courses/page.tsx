@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 const Course = async () => {
   const {
-    payload: { data: courses },
+    payload: { data: courses, total },
   } = await courseApi.getCourses();
 
   return (
@@ -22,7 +22,6 @@ const Course = async () => {
         <Welcome />
       </div>
 
-      {/* Recommandation */}
       <section className="container space-y-10 py-10">
         <p className="text-2xl font-semibold text-black">Courses</p>
 
@@ -32,17 +31,19 @@ const Course = async () => {
           ))}
         </div>
 
-        <div className="flex items-center justify-end gap-5">
-          <Button className="flex-center gap-2 pl-4 pr-5" disabled>
-            <ChevronLeftIcon size={16} />
-            Previous
-          </Button>
+        {total > 3 && (
+          <div className="flex items-center justify-end gap-5">
+            <Button className="flex-center gap-2 pl-4 pr-5" disabled>
+              <ChevronLeftIcon size={16} />
+              Previous
+            </Button>
 
-          <Button className="flex-center gap-2 pl-5 pr-4">
-            Next
-            <ChevronRightIcon size={16} />
-          </Button>
-        </div>
+            <Button className="flex-center gap-2 pl-5 pr-4">
+              Next
+              <ChevronRightIcon size={16} />
+            </Button>
+          </div>
+        )}
       </section>
     </main>
   );

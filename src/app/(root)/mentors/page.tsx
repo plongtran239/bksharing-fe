@@ -40,22 +40,28 @@ const Mentor = async ({ searchParams }: MentorProps) => {
           Mentors ({mentors.length})
         </p>
 
-        <div className="mt-10 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
-          {mentors.map((mentor, index) => (
-            <div key={index}>
-              <MentorCard data={mentor} />
-            </div>
-          ))}
-        </div>
+        {total === 0 ? (
+          <div className="mt-10 min-h-[184px]">No mentors found.</div>
+        ) : (
+          <div className="mt-10 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
+            {mentors.map((mentor, index) => (
+              <div key={index}>
+                <MentorCard data={mentor} />
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
-      <div className="mt-10">
-        <PaginationWithLinks
-          page={pageNumber}
-          pageSize={pageSize}
-          totalCount={total}
-        />
-      </div>
+      {total > 12 && (
+        <div className="mt-10">
+          <PaginationWithLinks
+            page={pageNumber}
+            pageSize={pageSize}
+            totalCount={total}
+          />
+        </div>
+      )}
     </main>
   );
 };
