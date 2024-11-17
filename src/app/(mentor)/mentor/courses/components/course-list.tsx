@@ -1,10 +1,11 @@
 import courseApi from "@/apis/course.api";
 import userApi from "@/apis/user.api";
 import CourseCard from "@/app/(mentor)/mentor/courses/components/course-card";
+import { COURSE_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import { CourseType } from "@/schemas";
 
-const CourseList = async () => {
+const CourseList = async ({ status }: { status: COURSE_STATUS }) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   let courses: CourseType[] = [];
@@ -16,9 +17,13 @@ const CourseList = async () => {
 
     const {
       payload: { data },
-    } = await courseApi.getCoursesByMentorId(sessionToken, mentor.id);
+    } = await courseApi.getCoursesByMentorId(sessionToken, mentor.id, status);
 
     courses = data;
+  }
+
+  if (courses.length === 0) {
+    return <div>No course found</div>;
   }
 
   return (

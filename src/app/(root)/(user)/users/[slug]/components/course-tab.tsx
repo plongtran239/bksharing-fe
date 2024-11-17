@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import courseApi from "@/apis/course.api";
+import { COURSE_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import { generateNameId } from "@/lib/utils";
 
@@ -14,7 +15,11 @@ const CourseTab = async ({ mentorId }: IProps) => {
 
   const {
     payload: { data: courses },
-  } = await courseApi.getCoursesByMentorId(sessionToken, mentorId);
+  } = await courseApi.getCoursesByMentorId(
+    sessionToken,
+    mentorId,
+    COURSE_STATUS.APPROVED
+  );
 
   return (
     <section className="w-full rounded-xl bg-white p-5">

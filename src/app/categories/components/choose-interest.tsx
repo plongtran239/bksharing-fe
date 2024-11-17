@@ -18,14 +18,13 @@ import {
 const ChooseInterest = ({ categories }: { categories: CategoryType[] }) => {
   const allCategories = categories.reduce<{ id: number; name: string }[]>(
     (acc, category) => {
-      acc.push({ id: category.id, name: category.name });
-
-      if (category.childCategories.length > 0) {
+      if (category.childCategories.length === 0) {
+        acc.push({ id: category.id, name: category.name });
+      } else {
         category.childCategories.forEach((childCategory) => {
           acc.push({ id: childCategory.id, name: childCategory.name });
         });
       }
-
       return acc;
     },
     []
@@ -55,7 +54,7 @@ const ChooseInterest = ({ categories }: { categories: CategoryType[] }) => {
         description: "Select interested field successfully!",
       });
 
-      router.push("/");
+      router.push("/courses");
     } catch (error) {
       console.error({ error });
     } finally {

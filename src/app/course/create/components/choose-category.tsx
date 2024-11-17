@@ -9,21 +9,41 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { CategoryType, CourseRequestType } from "@/schemas";
+import { CourseRequestType } from "@/schemas";
 
 const ChooseCategory = ({
   form,
 }: {
   form: UseFormReturn<CourseRequestType>;
 }) => {
-  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [categories, setCategories] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
 
   useEffect(() => {
     const fetchCategories = async () => {
       const {
         payload: { data },
       } = await categoryApi.getCategories();
-      setCategories(data);
+
+      const allCategories = data.reduce<{ id: number; name: string }[]>(
+        (acc, category) => {
+          if (category.childCategories.length === 0) {
+            acc.push({ id: category.id, name: category.name });
+          } else {
+            category.childCategories.forEach((childCategory) => {
+              acc.push({ id: childCategory.id, name: childCategory.name });
+            });
+          }
+          return acc;
+        },
+        []
+      );
+
+      setCategories(allCategories);
     };
     fetchCategories();
   }, []);

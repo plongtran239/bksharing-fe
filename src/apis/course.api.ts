@@ -23,15 +23,21 @@ const courseApi = {
       cache: "no-store",
     }),
 
-  getCoursesByMentorId: (sessionToken: string, mentorId: number) =>
-    http.get<ListResponseType<CourseType>>(
-      `/client/mentors/${mentorId}/courses`,
-      {
-        headers: {
-          Authorization: `Bearer ${sessionToken}`,
-        },
-      }
-    ),
+  getCoursesByMentorId: (
+    sessionToken: string,
+    mentorId: number,
+    status?: string
+  ) => {
+    const url = `/client/mentors/${mentorId}/courses${
+      status ? `?courseStatus=${status}` : ""
+    }`;
+
+    return http.get<ListResponseType<CourseType>>(url, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    });
+  },
 
   getCourseById: (sessionToken: string, courseId: number) =>
     http.get<DetailResponseType<CourseDetailType>>(

@@ -56,17 +56,19 @@ const CourseDetailPage = async ({
 
   return (
     <main className="relative">
-      <div className="absolute left-0 top-0 -z-50 h-[296px] w-full bg-secondary" />
+      <div className="absolute left-0 top-0 -z-50 min-h-[296px] w-full bg-secondary" />
 
       <div className="container relative grid grid-cols-3 py-10">
         <section className="col-span-2 w-11/12">
           {/* Course info */}
-          <div className="space-y-5">
+          <div className="flex min-h-[212px] flex-col justify-center space-y-5">
             <h1 className="line-clamp-2 text-2xl font-semibold text-secondary-foreground">
               {course.name}
             </h1>
 
-            <p className="text-black">{course.description}</p>
+            <p className="line-clamp-5 text-black">
+              {course.description || "No description"}
+            </p>
 
             <p className="text-sm">
               Created by{" "}

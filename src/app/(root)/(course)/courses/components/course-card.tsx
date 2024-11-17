@@ -41,7 +41,7 @@ const CourseCard = ({ course }: IProps) => {
 
       <p className="text-black">{course.name}</p>
 
-      <p className="line-clamp-3 text-sm">
+      <p className="line-clamp-2 min-h-[40px] text-sm">
         {course.description || "No description"}
       </p>
 

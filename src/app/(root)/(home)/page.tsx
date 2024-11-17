@@ -1,6 +1,7 @@
 import { CalendarRangeIcon, ReceiptTextIcon, UsersIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
+import Link from "next/link";
 
 import Card from "@/app/(root)/(home)/components/card";
 import AnimationWrapper from "@/components/animation-wrapper";
@@ -49,7 +50,9 @@ export default function Home() {
                   </p>
                 </div>
 
-                <Button className="mt-4">Start Exploring</Button>
+                <Link href={"/mentors"}>
+                  <Button className="mt-4">Start Exploring</Button>
+                </Link>
               </div>
             </AnimationWrapper>
 
@@ -161,20 +164,24 @@ export default function Home() {
                 <span className="text-xl font-semibold text-white">
                   FOR MENTORS
                 </span>
-                <Button
-                  className="rounded-full border-white bg-white/0 text-white"
-                  variant="outline"
-                >
-                  Become a mentor
-                </Button>
+                <Link href={"/mentor/courses"}>
+                  <Button
+                    className="rounded-full border-white bg-white/0 text-white"
+                    variant="outline"
+                  >
+                    Become a mentor
+                  </Button>
+                </Link>
               </li>
               <li className="flex-center h-[400px] w-full flex-col gap-2 rounded-3xl bg-black/40 bg-[url('/images/landing-3.png')] bg-blend-darken">
                 <span className="text-xl font-semibold text-white">
                   FOR LEARNERS
                 </span>
-                <Button variant="default" className="rounded-full opacity-95">
-                  Enter a classroom code
-                </Button>
+                <Link href={"/mentors"}>
+                  <Button variant="default" className="rounded-full opacity-95">
+                    Find a mentor
+                  </Button>
+                </Link>
               </li>
             </ul>
           </div>

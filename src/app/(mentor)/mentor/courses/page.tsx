@@ -4,8 +4,13 @@ import Link from "next/link";
 import CourseList from "@/app/(mentor)/mentor/courses/components/course-list";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { COURSE_STATUS } from "@/constants/enum";
 
-const MentorCourse = async () => {
+const MentorCourse = async ({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | string[] | undefined };
+}) => {
   return (
     <section>
       <div className="flex-between">
@@ -21,7 +26,7 @@ const MentorCourse = async () => {
 
       <Separator className="my-5" />
 
-      <CourseList />
+      <CourseList status={searchParams.status as COURSE_STATUS} />
     </section>
   );
 };

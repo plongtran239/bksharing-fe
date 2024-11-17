@@ -40,12 +40,7 @@ import {
   convertDateToLocaleDateString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
-import {
-  CategoryType,
-  CourseDetailType,
-  CourseRequest,
-  CourseRequestType,
-} from "@/schemas";
+import { CourseDetailType, CourseRequest, CourseRequestType } from "@/schemas";
 
 const CourseInfo = ({
   course,
@@ -59,7 +54,12 @@ const CourseInfo = ({
   const router = useRouter();
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
-  const [categories, setCategories] = useState<CategoryType[]>([]);
+  const [categories, setCategories] = useState<
+    {
+      id: number;
+      name: string;
+    }[]
+  >([]);
 
   const {
     file,
@@ -91,7 +91,22 @@ const CourseInfo = ({
       const {
         payload: { data },
       } = await categoryApi.getCategories();
-      setCategories(data);
+
+      const allCategories = data.reduce<{ id: number; name: string }[]>(
+        (acc, category) => {
+          if (category.childCategories.length === 0) {
+            acc.push({ id: category.id, name: category.name });
+          } else {
+            category.childCategories.forEach((childCategory) => {
+              acc.push({ id: childCategory.id, name: childCategory.name });
+            });
+          }
+          return acc;
+        },
+        []
+      );
+
+      setCategories(allCategories);
     };
     fetchCategories();
   }, []);
