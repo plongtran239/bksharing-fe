@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback } from "react";
@@ -14,6 +15,7 @@ interface IProps {
 }
 
 const Navbar = ({ isSidebar }: IProps) => {
+  const t = useTranslations("navbar");
   const path = usePathname();
 
   const isActive = useCallback(
@@ -25,7 +27,7 @@ const Navbar = ({ isSidebar }: IProps) => {
 
   return (
     <ul
-      className={cn("flex-between gap-10 max-lg:hidden", {
+      className={cn("flex-between gap-10 font-medium max-lg:hidden", {
         "max-lg:flex-between flex-col gap-10": isSidebar,
       })}
     >
@@ -50,7 +52,7 @@ const Navbar = ({ isSidebar }: IProps) => {
               {isSidebar ? (
                 <SheetClose className="flex-center gap-1">
                   <span className="max-xl:hidden">{item.icon}</span>
-                  {item.label}
+                  {t(item.label)}
                 </SheetClose>
               ) : (
                 <>
@@ -61,7 +63,7 @@ const Navbar = ({ isSidebar }: IProps) => {
                   >
                     {item.icon}
                   </span>
-                  {item.label}
+                  {t(item.label)}
                 </>
               )}
             </Link>

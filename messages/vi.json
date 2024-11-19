@@ -1,0 +1,89 @@
+{
+  "common": {
+    "login": "Đăng nhập",
+    "register": "Đăng ký",
+    "logout": "Đăng xuất"
+  },
+  "navbar": {
+    "home": "Trang chủ",
+    "mentors": "Gia sư",
+    "courses": "Khóa học"
+  },
+  "dropdown": {
+    "myAccount": "Tài khoản của tôi",
+    "dashboard": "Bảng điều khiển",
+    "profile": "Hồ sơ",
+    "changePassword": "Đổi mật khẩu",
+    "personalInformation": "Thông tin cá nhân",
+    "studentView": "Xem dưới dạng học viên",
+    "mentorDashboard": "Bảng điều khiển gia sư"
+  },
+  "sidebar": {
+    "dashboard": "Bảng điều khiển",
+    "mentors": "Gia sư",
+    "courses": "Khóa học",
+    "meetings": "Cuộc họp",
+    "categories": "Danh mục",
+    "pending": "Đang chờ",
+    "approved": "Đã duyệt",
+    "accepted": "Đã duyệt",
+    "rejected": "Đã từ chối",
+    "scheduled": "Đã lên lịch",
+    "ongoing": "Đang diễn ra",
+    "finished": "Đã kết thúc",
+    "cancelled": "Đã hủy",
+    "draft": "Nháp"
+  },
+  "footer": {
+    "label": "Đăng ký nhận thông tin mới nhất",
+    "button": "Đăng ký",
+    "aboutUs": "Về chúng tôi",
+    "contactUs": "Liên hệ",
+    "termsOfService": "Điều khoản dịch vụ",
+    "privacyPolicy": "Chính sách bảo mật"
+  },
+  "homePage": {
+    "section1": {
+      "title": "BK Sharing - Nền tảng trực tuyến kết nối gia sư và học viên",
+      "description": "Chúng tôi cung cấp nền tảng cho các gia sư chia sẻ kiến ​​thức và kinh nghiệm với tất cả mọi người có mong muốn học hỏi.",
+      "button": "Khám phá ngay"
+    },
+    "section2": {
+      "title": {
+        "first": "Ứng Dụng",
+        "second": "Đa Chức Năng"
+      },
+      "description": "BK Sharing là một phần mềm dựa trên đám mây cung cấp giải pháp toàn diện cho gia sư và học viên kết nối, giao tiếp và hợp tác.",
+      "card1": {
+        "title": "Hóa Đơn, Hợp Đồng & Thanh Toán Trực Tuyến",
+        "description": "Kiểm soát đơn giản và an toàn các giao dịch tài chính và pháp lý của tổ chức của bạn. Gửi hóa đơn và hợp đồng tùy chỉnh"
+      },
+      "card2": {
+        "title": "Lịch Trực Tuyến & Quản Lý Lịch",
+        "description": "Quản lý lịch trình và cuộc hẹn của bạn một cách dễ dàng. Thiết lập cuộc họp, lớp học và sự kiện chỉ với vài cú nhấp chuột"
+      },
+      "card3": {
+        "title": "Hội họp & Tham Gia Học Trực Tuyến",
+        "description": "Kết nối với gia sư và học viên của bạn thông qua họp trực tuyến chất lượng cao. Chia sẽ màn hình, tệp tin và nhiều hơn nữa"
+      }
+    },
+    "section3": {
+      "title": {
+        "first": "BK Sharing",
+        "second": "Là Gì?"
+      },
+      "description": "BK Sharing là nền tảng cho phép các gia sư tạo ra các lớp học trực tuyến, nơi họ có thể lưu trữ tài liệu khóa học trực tuyến và cung cấp phản hồi cho sinh viên tại một nơi.",
+      "card1": {
+        "title": "DÀNH CHO GIA SƯ",
+        "button": "Trở Thành Gia Sư"
+      },
+      "card2": {
+        "title": "DÀNH CHO HỌC VIÊN",
+        "button": "Tìm kiếm Gia Sư"
+      }
+    }
+  },
+  "AuthPage": {},
+  "CoursePage": {},
+  "MentorPage": {}
+}

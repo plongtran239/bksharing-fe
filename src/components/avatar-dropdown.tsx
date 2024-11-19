@@ -1,6 +1,7 @@
 "use client";
 
 import { ChevronUpIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -37,6 +38,7 @@ const AvatarDropdown = ({
   mobileDisplayName,
   isSidebar,
 }: IProps) => {
+  const t = useTranslations("dropdown");
   const pathname = usePathname();
 
   return (
@@ -46,12 +48,12 @@ const AvatarDropdown = ({
           "flex-between gap-2 rounded-xl p-1 text-black focus-within:border-none focus-visible:border-none",
           className,
           {
-            "hover:bg-primary hover:text-primary-foreground": isSidebar,
+            "w-full hover:bg-primary hover:text-primary-foreground": isSidebar,
           }
         )}
       >
         <div className="flex-center gap-2">
-          <div className="relative h-[28px] w-[28px]">
+          <div className="relative h-7 w-7">
             <Image
               src={avatar || "/images/default-user.png"}
               alt="avatar"
@@ -62,7 +64,7 @@ const AvatarDropdown = ({
             />
           </div>
           <span
-            className={cn("max-sm:hidden", {
+            className={cn("font-medium max-sm:hidden", {
               "max-sm:block": mobileDisplayName,
               "max-lg:hidden": role === ROLES.ADMIN || role === ROLES.MENTOR,
             })}
@@ -78,21 +80,22 @@ const AvatarDropdown = ({
         className={cn({
           "min-w-[239px]": isSidebar,
         })}
+        align={isSidebar ? "start" : "center"}
       >
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuLabel>{t("myAccount")}</DropdownMenuLabel>
 
         <DropdownMenuSeparator />
 
         {AvatarDropdownMenuItems[ROLES[role as keyof typeof ROLES]].map(
           (item, index) => {
             if (role === ROLES.MENTOR) {
-              if (pathname === "/mentors" && item.label === "Student View") {
+              if (pathname === "/mentors" && item.label === "studentView") {
                 return null;
               }
 
               if (
                 !pathname.startsWith("/mentor") &&
-                item.label === "Student View"
+                item.label === "studentView"
               ) {
                 return null;
               }
@@ -100,7 +103,7 @@ const AvatarDropdown = ({
               if (
                 pathname.startsWith("/mentor") &&
                 pathname !== "/mentors" &&
-                item.label === "Mentor Dashboard"
+                item.label === "mentorDashboard"
               ) {
                 return null;
               }
@@ -112,7 +115,7 @@ const AvatarDropdown = ({
 
                 <DropdownMenuItem className="flex items-center gap-2">
                   {item.icon}
-                  {item.label}
+                  {t(item.label)}
                 </DropdownMenuItem>
               </Link>
             );

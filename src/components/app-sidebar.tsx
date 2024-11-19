@@ -1,35 +1,25 @@
-import { ChevronDown } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
 import userApi from "@/apis/user.api";
+import AppSidebarContent from "@/components/app-sidebar-content";
 import AvatarDropdown from "@/components/avatar-dropdown";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import LangSwitcher from "@/components/lang-switcher";
 import {
   Sidebar,
-  SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubButton,
-  SidebarMenuSubItem,
   SidebarSeparator,
 } from "@/components/ui/sidebar";
 import { ROLES } from "@/constants/enum";
-import { SidebarMenuItems } from "@/constants/menu-item";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const AppSidebar = async () => {
-  const { sessionToken, role } = useGetFromCookie(["sessionToken", "role"]);
+  const { sessionToken, role, lang } = useGetFromCookie([
+    "sessionToken",
+    "role",
+    "lang",
+  ]);
 
   let user = null;
 
@@ -55,78 +45,27 @@ const AppSidebar = async () => {
             priority
           />
 
-          <span className="text-xl text-secondary-foreground">BK Sharing</span>
+          <span className="text-xl font-semibold text-secondary-foreground">
+            BK Sharing
+          </span>
         </Link>
       </SidebarHeader>
 
-      <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu className="space-y-2">
-              {SidebarMenuItems[role as keyof typeof SidebarMenuItems]?.map(
-                (item) => (
-                  <Collapsible
-                    key={item.label}
-                    defaultOpen
-                    className="group/collapsible"
-                  >
-                    <SidebarMenuItem>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuButton asChild className="text-base">
-                          {item.subs ? (
-                            <div className="flex-between">
-                              <div className="flex-center gap-2">
-                                {item.icon}
-                                {item.label}
-                              </div>
-                              {item.subs && <ChevronDown size={20} />}
-                            </div>
-                          ) : (
-                            <Link href={item.href}>
-                              {item.icon}
-                              {item.label}
-                            </Link>
-                          )}
-                        </SidebarMenuButton>
-                      </CollapsibleTrigger>
-
-                      <CollapsibleContent>
-                        {item.subs && (
-                          <SidebarMenuSub>
-                            {item.subs.map((subItem) => (
-                              <SidebarMenuSubItem key={subItem.label}>
-                                <SidebarMenuSubButton
-                                  asChild
-                                  className="text-sm"
-                                >
-                                  <Link href={subItem.href}>
-                                    {subItem.label}
-                                  </Link>
-                                </SidebarMenuSubButton>
-                              </SidebarMenuSubItem>
-                            ))}
-                          </SidebarMenuSub>
-                        )}
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                )
-              )}
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-      </SidebarContent>
+      <AppSidebarContent role={role} />
 
       <SidebarSeparator className="bg-black" />
 
       <SidebarFooter className="p-2">
-        <AvatarDropdown
-          name={user?.name}
-          avatar={user?.thumbnail?.originalUrl}
-          role={role}
-          isSidebar
-          mobileDisplayName
-        />
+        <div className="flex-between gap-5">
+          <AvatarDropdown
+            name={user?.name}
+            avatar={user?.thumbnail?.originalUrl}
+            role={role}
+            isSidebar
+            mobileDisplayName
+          />
+          <LangSwitcher lang={lang} />
+        </div>
       </SidebarFooter>
     </Sidebar>
   );

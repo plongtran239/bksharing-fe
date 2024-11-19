@@ -4,7 +4,7 @@ import {
   HomeIcon,
   InfoIcon,
   KeyRoundIcon,
-  LibraryIcon, // TextQuoteIcon,
+  LibraryIcon,
   UserIcon,
   VideoIcon,
   ViewIcon,
@@ -16,7 +16,6 @@ import {
   MENTOR_STATUS,
   ROLES,
 } from "@/constants/enum";
-import { convertToCapitalizeCase } from "@/lib/utils";
 
 type MenuItemsType = {
   label: string;
@@ -27,32 +26,27 @@ type MenuItemsType = {
 }[];
 
 const NavbarMenuItems: MenuItemsType = [
-  { label: "Home", href: "/", icon: <HomeIcon size={18} strokeWidth={2.5} /> },
+  { label: "home", href: "/", icon: <HomeIcon size={18} strokeWidth={2.5} /> },
   {
-    label: "Mentors",
+    label: "mentors",
     href: "/mentors",
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
   },
   {
-    label: "Courses",
+    label: "courses",
     href: "/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
   },
-  // {
-  //   label: "Blogs",
-  //   href: "/blogs",
-  //   icon: <TextQuoteIcon size={18} strokeWidth={2.5} />,
-  // },
 ];
 
 const StudentAvatarDropdownMenuItems: MenuItemsType = [
   {
-    label: "Change Password",
+    label: "changePassword",
     href: "/change-password",
     icon: <KeyRoundIcon size={16} />,
   },
   {
-    label: "Personal Information",
+    label: "personalInformation",
     href: "/user-info",
     icon: <InfoIcon size={16} />,
   },
@@ -60,19 +54,19 @@ const StudentAvatarDropdownMenuItems: MenuItemsType = [
 
 const MentorAvatarDropdownMenuItems: MenuItemsType = [
   {
-    label: "Profile",
+    label: "profile",
     href: "/users/profile",
     icon: <UserIcon size={16} />,
   },
   ...StudentAvatarDropdownMenuItems,
   {
-    label: "Mentor Dashboard",
+    label: "mentorDashboard",
     href: "/mentor/courses",
     icon: <ViewIcon size={16} />,
     hasSeparator: true,
   },
   {
-    label: "Student View",
+    label: "studentView",
     href: "/",
     icon: <ViewIcon size={16} />,
     hasSeparator: true,
@@ -81,7 +75,7 @@ const MentorAvatarDropdownMenuItems: MenuItemsType = [
 
 const AdminAvatarDropdownMenuItems: MenuItemsType = [
   {
-    label: "Dashboard",
+    label: "dashboard",
     href: "/admin/dashboard",
     icon: <HomeIcon size={16} />,
   },
@@ -89,30 +83,30 @@ const AdminAvatarDropdownMenuItems: MenuItemsType = [
 
 const AdminSidebarMenuItems: MenuItemsType = [
   {
-    label: "Dashboard",
+    label: "dashboard",
     href: "/admin/dashboard",
     icon: <HomeIcon size={18} strokeWidth={2.5} />,
   },
   {
-    label: "Mentors",
+    label: "mentors",
     href: "/admin/mentors",
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
     subs: Object.values(MENTOR_STATUS).map((status) => ({
-      label: convertToCapitalizeCase(status),
+      label: status.toLowerCase(),
       href: `/admin/mentors?status=${status}`,
     })),
   },
   {
-    label: "Meetings",
+    label: "meetings",
     href: "/admin/meetings",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
     subs: Object.values(MEETING_STATUS).map((status) => ({
-      label: convertToCapitalizeCase(status),
+      label: status.toLowerCase(),
       href: `/admin/meetings?status=${status}`,
     })),
   },
   {
-    label: "Courses",
+    label: "courses",
     href: "/admin/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
     subs: [
@@ -120,12 +114,12 @@ const AdminSidebarMenuItems: MenuItemsType = [
       COURSE_STATUS.APPROVED,
       COURSE_STATUS.REJECTED,
     ].map((status) => ({
-      label: convertToCapitalizeCase(status),
+      label: status.toLowerCase(),
       href: `/admin/courses?status=${status}`,
     })),
   },
   {
-    label: "Categories",
+    label: "categories",
     href: "/admin/categories",
     icon: <BookCopyIcon size={18} strokeWidth={2.5} />,
   },
@@ -133,7 +127,7 @@ const AdminSidebarMenuItems: MenuItemsType = [
 
 const MentorSidebarMenuItems: MenuItemsType = [
   {
-    label: "Courses",
+    label: "courses",
     href: "/mentor/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
     subs: [
@@ -142,7 +136,7 @@ const MentorSidebarMenuItems: MenuItemsType = [
       COURSE_STATUS.APPROVED,
       COURSE_STATUS.REJECTED,
     ].map((status) => ({
-      label: convertToCapitalizeCase(status),
+      label: status.toLowerCase(),
       href: `/mentor/courses?status=${status}`,
     })),
   },

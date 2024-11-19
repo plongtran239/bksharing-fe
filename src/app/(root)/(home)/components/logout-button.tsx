@@ -1,6 +1,7 @@
 "use client";
 
 import { LogOutIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import authApi from "@/apis/auth.api";
@@ -14,10 +15,9 @@ interface LogoutButtonProps {
 
 const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
   const router = useRouter();
-
   const { toast } = useToast();
-
   const { setUser } = useAppContext();
+  const t = useTranslations("common");
 
   const handleLogout = async () => {
     try {
@@ -49,7 +49,7 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
     >
       <button className="flex-center gap-2">
         <LogOutIcon size={16} />
-        Logout
+        <span>{t("logout")}</span>
       </button>
     </DropdownMenuItem>
   );

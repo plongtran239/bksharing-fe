@@ -2,15 +2,20 @@ import Image from "next/image";
 import Link from "next/link";
 
 import userApi from "@/apis/user.api";
+import AuthButton from "@/app/(root)/(home)/components/auth-button";
 import AvatarDropdown from "@/components/avatar-dropdown";
 import MobileSidebar from "@/components/header/mobile-sidebar";
 import Navbar from "@/components/header/navbar";
-import { Button } from "@/components/ui/button";
+import LangSwitcher from "@/components/lang-switcher";
 import { ROLES } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const Header = async () => {
-  const { sessionToken, role } = useGetFromCookie(["sessionToken", "role"]);
+  const { sessionToken, role, lang } = useGetFromCookie([
+    "sessionToken",
+    "role",
+    "lang",
+  ]);
 
   let user = null;
 
@@ -33,34 +38,25 @@ const Header = async () => {
             priority
           />
 
-          <span className="text-xl text-secondary-foreground dark:text-white">
+          <span className="text-xl font-semibold text-secondary-foreground dark:text-white">
             BK Sharing
           </span>
         </Link>
 
-        <div className="flex-between gap-20 max-lg:gap-5">
+        <div className="flex-between gap-10 max-lg:gap-5">
           {role !== ROLES.ADMIN && <Navbar />}
 
-          <>
-            {user ? (
-              <AvatarDropdown
-                name={user.name}
-                avatar={user.thumbnail?.originalUrl}
-                role={role}
-              />
-            ) : (
-              <div className="flex-between gap-5 max-lg:hidden">
-                <Link href="/login">
-                  <Button className="w-28 rounded-full">Login</Button>
-                </Link>
-                <Link href="/register">
-                  <Button className="w-28 rounded-full" variant="outline">
-                    Register
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </>
+          {user ? (
+            <AvatarDropdown
+              name={user.name}
+              avatar={user.thumbnail?.originalUrl}
+              role={role}
+            />
+          ) : (
+            <AuthButton />
+          )}
+
+          <LangSwitcher lang={lang} />
 
           <MobileSidebar user={user} role={role} className="lg:hidden" />
         </div>

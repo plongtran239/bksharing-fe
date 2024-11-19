@@ -1,6 +1,7 @@
 "use client";
 
 import { MenuIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -26,6 +27,7 @@ interface IProps {
 }
 
 const MobileSidebar = ({ user, role, className }: IProps) => {
+  const t = useTranslations("");
   const [open, setOpen] = useState(false);
 
   const handleClick = () => {
@@ -62,7 +64,7 @@ const MobileSidebar = ({ user, role, className }: IProps) => {
             <div className="flex-center gap-5">
               <Link href="/login">
                 <Button onClick={handleClick} className="w-28 rounded-full">
-                  Login
+                  {t("common.login")}
                 </Button>
               </Link>
               <Link href="/register">
@@ -71,7 +73,7 @@ const MobileSidebar = ({ user, role, className }: IProps) => {
                   className="w-28 rounded-full"
                   variant="outline"
                 >
-                  Register
+                  {t("common.register")}
                 </Button>
               </Link>
             </div>
