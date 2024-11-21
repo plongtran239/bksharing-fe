@@ -1,16 +1,11 @@
-import {
-  ChevronsUpDownIcon,
-  ClockIcon,
-  HeartIcon,
-  PaperclipIcon,
-} from "lucide-react";
+import { ChevronsUpDownIcon, ClockIcon, PaperclipIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
-import { Button } from "@/components/ui/button";
+import CheckoutButton from "@/app/(root)/(course)/courses/[nameId]/components/checkout-button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -214,14 +209,7 @@ const CourseDetailPage = async ({
               }).format(course.price)}
             </p>
 
-            {/* Enroll & Wishlist */}
-            <div className="flex-center gap-5">
-              <Button className="w-full">Enroll</Button>
-
-              <Button className="px-3" variant="secondary">
-                <HeartIcon size={16} />
-              </Button>
-            </div>
+            <CheckoutButton courseId={course.id} amount={course.price} />
 
             {/* Info */}
             <div className="space-y-2">
