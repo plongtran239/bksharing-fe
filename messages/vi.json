@@ -32,7 +32,10 @@
     "ongoing": "Đang diễn ra",
     "finished": "Đã kết thúc",
     "cancelled": "Đã hủy",
-    "draft": "Nháp"
+    "draft": "Nháp",
+    "appointments": "Lịch hẹn",
+    "viewAppointments": "Xem lịch hẹn",
+    "scheduleAppointment": "Xếp lịch rảnh"
   },
   "footer": {
     "label": "Đăng ký nhận thông tin mới nhất",

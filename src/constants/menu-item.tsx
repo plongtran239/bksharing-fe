@@ -127,6 +127,21 @@ const AdminSidebarMenuItems: MenuItemsType = [
 
 const MentorSidebarMenuItems: MenuItemsType = [
   {
+    label: "appointments",
+    href: "/mentor/appointments",
+    icon: <VideoIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      {
+        label: "viewAppointments",
+        href: "/mentor/appointments",
+      },
+      {
+        label: "scheduleAppointment",
+        href: "/mentor/appointments/schedule",
+      },
+    ],
+  },
+  {
     label: "courses",
     href: "/mentor/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
