@@ -1,9 +1,7 @@
 "use client";
 
-import { useState } from "react";
-
+// import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { TimePicker } from "@/components/ui/datetime-picker";
 import {
   Select,
   SelectContent,
@@ -15,7 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { DAY_OF_WEEK } from "@/constants/enum";
 
 const Scheduling = () => {
-  const [date, setDate] = useState<Date | undefined>(undefined);
+  // const [date, setDate] = useState<Date | undefined>(undefined);
 
   return (
     <div className="space-y-5">
@@ -43,17 +41,13 @@ const Scheduling = () => {
         <p className="text-lg font-semibold capitalize text-black">
           Start Time
         </p>
-        <div className="w-fit">
-          <TimePicker date={date} onChange={setDate} granularity="minute" />
-        </div>
+        <div className="w-fit"></div>
       </div>
 
       {/* End Time */}
       <div className="space-y-2">
         <p className="text-lg font-semibold capitalize text-black">End Time</p>
-        <div className="w-fit">
-          <TimePicker date={date} onChange={setDate} granularity="minute" />
-        </div>
+        <div className="w-fit"></div>
       </div>
 
       {/* Buttons */}
