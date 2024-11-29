@@ -1,9 +1,10 @@
+import { vi } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { PlusIcon, XIcon } from "lucide-react";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 
-import DateInput from "@/components/date-input";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   FormControl,
   FormField,
@@ -219,7 +220,16 @@ const AchievementForm = ({ form }: IProps) => {
                       Start Date
                     </FormLabel>
                     <FormControl>
-                      <DateInput id="start-date" {...field} />
+                      <DateTimePicker
+                        id="start-date"
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="start date"
+                        displayFormat={{ hour24: "dd/MM/yyyy" }}
+                        granularity="day"
+                        limitToCurrent={true}
+                        locale={vi}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -235,7 +245,15 @@ const AchievementForm = ({ form }: IProps) => {
                   <FormItem className="w-full">
                     <FormLabel htmlFor="end-date">End Date</FormLabel>
                     <FormControl>
-                      <DateInput id="end-date" {...field} />
+                      <DateTimePicker
+                        id="end-date"
+                        value={field.value}
+                        onChange={field.onChange}
+                        placeholder="end date"
+                        displayFormat={{ hour24: "dd/MM/yyyy" }}
+                        granularity="day"
+                        locale={vi}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>

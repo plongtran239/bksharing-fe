@@ -5,9 +5,9 @@ import { CalendarCheckIcon, CopyIcon, PlayIcon, SendIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import DatetimeInput from "@/components/datetime-input";
 import MeetingCard from "@/components/meeting-card";
 import MeetingModal from "@/components/meeting-modal";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import envConfig from "@/config";
@@ -170,12 +170,18 @@ const MeetingTypeList = () => {
               <Label htmlFor="date" required>
                 Date & Time
               </Label>
-              <DatetimeInput
-                id="date"
-                selected={meetingValues.dateTime}
+              <DateTimePicker
+                value={meetingValues.dateTime}
                 onChange={(date) =>
-                  setMeetingValues({ ...meetingValues, dateTime: date! })
+                  setMeetingValues({
+                    ...meetingValues,
+                    dateTime: date || new Date(),
+                  })
                 }
+                granularity="minute"
+                hourCycle={12}
+                yearRange={1}
+                weekStartsOn={1}
               />
             </div>
           </div>

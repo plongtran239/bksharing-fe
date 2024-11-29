@@ -1,9 +1,10 @@
+import { vi } from "date-fns/locale";
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 
-import DateInput from "@/components/date-input";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +24,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
-import { convertDateToLocaleDateString } from "@/lib/utils";
 import { AchivementRequestType } from "@/schemas";
 
 interface IModalProps {
@@ -131,18 +131,19 @@ const AchievementModal = ({
                     name="startDate"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel htmlFor="startDate" required>
+                        <FormLabel htmlFor="start" required>
                           Start Date
                         </FormLabel>
                         <FormControl>
-                          <DateInput
-                            id="startDate"
-                            defaultValue={
-                              field.value
-                                ? convertDateToLocaleDateString(field.value)
-                                : ""
-                            }
-                            {...field}
+                          <DateTimePicker
+                            id="start"
+                            value={field.value}
+                            onChange={field.onChange}
+                            placeholder="date of birth"
+                            displayFormat={{ hour24: "dd/MM/yyyy" }}
+                            granularity="day"
+                            limitToCurrent={true}
+                            locale={vi}
                           />
                         </FormControl>
                         <FormMessage />
@@ -155,16 +156,16 @@ const AchievementModal = ({
                     name="endDate"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel htmlFor="endDate">End Date</FormLabel>
+                        <FormLabel htmlFor="end">End Date</FormLabel>
                         <FormControl>
-                          <DateInput
-                            id="endDate"
-                            defaultValue={
-                              field.value
-                                ? convertDateToLocaleDateString(field.value)
-                                : ""
-                            }
-                            {...field}
+                          <DateTimePicker
+                            id="end"
+                            value={field.value}
+                            onChange={field.onChange}
+                            placeholder="date of birth"
+                            displayFormat={{ hour24: "dd/MM/yyyy" }}
+                            granularity="day"
+                            locale={vi}
                           />
                         </FormControl>
                         <FormMessage />

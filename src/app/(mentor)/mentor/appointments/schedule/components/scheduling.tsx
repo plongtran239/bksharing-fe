@@ -1,7 +1,9 @@
 "use client";
 
-// import { useState } from "react";
+import { useState } from "react";
+
 import { Button } from "@/components/ui/button";
+import { TimePicker } from "@/components/ui/datetime-picker";
 import {
   Select,
   SelectContent,
@@ -13,7 +15,7 @@ import { Separator } from "@/components/ui/separator";
 import { DAY_OF_WEEK } from "@/constants/enum";
 
 const Scheduling = () => {
-  // const [date, setDate] = useState<Date | undefined>(undefined);
+  const [time, setTime] = useState<Date | undefined>(undefined);
 
   return (
     <div className="space-y-5">
@@ -23,7 +25,7 @@ const Scheduling = () => {
           Day Of Week
         </p>
         <Select>
-          <SelectTrigger className="w-[200px] capitalize">
+          <SelectTrigger className="capitalize">
             <SelectValue placeholder="Select day of week" />
           </SelectTrigger>
           <SelectContent className="capitalize">
@@ -41,13 +43,29 @@ const Scheduling = () => {
         <p className="text-lg font-semibold capitalize text-black">
           Start Time
         </p>
-        <div className="w-fit"></div>
+        <TimePicker
+          granularity="minute"
+          date={time}
+          onChange={setTime}
+          hourCycle={12}
+        />
       </div>
 
       {/* End Time */}
       <div className="space-y-2">
-        <p className="text-lg font-semibold capitalize text-black">End Time</p>
-        <div className="w-fit"></div>
+        <p className="text-lg font-semibold capitalize text-black">Duration</p>
+        <Select>
+          <SelectTrigger className="capitalize">
+            <SelectValue placeholder="Select duration" />
+          </SelectTrigger>
+          <SelectContent className="capitalize">
+            <SelectItem value="60">1 hour</SelectItem>
+            <SelectItem value="90">1.5 hours</SelectItem>
+            <SelectItem value="120">2 hours</SelectItem>
+            <SelectItem value="150">2.5 hours</SelectItem>
+            <SelectItem value="180">3 hours</SelectItem>
+          </SelectContent>
+        </Select>
       </div>
 
       {/* Buttons */}

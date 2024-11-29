@@ -127,9 +127,9 @@ const ProfileSection = ({
       router.refresh();
 
       toast({
-        title: "success",
+        title: "Success",
         description: `${
-          type === "ABOUT" ? "Update" : "Add"
+          type === "ABOUT" || isEdit ? "Update" : "Add"
         } ${type.toLowerCase()} successfully`,
       });
     } catch (error) {

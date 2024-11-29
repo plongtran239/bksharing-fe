@@ -13,10 +13,10 @@ import { useState } from "react";
 
 import adminApi from "@/apis/admin.api";
 import DataTable from "@/components/data-table";
-import DatetimeInput from "@/components/datetime-input";
 import MeetingModal from "@/components/meeting-modal";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -294,38 +294,44 @@ const MentorTable = ({ data }: IProps) => {
 
       <MeetingModal
         isOpen={openMeetingModal}
-        onClose={() => setOpenMeetingModal(false)}
+        onClose={() => {
+          setOpenMeetingModal(false);
+          setMeetingValues({ title: "", startsAt: new Date() });
+        }}
         title="Schedule Meeting"
         buttonText="Schedule Interview"
         buttonIcon={<CalendarCheck2Icon size={16} />}
         handleClick={handleScheduleInterview}
       >
         <div className="mt-5 w-full space-y-5">
-          <div>
+          <div className="space-y-1">
             <Label htmlFor="title">Title</Label>
             <Input
               id="title"
               placeholder="title"
-              className="mt-1"
               onChange={(e) =>
                 setMeetingValues({ ...meetingValues, title: e.target.value })
               }
             />
           </div>
 
-          <div className="flex w-full flex-col">
+          <div className="space-y-1">
             <Label htmlFor="date" required>
               Date & Time
             </Label>
-            <DatetimeInput
-              id="date"
-              selected={meetingValues.startsAt}
+
+            <DateTimePicker
+              value={meetingValues.startsAt}
               onChange={(date) =>
                 setMeetingValues({
                   ...meetingValues,
                   startsAt: date || new Date(),
                 })
               }
+              granularity="minute"
+              hourCycle={12}
+              yearRange={1}
+              weekStartsOn={1}
             />
           </div>
         </div>

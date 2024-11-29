@@ -1,11 +1,12 @@
+import { vi } from "date-fns/locale";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
-import DateInput from "@/components/date-input";
 import Loader from "@/components/loader";
 import { PasswordInput } from "@/components/password-input";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
   FormControl,
@@ -25,8 +26,7 @@ import {
 import { GENDERS } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
 import {
-  cn,
-  convertDateToLocaleDateString,
+  cn, // convertDateToLocaleDateString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
 
@@ -88,24 +88,25 @@ const BaseRegisterForm = <T extends FieldValues>({
           </motion.div>
         </div>
 
-        {/* Name, DOB & Gender */}
-        <div className="grid grid-cols-3 gap-5 max-sm:grid-cols-1">
-          <motion.div className="w-full" variants={childVariants}>
-            <FormField
-              control={form.control}
-              name={"name" as Path<T>}
-              render={({ field }) => (
-                <FormItem className="w-full">
-                  <FormLabel required>Full Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="full name" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </motion.div>
+        {/* Name */}
+        <motion.div className="w-full" variants={childVariants}>
+          <FormField
+            control={form.control}
+            name={"name" as Path<T>}
+            render={({ field }) => (
+              <FormItem className="w-full">
+                <FormLabel required>Full Name</FormLabel>
+                <FormControl>
+                  <Input placeholder="full name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </motion.div>
 
+        {/* DOB & Gender */}
+        <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
           <motion.div className="w-full" variants={childVariants}>
             <FormField
               control={form.control}
@@ -117,15 +118,15 @@ const BaseRegisterForm = <T extends FieldValues>({
                   </FormLabel>
 
                   <FormControl>
-                    <DateInput
+                    <DateTimePicker
                       id="date-of-birth"
-                      defaultValue={
-                        field.value
-                          ? convertDateToLocaleDateString(field.value)
-                          : ""
-                      }
-                      {...field}
+                      value={field.value}
                       onChange={field.onChange}
+                      placeholder="date of birth"
+                      displayFormat={{ hour24: "dd/MM/yyyy" }}
+                      granularity="day"
+                      limitToCurrent={true}
+                      locale={vi}
                     />
                   </FormControl>
 

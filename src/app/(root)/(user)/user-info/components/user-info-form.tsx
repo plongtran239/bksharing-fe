@@ -1,14 +1,15 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { vi } from "date-fns/locale";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 import userApi from "@/apis/user.api";
-import DateInput from "@/components/date-input";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
   FormControl,
@@ -27,11 +28,7 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  cn,
-  convertDateToLocaleDateString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { cn, convertToCapitalizeCase } from "@/lib/utils";
 import { Account, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
@@ -158,16 +155,15 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
               <FormItem>
                 <FormLabel htmlFor="dob">Date of Birth</FormLabel>
                 <FormControl>
-                  <DateInput
-                    id="dob"
-                    defaultValue={
-                      field.value
-                        ? convertDateToLocaleDateString(
-                            new Date(Number(field.value))
-                          )
-                        : ""
-                    }
-                    {...field}
+                  <DateTimePicker
+                    id="date-of-birth"
+                    value={field.value}
+                    onChange={field.onChange}
+                    placeholder="date of birth"
+                    displayFormat={{ hour24: "dd/MM/yyyy" }}
+                    granularity="day"
+                    limitToCurrent={true}
+                    locale={vi}
                   />
                 </FormControl>
                 <FormMessage />

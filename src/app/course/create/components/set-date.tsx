@@ -1,6 +1,7 @@
+import { vi } from "date-fns/locale";
 import { UseFormReturn } from "react-hook-form";
 
-import DateInput from "@/components/date-input";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { Label } from "@/components/ui/label";
 import { CourseRequestType } from "@/schemas";
 
@@ -22,21 +23,17 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
             <Label required htmlFor="start" className="text-left">
               Start Date
             </Label>
-            <DateInput
+            <DateTimePicker
               id="start"
-              defaultValue={
-                form.getValues("startDate")
-                  ? form.getValues("startDate").toLocaleDateString("vi-VN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })
-                  : ""
-              }
-              value={form.watch("startDate")}
+              value={form.getValues("startDate")}
               onChange={(value) => {
                 form.setValue("startDate", value as Date);
               }}
+              placeholder="start date"
+              displayFormat={{ hour24: "dd/MM/yyyy" }}
+              granularity="day"
+              limitToCurrent={true}
+              locale={vi}
             />
           </div>
 
@@ -44,17 +41,16 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
             <Label required htmlFor="end" className="text-left">
               End Date
             </Label>
-            <DateInput
+            <DateTimePicker
               id="end"
-              defaultValue={
-                form.getValues("endDate")
-                  ? form.getValues("endDate").toLocaleDateString()
-                  : ""
-              }
-              value={form.watch("endDate")}
+              value={form.getValues("endDate")}
               onChange={(value) => {
                 form.setValue("endDate", value as Date);
               }}
+              placeholder="end date"
+              displayFormat={{ hour24: "dd/MM/yyyy" }}
+              granularity="day"
+              locale={vi}
             />
           </div>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { vi } from "date-fns/locale";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -9,11 +10,11 @@ import { useForm } from "react-hook-form";
 
 import categoryApi from "@/apis/category.api";
 import courseApi from "@/apis/course.api";
-import DateInput from "@/components/date-input";
 import FileInput from "@/components/file-input";
 import Loader from "@/components/loader";
 import { MultiSelect } from "@/components/multi-select";
 import { Button } from "@/components/ui/button";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
   FormControl,
@@ -36,10 +37,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { FOLDER, RESOURCE_TYPE, TARGET_AUDIENCE } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { useUploadFile } from "@/hooks/use-upload-file";
-import {
-  convertDateToLocaleDateString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertToCapitalizeCase } from "@/lib/utils";
 import { CourseDetailType, CourseRequest, CourseRequestType } from "@/schemas";
 
 const CourseInfo = ({
@@ -271,6 +269,7 @@ const CourseInfo = ({
                   <FormControl>
                     <Select
                       defaultValue={field.value.toString()}
+                      value={field.value.toString()}
                       onValueChange={(value) =>
                         field.onChange({
                           target: { value: parseInt(value) },
@@ -359,19 +358,19 @@ const CourseInfo = ({
               name="startDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="startDate" required>
+                  <FormLabel htmlFor="start" required>
                     Start Date
                   </FormLabel>
                   <FormControl>
-                    <DateInput
-                      id="startDate"
+                    <DateTimePicker
+                      id="start"
                       value={field.value}
-                      defaultValue={convertDateToLocaleDateString(field.value)}
-                      onChange={(value) => {
-                        field.onChange({
-                          target: { value },
-                        });
-                      }}
+                      onChange={field.onChange}
+                      placeholder="start date"
+                      displayFormat={{ hour24: "dd/MM/yyyy" }}
+                      granularity="day"
+                      limitToCurrent={true}
+                      locale={vi}
                     />
                   </FormControl>
                   <FormMessage />
@@ -384,19 +383,18 @@ const CourseInfo = ({
               name="endDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel htmlFor="endDate" required>
+                  <FormLabel htmlFor="end" required>
                     End Date
                   </FormLabel>
                   <FormControl>
-                    <DateInput
-                      id="endDate"
+                    <DateTimePicker
+                      id="end"
                       value={field.value}
-                      defaultValue={convertDateToLocaleDateString(field.value)}
-                      onChange={(value) => {
-                        field.onChange({
-                          target: { value },
-                        });
-                      }}
+                      onChange={field.onChange}
+                      placeholder="end date"
+                      displayFormat={{ hour24: "dd/MM/yyyy" }}
+                      granularity="day"
+                      locale={vi}
                     />
                   </FormControl>
                   <FormMessage />
