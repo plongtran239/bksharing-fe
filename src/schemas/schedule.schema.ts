@@ -3,9 +3,9 @@ import { z } from "zod";
 import { DAY_OF_WEEK } from "@/constants/enum";
 
 const ScheduleRequest = z.object({
-  startTime: z.string(),
-  endTime: z.string(),
   dayOfWeek: z.nativeEnum(DAY_OF_WEEK),
+  startTime: z.date(),
+  endTime: z.date(),
 });
 
 const Schedule = z.object({

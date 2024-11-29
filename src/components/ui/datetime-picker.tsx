@@ -601,6 +601,7 @@ interface TimePickerProps {
    * Default is 'second'.
    * */
   granularity?: Granularity;
+  id?: string;
 }
 
 interface TimePickerRef {
@@ -610,7 +611,7 @@ interface TimePickerRef {
 }
 
 const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
-  ({ date, onChange, hourCycle = 24, granularity = "second" }, ref) => {
+  ({ id, date, onChange, hourCycle = 24, granularity = "second" }, ref) => {
     const minuteRef = React.useRef<HTMLInputElement>(null);
     const hourRef = React.useRef<HTMLInputElement>(null);
     const secondRef = React.useRef<HTMLInputElement>(null);
@@ -631,13 +632,13 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
     );
     return (
       <div className="flex w-fit items-center justify-center gap-2">
-        <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
+        <label htmlFor={id} className="cursor-pointer">
           <Clock className="mr-2 h-4 w-4" />
         </label>
         <TimePickerInput
           picker={hourCycle === 24 ? "hours" : "12hours"}
           date={date}
-          id="datetime-picker-hour-input"
+          id={id}
           onDateChange={onChange}
           ref={hourRef}
           period={period}
