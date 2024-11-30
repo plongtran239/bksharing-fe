@@ -40,9 +40,9 @@ const Scheduling = () => {
   const form = useForm<ScheduleRequestType>({
     resolver: zodResolver(ScheduleRequest),
     defaultValues: {
-      dayOfWeek: undefined,
-      startTime: new Date(new Date().setHours(0, 0, 0, 0)),
-      endTime: new Date(new Date().setHours(0, 0, 0, 0)),
+      dayOfWeek: DAY_OF_WEEK.MONDAY,
+      startTime: new Date(new Date().setHours(6, 0, 0, 0)),
+      duration: 1,
     },
   });
 
@@ -83,7 +83,7 @@ const Scheduling = () => {
                 Day Of Week
               </FormLabel>
               <FormControl>
-                <Select onValueChange={field.onChange}>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <SelectTrigger id="select" className="capitalize">
                     <SelectValue placeholder="Select day of week" />
                   </SelectTrigger>
@@ -124,19 +124,32 @@ const Scheduling = () => {
 
         <FormField
           control={form.control}
-          name="endTime"
+          name="duration"
           render={({ field }) => (
             <FormItem>
-              <FormLabel htmlFor="end" required>
-                End time
+              <FormLabel htmlFor="duration" required>
+                Duration
               </FormLabel>
               <FormControl>
-                <TimePicker
-                  id="end"
-                  date={field.value}
-                  onChange={field.onChange}
-                  granularity="minute"
-                />
+                <Select
+                  onValueChange={(value) => {
+                    field.onChange(parseFloat(value));
+                  }}
+                  value={field.value.toString()}
+                >
+                  <SelectTrigger id="select" className="capitalize">
+                    <SelectValue placeholder="Select duration" />
+                  </SelectTrigger>
+                  <SelectContent className="capitalize">
+                    <SelectItem value="1">1 hour</SelectItem>
+                    <SelectItem value="1.5">1.5 hours</SelectItem>
+                    <SelectItem value="2">2 hours</SelectItem>
+                    <SelectItem value="2.5">2.5 hours</SelectItem>
+                    <SelectItem value="3">3 hours</SelectItem>
+                    <SelectItem value="3.5">3.5 hours</SelectItem>
+                    <SelectItem value="4">4 hours</SelectItem>
+                  </SelectContent>
+                </Select>
               </FormControl>
               <FormMessage />
             </FormItem>

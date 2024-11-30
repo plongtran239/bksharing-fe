@@ -11,7 +11,12 @@ const ScheduleApi = {
         minute: "2-digit",
         hour12: false,
       }),
-      endTime: body.endTime.toLocaleTimeString("en-US", {
+      endTime: new Date(
+        new Date().setHours(
+          body.startTime.getHours() + Math.floor(body.duration),
+          body.startTime.getMinutes() + (body.duration % 1) * 60
+        )
+      ).toLocaleTimeString("en-US", {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
