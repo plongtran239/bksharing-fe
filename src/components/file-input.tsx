@@ -1,4 +1,5 @@
 import { CloudUploadIcon, Paperclip, TrashIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import * as React from "react";
 
 import { Button } from "@/components/ui/button";
@@ -20,6 +21,8 @@ const FileInput = ({
   onChange,
   classname,
 }: IFileInputProps) => {
+  const t = useTranslations("common");
+
   const handleUploadFile = (
     e: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
@@ -71,7 +74,7 @@ const FileInput = ({
             className="flex-center gap-2"
           >
             <CloudUploadIcon size={16} />
-            <span>Upload File</span>
+            <span>{t("uploadFile")}</span>
           </Button>
 
           <Input

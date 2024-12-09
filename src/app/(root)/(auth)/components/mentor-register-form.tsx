@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 
 import AchievementForm from "@/app/(root)/(auth)/components/achievement-form";
@@ -16,6 +17,8 @@ import { useUploadFile } from "@/hooks/use-upload-file";
 import { MentorRegisterRequest, MentorRegisterRequestType } from "@/schemas";
 
 const MentorRegisterForm = () => {
+  const t = useTranslations("authPage.register.mentorForm");
+
   const {
     file: cvFile,
     setFile: setCvFile,
@@ -79,7 +82,7 @@ const MentorRegisterForm = () => {
       <motion.div variants={childVariants}>
         <div>
           <Label htmlFor="cv" className="flex-center mb-2" required>
-            Resume / CV
+            {t("cv")}
           </Label>
           <FileInput
             id="cv"

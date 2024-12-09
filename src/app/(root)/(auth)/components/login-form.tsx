@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useForm } from "react-hook-form";
 
@@ -22,6 +23,8 @@ import { useLogin } from "@/hooks/use-login";
 import { LoginRequest, LoginRequestType } from "@/schemas";
 
 const LoginForm = () => {
+  const t = useTranslations("authPage.login");
+
   const { login, loading } = useLogin();
 
   const form = useForm<LoginRequestType>({
@@ -51,9 +54,9 @@ const LoginForm = () => {
             name="email"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Email Address</FormLabel>
+                <FormLabel required>{t("email")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="email" {...field} />
+                  <Input placeholder={t("email")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -67,9 +70,9 @@ const LoginForm = () => {
             name="password"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Password</FormLabel>
+                <FormLabel required>{t("password")}</FormLabel>
                 <FormControl>
-                  <PasswordInput placeholder="password" {...field} />
+                  <PasswordInput placeholder={t("password")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -82,13 +85,13 @@ const LoginForm = () => {
           variants={childVariants}
         >
           <span className="text-sm">
-            Don&apos;t have account?{" "}
+            {t("dontHaveAccount")}{" "}
             <Link href="/register" className="text-blue-500">
-              <span className="hover:underline">Register</span>
+              <span className="hover:underline">{t("register")}</span>
             </Link>
           </span>
 
-          <span className="text-sm text-blue-500">Forgot Password?</span>
+          <span className="text-sm text-blue-500">{t("forgotPassword")}</span>
         </motion.div>
 
         <motion.div
@@ -101,7 +104,7 @@ const LoginForm = () => {
               form.formState.isSubmitting || !form.formState.isDirty || loading
             }
           >
-            {loading ? <Loader /> : "Login"}
+            {loading ? <Loader /> : t("login")}
           </Button>
         </motion.div>
       </motion.form>

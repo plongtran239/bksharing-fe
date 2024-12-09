@@ -17,15 +17,16 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
   const router = useRouter();
   const { toast } = useToast();
   const { setUser } = useAppContext();
-  const t = useTranslations("common");
+  const tCommon = useTranslations("common");
+  const tMessages = useTranslations("messages");
 
   const handleLogout = async () => {
     try {
       await authApi.logout();
 
       toast({
-        title: "Success",
-        description: "Logout successfully!",
+        title: tMessages("success"),
+        description: tMessages("logoutSuccess") + "!",
       });
 
       setUser(null);
@@ -49,7 +50,7 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
     >
       <button className="flex-center gap-2">
         <LogOutIcon size={16} />
-        <span>{t("logout")}</span>
+        <span>{tCommon("logout")}</span>
       </button>
     </DropdownMenuItem>
   );

@@ -1,5 +1,6 @@
 import * as motion from "framer-motion/client";
 import { Metadata } from "next";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -15,6 +16,8 @@ export const metadata: Metadata = {
 };
 
 const Register = () => {
+  const t = useTranslations("authPage.register");
+
   return (
     <motion.section
       className="w-1/2 min-w-[360px] rounded-xl bg-white p-10 shadow-2xl max-xl:w-full max-sm:mx-5 max-sm:px-5"
@@ -56,10 +59,10 @@ const Register = () => {
               <div className="flex-center">
                 <TabsList>
                   <TabsTrigger value="student" className="w-fit">
-                    Student
+                    {t("student")}
                   </TabsTrigger>
                   <TabsTrigger value="mentor" className="w-fit">
-                    Mentor
+                    {t("mentor")}
                   </TabsTrigger>
                 </TabsList>
               </div>

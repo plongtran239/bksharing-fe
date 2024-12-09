@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -8,6 +9,7 @@ import { useAppContext } from "@/providers/app.provider";
 import { LoginRequestType } from "@/schemas";
 
 export const useLogin = () => {
+  const t = useTranslations("messages");
   const [loading, setLoading] = useState(false);
   const { setUser } = useAppContext();
   const { toast } = useToast();
@@ -27,8 +29,8 @@ export const useLogin = () => {
       setUser(data);
 
       toast({
-        title: "Success",
-        description: "Login successfully!",
+        title: t("success"),
+        description: t("loginSuccess") + "!",
       });
 
       switch (data.accountType) {
@@ -50,8 +52,8 @@ export const useLogin = () => {
       console.error({ error });
 
       toast({
-        title: "Error",
-        description: "Invalid username or password",
+        title: t("error"),
+        description: t("loginError"),
         variant: "destructive",
       });
     } finally {

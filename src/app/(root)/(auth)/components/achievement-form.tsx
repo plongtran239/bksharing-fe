@@ -1,6 +1,7 @@
 import { vi } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { PlusIcon, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
@@ -25,7 +26,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
 import { useToast } from "@/hooks/use-toast";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { MentorRegisterRequestType } from "@/schemas";
 
 interface IProps {
@@ -33,6 +34,8 @@ interface IProps {
 }
 
 const AchievementForm = ({ form }: IProps) => {
+  const t = useTranslations("authPage.register.mentorForm.achievementForm");
+
   const { toast } = useToast();
 
   const { fields, remove, append } = useFieldArray({
@@ -57,7 +60,7 @@ const AchievementForm = ({ form }: IProps) => {
     if (fields.length === 1) {
       return toast({
         title: "Error",
-        description: "At least one achievement is required",
+        description: t("atLeast"),
         variant: "destructive",
       });
     }
@@ -75,9 +78,9 @@ const AchievementForm = ({ form }: IProps) => {
               name={`achievements.${index}.position`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Position</FormLabel>
+                  <FormLabel required>{t("position")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="position" {...field} />
+                    <Input placeholder={t("position")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -94,9 +97,9 @@ const AchievementForm = ({ form }: IProps) => {
               name={`achievements.${index}.major`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Major</FormLabel>
+                  <FormLabel required>{t("major")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="major" {...field} />
+                    <Input placeholder={t("major")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -113,9 +116,9 @@ const AchievementForm = ({ form }: IProps) => {
               name={`achievements.${index}.name`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Name</FormLabel>
+                  <FormLabel required>{t("name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="name" {...field} />
+                    <Input placeholder={t("name")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -135,7 +138,7 @@ const AchievementForm = ({ form }: IProps) => {
         <div key={field.id} className="space-y-5">
           <motion.div className="flex-between" variants={childVariants}>
             <h2 className="text-lg font-medium text-primary">
-              Achievement #{index + 1}
+              {t("achievement")} #{index + 1}
             </h2>
 
             <button
@@ -162,7 +165,7 @@ const AchievementForm = ({ form }: IProps) => {
                 name={`achievements.${index}.achievementType`}
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel required>Type</FormLabel>
+                    <FormLabel required>{t("type")}</FormLabel>
                     <Select
                       onValueChange={field.onChange}
                       defaultValue={field.value}
@@ -173,13 +176,13 @@ const AchievementForm = ({ form }: IProps) => {
                             "text-muted-foreground": !field.value,
                           })}
                         >
-                          <SelectValue placeholder="select type" />
+                          <SelectValue placeholder={t("type")} />
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
                         {Object.values(ACHIEVEMENT_TYPES).map((item) => (
                           <SelectItem key={item} value={item}>
-                            {convertToCapitalizeCase(item)}
+                            {t(item.toLowerCase())}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -198,9 +201,9 @@ const AchievementForm = ({ form }: IProps) => {
                 name={`achievements.${index}.organization`}
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel required>Organization</FormLabel>
+                    <FormLabel required>{t("organization")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="organization" {...field} />
+                      <Input placeholder={t("organization")} {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -217,14 +220,14 @@ const AchievementForm = ({ form }: IProps) => {
                 render={({ field }) => (
                   <FormItem className="w-full">
                     <FormLabel required htmlFor="start-date">
-                      Start Date
+                      {t("startDate")}
                     </FormLabel>
                     <FormControl>
                       <DateTimePicker
                         id="start-date"
                         value={field.value}
                         onChange={field.onChange}
-                        placeholder="start date"
+                        placeholder={t("startDate")}
                         displayFormat={{ hour24: "dd/MM/yyyy" }}
                         granularity="day"
                         limitToCurrent={true}
@@ -243,13 +246,13 @@ const AchievementForm = ({ form }: IProps) => {
                 name={`achievements.${index}.endDate`}
                 render={({ field }) => (
                   <FormItem className="w-full">
-                    <FormLabel htmlFor="end-date">End Date</FormLabel>
+                    <FormLabel htmlFor="end-date">{t("endDate")}</FormLabel>
                     <FormControl>
                       <DateTimePicker
                         id="end-date"
                         value={field.value}
                         onChange={field.onChange}
-                        placeholder="end date"
+                        placeholder={t("endDate")}
                         displayFormat={{ hour24: "dd/MM/yyyy" }}
                         granularity="day"
                         locale={vi}
@@ -268,9 +271,9 @@ const AchievementForm = ({ form }: IProps) => {
               name={`achievements.${index}.description`}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel>Description</FormLabel>
+                  <FormLabel>{t("description")}</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="description" {...field} />
+                    <Textarea placeholder={t("description")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -292,7 +295,7 @@ const AchievementForm = ({ form }: IProps) => {
           onClick={handleAddAchievement}
         >
           <PlusIcon size={16} />
-          Add Achievement
+          {t("addAchievement")}
         </Button>
       </motion.div>
     </>

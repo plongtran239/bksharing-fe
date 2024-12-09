@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 
 import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form";
@@ -24,10 +25,12 @@ import { Separator } from "@/components/ui/separator";
 import { EDUCATION_LEVELS, ROLES } from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
 import { useRegister } from "@/hooks/use-register";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { StudentRegisterRequest, StudentRegisterRequestType } from "@/schemas";
 
 const StudentRegisterForm = () => {
+  const t = useTranslations("authPage.register.studentForm");
+
   const { isLoading, register } = useRegister(ROLES.STUDENT);
 
   const form = useForm<StudentRegisterRequestType>({
@@ -63,7 +66,7 @@ const StudentRegisterForm = () => {
             name="educationLevel"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel required>Education Level</FormLabel>
+                <FormLabel required>{t("educationalLevel")}</FormLabel>
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
@@ -74,13 +77,13 @@ const StudentRegisterForm = () => {
                         "text-muted-foreground": !field.value,
                       })}
                     >
-                      <SelectValue placeholder="select level" />
+                      <SelectValue placeholder={t("educationalLevel")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {Object.values(EDUCATION_LEVELS).map((item) => (
                       <SelectItem key={item} value={item}>
-                        {convertToCapitalizeCase(item)}
+                        {t(item.toLowerCase())}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -97,9 +100,9 @@ const StudentRegisterForm = () => {
             name="major"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel required>Major</FormLabel>
+                <FormLabel required>{t("major")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="major" {...field} />
+                  <Input placeholder={t("major")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>

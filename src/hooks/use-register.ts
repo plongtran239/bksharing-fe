@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -11,6 +12,7 @@ import {
 } from "@/schemas";
 
 export const useRegister = (role: ROLES) => {
+  const t = useTranslations("messages");
   const { toast } = useToast();
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
@@ -52,8 +54,8 @@ export const useRegister = (role: ROLES) => {
       setUser(data);
 
       toast({
-        title: "Success",
-        description: "Register successfully!",
+        title: t("success"),
+        description: t("registerSuccess") + "!",
       });
 
       switch (data.accountType) {
@@ -72,8 +74,8 @@ export const useRegister = (role: ROLES) => {
       console.error({ error });
 
       toast({
-        title: "Error",
-        description: "Email or phone number already exists",
+        title: t("error"),
+        description: t("registerError"),
         variant: "destructive",
       });
     } finally {

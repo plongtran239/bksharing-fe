@@ -1,5 +1,6 @@
 import { vi } from "date-fns/locale";
 import { motion } from "framer-motion";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
@@ -25,10 +26,7 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { childVariants, parentVariants } from "@/constants/motion";
-import {
-  cn, // convertDateToLocaleDateString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { cn } from "@/lib/utils";
 
 interface IBaseRegisterFormProps<T extends FieldValues> {
   form: UseFormReturn<T>;
@@ -43,6 +41,8 @@ const BaseRegisterForm = <T extends FieldValues>({
   loading,
   children,
 }: IBaseRegisterFormProps<T>) => {
+  const t = useTranslations("authPage.register");
+
   return (
     <Form {...form}>
       <motion.form
@@ -61,9 +61,9 @@ const BaseRegisterForm = <T extends FieldValues>({
               name={"email" as Path<T>}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Email Address</FormLabel>
+                  <FormLabel required>{t("email")}</FormLabel>
                   <FormControl>
-                    <Input type="email" placeholder="email" {...field} />
+                    <Input type="email" placeholder={t("email")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -77,9 +77,9 @@ const BaseRegisterForm = <T extends FieldValues>({
               name={"phoneNumber" as Path<T>}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Phone Number</FormLabel>
+                  <FormLabel required>{t("phone")}</FormLabel>
                   <FormControl>
-                    <Input type="tel" placeholder="phone number" {...field} />
+                    <Input type="tel" placeholder={t("phone")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -95,9 +95,9 @@ const BaseRegisterForm = <T extends FieldValues>({
             name={"name" as Path<T>}
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel required>Full Name</FormLabel>
+                <FormLabel required>{t("fullname")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="full name" {...field} />
+                  <Input placeholder={t("fullname")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -114,7 +114,7 @@ const BaseRegisterForm = <T extends FieldValues>({
               render={({ field }) => (
                 <FormItem className="w-full">
                   <FormLabel htmlFor="date-of-birth" required>
-                    Date of Birth
+                    {t("dateOfBirth")}
                   </FormLabel>
 
                   <FormControl>
@@ -122,7 +122,7 @@ const BaseRegisterForm = <T extends FieldValues>({
                       id="date-of-birth"
                       value={field.value}
                       onChange={field.onChange}
-                      placeholder="date of birth"
+                      placeholder={t("dateOfBirth")}
                       displayFormat={{ hour24: "dd/MM/yyyy" }}
                       granularity="day"
                       limitToCurrent={true}
@@ -142,7 +142,7 @@ const BaseRegisterForm = <T extends FieldValues>({
               name={"gender" as Path<T>}
               render={({ field }) => (
                 <FormItem className="w-full">
-                  <FormLabel required>Gender</FormLabel>
+                  <FormLabel required>{t("gender")}</FormLabel>
                   <Select
                     onValueChange={field.onChange}
                     defaultValue={field.value}
@@ -153,13 +153,13 @@ const BaseRegisterForm = <T extends FieldValues>({
                           "text-muted-foreground": !field.value,
                         })}
                       >
-                        <SelectValue placeholder="select gender" />
+                        <SelectValue placeholder={t("gender")} />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
                       {Object.values(GENDERS).map((item) => (
                         <SelectItem key={item} value={item}>
-                          {convertToCapitalizeCase(item)}
+                          {t(item.toLowerCase())}
                         </SelectItem>
                       ))}
                     </SelectContent>
@@ -179,9 +179,9 @@ const BaseRegisterForm = <T extends FieldValues>({
               name={"password" as Path<T>}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Password</FormLabel>
+                  <FormLabel required>{t("password")}</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="password" {...field} />
+                    <PasswordInput placeholder={t("password")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -195,9 +195,12 @@ const BaseRegisterForm = <T extends FieldValues>({
               name={"confirmPassword" as Path<T>}
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Confirm Password</FormLabel>
+                  <FormLabel required>{t("confirmPassword")}</FormLabel>
                   <FormControl>
-                    <PasswordInput placeholder="confirm password" {...field} />
+                    <PasswordInput
+                      placeholder={t("confirmPassword")}
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -213,9 +216,9 @@ const BaseRegisterForm = <T extends FieldValues>({
           variants={childVariants}
         >
           <span className="text-sm">
-            Already have account?{" "}
+            {t("alreadyHaveAccount")}{" "}
             <Link href="/login" className="text-blue-500">
-              <span className="hover:underline">Login</span>
+              <span className="hover:underline">{t("login")}</span>
             </Link>
           </span>
 
@@ -225,7 +228,7 @@ const BaseRegisterForm = <T extends FieldValues>({
               form.formState.isSubmitting || !form.formState.isDirty || loading
             }
           >
-            {loading ? <Loader /> : "Register"}
+            {loading ? <Loader /> : t("register")}
           </Button>
         </motion.div>
       </motion.form>

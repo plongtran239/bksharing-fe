@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 
@@ -20,6 +21,8 @@ import { useToast } from "@/hooks/use-toast";
 import { ChangePasswordRequest, ChangePasswordRequestType } from "@/schemas";
 
 const ChangePasswordForm = () => {
+  const tMessages = useTranslations("messages");
+  const tChangePasswordPage = useTranslations("changePasswordPage");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
 
@@ -41,14 +44,14 @@ const ChangePasswordForm = () => {
       form.reset();
 
       toast({
-        title: "Success",
-        description: "Change password successfully",
+        title: tMessages("success"),
+        description: tChangePasswordPage("changePasswordSuccess"),
       });
     } catch (error) {
       console.error({ error });
 
       toast({
-        title: "Error",
+        title: tMessages("error"),
         description: (
           error as {
             payload: {
@@ -74,9 +77,12 @@ const ChangePasswordForm = () => {
           name="currentPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel required>Current Password</FormLabel>
+              <FormLabel required>{tChangePasswordPage("current")}</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="old password" {...field} />
+                <PasswordInput
+                  placeholder={tChangePasswordPage("current")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -88,9 +94,12 @@ const ChangePasswordForm = () => {
           name="newPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel required>New Password</FormLabel>
+              <FormLabel required>{tChangePasswordPage("new")}</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="new password" {...field} />
+                <PasswordInput
+                  placeholder={tChangePasswordPage("new")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -102,9 +111,12 @@ const ChangePasswordForm = () => {
           name="confirmPassword"
           render={({ field }) => (
             <FormItem>
-              <FormLabel required>Confirm Password</FormLabel>
+              <FormLabel required>{tChangePasswordPage("confirm")}</FormLabel>
               <FormControl>
-                <PasswordInput placeholder="confirm password" {...field} />
+                <PasswordInput
+                  placeholder={tChangePasswordPage("confirm")}
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -118,7 +130,7 @@ const ChangePasswordForm = () => {
               !form.formState.isDirty || form.formState.isSubmitting || loading
             }
           >
-            {loading ? <Loader /> : "Change Password"}
+            {loading ? <Loader /> : tChangePasswordPage("change")}
           </Button>
         </div>
       </form>

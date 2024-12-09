@@ -2,7 +2,20 @@
   "common": {
     "login": "Login",
     "register": "Register",
-    "logout": "Logout"
+    "logout": "Logout",
+    "uploadFile": "Upload File",
+    "loading": "Loading"
+  },
+  "messages": {
+    "success": "Success",
+    "error": "Error",
+    "loginSuccess": "Login successfully",
+    "loginError": "Invalid username or password",
+    "logoutSuccess": "Logout successfully",
+    "registerSuccess": "Register successfully",
+    "registerError": "Email or phone number already exists",
+    "changePasswordSuccess": "Change password successfully",
+    "updateUserInfoSuccess": "Update your information successfully"
   },
   "navbar": {
     "home": "Home",
@@ -32,7 +45,18 @@
     "ongoing": "Ongoing",
     "finished": "Finished",
     "cancelled": "Cancelled",
-    "draft": "Draft"
+    "draft": "Draft",
+    "appointments": "Appointments",
+    "viewAppointments": "View Appointments",
+    "scheduleAppointment": "Scheduling"
+  },
+  "footer": {
+    "label": "Subscribe to get our Newsletter",
+    "button": "Subscribe",
+    "aboutUs": "About Us",
+    "contactUs": "Contact Us",
+    "termsOfService": "Terms of Service",
+    "privacyPolicy": "Privacy Policy"
   },
   "homePage": {
     "section1": {
@@ -75,15 +99,81 @@
       }
     }
   },
-  "footer": {
-    "label": "Subscribe to get our Newsletter",
-    "button": "Subscribe",
-    "aboutUs": "About Us",
-    "contactUs": "Contact Us",
-    "termsOfService": "Terms of Service",
-    "privacyPolicy": "Privacy Policy"
+  "mentorPage": {
+    "mentor": "Mentor",
+    "noMentor": "No mentor found."
   },
-  "authPage": {},
-  "coursePage": {},
-  "mentorPage": {}
+  "authPage": {
+    "login": {
+      "email": "Email address",
+      "password": "Password",
+      "dontHaveAccount": "Don't have an account?",
+      "register": "Register",
+      "forgotPassword": "Forgot Password?",
+      "login": "Login"
+    },
+    "register": {
+      "student": "Student",
+      "mentor": "Mentor",
+      "email": "Email address",
+      "phone": "Phone number",
+      "fullname": "Full name",
+      "dateOfBirth": "Date of birth",
+      "gender": "Gender",
+      "male": "Male",
+      "female": "Female",
+      "other": "Other",
+      "password": "Password",
+      "confirmPassword": "Confirm password",
+      "alreadyHaveAccount": "Already have an account?",
+      "login": "Login",
+      "register": "Register",
+      "studentForm": {
+        "educationalLevel": "Educational Level",
+        "primary": "Primary",
+        "secondary": "Secondary",
+        "high_school": "High School",
+        "university": "University",
+        "major": "Major"
+      },
+      "mentorForm": {
+        "cv": "CV / Resume",
+        "achievementForm": {
+          "achievement": "Achievement",
+          "type": "Type",
+          "education": "Education",
+          "experience": "Experience",
+          "certification": "Certification",
+          "position": "Position",
+          "major": "Major",
+          "name": "Name",
+          "organization": "Organization",
+          "startDate": "Start Date",
+          "endDate": "End Date",
+          "description": "Description",
+          "addAchievement": "Add Achievement",
+          "atLeast": "At least one achievement is required"
+        }
+      }
+    }
+  },
+  "changePasswordPage": {
+    "current": "Current password",
+    "new": "New password",
+    "confirm": "Confirm password",
+    "change": "Change password"
+  },
+  "userInfoPage": {
+    "email": "Email address",
+    "fullname": "Full name",
+    "phone": "Phone number",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other",
+    "dateOfBirth": "Date of birth",
+    "addressBase": "Address",
+    "addressDetail": "Address detail",
+    "update": "Update"
+  }
 }

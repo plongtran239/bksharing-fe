@@ -2,7 +2,20 @@
   "common": {
     "login": "Đăng nhập",
     "register": "Đăng ký",
-    "logout": "Đăng xuất"
+    "logout": "Đăng xuất",
+    "uploadFile": "Tải lên tệp",
+    "loading": "Đang tải"
+  },
+  "messages": {
+    "success": "Thành công",
+    "error": "Lỗi",
+    "loginSuccess": "Đăng nhập thành công",
+    "loginError": "Tài khoản hoặc mật khẩu không đúng",
+    "logoutSuccess": "Đăng xuất thành công",
+    "registerSuccess": "Đăng ký thành công",
+    "registerError": "Email hoặc số điện thoại đã tồn tại",
+    "changePasswordSuccess": "Đổi mật khẩu thành công",
+    "updateUserInfoSuccess": "Cập nhật thông tin thành công"
   },
   "navbar": {
     "home": "Trang chủ",
@@ -86,7 +99,80 @@
       }
     }
   },
-  "AuthPage": {},
-  "CoursePage": {},
-  "MentorPage": {}
+  "mentorPage": {
+    "mentor": "Gia Sư",
+    "noMentor": "Không tìm thấy gia sư."
+  },
+  "authPage": {
+    "login": {
+      "email": "Địa chỉ email",
+      "password": "Mật khẩu",
+      "dontHaveAccount": "Chưa có tài khoản?",
+      "register": "Đăng ký",
+      "forgotPassword": "Quên mật khẩu?",
+      "login": "Đăng nhập"
+    },
+    "register": {
+      "student": "Học viên",
+      "mentor": "Gia sư",
+      "email": "Địa chỉ email",
+      "phone": "Số điện thoại",
+      "fullname": "Họ và tên",
+      "dateOfBirth": "Ngày sinh",
+      "gender": "Giới tính",
+      "male": "Nam",
+      "female": "Nữ",
+      "other": "Khác",
+      "password": "Mật khẩu",
+      "confirmPassword": "Xác nhận mật khẩu",
+      "alreadyHaveAccount": "Đã có tài khoản?",
+      "login": "Đăng nhập",
+      "register": "Đăng ký",
+      "studentForm": {
+        "educationalLevel": "Trình độ học vấn",
+        "primary": "Tiểu học",
+        "secondary": "Trung học cơ sở",
+        "high_school": "Trung học phổ thông",
+        "university": "Đại học",
+        "major": "Ngành học"
+      },
+      "mentorForm": {
+        "cv": "CV / Sơ yếu lý lịch",
+        "achievementForm": {
+          "achievement": "Thành tựu",
+          "type": "Loại",
+          "education": "Học vấn",
+          "experience": "Kinh nghiệm",
+          "certification": "Chứng chỉ",
+          "position": "Vị trí",
+          "major": "Ngành học",
+          "name": "Tên",
+          "organization": "Tổ chức",
+          "startDate": "Ngày bắt đầu",
+          "endDate": "Ngày kết thúc",
+          "description": "Mô tả",
+          "addAchievement": "Thêm thành tựu"
+        }
+      }
+    }
+  },
+  "changePasswordPage": {
+    "current": "Mật khẩu hiện tại",
+    "new": "Mật khẩu mới",
+    "confirm": "Xác nhận mật khẩu",
+    "change": "Đổi mật khẩu"
+  },
+  "userInfoPage": {
+    "email": "Địa chỉ email",
+    "fullname": "Họ và tên",
+    "phone": "Số điện thoại",
+    "gender": "Giới tính",
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác",
+    "dateOfBirth": "Ngày sinh",
+    "addressBase": "Địa chỉ",
+    "addressDetail": "Địa chỉ chi tiết",
+    "update": "Cập nhật"
+  }
 }

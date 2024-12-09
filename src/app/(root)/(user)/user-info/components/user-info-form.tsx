@@ -2,6 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { vi } from "date-fns/locale";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -28,10 +29,12 @@ import {
 } from "@/components/ui/select";
 import { GENDERS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { Account, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
+  const tMessages = useTranslations("messages");
+  const tUserInfoPage = useTranslations("userInfoPage");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -56,8 +59,8 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
       await userApi.updateMe(values);
 
       toast({
-        title: "Success",
-        description: "Your information has been updated",
+        title: tMessages("success"),
+        description: tMessages("updateUserInfoSuccess"),
       });
 
       router.refresh();
@@ -81,9 +84,9 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Email</FormLabel>
+                  <FormLabel required>{tUserInfoPage("email")}</FormLabel>
                   <FormControl>
-                    <Input placeholder="email" {...field} />
+                    <Input placeholder={tUserInfoPage("email")} {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -96,9 +99,9 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Fullname</FormLabel>
+                <FormLabel required>{tUserInfoPage("fullname")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="fullname" {...field} />
+                  <Input placeholder={tUserInfoPage("fullname")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -110,9 +113,9 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="phoneNumber"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Phone Number</FormLabel>
+                <FormLabel required>{tUserInfoPage("phone")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="phone" {...field} />
+                  <Input placeholder={tUserInfoPage("phone")} {...field} />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -124,7 +127,7 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="gender"
             render={({ field }) => (
               <FormItem className="w-full">
-                <FormLabel>Gender</FormLabel>
+                <FormLabel>{tUserInfoPage("gender")}</FormLabel>
                 <Select onValueChange={field.onChange} value={field.value}>
                   <FormControl>
                     <SelectTrigger
@@ -132,13 +135,13 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
                         "text-muted-foreground": !field.value,
                       })}
                     >
-                      <SelectValue placeholder="select gender" />
+                      <SelectValue placeholder={tUserInfoPage("gender")} />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
                     {Object.values(GENDERS).map((item) => (
                       <SelectItem key={item} value={item}>
-                        {convertToCapitalizeCase(item)}
+                        {tUserInfoPage(item.toLowerCase())}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -153,13 +156,15 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="dob"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="dob">Date of Birth</FormLabel>
+                <FormLabel htmlFor="dob">
+                  {tUserInfoPage("dateOfBirth")}
+                </FormLabel>
                 <FormControl>
                   <DateTimePicker
                     id="date-of-birth"
                     value={field.value}
                     onChange={field.onChange}
-                    placeholder="date of birth"
+                    placeholder={tUserInfoPage("dateOfBirth")}
                     displayFormat={{ hour24: "dd/MM/yyyy" }}
                     granularity="day"
                     limitToCurrent={true}
@@ -176,9 +181,12 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="addressBase"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address Base</FormLabel>
+                <FormLabel>{tUserInfoPage("addressBase")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="base" {...field} />
+                  <Input
+                    placeholder={tUserInfoPage("addressBase")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -190,9 +198,12 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
             name="addressDetail"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Address Detail</FormLabel>
+                <FormLabel>{tUserInfoPage("addressDetail")}</FormLabel>
                 <FormControl>
-                  <Input placeholder="detail" {...field} />
+                  <Input
+                    placeholder={tUserInfoPage("addressDetail")}
+                    {...field}
+                  />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -207,7 +218,7 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
               loading || form.formState.isSubmitting || !form.formState.isDirty
             }
           >
-            {loading ? <Loader /> : "Submit"}
+            {loading ? <Loader /> : tUserInfoPage("update")}
           </Button>
         </div>
       </form>
