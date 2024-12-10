@@ -1,3 +1,5 @@
+"use client";
+
 import AvailableRow from "@/components/available-row";
 import { DAY_OF_WEEK } from "@/constants/enum";
 import { cn } from "@/lib/utils";
@@ -8,11 +10,21 @@ const ScheduleTable = ({
   weekStartDate = new Date(),
   showDate = false,
   showToday = false,
+  activeSchedule,
+  setActiveSchedule,
+  setActiveScheduleId,
+  handleOpenDialog,
 }: {
   schedules: ScheduleType[];
   weekStartDate?: Date;
   showDate?: boolean;
   showToday?: boolean;
+  activeSchedule?: { scheduleId: number; date: string };
+  setActiveSchedule?: (
+    schedule: { scheduleId: number; date: string } | undefined
+  ) => void;
+  setActiveScheduleId?: (id: number | undefined) => void;
+  handleOpenDialog?: () => void;
 }) => {
   // 6:00 - 23:00
   const timeSlots = Array.from({ length: 18 }, (_, i) => i + 6);
@@ -28,8 +40,9 @@ const ScheduleTable = ({
     return {
       day,
       date: currentDate.toLocaleDateString("vi-VN", {
-        month: "numeric",
-        day: "numeric",
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
       }), // Định dạng ngày/tháng
       isToday:
         currentDate.toLocaleDateString() === today.toLocaleDateString() &&
@@ -117,7 +130,9 @@ const ScheduleTable = ({
                   className="border border-gray-300 capitalize"
                 >
                   <div>{day.toLowerCase()}</div>
-                  <div className="text-xs text-gray-500">{date}</div>
+                  <div className="text-xs text-gray-500">
+                    {date.slice(0, 5)}
+                  </div>
                 </th>
               ))
             : Object.values(DAY_OF_WEEK).map((day) => (
@@ -164,6 +179,32 @@ const ScheduleTable = ({
                         key={day}
                         span={span}
                         scheduleId={ranges[0].id}
+                        date={daysWithDates[index].date}
+                        isActive={
+                          activeSchedule?.scheduleId === ranges[0].id &&
+                          activeSchedule?.date === daysWithDates[index].date
+                        }
+                        handleClick={() => {
+                          if (handleOpenDialog) {
+                            setActiveScheduleId &&
+                              setActiveScheduleId(ranges[0].id);
+                            handleOpenDialog();
+                            return;
+                          }
+
+                          if (
+                            activeSchedule?.scheduleId === ranges[0].id &&
+                            activeSchedule?.date === daysWithDates[index].date
+                          ) {
+                            setActiveSchedule && setActiveSchedule(undefined);
+                          } else {
+                            setActiveSchedule &&
+                              setActiveSchedule({
+                                scheduleId: ranges[0].id,
+                                date: daysWithDates[index].date,
+                              });
+                          }
+                        }}
                       >
                         {`${ranges[0].startTime} - ${ranges[0].endTime}`}
                       </AvailableRow>

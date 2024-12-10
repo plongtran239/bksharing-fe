@@ -17,6 +17,7 @@ interface IProps {
   title: string;
   description?: string;
   isLoading?: boolean;
+  children?: React.ReactNode;
 }
 
 const AlertDialog = ({
@@ -27,6 +28,7 @@ const AlertDialog = ({
   isLoading,
   title,
   description,
+  children,
 }: IProps) => {
   return (
     <Dialog modal open={open} onOpenChange={onOpenChange}>
@@ -35,6 +37,7 @@ const AlertDialog = ({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
+        {children}
         <DialogFooter>
           <Button variant="outline" onClick={onCancel} disabled={isLoading}>
             Cancel
