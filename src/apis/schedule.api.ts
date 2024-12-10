@@ -32,6 +32,16 @@ const ScheduleApi = {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
+
+  getSchedulesByMentorId: (sessionToken: string, mentorId: number) =>
+    http.get<ListResponseType<ScheduleType>>(
+      `/client/mentors/${mentorId}/schedules`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
 };
 
 export default ScheduleApi;

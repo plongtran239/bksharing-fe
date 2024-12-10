@@ -1,29 +1,56 @@
-import ScheduleApi from "@/apis/schedule.api";
-import AvailableRow from "@/app/(mentor)/mentor/appointments/schedule/components/available-row";
+import AvailableRow from "@/components/available-row";
 import { DAY_OF_WEEK } from "@/constants/enum";
-import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
+import { cn } from "@/lib/utils";
 import { ScheduleType } from "@/schemas/schedule.schema";
 
-const ScheduleTable = async () => {
-  const { sessionToken } = useGetFromCookie(["sessionToken"]);
-
-  let schedules: ScheduleType[] = [];
-
-  try {
-    const {
-      payload: { data },
-    } = await ScheduleApi.getSchedules(sessionToken);
-
-    schedules = data;
-  } catch (error) {
-    console.error({ error });
-  }
-
+const ScheduleTable = ({
+  schedules,
+  weekStartDate = new Date(),
+  showDate = false,
+  showToday = false,
+}: {
+  schedules: ScheduleType[];
+  weekStartDate?: Date;
+  showDate?: boolean;
+  showToday?: boolean;
+}) => {
   // 6:00 - 23:00
   const timeSlots = Array.from({ length: 18 }, (_, i) => i + 6);
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Tính toán ngày cho mỗi thứ
+  const daysWithDates = Object.values(DAY_OF_WEEK).map((day, index) => {
+    const currentDate = new Date(weekStartDate);
+
+    currentDate.setDate(weekStartDate.getDate() + index); // Cộng số ngày để lấy đúng thứ
+
+    return {
+      day,
+      date: currentDate.toLocaleDateString("vi-VN", {
+        month: "numeric",
+        day: "numeric",
+      }), // Định dạng ngày/tháng
+      isToday:
+        currentDate.toLocaleDateString() === today.toLocaleDateString() &&
+        showToday,
+    };
+  });
 
   // Chuyển đổi dữ liệu thành cấu trúc phù hợp với bảng
-  const formattedSchedules = Object.values(DAY_OF_WEEK).map((day) => {
+  const formattedSchedules = Object.values(DAY_OF_WEEK).map((day, index) => {
+    const currentDate = new Date(weekStartDate);
+    currentDate.setDate(weekStartDate.getDate() + index);
+
+    if (
+      (currentDate < today ||
+        currentDate.toLocaleDateString() === today.toLocaleDateString()) &&
+      showToday
+    ) {
+      // Nếu ngày này trước hôm nay, trả về lịch trống
+      return { day, schedule: timeSlots.map(() => []) };
+    }
+
     const daySchedule = timeSlots.map((hour) => {
       const dayData = schedules.find((schedule) => schedule.dayOfWeek === day);
 
@@ -82,15 +109,26 @@ const ScheduleTable = async () => {
       <thead>
         <tr className="h-8 text-secondary-foreground">
           <th className="border border-gray-300"></th>
-          {Object.values(DAY_OF_WEEK).map((day) => (
-            <th
-              key={day}
-              scope="col"
-              className="border border-gray-300 capitalize"
-            >
-              {day.toLowerCase()}
-            </th>
-          ))}
+          {showDate
+            ? daysWithDates.map(({ day, date }) => (
+                <th
+                  key={day}
+                  scope="col"
+                  className="border border-gray-300 capitalize"
+                >
+                  <div>{day.toLowerCase()}</div>
+                  <div className="text-xs text-gray-500">{date}</div>
+                </th>
+              ))
+            : Object.values(DAY_OF_WEEK).map((day) => (
+                <th
+                  key={day}
+                  scope="col"
+                  className="border border-gray-300 capitalize"
+                >
+                  {day.toLowerCase()}
+                </th>
+              ))}
         </tr>
       </thead>
 
@@ -100,8 +138,9 @@ const ScheduleTable = async () => {
             <tr key={hour} className="h-8">
               <td className="border border-gray-300">{`${hour}:00`}</td>
 
-              {formattedSchedules.map(({ day, schedule }) => {
+              {formattedSchedules.map(({ day, schedule }, index) => {
                 const ranges = schedule[hour - 6];
+                const isToday = daysWithDates[index].isToday;
 
                 if (ranges && ranges.length > 0) {
                   const span = getRowSpan(
@@ -133,7 +172,14 @@ const ScheduleTable = async () => {
                 }
 
                 if (!isMerged.has(`${day}-${hour}`)) {
-                  return <td key={day} className="border border-gray-300"></td>;
+                  return (
+                    <td
+                      key={day}
+                      className={cn("border border-gray-300", {
+                        "bg-yellow-100": isToday,
+                      })}
+                    ></td>
+                  );
                 }
 
                 return null; // Tránh tạo ô trùng lặp
@@ -145,5 +191,4 @@ const ScheduleTable = async () => {
     </table>
   );
 };
-
 export default ScheduleTable;

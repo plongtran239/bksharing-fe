@@ -91,6 +91,14 @@ function getNameFromNameId(nameId: string) {
   return nameId.split("-i")[0].replaceAll("-", " ");
 }
 
+function getMondayOfCurrentWeek(date: Date): Date {
+  const currentDay = date.getDay(); // Lấy thứ trong tuần (0: Chủ nhật, 1: Thứ 2, ...)
+  const diff = currentDay === 0 ? -6 : 1 - currentDay; // Điều chỉnh để về thứ 2 (hoặc tuần trước nếu là Chủ nhật)
+  const monday = new Date(date);
+  monday.setDate(date.getDate() + diff);
+  return monday;
+}
+
 export {
   cn,
   convertDateToLocaleString,
@@ -104,4 +112,5 @@ export {
   generateNameId,
   getIdFromNameId,
   getNameFromNameId,
+  getMondayOfCurrentWeek,
 };
