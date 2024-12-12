@@ -48,7 +48,8 @@
     "draft": "Nháp",
     "appointments": "Lịch hẹn",
     "viewAppointments": "Xem lịch hẹn",
-    "scheduleAppointment": "Xếp lịch rảnh"
+    "scheduleAppointment": "Xếp lịch rảnh",
+    "requests": "Yêu cầu đăng ký"
   },
   "footer": {
     "label": "Đăng ký nhận thông tin mới nhất",

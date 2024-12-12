@@ -4,6 +4,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
+import subcriptionApi from "@/apis/subscription.api";
+import Loader from "@/components/loader";
 import ScheduleTable from "@/components/schedule-table";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,17 +17,25 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { useToast } from "@/hooks/use-toast";
 import { getMondayOfCurrentWeek } from "@/lib/utils";
 import { ScheduleType } from "@/schemas/schedule.schema";
 
 const Schedule = ({
   schedules,
   mentorName,
+  courseId,
+  courseName,
 }: {
   schedules: ScheduleType[];
   mentorName: string;
+  courseId: number;
+  courseName: string;
 }) => {
+  const { toast } = useToast();
   const router = useRouter();
+
+  const [loading, setLoading] = useState(false);
 
   const [weekStartDate, setWeekStartDate] = useState(
     getMondayOfCurrentWeek(new Date())
@@ -85,10 +95,28 @@ const Schedule = ({
   };
 
   const handleBook = async () => {
+    if (!activeSchedule) {
+      return;
+    }
+
     try {
-      alert("Đang cập nhật...");
+      setLoading(true);
+      await subcriptionApi.subscribe(courseId, {
+        date: activeSchedule.date,
+        mentorScheduleId: activeSchedule.scheduleId,
+        message: `Đăng ký khóa học ${courseName} của ${mentorName}`,
+      });
+
+      toast({
+        title: "Thành công",
+        description: "Đặt lịch hẹn thành công, chờ xác nhận từ gia sư",
+      });
+
+      setOpen(false);
     } catch (error) {
       console.error({ error });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -101,9 +129,7 @@ const Schedule = ({
             <span className="capitalize text-primary">{mentorName}</span>
           </h1>
 
-          <Button className="mt-5" onClick={() => router.back()}>
-            Trở về
-          </Button>
+          <Button onClick={() => router.back()}>Trở về</Button>
         </div>
 
         <Separator className="my-5" />
@@ -171,13 +197,17 @@ const Schedule = ({
         <DialogContent>
           <DialogHeader>
             <DialogTitle className="font-medium text-black">
-              Đặt lịch hẹn
+              Đăng ký khóa học
             </DialogTitle>
             <DialogDescription></DialogDescription>
           </DialogHeader>
 
           <p className="text-black">
-            Bạn sẽ đặt lịch hẹn với{" "}
+            Bạn sẽ đăng ký khóa học{" "}
+            <span className="font-semibold capitalize text-primary">
+              {courseName}
+            </span>{" "}
+            của{" "}
             <span className="font-semibold capitalize text-primary">
               {mentorName}
             </span>{" "}
@@ -211,7 +241,9 @@ const Schedule = ({
             <Button variant="outline" onClick={() => setOpen(false)}>
               Hủy
             </Button>
-            <Button onClick={handleBook}>Đặt lịch hẹn</Button>
+            <Button onClick={handleBook} disabled={loading}>
+              {loading ? <Loader /> : "Đặt lịch hẹn"}
+            </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>

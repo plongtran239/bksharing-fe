@@ -5,7 +5,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
-import CheckoutButton from "@/app/(root)/(course)/courses/[nameId]/components/checkout-button";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
@@ -209,19 +209,27 @@ const CourseDetailPage = async ({
               }).format(course.price)}
             </p>
 
-            <CheckoutButton courseId={course.id} amount={course.price} />
+            <Link
+              href={`${nameId}/schedule?mentor=${generateNameId({
+                name: course.mentor.name,
+                id: course.mentor.id,
+              })}`}
+              className="block"
+            >
+              <Button className="w-full">Đăng ký</Button>
+            </Link>
 
             {/* Info */}
             <div className="space-y-2">
-              <p className="font-medium text-black">This course includes:</p>
+              <p className="font-medium text-black">Khóa học bao gồm:</p>
               <ul className="space-y-2 text-sm">
                 <li className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-primary"></div>
-                  {course.totalDuration} hours to complete
+                  {course.totalDuration} giờ học để hoàn thành
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-primary"></div>
-                  {course.sections.length} sections to learn
+                  {course.sections.length} phần để học
                 </li>
                 <li className="flex items-center gap-2">
                   <div className="h-2 w-2 rounded-full bg-primary"></div>
@@ -229,7 +237,7 @@ const CourseDetailPage = async ({
                     (acc, section) => acc + section.files.length,
                     0
                   )}{" "}
-                  downloadable resources
+                  tài liệu để tải về
                 </li>
               </ul>
             </div>

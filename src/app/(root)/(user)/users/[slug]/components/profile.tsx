@@ -5,7 +5,6 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
-import BookButton from "@/app/(root)/(user)/users/[slug]/components/book-button";
 import CourseTab from "@/app/(root)/(user)/users/[slug]/components/course-tab";
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
@@ -54,16 +53,14 @@ const Profile = async ({ slug }: { slug: string }) => {
         <div className="flex-between mt-10">
           <div className="flex-1"></div>
 
-          <div className="">
-            <div className="flex-center flex-col">
-              <div className="mb-2 flex gap-2 text-sm">
-                completion: <span>{completion}%</span>
-              </div>
-              <Progress value={completion} className="w-[200px]" />
+          <div className="flex-center flex-col">
+            <div className="mb-2 flex gap-2 text-sm">
+              completion: <span>{completion}%</span>
             </div>
+            <Progress value={completion} className="w-[200px]" />
           </div>
 
-          <BookButton mentor={result.data} />
+          <div className="flex-1"></div>
         </div>
       </div>
 

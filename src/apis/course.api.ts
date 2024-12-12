@@ -16,6 +16,7 @@ const courseApi = {
       price: Number(body.price),
       startDate: convertDateToLocaleDateString(body.startDate),
       endDate: convertDateToLocaleDateString(body.endDate),
+      totalDuration: 2,
     }),
 
   getCourses: () =>

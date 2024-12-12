@@ -6,6 +6,7 @@ import {
   KeyRoundIcon,
   LibraryIcon,
   UserIcon,
+  UserPlusIcon,
   VideoIcon,
   ViewIcon,
 } from "lucide-react";
@@ -140,6 +141,11 @@ const MentorSidebarMenuItems: MenuItemsType = [
         href: "/mentor/appointments/schedule",
       },
     ],
+  },
+  {
+    label: "requests",
+    href: "/mentor/requests",
+    icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
   },
   {
     label: "courses",

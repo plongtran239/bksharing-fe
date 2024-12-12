@@ -48,7 +48,8 @@
     "draft": "Draft",
     "appointments": "Appointments",
     "viewAppointments": "View Appointments",
-    "scheduleAppointment": "Scheduling"
+    "scheduleAppointment": "Scheduling",
+    "requests": "Requests"
   },
   "footer": {
     "label": "Subscribe to get our Newsletter",
