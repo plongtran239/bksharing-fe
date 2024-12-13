@@ -4,7 +4,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
-import subcriptionApi from "@/apis/subscription.api";
+import subscriptionApi from "@/apis/subscription.api";
 import Loader from "@/components/loader";
 import ScheduleTable from "@/components/schedule-table";
 import { Button } from "@/components/ui/button";
@@ -101,7 +101,7 @@ const Schedule = ({
 
     try {
       setLoading(true);
-      await subcriptionApi.subscribe(courseId, {
+      await subscriptionApi.subscribe(courseId, {
         date: activeSchedule.date,
         mentorScheduleId: activeSchedule.scheduleId,
         message: `Đăng ký khóa học ${courseName} của ${mentorName}`,

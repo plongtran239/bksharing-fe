@@ -1,4 +1,4 @@
-import subcriptionApi from "@/apis/subscription.api";
+import subscriptionApi from "@/apis/subscription.api";
 import RequestTable from "@/app/(mentor)/mentor/requests/components/request-table";
 import { Separator } from "@/components/ui/separator";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
@@ -6,7 +6,9 @@ import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 const RequestPage = async () => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
-  const { payload } = await subcriptionApi.getSubscriptions(sessionToken);
+  const {
+    payload: { data },
+  } = await subscriptionApi.getSubscriptions(sessionToken);
 
   return (
     <main>
@@ -18,7 +20,7 @@ const RequestPage = async () => {
 
       <Separator className="my-5" />
 
-      <RequestTable data={payload} />
+      <RequestTable data={data} />
     </main>
   );
 };

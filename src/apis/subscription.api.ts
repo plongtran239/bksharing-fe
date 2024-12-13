@@ -1,7 +1,11 @@
 import http from "@/lib/http";
-import { SubscriptionType } from "@/schemas/subscription.schema";
+import { ListResponseType } from "@/schemas";
+import {
+  SubscriptionDetailType,
+  SubscriptionType,
+} from "@/schemas/subscription.schema";
 
-const subcriptionApi = {
+const subscriptionApi = {
   subscribe: (
     courseId: number,
     body: {
@@ -12,23 +16,22 @@ const subcriptionApi = {
   ) => http.post(`/client/subscriptions/courses/${courseId}`, body),
 
   getSubscriptions: (sessionToken: string) =>
-    http.get<SubscriptionType[]>("/client/subscriptions", {
+    http.get<ListResponseType<SubscriptionType>>("/client/subscriptions", {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
 
-  getDetailSubscription: (sessionToken: string, subscriptionId: number) =>
-    http.get<SubscriptionType>(`/client/subscriptions/${subscriptionId}`, {
-      headers: {
-        Authorization: `Bearer ${sessionToken}`,
-      },
-    }),
+  getDetailSubscription: (subscriptionId: number) =>
+    http.get<SubscriptionDetailType>(`/client/subscriptions/${subscriptionId}`),
 
   mentorApproveSubscription: (body: {
     subscriptionId: number;
     isApproved: boolean;
   }) => http.patch("/client/subscriptions/approvement", body),
+
+  cancelSubscription: (subscriptionId: number) =>
+    http.patch(`/client/subscriptions/${subscriptionId}/cancel`),
 };
 
-export default subcriptionApi;
+export default subscriptionApi;

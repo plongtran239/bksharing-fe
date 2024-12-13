@@ -3,8 +3,9 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-import subcriptionApi from "@/apis/subscription.api";
+import subscriptionApi from "@/apis/subscription.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -22,13 +23,16 @@ import { SubscriptionType } from "@/schemas/subscription.schema";
 
 const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
   const { toast } = useToast();
+  const router = useRouter();
 
   const handleRequest = async (subscriptionId: number, isApproved: boolean) => {
     try {
-      await subcriptionApi.mentorApproveSubscription({
+      await subscriptionApi.mentorApproveSubscription({
         subscriptionId,
         isApproved,
       });
+
+      router.refresh();
 
       toast({
         title: "Thành công",
@@ -63,6 +67,25 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       enableHiding: false,
     },
     {
+      accessorKey: "studentInfo",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Học viên
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {(row.getValue("studentInfo") as { name: string }).name}
+        </div>
+      ),
+    },
+    {
       accessorKey: "course",
       header: ({ column }) => {
         return (
@@ -70,7 +93,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Tên khóa học
+            Khóa học
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
