@@ -18,7 +18,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { convertMilisecondsToLocaleString } from "@/lib/utils";
+import {
+  convertMilisecondsToLocaleString,
+  convertToCapitalizeCase,
+} from "@/lib/utils";
 import { SubscriptionType } from "@/schemas/subscription.schema";
 
 const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
@@ -157,7 +160,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {row.getValue("status")}
+          {convertToCapitalizeCase(row.getValue("status"))}
         </div>
       ),
     },
@@ -198,6 +201,16 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
     },
   ];
 
-  return <DataTable columns={columns} data={data} />;
+  return (
+    <DataTable
+      columns={columns}
+      data={data.sort(
+        (a, b) => Number(a.courseStartAt) - Number(b.courseStartAt)
+      )}
+      searchBy="title"
+      filterBy="status"
+      filterOptions={Object.values(SUBSCRIPTION_STATUS)}
+    />
+  );
 };
 export default RequestTable;

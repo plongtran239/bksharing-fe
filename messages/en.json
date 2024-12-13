@@ -20,7 +20,8 @@
   "navbar": {
     "home": "Home",
     "mentors": "Mentors",
-    "courses": "Courses"
+    "courses": "Courses",
+    "schedules": "Schedules"
   },
   "dropdown": {
     "myAccount": "My Account",
@@ -45,10 +46,12 @@
     "ongoing": "Ongoing",
     "finished": "Finished",
     "cancelled": "Cancelled",
+    "active": "Active",
+    "ended": "Ended",
+    "canceled": "Canceled",
     "draft": "Draft",
     "appointments": "Appointments",
-    "viewAppointments": "View Appointments",
-    "scheduleAppointment": "Scheduling",
+    "schedule": "Scheduling",
     "requests": "Requests"
   },
   "footer": {

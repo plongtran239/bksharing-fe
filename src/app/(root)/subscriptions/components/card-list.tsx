@@ -13,7 +13,7 @@ interface IProps {
 
 const CardList = ({ data, activeItemId, setActiveItemId }: IProps) => {
   return (
-    <div>
+    <div className="max-h-96 space-y-5 overflow-scroll">
       {data.map((item) => (
         <CardItem
           key={item.id}

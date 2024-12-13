@@ -9,6 +9,7 @@ import { useCallback } from "react";
 import { SheetClose } from "@/components/ui/sheet";
 import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 
 interface IProps {
   isSidebar?: boolean;
@@ -16,6 +17,8 @@ interface IProps {
 
 const Navbar = ({ isSidebar }: IProps) => {
   const t = useTranslations("navbar");
+
+  const { user } = useAppContext();
   const path = usePathname();
 
   const isActive = useCallback(
@@ -31,45 +34,51 @@ const Navbar = ({ isSidebar }: IProps) => {
         "max-lg:flex-between flex-col gap-10": isSidebar,
       })}
     >
-      {NavbarMenuItems.map((item, index) => (
-        <li
-          key={index}
-          className={cn({
-            "font-semibold text-primary": isActive(item.href),
-            "flex-between w-full": isSidebar,
-          })}
-        >
-          <motion.div
-            whileHover={{
-              scale: 1.1,
-              transition: {
-                duration: 0.3,
-                ease: "easeInOut",
-              },
-            }}
+      {NavbarMenuItems.map((item, index) => {
+        if (item.label === "schedules" && !user) {
+          return null;
+        }
+
+        return (
+          <li
+            key={index}
+            className={cn({
+              "font-semibold text-primary": isActive(item.href),
+              "flex-between w-full": isSidebar,
+            })}
           >
-            <Link href={item.href} className="flex-center gap-1">
-              {isSidebar ? (
-                <SheetClose className="flex-center gap-1">
-                  <span className="max-xl:hidden">{item.icon}</span>
-                  {t(item.label)}
-                </SheetClose>
-              ) : (
-                <>
-                  <span
-                    className={cn("max-xl:hidden", {
-                      "max-xl:inline": isSidebar,
-                    })}
-                  >
-                    {item.icon}
-                  </span>
-                  {t(item.label)}
-                </>
-              )}
-            </Link>
-          </motion.div>
-        </li>
-      ))}
+            <motion.div
+              whileHover={{
+                scale: 1.1,
+                transition: {
+                  duration: 0.3,
+                  ease: "easeInOut",
+                },
+              }}
+            >
+              <Link href={item.href} className="flex-center gap-1">
+                {isSidebar ? (
+                  <SheetClose className="flex-center gap-1">
+                    <span className="max-xl:hidden">{item.icon}</span>
+                    {t(item.label)}
+                  </SheetClose>
+                ) : (
+                  <>
+                    <span
+                      className={cn("max-xl:hidden", {
+                        "max-xl:inline": isSidebar,
+                      })}
+                    >
+                      {item.icon}
+                    </span>
+                    {t(item.label)}
+                  </>
+                )}
+              </Link>
+            </motion.div>
+          </li>
+        );
+      })}
     </ul>
   );
 };

@@ -1,5 +1,6 @@
 import {
   BookCopyIcon,
+  CalendarIcon,
   GraduationCapIcon,
   HomeIcon,
   InfoIcon,
@@ -16,6 +17,7 @@ import {
   MEETING_STATUS,
   MENTOR_STATUS,
   ROLES,
+  SUBSCRIPTION_STATUS,
 } from "@/constants/enum";
 
 type MenuItemsType = {
@@ -37,6 +39,11 @@ const NavbarMenuItems: MenuItemsType = [
     label: "courses",
     href: "/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
+  },
+  {
+    label: "schedules",
+    href: "/subscriptions",
+    icon: <VideoIcon size={18} strokeWidth={2.5} />,
   },
 ];
 
@@ -128,24 +135,29 @@ const AdminSidebarMenuItems: MenuItemsType = [
 
 const MentorSidebarMenuItems: MenuItemsType = [
   {
+    label: "schedule",
+    href: "/mentor/schedule",
+    icon: <CalendarIcon size={18} strokeWidth={2.5} />,
+  },
+  {
     label: "appointments",
     href: "/mentor/appointments",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
-    subs: [
-      {
-        label: "viewAppointments",
-        href: "/mentor/appointments",
-      },
-      {
-        label: "scheduleAppointment",
-        href: "/mentor/appointments/schedule",
-      },
-    ],
+    subs: Object.values(MEETING_STATUS).map((status) => ({
+      label: status.toLowerCase(),
+      href: `/mentor/appointments?status=${status}`,
+    })),
   },
   {
     label: "requests",
     href: "/mentor/requests",
     icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      ...Object.values(SUBSCRIPTION_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/mentor/requests?status=${status}`,
+      })),
+    ],
   },
   {
     label: "courses",

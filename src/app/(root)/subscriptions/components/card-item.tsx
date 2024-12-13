@@ -51,7 +51,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
     <>
       <div
         className={cn(
-          "flex items-center justify-between rounded-lg border border-primary bg-white p-4 shadow-xl",
+          "flex items-center justify-between rounded-lg border border-primary bg-white p-4 shadow",
           {
             "bg-secondary": isActive,
           }

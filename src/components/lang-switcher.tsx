@@ -10,7 +10,7 @@ import {
   SelectTrigger,
 } from "@/components/ui/select";
 
-const LangSwitcher = ({ lang }: { lang: string }) => {
+const LangSwitcher = ({ lang = "vi" }: { lang?: string }) => {
   return (
     <Select onValueChange={(e) => ChangeLanguage(e)} value={lang}>
       <SelectTrigger

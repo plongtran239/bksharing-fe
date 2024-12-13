@@ -4,7 +4,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import ScheduleApi from "@/apis/schedule.api";
-import Scheduling from "@/app/(mentor)/mentor/appointments/schedule/components/scheduling";
+import Scheduling from "@/app/(mentor)/mentor/schedule/components/scheduling";
 import AlertDialog from "@/components/alert-dialog";
 import ScheduleTable from "@/components/schedule-table";
 import { useToast } from "@/hooks/use-toast";

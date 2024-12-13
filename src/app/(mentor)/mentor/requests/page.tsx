@@ -14,7 +14,7 @@ const RequestPage = async () => {
     <main>
       <div className="flex-between">
         <h1 className="text-3xl font-semibold text-primary">
-          Danh sách yêu cầu học
+          Danh sách yêu cầu đăng ký khóa học
         </h1>
       </div>
 

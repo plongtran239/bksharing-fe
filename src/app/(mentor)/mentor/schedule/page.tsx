@@ -1,5 +1,5 @@
 import ScheduleApi from "@/apis/schedule.api";
-import ClientSchedule from "@/app/(mentor)/mentor/appointments/schedule/components/client-schedule";
+import ClientSchedule from "@/app/(mentor)/mentor/schedule/components/client-schedule";
 import { Separator } from "@/components/ui/separator";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import { ScheduleType } from "@/schemas/schedule.schema";

@@ -19,6 +19,7 @@ const privatePaths = [
   "/meeting",
   "/recordings",
   "/user-info",
+  "/subscriptions",
   ...mentorPaths,
   ...adminPaths,
 ];
@@ -82,6 +83,7 @@ export const config = {
     "/meeting",
     "/recordings",
     "/user-info",
+    "/subscriptions",
 
     "/mentor/courses",
     "/course/create",

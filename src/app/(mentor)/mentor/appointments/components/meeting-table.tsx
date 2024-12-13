@@ -57,10 +57,10 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
     },
     {
       accessorKey: "title",
-      header: ({}) => {
-        return <button className="flex-center">Title</button>;
-      },
-      cell: ({ row }) => <div className="">{row.getValue("title")}</div>,
+      header: "Tên khóa học",
+      cell: ({ row }) => (
+        <div className="line-clamp-1">{row.getValue("title")}</div>
+      ),
     },
     {
       accessorKey: "startsAt",
@@ -70,18 +70,18 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Date & Time
+            Thời gian bắt đầu
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
       },
       cell: ({ row }) => (
-        <div>
-          {convertMilisecondsToLocaleString(row.getValue("startsAt"), "en-US", {
+        <div className="">
+          {convertMilisecondsToLocaleString(row.getValue("startsAt"), "vi-VN", {
             hour: "2-digit",
             minute: "2-digit",
             day: "2-digit",
-            month: "short",
+            month: "2-digit",
             year: "numeric",
             timeZone: "UTC",
           })}
@@ -90,7 +90,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng thái",
       cell: ({ row }) => (
         <div className="capitalize">
           {convertToCapitalizeCase(row.getValue("status"))}
@@ -99,7 +99,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
     },
     {
       accessorKey: "participants",
-      header: "Candidate",
+      header: "Học viên",
       cell: ({ row }) => {
         const participants = row.original.participants.filter(
           (participant) => participant.accountType !== ROLES.ADMIN
@@ -107,11 +107,15 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
 
         return (
           <div className="">
-            {participants.map((participant) => (
-              <div key={participant.id} className="">
-                <p>{participant.name}</p>
-              </div>
-            ))}
+            {participants
+              .filter(
+                (participant) => participant.accountType === ROLES.STUDENT
+              )
+              .map((participant) => (
+                <div key={participant.id} className="flex items-center gap-2">
+                  <span>{participant.name}</span>
+                </div>
+              ))}
           </div>
         );
       },
@@ -211,22 +215,12 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
                   <DropdownMenuItem
                     onClick={handleStartMeeting}
                     className="flex items-center gap-2"
                   >
                     <PlayIcon size={16} />
                     Start Meeting
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => {}}
-                    className="flex items-center gap-2"
-                    disabled
-                  >
-                    <XIcon size={16} />
-                    Cancel Meeting
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
@@ -241,6 +235,8 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
+                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
+
                   <DropdownMenuItem
                     onClick={handleJoinMeeting}
                     className="flex items-center gap-2"
@@ -266,13 +262,15 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      data={data.sort((a, b) => Number(a.startsAt) - Number(b.startsAt))}
-      searchBy="title"
-      filterBy="status"
-      filterOptions={Object.values(MEETING_STATUS)}
-    />
+    <>
+      <DataTable
+        columns={columns}
+        data={data.sort((a, b) => Number(a.startsAt) - Number(b.startsAt))}
+        searchBy="title"
+        filterBy="status"
+        filterOptions={Object.values(MEETING_STATUS)}
+      />
+    </>
   );
 };
 export default MeetingTable;

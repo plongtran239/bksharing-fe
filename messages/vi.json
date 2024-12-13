@@ -20,7 +20,8 @@
   "navbar": {
     "home": "Trang chủ",
     "mentors": "Gia sư",
-    "courses": "Khóa học"
+    "courses": "Khóa học",
+    "schedules": "Lịch học"
   },
   "dropdown": {
     "myAccount": "Tài khoản của tôi",
@@ -37,7 +38,7 @@
     "courses": "Khóa học",
     "meetings": "Cuộc họp",
     "categories": "Danh mục",
-    "pending": "Đang chờ",
+    "pending": "Đang chờ duyệt",
     "approved": "Đã duyệt",
     "accepted": "Đã duyệt",
     "rejected": "Đã từ chối",
@@ -45,10 +46,12 @@
     "ongoing": "Đang diễn ra",
     "finished": "Đã kết thúc",
     "cancelled": "Đã hủy",
+    "active": "Đang hoạt động",
+    "canceled": "Đã hủy",
+    "ended": "Đã kết thúc",
     "draft": "Nháp",
     "appointments": "Lịch hẹn",
-    "viewAppointments": "Xem lịch hẹn",
-    "scheduleAppointment": "Xếp lịch rảnh",
+    "schedule": "Sắp xếp lịch",
     "requests": "Yêu cầu đăng ký"
   },
   "footer": {

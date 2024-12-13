@@ -1,3 +1,4 @@
+import MeetingList from "@/app/(mentor)/mentor/appointments/components/meeting-list";
 import { Separator } from "@/components/ui/separator";
 
 const appointmentsPage = () => {
@@ -8,6 +9,8 @@ const appointmentsPage = () => {
       </div>
 
       <Separator className="my-5" />
+
+      <MeetingList />
     </section>
   );
 };
