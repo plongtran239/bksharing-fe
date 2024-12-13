@@ -40,7 +40,7 @@ const Profile = async ({ slug }: { slug: string }) => {
   const completion = handleCalculateProfileCompletion();
 
   return (
-    <div className="h-fit w-3/4 max-xl:w-full">
+    <div className="col-span-3 h-fit max-xl:w-full">
       <div className="rounded-xl bg-white px-3 pb-5 pt-3">
         {/* Background, Avatar */}
         <ProfileHeading
@@ -65,7 +65,7 @@ const Profile = async ({ slug }: { slug: string }) => {
       </div>
 
       {/* Tabs */}
-      <div className="flex-center mt-10 w-full">
+      <div className="flex-center mt-5 w-full">
         <Tabs defaultValue="profile" className="w-full">
           <div className="flex-center">
             <TabsList className="gap-2">
@@ -86,7 +86,7 @@ const Profile = async ({ slug }: { slug: string }) => {
             </TabsList>
           </div>
 
-          <div className="mt-10 w-full">
+          <div className="mt-5 w-full">
             <TabsContent value="profile">
               <ProfileTab data={result.data} completion={completion} />
             </TabsContent>

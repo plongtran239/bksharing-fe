@@ -4,7 +4,6 @@ import { ChevronUpIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 
 import LogoutButton from "@/app/(root)/(home)/components/logout-button";
 import {
@@ -39,7 +38,6 @@ const AvatarDropdown = ({
   isSidebar,
 }: IProps) => {
   const t = useTranslations("dropdown");
-  const pathname = usePathname();
 
   return (
     <DropdownMenu>
@@ -88,27 +86,6 @@ const AvatarDropdown = ({
 
         {AvatarDropdownMenuItems[ROLES[role as keyof typeof ROLES]].map(
           (item, index) => {
-            if (role === ROLES.MENTOR) {
-              if (pathname === "/mentors" && item.label === "studentView") {
-                return null;
-              }
-
-              if (
-                !pathname.startsWith("/mentor") &&
-                item.label === "studentView"
-              ) {
-                return null;
-              }
-
-              if (
-                pathname.startsWith("/mentor") &&
-                pathname !== "/mentors" &&
-                item.label === "mentorDashboard"
-              ) {
-                return null;
-              }
-            }
-
             return (
               <Link key={index} href={item.href} onClick={handleClick}>
                 {item.hasSeparator && <DropdownMenuSeparator />}

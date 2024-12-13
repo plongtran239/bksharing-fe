@@ -69,13 +69,7 @@ const MentorAvatarDropdownMenuItems: MenuItemsType = [
   ...StudentAvatarDropdownMenuItems,
   {
     label: "mentorDashboard",
-    href: "/mentor/courses",
-    icon: <ViewIcon size={16} />,
-    hasSeparator: true,
-  },
-  {
-    label: "studentView",
-    href: "/",
+    href: "/mentor/appointments",
     icon: <ViewIcon size={16} />,
     hasSeparator: true,
   },

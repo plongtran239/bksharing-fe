@@ -7,6 +7,7 @@ import { usePathname } from "next/navigation";
 import { useCallback } from "react";
 
 import { SheetClose } from "@/components/ui/sheet";
+import { ROLES } from "@/constants/enum";
 import { NavbarMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
@@ -35,8 +36,14 @@ const Navbar = ({ isSidebar }: IProps) => {
       })}
     >
       {NavbarMenuItems.map((item, index) => {
-        if (item.label === "schedules" && !user) {
-          return null;
+        if (
+          item.label === "schedules" ||
+          item.label === "mentors" ||
+          item.label === "courses"
+        ) {
+          if (user?.accountType === ROLES.MENTOR) {
+            return null;
+          }
         }
 
         return (
