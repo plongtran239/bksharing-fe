@@ -1,7 +1,7 @@
 import { LoaderCircleIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-const Loader = () => {
+const Loader = ({ description }: { description?: string }) => {
   const t = useTranslations("common");
 
   return (
@@ -10,7 +10,7 @@ const Loader = () => {
         size={16}
         className="animate-spin transition-transform duration-1000 ease-in-out"
       />
-      {t("loading")}...
+      {description || t("loading")}...
     </div>
   );
 };

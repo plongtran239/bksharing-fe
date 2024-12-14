@@ -17,22 +17,22 @@ const Subscription = ({ data }: IProps) => {
   );
 
   return (
-    <div className="grid min-h-[280px] grid-cols-5 gap-10">
-      <div
-        className={cn("col-span-2 space-y-5", {
-          "col-auto": !data.length,
-        })}
-      >
-        <CardList
-          data={data}
-          activeItemId={activeItemId}
-          setActiveItemId={setActiveItemId}
-        />
-      </div>
+    <div
+      className={cn("grid min-h-[280px] grid-cols-2 gap-10", {
+        "grid-cols-1": !activeItemId,
+      })}
+    >
+      {activeItemId && (
+        <div className="space-y-5">
+          <CardList
+            data={data}
+            activeItemId={activeItemId}
+            setActiveItemId={setActiveItemId}
+          />
+        </div>
+      )}
 
-      <div className={"col-span-3"}>
-        <SubscriptionDetail activeItemId={activeItemId} />
-      </div>
+      <SubscriptionDetail activeItemId={activeItemId} />
     </div>
   );
 };

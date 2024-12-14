@@ -11,26 +11,34 @@ const SubscriptionTabs = async () => {
     payload: { data },
   } = await subscriptionApi.getSubscriptions(sessionToken);
 
-  const [pending, incoming, active, canceled, ended, rejected] = Object.values(
-    SUBSCRIPTION_STATUS
-  ).map((status) => data.filter((item) => item.status === status));
+  const [pending, accepted, active, canceled, ended, expired, rejected] =
+    Object.values(SUBSCRIPTION_STATUS).map((status) =>
+      data.filter((item) => item.status === status)
+    );
 
   return (
     <div className="flex-center mt-5">
-      <Tabs defaultValue="incoming">
-        <TabsList className="">
-          <TabsTrigger value="pending">
+      <Tabs defaultValue="pending">
+        <TabsList>
+          <TabsTrigger className="px-8" value="pending">
             Chờ xác nhận ({pending.length})
           </TabsTrigger>
-          <TabsTrigger value="incoming">
-            Sắp tới ({incoming.length})
+          <TabsTrigger className="px-8" value="accepted">
+            Chờ thanh toán ({accepted.length})
           </TabsTrigger>
-          <TabsTrigger value="active">
+          <TabsTrigger className="px-8" value="active">
             Đang diễn ra ({active.length})
           </TabsTrigger>
-          <TabsTrigger value="ended">Đã kết thúc ({ended.length})</TabsTrigger>
-          <TabsTrigger value="canceled">Đã hủy ({canceled.length})</TabsTrigger>
-          <TabsTrigger value="rejected">
+          <TabsTrigger className="px-8" value="ended">
+            Đã kết thúc ({ended.length})
+          </TabsTrigger>
+          <TabsTrigger className="px-8" value="canceled">
+            Đã hủy ({canceled.length})
+          </TabsTrigger>
+          <TabsTrigger className="px-8" value="expired">
+            Hết hạn ({expired.length})
+          </TabsTrigger>
+          <TabsTrigger className="px-8" value="rejected">
             Bị từ chối ({rejected.length})
           </TabsTrigger>
         </TabsList>
@@ -40,8 +48,8 @@ const SubscriptionTabs = async () => {
             <Subscription data={pending} />
           </TabsContent>
 
-          <TabsContent value="incoming">
-            <Subscription data={incoming} />
+          <TabsContent value="accepted">
+            <Subscription data={accepted} />
           </TabsContent>
 
           <TabsContent value="active">
@@ -54,6 +62,10 @@ const SubscriptionTabs = async () => {
 
           <TabsContent value="canceled">
             <Subscription data={canceled} />
+          </TabsContent>
+
+          <TabsContent value="expired">
+            <Subscription data={expired} />
           </TabsContent>
 
           <TabsContent value="rejected">

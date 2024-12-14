@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Image from "next/image";
 
-import VerifyPayment from "@/app/payments/verify/components/VerifyPayment";
+import VerifyPayment from "@/app/payments/verify/components/verify-payment";
 import Footer from "@/components/footer/footer";
 
 export const metadata: Metadata = {

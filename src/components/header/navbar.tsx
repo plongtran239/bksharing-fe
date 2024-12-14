@@ -46,6 +46,10 @@ const Navbar = ({ isSidebar }: IProps) => {
           }
         }
 
+        if (item.label === "schedules" && !user) {
+          return null;
+        }
+
         return (
           <li
             key={index}

@@ -117,7 +117,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
       <div className="flex items-center gap-5">
         <CheckIcon size={16} className="text-primary" />
         <p>
-          Giá tiền sau khi học: {""}
+          Giá tiền: {""}
           <span className="text-primary">
             {Intl.NumberFormat("vi-VN", {
               style: "currency",

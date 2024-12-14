@@ -4,12 +4,14 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
+import paymentApi from "@/apis/payment.api";
 import subscriptionApi from "@/apis/subscription.api";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 import { SubscriptionType } from "@/schemas/subscription.schema";
 
 interface IProps {
@@ -23,6 +25,14 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
   const router = useRouter();
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
+
+  const { setPaymentId } = useAppContext();
+
+  const hasCancelButton =
+    item.status === SUBSCRIPTION_STATUS.PENDING ||
+    item.status === SUBSCRIPTION_STATUS.ACCEPTED;
+
+  const hasPaymentButton = item.status === SUBSCRIPTION_STATUS.ACCEPTED;
 
   const handleCancel = async () => {
     try {
@@ -44,6 +54,25 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
       console.error({ error });
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleMakePayment = async () => {
+    try {
+      const {
+        payload: { data },
+      } = await paymentApi.makePayment({
+        courseId: item.course.id,
+        subscriptionId: item.id,
+        amount: item.originalPrice,
+        description: item.course.name,
+      });
+
+      setPaymentId(data.payment.id);
+
+      router.push(data.url);
+    } catch (error) {
+      console.error({ error });
     }
   };
 
@@ -75,16 +104,24 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
           </div>
         </div>
 
-        {item.status !== SUBSCRIPTION_STATUS.CANCELED && (
-          <Button
-            variant={"destructive"}
-            className="bg-red-300 px-4 text-xs"
-            onClick={() => setOpen(true)}
-            disabled={loading}
-          >
-            Hủy
-          </Button>
-        )}
+        <div className="flex-center gap-3">
+          {hasPaymentButton && (
+            <Button className="px-3" onClick={handleMakePayment}>
+              Thanh toán
+            </Button>
+          )}
+
+          {hasCancelButton && (
+            <Button
+              variant={"destructive"}
+              className="bg-red-300 px-4 text-xs"
+              onClick={() => setOpen(true)}
+              disabled={loading}
+            >
+              Hủy
+            </Button>
+          )}
+        </div>
       </div>
 
       <AlertDialog

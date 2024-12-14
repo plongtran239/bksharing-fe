@@ -31,8 +31,7 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
 
       setUser(null);
 
-      localStorage.removeItem("user");
-      localStorage.removeItem("sessionToken");
+      localStorage.clear();
 
       router.push("/");
       router.refresh();

@@ -84,10 +84,19 @@ enum SUBSCRIPTION_STATUS {
   PENDING = "PENDING",
   ACCEPTED = "ACCEPTED",
   ACTIVE = "ACTIVE",
-  // EXPIRED = "EXPIRED",
   CANCELED = "CANCELED",
   ENDED = "ENDED",
+  EXPIRED = "EXPIRED",
   REJECTED = "REJECTED",
+}
+
+enum PAYMENT_STATUS {
+  IN_PROGRESS = "IN_PROGRESS",
+  DONE = "DONE", // Authorization Succeeded
+  ABORTED = "ABORTED", // Authorization Failed
+  CANCELED = "CANCELED", // Cancel a payment
+  PARTIAL_CANCELED = "PARTIAL_CANCELED", // Partially cancel a payment
+  EXPIRED = "EXPIRED", // Payment expired
 }
 
 enum DAY_OF_WEEK {
@@ -115,5 +124,6 @@ export {
   COURSE_TYPE,
   COURSE_STATUS,
   SUBSCRIPTION_STATUS,
+  PAYMENT_STATUS,
   DAY_OF_WEEK,
 };

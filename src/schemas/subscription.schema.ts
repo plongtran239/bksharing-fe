@@ -5,7 +5,7 @@ import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 const Subscription = z.object({
   id: z.number(),
   status: z.nativeEnum(SUBSCRIPTION_STATUS),
-  originalPrice: z.string(),
+  originalPrice: z.number(),
   courseStartAt: z.string(),
   courseEndAt: z.string(),
   course: z.object({
@@ -26,7 +26,7 @@ const Subscription = z.object({
 const SubscriptionDetail = z.object({
   id: z.number(),
   status: z.nativeEnum(SUBSCRIPTION_STATUS),
-  orginalPrice: z.string(),
+  orginalPrice: z.number(),
   message: z.string(),
   courseAccessStartAt: z.string(),
   courseAccessEndAt: z.string(),
