@@ -53,13 +53,15 @@ const SubscriptionDetail = z.object({
   mentor: z.object({
     id: z.number(),
     name: z.string(),
-    thumbnail: z.object({
-      fileId: z.number(),
-      fileName: z.string(),
-      fileSize: z.number(),
-      originalUrl: z.string(),
-      versions: z.array(z.unknown()),
-    }),
+    thumbnail: z
+      .object({
+        fileId: z.number(),
+        fileName: z.string(),
+        fileSize: z.number(),
+        originalUrl: z.string(),
+        versions: z.array(z.unknown()),
+      })
+      .nullable(),
   }),
   student: z.object({
     id: z.number(),

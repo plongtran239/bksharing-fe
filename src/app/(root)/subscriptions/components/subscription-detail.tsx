@@ -67,7 +67,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
         <div className="relative h-10 w-10">
           <Image
             src={
-              subscriptionDetail.mentor.thumbnail.originalUrl ||
+              subscriptionDetail.mentor.thumbnail?.originalUrl ||
               "/images/default-user.png"
             }
             alt={subscriptionDetail.mentor.name}
