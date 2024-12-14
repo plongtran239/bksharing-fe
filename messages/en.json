@@ -42,6 +42,7 @@
     "accepted": "Accepted",
     "rejected": "Rejected",
     "scheduled": "Scheduled",
+    "expired": "Expired",
     "ongoing": "Ongoing",
     "finished": "Finished",
     "cancelled": "Cancelled",

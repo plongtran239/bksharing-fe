@@ -66,7 +66,10 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
         </p>
         <div className="relative h-10 w-10">
           <Image
-            src={subscriptionDetail.mentor.thumbnail.originalUrl}
+            src={
+              subscriptionDetail.mentor.thumbnail.originalUrl ||
+              "/images/default-user.png"
+            }
             alt={subscriptionDetail.mentor.name}
             fill
             className="rounded-full"

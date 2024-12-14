@@ -90,14 +90,19 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
         <div className="flex items-center">
           <div className="relative h-10 w-10">
             <Image
-              src="/images/default-user.png"
+              src={
+                item.mentorInfo.thumbnail?.originalUrl ||
+                "/images/default-user.png"
+              }
               alt="avatar"
               fill
               className="rounded-full"
             />
           </div>
-          <div className="ml-4">
-            <p className="font-semibold">{item.course.name}</p>
+
+          <div className="ml-4 space-y-1">
+            <p className="font-semibold text-primary">{item.course.name}</p>
+            <p className="text-sm text-black">{item.mentorInfo.name}</p>
             <p className="text-sm text-gray-500">
               {convertMilisecondsToLocaleString(item.courseStartAt)}
             </p>

@@ -12,11 +12,25 @@ const Subscription = z.object({
     id: z.number(),
     name: z.string(),
   }),
+  mentorInfo: z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string(),
+    phoneNumber: z.string(),
+    thumbnail: z
+      .object({
+        originalUrl: z.string(),
+      })
+      .nullable(),
+  }),
   studentInfo: z.object({
     id: z.number(),
     name: z.string(),
     email: z.string(),
     phoneNumber: z.string(),
+    thumbnail: z.object({
+      originalUrl: z.string(),
+    }),
   }),
   canceledAt: z.string().nullable(),
   approvedAt: z.string().nullable(),
