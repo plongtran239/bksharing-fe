@@ -83,13 +83,26 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
           Thời gian: {""}
           <span className="text-primary">
             {convertMilisecondsToLocaleString(
-              subscriptionDetail.courseAccessStartAt
+              subscriptionDetail.courseAccessStartAt,
+              "vi-VN",
+              {
+                hour: "numeric",
+                minute: "numeric",
+              }
             )}
           </span>
           {" - "}
           <span className="text-primary">
             {convertMilisecondsToLocaleString(
-              subscriptionDetail.courseAccessEndAt
+              subscriptionDetail.courseAccessEndAt,
+              "vi-VN",
+              {
+                hour: "numeric",
+                minute: "numeric",
+                day: "numeric",
+                month: "numeric",
+                year: "numeric",
+              }
             )}
           </span>
         </p>

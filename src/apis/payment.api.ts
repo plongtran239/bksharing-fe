@@ -14,7 +14,14 @@ const paymentApi = {
     ),
 
   verifyPayment: (body: VerifyPaymentRequestType) =>
-    http.post("/client/payments/verify", body),
+    http.post<
+      DetailResponseType<{
+        data: {
+          message: string;
+          vnp_TransactionStatus: string;
+        };
+      }>
+    >("/client/payments/verify", body),
 };
 
 export default paymentApi;

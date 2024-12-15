@@ -14,13 +14,13 @@ const VerifyPayment = () => {
   const params = useSearchParams();
   const { toast } = useToast();
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const { paymentId } = useAppContext();
 
+  const [loading, setLoading] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
-
   const [verifyPaymentRequest, setVerifyPaymentRequest] =
     useState<VerifyPaymentRequestType | null>(null);
+  const [countDown, setCountDown] = useState(5);
 
   useEffect(() => {
     const vnp_Amount = params.get("vnp_Amount");
@@ -59,16 +59,21 @@ const VerifyPayment = () => {
     async function verifyPaymentAPI() {
       try {
         if (verifyPaymentRequest) {
-          await paymentApi.verifyPayment(verifyPaymentRequest);
+          const {
+            payload: { data },
+          } = await paymentApi.verifyPayment(verifyPaymentRequest);
+
+          const isSuccess = data.data.vnp_TransactionStatus === "00";
+
+          setIsSuccess(isSuccess);
+
+          toast({
+            title: isSuccess ? "Thành công" : "Thất bại",
+            description: data.data.message,
+          });
+
+          setLoading(false);
         }
-
-        toast({
-          title: "Succes",
-          description: "Payment is verified",
-        });
-
-        setIsSuccess(true);
-        setLoading(false);
       } catch (error) {
         console.error({ error });
       }
@@ -80,6 +85,18 @@ const VerifyPayment = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [verifyPaymentRequest]);
 
+  useEffect(() => {
+    if (countDown > 0) {
+      const interval = setInterval(() => {
+        setCountDown((prev) => prev - 1);
+      }, 1000);
+
+      return () => clearInterval(interval);
+    } else {
+      router.push("/subscriptions");
+    }
+  }, [countDown, router]);
+
   if (loading) {
     return <Loader description="Đang xử lý thành toán..." />;
   }
@@ -90,7 +107,9 @@ const VerifyPayment = () => {
         <h1 className="text-3xl font-bold text-green-400">
           Thanh toán thành công!
         </h1>
-        <Button onClick={() => router.push("/subscriptions")}>Trở về</Button>
+        <Button onClick={() => router.push("/subscriptions")}>
+          Trở về sau {countDown} giây
+        </Button>
       </div>
     );
   }
@@ -98,7 +117,9 @@ const VerifyPayment = () => {
   return (
     <div className="flex-center flex-col gap-5">
       <h1 className="text-3xl font-bold text-red-500">Thanh toán thất bại!</h1>
-      <Button onClick={() => router.push("/subscriptions")}>Trở về</Button>
+      <Button onClick={() => router.push("/subscriptions")}>
+        Trở về sau {countDown} giây
+      </Button>
     </div>
   );
 };
