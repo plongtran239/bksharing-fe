@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import MentorInfo from "@/app/(root)/(user)/users/[slug]/components/mentor-info";
 import Profile from "@/app/(root)/(user)/users/[slug]/components/profile";
+import StudentChatting from "@/app/(root)/(user)/users/[slug]/components/student-chatting";
 import Suggestions from "@/app/(root)/(user)/users/[slug]/components/suggestions";
 import { ROLES } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
@@ -33,6 +34,8 @@ const User = ({
 
         {role && role === ROLES.MENTOR ? <MentorInfo /> : <Suggestions />}
       </div>
+
+      <StudentChatting />
     </section>
   );
 };

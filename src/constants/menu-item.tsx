@@ -6,6 +6,7 @@ import {
   InfoIcon,
   KeyRoundIcon,
   LibraryIcon,
+  MessageCircleIcon,
   UserIcon,
   UserPlusIcon,
   VideoIcon,
@@ -166,6 +167,11 @@ const MentorSidebarMenuItems: MenuItemsType = [
       label: status.toLowerCase(),
       href: `/mentor/courses?status=${status}`,
     })),
+  },
+  {
+    label: "chat",
+    href: "/mentor/chat",
+    icon: <MessageCircleIcon size={18} strokeWidth={2.5} />,
   },
 ];
 

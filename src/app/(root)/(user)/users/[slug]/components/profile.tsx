@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import { notFound } from "next/navigation";
 
+import ChatButton from "@/app/(root)/(user)/users/[slug]/components/chat-button";
 import CourseTab from "@/app/(root)/(user)/users/[slug]/components/course-tab";
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
@@ -60,7 +61,9 @@ const Profile = async ({ slug }: { slug: string }) => {
             <Progress value={completion} className="w-[200px]" />
           </div>
 
-          <div className="flex-1"></div>
+          <div className="flex flex-1 justify-end">
+            <ChatButton accountId={accountId} />
+          </div>
         </div>
       </div>
 

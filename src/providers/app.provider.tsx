@@ -16,11 +16,15 @@ const AppContext = createContext<{
   setUser: (user: UserType | null) => void;
   paymentId: number | null;
   setPaymentId: (paymentId: number | null) => void;
+  openMessageBox: boolean;
+  setOpenMessageBox: (openMessageBox: boolean) => void;
 }>({
   user: null,
   setUser: () => {},
   paymentId: null,
   setPaymentId: () => {},
+  openMessageBox: false,
+  setOpenMessageBox: () => {},
 });
 
 export const useAppContext = () => {
@@ -36,6 +40,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   const [paymentIdState, setPaymentIdState] = useState<number | null>(() => {
     return null;
   });
+
+  const [openMessageBox, setOpenMessageBox] = useState(false);
 
   const setUser = useCallback(
     (user: UserType | null) => {
@@ -68,6 +74,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
         setUser,
         paymentId: paymentIdState,
         setPaymentId,
+        openMessageBox,
+        setOpenMessageBox,
       }}
     >
       {children}
