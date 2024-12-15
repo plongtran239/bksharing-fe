@@ -27,7 +27,7 @@ const SubscriptionTabs = async () => {
             Chờ thanh toán ({accepted.length})
           </TabsTrigger>
           <TabsTrigger className="px-8" value="active">
-            Đang diễn ra ({active.length})
+            Đang học ({active.length})
           </TabsTrigger>
           <TabsTrigger className="px-8" value="ended">
             Đã kết thúc ({ended.length})

@@ -32,7 +32,7 @@ const AppSidebarContent = ({ role }: { role: string }) => {
           <SidebarMenu className="space-y-2">
             {SidebarMenuItems[role as keyof typeof SidebarMenuItems]?.map(
               (item) => (
-                <Collapsible key={item.label} defaultOpen>
+                <Collapsible key={item.label}>
                   <SidebarMenuItem>
                     <CollapsibleTrigger asChild>
                       <SidebarMenuButton asChild className="text-base">
