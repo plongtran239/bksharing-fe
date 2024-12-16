@@ -8,7 +8,7 @@ import paymentApi from "@/apis/payment.api";
 import subscriptionApi from "@/apis/subscription.api";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { SUBSCRIPTION_STATUS } from "@/constants/enum";
+import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
@@ -33,6 +33,8 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
     item.status === SUBSCRIPTION_STATUS.ACCEPTED;
 
   const hasPaymentButton = item.status === SUBSCRIPTION_STATUS.ACCEPTED;
+
+  const hasJoinMeetingButton = item.audiCall.status === MEETING_STATUS.ONGOING;
 
   const handleCancel = async () => {
     try {
@@ -110,6 +112,10 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
         </div>
 
         <div className="flex-center gap-3">
+          {item.audiCall.status === MEETING_STATUS.SCHEDULED && (
+            <p>Chưa diễn ra</p>
+          )}
+
           {hasPaymentButton && (
             <Button className="px-3" onClick={handleMakePayment}>
               Thanh toán
@@ -124,6 +130,15 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
               disabled={loading}
             >
               Hủy
+            </Button>
+          )}
+
+          {hasJoinMeetingButton && (
+            <Button
+              className="px-4 text-xs"
+              onClick={() => router.push(`/meeting/${item.audiCall.cid}`)}
+            >
+              Vào học
             </Button>
           )}
         </div>

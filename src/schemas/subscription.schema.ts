@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-import { SUBSCRIPTION_STATUS } from "@/constants/enum";
+import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
 
 const Subscription = z.object({
   id: z.number(),
@@ -31,6 +31,10 @@ const Subscription = z.object({
     thumbnail: z.object({
       originalUrl: z.string(),
     }),
+  }),
+  audiCall: z.object({
+    status: z.nativeEnum(MEETING_STATUS),
+    cid: z.string(),
   }),
   canceledAt: z.string().nullable(),
   approvedAt: z.string().nullable(),
@@ -67,6 +71,10 @@ const SubscriptionDetail = z.object({
     id: z.number(),
     name: z.string(),
     email: z.string(),
+  }),
+  audiCall: z.object({
+    status: z.nativeEnum(MEETING_STATUS),
+    cid: z.string(),
   }),
 });
 
