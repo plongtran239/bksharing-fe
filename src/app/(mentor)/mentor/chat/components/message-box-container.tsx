@@ -16,7 +16,7 @@ const MessageBoxContainer = ({ messages }: { messages: string[] }) => {
 
   return (
     <div
-      className="h-80 space-y-2 overflow-y-scroll overscroll-none"
+      className="h-[520px] space-y-2 overflow-y-scroll overscroll-none"
       ref={containerRef}
     >
       {messages.map((message, index) => {
