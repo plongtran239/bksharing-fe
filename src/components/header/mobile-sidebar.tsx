@@ -18,15 +18,14 @@ import {
 } from "@/components/ui/sheet";
 import { ROLES } from "@/constants/enum";
 import { cn } from "@/lib/utils";
-import { AccountType } from "@/schemas";
+import { UserType } from "@/schemas";
 
 interface IProps {
-  user: AccountType | null;
-  role: string;
+  user: UserType | null;
   className?: string;
 }
 
-const MobileSidebar = ({ user, role, className }: IProps) => {
+const MobileSidebar = ({ user, className }: IProps) => {
   const t = useTranslations("");
   const [open, setOpen] = useState(false);
 
@@ -44,7 +43,7 @@ const MobileSidebar = ({ user, role, className }: IProps) => {
           <SheetTitle className="hidden"></SheetTitle>
           <SheetDescription className="hidden"></SheetDescription>
 
-          {role !== ROLES.ADMIN && <Navbar isSidebar />}
+          {user?.accountType !== ROLES.ADMIN && <Navbar isSidebar />}
         </div>
 
         <div className="w-full">
@@ -55,8 +54,8 @@ const MobileSidebar = ({ user, role, className }: IProps) => {
           {user ? (
             <AvatarDropdown
               name={user.name}
-              avatar={user.thumbnail?.originalUrl}
-              role={role}
+              avatar={user.avatar?.originalUrl}
+              role={user.accountType}
               handleClick={handleClick}
               mobileDisplayName={true}
             />

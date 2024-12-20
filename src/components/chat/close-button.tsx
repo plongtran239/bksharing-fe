@@ -5,10 +5,11 @@ import { XIcon } from "lucide-react";
 import { useAppContext } from "@/providers/app.provider";
 
 const CloseButton = () => {
-  const { setOpenMessageBox } = useAppContext();
+  const { setOpenMessageBox, setChatRoomId } = useAppContext();
 
   const handleclose = () => {
     setOpenMessageBox(false);
+    setChatRoomId(null);
   };
 
   return (

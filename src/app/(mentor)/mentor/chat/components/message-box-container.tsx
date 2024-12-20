@@ -2,10 +2,14 @@
 
 import { useEffect, useRef } from "react";
 
+import { MessageType } from "@/app/(mentor)/mentor/chat/components/message-box";
 import ReceiverMessage from "@/components/chat/receiver-message";
 import SenderMessage from "@/components/chat/sender-message";
+import { useAppContext } from "@/providers/app.provider";
 
-const MessageBoxContainer = ({ messages }: { messages: string[] }) => {
+const MessageBoxContainer = ({ messages }: { messages: MessageType[] }) => {
+  const { user } = useAppContext();
+
   const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -20,11 +24,11 @@ const MessageBoxContainer = ({ messages }: { messages: string[] }) => {
       ref={containerRef}
     >
       {messages.map((message, index) => {
-        if (index % 2 === 0 || index % 3 === 0) {
-          return <SenderMessage key={index} message={message} />;
+        if (message.senderId === user?.id) {
+          return <SenderMessage key={index} message={message.content} />;
         }
 
-        return <ReceiverMessage key={index} message={message} />;
+        return <ReceiverMessage key={index} message={message.content} />;
       })}
     </div>
   );

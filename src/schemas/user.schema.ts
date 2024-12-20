@@ -8,6 +8,7 @@ const User = z.object({
   id: z.number(),
   name: z.string(),
   accountType: z.nativeEnum(ROLES),
+  accessToken: z.string(),
   avatar: z
     .object({
       fileId: z.number(),

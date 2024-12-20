@@ -1,11 +1,11 @@
 "use client";
 
-import { SendHorizonalIcon } from "lucide-react";
+import { SendIcon } from "lucide-react";
 import { useState } from "react";
 
 import { Input } from "@/components/ui/input";
 
-const InputBox = ({
+const SendMessageInput = ({
   handleSendMessage,
 }: {
   handleSendMessage: (message: string) => void;
@@ -13,7 +13,7 @@ const InputBox = ({
   const [message, setMessage] = useState("");
 
   return (
-    <div className="flex-center gap-2">
+    <>
       <Input
         value={message}
         onChange={(e) => setMessage(e.target.value)}
@@ -35,9 +35,9 @@ const InputBox = ({
           setMessage("");
         }}
       >
-        <SendHorizonalIcon size={16} className="text-primary" />
+        <SendIcon size={16} className="text-primary" />
       </div>
-    </div>
+    </>
   );
 };
-export default InputBox;
+export default SendMessageInput;

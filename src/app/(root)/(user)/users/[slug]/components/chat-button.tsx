@@ -5,9 +5,24 @@ import { cn } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 
 const ChatButton = ({ accountId }: { accountId: number }) => {
-  const { setOpenMessageBox, user } = useAppContext();
+  const { setOpenMessageBox, user, socketClient, setChatRoomId } =
+    useAppContext();
 
   const handleChat = () => {
+    if (!socketClient) {
+      return;
+    }
+
+    socketClient.emit(
+      "join-room",
+      {
+        receiverId: accountId,
+      },
+      (chatRoomId: number) => {
+        setChatRoomId(chatRoomId);
+      }
+    );
+
     setOpenMessageBox(true);
   };
 

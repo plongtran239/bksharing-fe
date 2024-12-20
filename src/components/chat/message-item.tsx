@@ -1,40 +1,47 @@
+"use client";
+
 import Image from "next/image";
 
-import { cn } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
+import { RoomType } from "@/schemas/chat.schema";
 
 interface IProps {
-  isActive?: boolean;
+  chatRoom: RoomType;
 }
 
-const MessageItem = ({ isActive }: IProps) => {
+const MessageItem = ({ chatRoom }: IProps) => {
+  const { setOpenMessageBox, setChatRoomId } = useAppContext();
+
+  const handleClick = () => {
+    setChatRoomId(chatRoom.id);
+    setOpenMessageBox(true);
+  };
+
   return (
     <div
-      className={cn("flex items-center gap-2 p-3", {
-        "bg-primary/90 text-white": isActive,
-        "hover:bg-primary/30": !isActive,
-      })}
+      className="flex items-center gap-3 p-3 hover:bg-primary/30"
+      onClick={handleClick}
     >
-      <div className="relative h-8 w-8">
+      <div className="relative h-10 w-10">
         <Image
-          src={"/images/default-user.png"}
+          src={
+            chatRoom.receiver.thumbnail?.originalUrl ||
+            "/images/default-user.png"
+          }
           alt=""
           fill
-          sizes=""
-          className={cn("rounded-full", {
-            "bg-white": isActive,
-          })}
+          sizes="100%"
+          className="rounded-full"
         />
       </div>
 
-      <div>
-        <p
-          className={cn("font-semibold text-black", {
-            "text-white": isActive,
-          })}
-        >
-          Nguyễn Văn A
+      <div className="flex-1">
+        <p className="text-base font-semibold text-black">
+          {chatRoom.receiver.name}
         </p>
-        <p className="line-clamp-1 text-sm">Xin chào em</p>
+        <p className="line-clamp-1 text-sm text-foreground">
+          {chatRoom.lastMessageContent || "Chưa có tin nhắn"}
+        </p>
       </div>
     </div>
   );

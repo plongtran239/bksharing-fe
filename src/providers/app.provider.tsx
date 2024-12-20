@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 
+import { Websocket } from "@/lib/websocket";
 import { UserType } from "@/schemas";
 
 const AppContext = createContext<{
@@ -18,6 +19,9 @@ const AppContext = createContext<{
   setPaymentId: (paymentId: number | null) => void;
   openMessageBox: boolean;
   setOpenMessageBox: (openMessageBox: boolean) => void;
+  chatRoomId: number | null;
+  setChatRoomId: (chatRoomId: number | null) => void;
+  socketClient: Websocket | null;
 }>({
   user: null,
   setUser: () => {},
@@ -25,6 +29,9 @@ const AppContext = createContext<{
   setPaymentId: () => {},
   openMessageBox: false,
   setOpenMessageBox: () => {},
+  chatRoomId: null,
+  setChatRoomId: () => {},
+  socketClient: null,
 });
 
 export const useAppContext = () => {
@@ -33,6 +40,10 @@ export const useAppContext = () => {
 };
 
 const AppProvider = ({ children }: PropsWithChildren) => {
+  const [socketClient, setWebsocketClient] = useState<Websocket | null>(() => {
+    return null;
+  });
+
   const [userState, setUserState] = useState<UserType | null>(() => {
     return null;
   });
@@ -42,6 +53,8 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   });
 
   const [openMessageBox, setOpenMessageBox] = useState(false);
+
+  const [chatRoomId, setChatRoomId] = useState<number | null>(null);
 
   const setUser = useCallback(
     (user: UserType | null) => {
@@ -60,6 +73,22 @@ const AppProvider = ({ children }: PropsWithChildren) => {
   );
 
   useEffect(() => {
+    const ws = new Websocket();
+
+    if (userState) {
+      console.log("Connecting to websocket server...");
+      ws.connect(userState.accessToken);
+    }
+
+    setWebsocketClient(ws);
+
+    return () => {
+      console.log("Disconnecting from websocket server...");
+      ws.disconnect();
+    };
+  }, [userState]);
+
+  useEffect(() => {
     const _user = localStorage.getItem("user");
     const _paymentId = localStorage.getItem("paymentId");
 
@@ -76,6 +105,9 @@ const AppProvider = ({ children }: PropsWithChildren) => {
         setPaymentId,
         openMessageBox,
         setOpenMessageBox,
+        chatRoomId,
+        setChatRoomId,
+        socketClient,
       }}
     >
       {children}

@@ -1,18 +1,34 @@
+import { InboxIcon } from "lucide-react";
+
 import MessageItem from "@/components/chat/message-item";
 import { Separator } from "@/components/ui/separator";
+import { RoomType } from "@/schemas/chat.schema";
 
-const MessageList = () => {
+interface IProps {
+  chatRooms: RoomType[];
+}
+
+const MessageList = ({ chatRooms }: IProps) => {
+  if (chatRooms.length === 0) {
+    return (
+      <div className="flex flex-col items-center gap-3 p-5 text-base text-foreground">
+        <InboxIcon size={24} />
+        <p className="text-sm">Không có tin nhắn nào</p>
+      </div>
+    );
+  }
+
   return (
     <div>
-      <h1 className="p-4 text-2xl text-primary">
-        Tin nhắn <span className="text-base">(0)</span>
+      <h1 className="p-4 text-base text-primary">
+        Tin nhắn ({chatRooms.length})
       </h1>
 
       <Separator />
 
-      <div className="max-h-[437px] min-w-60 overflow-y-scroll overscroll-none">
-        {[1, 2, 3].map((item) => (
-          <MessageItem key={item} isActive={item === 1} />
+      <div className="max-h-[437px] w-80 overflow-y-scroll overscroll-none">
+        {chatRooms.map((chatRoom) => (
+          <MessageItem key={chatRoom.id} chatRoom={chatRoom} />
         ))}
       </div>
     </div>
