@@ -32,10 +32,12 @@ const Subscription = z.object({
       originalUrl: z.string(),
     }),
   }),
-  audiCall: z.object({
-    status: z.nativeEnum(MEETING_STATUS),
-    cid: z.string(),
-  }),
+  audiCall: z
+    .object({
+      status: z.nativeEnum(MEETING_STATUS),
+      cid: z.string(),
+    })
+    .nullable(),
   canceledAt: z.string().nullable(),
   approvedAt: z.string().nullable(),
   rejectedAt: z.string().nullable(),

@@ -122,7 +122,17 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {convertMilisecondsToLocaleString(row.getValue("courseStartAt"))}
+          {convertMilisecondsToLocaleString(
+            row.getValue("courseStartAt"),
+            "vi-VN",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+            }
+          )}
         </div>
       ),
     },
@@ -141,7 +151,17 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {convertMilisecondsToLocaleString(row.getValue("courseEndAt"))}
+          {convertMilisecondsToLocaleString(
+            row.getValue("courseEndAt"),
+            "vi-VN",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+            }
+          )}
         </div>
       ),
     },

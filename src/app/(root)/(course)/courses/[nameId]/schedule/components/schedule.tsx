@@ -107,6 +107,8 @@ const Schedule = ({
         message: `Đăng ký khóa học ${courseName} của ${mentorName}`,
       });
 
+      router.push("/subscriptions");
+
       toast({
         title: "Thành công",
         description: "Đặt lịch hẹn thành công, chờ xác nhận từ gia sư",

@@ -34,7 +34,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
   const hasPaymentButton = item.status === SUBSCRIPTION_STATUS.ACCEPTED;
 
-  const hasJoinMeetingButton = item.audiCall.status === MEETING_STATUS.ONGOING;
+  const hasJoinMeetingButton = item.audiCall?.status === MEETING_STATUS.ONGOING;
 
   const handleCancel = async () => {
     try {
@@ -112,9 +112,10 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
         </div>
 
         <div className="flex-center gap-3">
-          {item.audiCall.status === MEETING_STATUS.SCHEDULED && (
-            <p>Chưa diễn ra</p>
-          )}
+          {item.status === SUBSCRIPTION_STATUS.ACTIVE &&
+            item.audiCall?.status === MEETING_STATUS.SCHEDULED && (
+              <p>Chưa diễn ra</p>
+            )}
 
           {hasPaymentButton && (
             <Button className="px-3" onClick={handleMakePayment}>
@@ -136,7 +137,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
           {hasJoinMeetingButton && (
             <Button
               className="px-4 text-xs"
-              onClick={() => router.push(`/meeting/${item.audiCall.cid}`)}
+              onClick={() => router.push(`/meeting/${item.audiCall?.cid}`)}
             >
               Vào học
             </Button>
