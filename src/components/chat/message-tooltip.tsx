@@ -17,11 +17,11 @@ import { NewMessageType, RoomType } from "@/schemas/chat.schema";
 
 const MessageTooltip = () => {
   const { socketClient } = useAppContext();
-
   const [open, setOpen] = useState(false);
-  const tooltipRef = useRef<HTMLDivElement>(null);
-
   const [chatRooms, setChatRooms] = useState<RoomType[]>([]);
+  const [numberOfUnreadMessages, setNumberOfUnreadMessages] = useState(0);
+
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
   // Fetch chat rooms
   const fetchChatRooms = async () => {
@@ -31,6 +31,12 @@ const MessageTooltip = () => {
       } = await chatApi.getChatList();
 
       setChatRooms(data);
+
+      const unreadMessages = data.reduce((acc, room) => {
+        return acc + (!room.isSeen && room.lastMessage.isReceiver ? 1 : 0);
+      }, 0);
+
+      setNumberOfUnreadMessages(unreadMessages);
     } catch (error) {
       console.error({ error });
     }
@@ -50,7 +56,7 @@ const MessageTooltip = () => {
       );
 
       if (updateChatRoom) {
-        updateChatRoom.lastMessageContent = response.content;
+        updateChatRoom.lastMessage.content = response.content;
         updateChatRoom.lastMessageAt = response.createdAt;
         setChatRooms([...chatRooms]);
       } else {
@@ -86,7 +92,15 @@ const MessageTooltip = () => {
           className={cn("hover:text-primary", { "text-primary": open })}
           onClick={() => setOpen(!open)}
         >
-          <MessagesSquareIcon size={18} strokeWidth={2.5} />
+          <div className="relative">
+            <MessagesSquareIcon size={18} strokeWidth={2.5} />
+
+            {numberOfUnreadMessages > 0 && (
+              <span className="absolute -right-4 -top-4 rounded-full bg-primary px-2 py-1 text-xs font-semibold text-white">
+                {numberOfUnreadMessages}
+              </span>
+            )}
+          </div>
         </TooltipTrigger>
 
         <TooltipContent

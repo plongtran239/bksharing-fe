@@ -1,7 +1,6 @@
 "use client";
 
 import { InboxIcon } from "lucide-react";
-import { Dispatch, SetStateAction } from "react";
 
 import MessageItem from "@/app/(mentor)/mentor/chat/components/message-item";
 import { Separator } from "@/components/ui/separator";
@@ -9,15 +8,9 @@ import { RoomType } from "@/schemas/chat.schema";
 
 interface IProps {
   chatRooms: RoomType[];
-  activeChatRoomId: number | null;
-  setActiveChatRoomId: Dispatch<SetStateAction<number | null>>;
 }
 
-const MessageList = ({
-  chatRooms,
-  activeChatRoomId,
-  setActiveChatRoomId,
-}: IProps) => {
+const MessageList = ({ chatRooms }: IProps) => {
   if (chatRooms.length === 0) {
     return (
       <div className="h-[720px] min-w-60 overflow-y-scroll overscroll-none rounded-xl border border-primary">
@@ -40,8 +33,8 @@ const MessageList = ({
       {chatRooms.map((item) => (
         <MessageItem
           key={item.id}
-          isActive={activeChatRoomId === item.id}
-          setActiveChatRoomId={setActiveChatRoomId}
+          // isActive={activeChatRoomId === item.id}
+          // setActiveChatRoomId={setActiveChatRoomId}
           room={item}
         />
       ))}

@@ -10,33 +10,8 @@ import { useAppContext } from "@/providers/app.provider";
 import { NewMessageType, RoomType } from "@/schemas/chat.schema";
 
 const MessageRoom = () => {
-  const { socketClient } = useAppContext();
+  const { socketClient, chatRoomId, setChatRoomId } = useAppContext();
   const [chatRooms, setChatRooms] = useState<RoomType[]>([]);
-  const [activeChatRoomId, setActiveChatRoomId] = useState<number | null>(null);
-
-  useEffect(() => {
-    if (!socketClient) return;
-
-    socketClient.on("newMessage", (response: NewMessageType) => {
-      const newChatRooms = chatRooms.map((chatRoom) => {
-        if (chatRoom.id === response.chatRoomId) {
-          return {
-            ...chatRoom,
-            lastMessageContent: response.content,
-            lastMessageAt: response.createdAt,
-            numOfUnreadMessage: chatRoom.numOfUnreadMessage + 1,
-          };
-        }
-
-        return chatRoom;
-      });
-      setChatRooms(newChatRooms);
-
-      return () => {
-        socketClient.off("newMessage");
-      };
-    });
-  }, [socketClient, chatRooms]);
 
   useEffect(() => {
     async function fetchChatRooms() {
@@ -46,14 +21,58 @@ const MessageRoom = () => {
         } = await chatApi.getChatList();
 
         setChatRooms(data);
-        setActiveChatRoomId(data[0].id);
+
+        if (!chatRoomId && data.length > 0) {
+          setChatRoomId(data[0].id);
+        }
       } catch (error) {
         console.error({ error });
       }
     }
 
     fetchChatRooms();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (!socketClient) return;
+
+    socketClient.on("newMessage", async (response: NewMessageType) => {
+      const updateChatRoom = chatRooms.find(
+        (chatRoom) => chatRoom.id === response.chatRoomId
+      );
+
+      if (updateChatRoom) {
+        updateChatRoom.lastMessage.content = response.content;
+        updateChatRoom.lastMessageAt = response.createdAt;
+
+        setChatRooms((prev) => {
+          const temp = [...prev];
+          const index = temp.findIndex(
+            (chatRoom) => chatRoom.id === response.chatRoomId
+          );
+          temp[index] = updateChatRoom;
+
+          return temp;
+        });
+      } else {
+        try {
+          const {
+            payload: { data },
+          } = await chatApi.getChatList();
+
+          setChatRooms(data);
+        } catch (error) {
+          console.error({ error });
+        }
+      }
+    });
+
+    return () => {
+      socketClient.off("newMessage");
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [socketClient]);
 
   return (
     <div className="grid grid-cols-3 gap-5">
@@ -63,14 +82,10 @@ const MessageRoom = () => {
           "col-span-3": chatRooms.length === 0,
         })}
       >
-        <MessageList
-          chatRooms={chatRooms}
-          activeChatRoomId={activeChatRoomId}
-          setActiveChatRoomId={setActiveChatRoomId}
-        />
+        <MessageList chatRooms={chatRooms} />
       </div>
 
-      <MessageBox activeChatRoomId={activeChatRoomId} />
+      <MessageBox />
     </div>
   );
 };

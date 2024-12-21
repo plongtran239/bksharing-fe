@@ -13,7 +13,10 @@ const Receiver = z.object({
 const Room = z.object({
   id: z.number(),
   numOfUnreadMessage: z.number(),
-  lastMessageContent: z.string(),
+  lastMessage: z.object({
+    isReceiver: z.boolean(),
+    content: z.string(),
+  }),
   lastMessageAt: z.string(), // miliseconds
   isSeen: z.boolean(),
   receiver: Receiver,

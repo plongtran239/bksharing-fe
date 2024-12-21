@@ -89,6 +89,10 @@ const DetailChat = ({}: IProps) => {
       type: "TEXT",
       receiverId: detailRoom.receiver.id,
     });
+
+    socketClient.emit("read-message", {
+      chatRoomId: chatRoomId,
+    });
   };
 
   if (loading) {

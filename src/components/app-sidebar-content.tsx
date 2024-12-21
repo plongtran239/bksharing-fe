@@ -3,7 +3,9 @@
 import { ChevronDown } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
+import chatApi from "@/apis/chat.api";
 import {
   Collapsible,
   CollapsibleContent,
@@ -21,9 +23,47 @@ import {
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
 import { SidebarMenuItems } from "@/constants/menu-item";
+import { useAppContext } from "@/providers/app.provider";
 
 const AppSidebarContent = ({ role }: { role: string }) => {
   const t = useTranslations("sidebar");
+
+  const { socketClient } = useAppContext();
+
+  const [numberOfUnreadMessages, setNumberOfUnreadMessages] = useState(0);
+
+  // Fetch chat rooms
+  const fetchChatRooms = async () => {
+    try {
+      const {
+        payload: { data },
+      } = await chatApi.getChatList();
+
+      const unreadMessages = data.reduce((acc, room) => {
+        return acc + (!room.isSeen && room.lastMessage.isReceiver ? 1 : 0);
+      }, 0);
+
+      setNumberOfUnreadMessages(unreadMessages);
+    } catch (error) {
+      console.error({ error });
+    }
+  };
+
+  useEffect(() => {
+    fetchChatRooms();
+  }, []);
+
+  useEffect(() => {
+    if (!socketClient) return;
+
+    socketClient.on("newMessage", () => {
+      fetchChatRooms();
+    });
+
+    return () => {
+      socketClient.off("newMessage");
+    };
+  }, [socketClient]);
 
   return (
     <SidebarContent>
@@ -31,46 +71,73 @@ const AppSidebarContent = ({ role }: { role: string }) => {
         <SidebarGroupContent>
           <SidebarMenu className="space-y-2">
             {SidebarMenuItems[role as keyof typeof SidebarMenuItems]?.map(
-              (item) => (
-                <Collapsible key={item.label}>
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
-                      <SidebarMenuButton asChild className="text-base">
-                        {item.subs ? (
-                          <div className="flex-between">
+              (item) => {
+                if (item.label === "chat") {
+                  return (
+                    <SidebarMenuItem key={item.label}>
+                      <Link href={item.href}>
+                        <SidebarMenuButton className="text-base">
+                          <div className="flex-between w-full">
                             <div className="flex-center gap-2">
                               {item.icon}
                               {t(item.label)}
                             </div>
-                            {item.subs && <ChevronDown size={20} />}
+                            {numberOfUnreadMessages > 0 && (
+                              <div className="flex-center h-5 w-5 rounded-full bg-primary text-sm text-white">
+                                {numberOfUnreadMessages}
+                              </div>
+                            )}
                           </div>
-                        ) : (
-                          <Link href={item.href}>
-                            {item.icon}
-                            {t(item.label)}
-                          </Link>
-                        )}
-                      </SidebarMenuButton>
-                    </CollapsibleTrigger>
+                        </SidebarMenuButton>
+                      </Link>
+                    </SidebarMenuItem>
+                  );
+                }
 
-                    <CollapsibleContent>
-                      {item.subs && (
-                        <SidebarMenuSub>
-                          {item.subs.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.label}>
-                              <SidebarMenuSubButton asChild className="text-sm">
-                                <Link href={subItem.href}>
-                                  {t(subItem.label)}
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      )}
-                    </CollapsibleContent>
-                  </SidebarMenuItem>
-                </Collapsible>
-              )
+                return (
+                  <Collapsible key={item.label}>
+                    <SidebarMenuItem>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuButton asChild className="text-base">
+                          {item.subs ? (
+                            <div className="flex-between">
+                              <div className="flex-center gap-2">
+                                {item.icon}
+                                {t(item.label)}
+                              </div>
+                              {item.subs && <ChevronDown size={20} />}
+                            </div>
+                          ) : (
+                            <Link href={item.href}>
+                              {item.icon}
+                              {t(item.label)}
+                            </Link>
+                          )}
+                        </SidebarMenuButton>
+                      </CollapsibleTrigger>
+
+                      <CollapsibleContent>
+                        {item.subs && (
+                          <SidebarMenuSub>
+                            {item.subs.map((subItem) => (
+                              <SidebarMenuSubItem key={subItem.label}>
+                                <SidebarMenuSubButton
+                                  asChild
+                                  className="text-sm"
+                                >
+                                  <Link href={subItem.href}>
+                                    {t(subItem.label)}
+                                  </Link>
+                                </SidebarMenuSubButton>
+                              </SidebarMenuSubItem>
+                            ))}
+                          </SidebarMenuSub>
+                        )}
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                );
+              }
             )}
           </SidebarMenu>
         </SidebarGroupContent>

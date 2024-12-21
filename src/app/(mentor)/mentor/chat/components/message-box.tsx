@@ -17,12 +17,8 @@ export type MessageType = {
   senderId: number;
 };
 
-interface IProps {
-  activeChatRoomId: number | null;
-}
-
-const MessageBox = ({ activeChatRoomId }: IProps) => {
-  const { socketClient } = useAppContext();
+const MessageBox = () => {
+  const { socketClient, chatRoomId } = useAppContext();
   const [loading, setLoading] = useState(false);
   const [room, setRoom] = useState<DetailRoomType | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
@@ -52,10 +48,10 @@ const MessageBox = ({ activeChatRoomId }: IProps) => {
     async function fetchDetailRoom() {
       try {
         setLoading(true);
-        if (activeChatRoomId) {
+        if (chatRoomId) {
           const {
             payload: { data },
-          } = await chatApi.getChatDetail(activeChatRoomId);
+          } = await chatApi.getChatDetail(chatRoomId);
 
           setRoom(data);
 
@@ -71,7 +67,7 @@ const MessageBox = ({ activeChatRoomId }: IProps) => {
     }
 
     fetchDetailRoom();
-  }, [activeChatRoomId]);
+  }, [chatRoomId]);
 
   const handleSendMessage = (message: string) => {
     if (!socketClient || !room) {
@@ -82,6 +78,10 @@ const MessageBox = ({ activeChatRoomId }: IProps) => {
       message,
       type: "TEXT",
       receiverId: room.receiver.id,
+    });
+
+    socketClient.emit("read-message", {
+      chatRoomId: room.id,
     });
   };
 
