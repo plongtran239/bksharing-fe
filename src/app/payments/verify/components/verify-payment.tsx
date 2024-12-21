@@ -70,6 +70,7 @@ const VerifyPayment = () => {
           toast({
             title: isSuccess ? "Thành công" : "Thất bại",
             description: data.data.message,
+            variant: isSuccess ? "default" : "destructive",
           });
 
           setLoading(false);

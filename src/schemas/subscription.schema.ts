@@ -1,6 +1,10 @@
 import { z } from "zod";
 
-import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
+import {
+  MEETING_STATUS,
+  PAYMENT_STATUS,
+  SUBSCRIPTION_STATUS,
+} from "@/constants/enum";
 
 const Subscription = z.object({
   id: z.number(),
@@ -36,6 +40,12 @@ const Subscription = z.object({
     .object({
       status: z.nativeEnum(MEETING_STATUS),
       cid: z.string(),
+    })
+    .nullable(),
+  payment: z
+    .object({
+      status: z.nativeEnum(PAYMENT_STATUS),
+      price: z.number(),
     })
     .nullable(),
   canceledAt: z.string().nullable(),

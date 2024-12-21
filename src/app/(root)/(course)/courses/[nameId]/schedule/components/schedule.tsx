@@ -109,6 +109,8 @@ const Schedule = ({
 
       router.push("/subscriptions");
 
+      router.refresh();
+
       toast({
         title: "Thành công",
         description: "Đặt lịch hẹn thành công, chờ xác nhận từ gia sư",

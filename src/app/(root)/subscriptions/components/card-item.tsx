@@ -4,7 +4,6 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 
-import paymentApi from "@/apis/payment.api";
 import subscriptionApi from "@/apis/subscription.api";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
@@ -61,18 +60,27 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
   const handleMakePayment = async () => {
     try {
-      const {
-        payload: { data },
-      } = await paymentApi.makePayment({
-        courseId: item.course.id,
-        subscriptionId: item.id,
-        amount: item.originalPrice,
-        description: item.course.name,
-      });
+      if (item.payment) {
+        const {
+          payload: { data },
+        } = await subscriptionApi.continueMakePaymentSubscription(item.id, {
+          message: `Thanh toán tiếp cho khóa học ${item.course.name}`,
+        });
 
-      setPaymentId(data.payment.id);
+        setPaymentId(data.payment.id);
 
-      router.push(data.url);
+        router.push(data.url);
+      } else {
+        const {
+          payload: { data },
+        } = await subscriptionApi.makePaymentSubScription(item.id, {
+          message: `Thanh toán cho khóa học ${item.course.name}`,
+        });
+
+        setPaymentId(data.payment.id);
+
+        router.push(data.url);
+      }
     } catch (error) {
       console.error({ error });
     }
@@ -106,7 +114,13 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
             <p className="font-semibold text-primary">{item.course.name}</p>
             <p className="text-sm text-black">{item.mentorInfo.name}</p>
             <p className="text-sm text-gray-500">
-              {convertMilisecondsToLocaleString(item.courseStartAt)}
+              {convertMilisecondsToLocaleString(item.courseStartAt, "vi-VN", {
+                year: "numeric",
+                month: "2-digit",
+                day: "2-digit",
+                hour: "2-digit",
+                minute: "2-digit",
+              })}
             </p>
           </div>
         </div>
@@ -116,6 +130,10 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
             item.audiCall?.status === MEETING_STATUS.SCHEDULED && (
               <p>Chưa diễn ra</p>
             )}
+
+          {item.audiCall?.status === MEETING_STATUS.FINISHED && (
+            <p>Đã kết thúc</p>
+          )}
 
           {hasPaymentButton && (
             <Button className="px-3" onClick={handleMakePayment}>

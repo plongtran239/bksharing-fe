@@ -1,5 +1,6 @@
 import http from "@/lib/http";
-import { ListResponseType } from "@/schemas";
+import { DetailResponseType, ListResponseType } from "@/schemas";
+import { MakePaymentResponseType } from "@/schemas/payment.schema";
 import {
   SubscriptionDetailType,
   SubscriptionType,
@@ -32,6 +33,24 @@ const subscriptionApi = {
 
   cancelSubscription: (subscriptionId: number) =>
     http.patch(`/client/subscriptions/${subscriptionId}/cancel`),
+
+  makePaymentSubScription: (
+    subscriptionId: number,
+    body: { message: string }
+  ) =>
+    http.post<DetailResponseType<MakePaymentResponseType>>(
+      `/client/subscriptions/${subscriptionId}/payments`,
+      body
+    ),
+
+  continueMakePaymentSubscription: (
+    subscriptionId: number,
+    body: { message: string }
+  ) =>
+    http.put<DetailResponseType<MakePaymentResponseType>>(
+      `/client/subscriptions/${subscriptionId}/payments`,
+      body
+    ),
 };
 
 export default subscriptionApi;

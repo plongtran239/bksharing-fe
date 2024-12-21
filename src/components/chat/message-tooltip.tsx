@@ -91,7 +91,7 @@ const MessageTooltip = () => {
 
         <TooltipContent
           ref={tooltipRef}
-          className="border border-primary bg-white"
+          className="translate-y-6 border border-primary bg-white"
         >
           <MessageList chatRooms={chatRooms} />
         </TooltipContent>
