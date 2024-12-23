@@ -12,6 +12,15 @@ const SendMessageInput = ({
 }) => {
   const [message, setMessage] = useState("");
 
+  const handleSubmit = () => {
+    if (message.trim().length === 0) {
+      return;
+    }
+
+    handleSendMessage(message);
+    setMessage("");
+  };
+
   return (
     <>
       <Input
@@ -20,8 +29,7 @@ const SendMessageInput = ({
         placeholder="Aa"
         onKeyDown={(e) => {
           if (e.key === "Enter") {
-            handleSendMessage(message);
-            setMessage("");
+            handleSubmit();
           }
         }}
         className="rounded-full"
@@ -30,10 +38,7 @@ const SendMessageInput = ({
 
       <div
         className="group cursor-pointer rounded-full border border-transparent p-2 hover:border-primary"
-        onClick={() => {
-          handleSendMessage(message);
-          setMessage("");
-        }}
+        onClick={handleSubmit}
       >
         <SendIcon size={16} className="text-primary" />
       </div>
