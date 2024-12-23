@@ -6,9 +6,11 @@ import {
   useCallback,
   useContext,
   useEffect,
+  useRef,
   useState,
 } from "react";
 
+import { ROLES } from "@/constants/enum";
 import { Websocket } from "@/lib/websocket";
 import { UserType } from "@/schemas";
 
@@ -40,20 +42,15 @@ export const useAppContext = () => {
 };
 
 const AppProvider = ({ children }: PropsWithChildren) => {
-  const [socketClient, setWebsocketClient] = useState<Websocket | null>(() => {
-    return null;
-  });
+  const [socketClient, setSocketClient] = useState<Websocket | null>(null);
+  const socketClientRef = useRef<Websocket | null>(null);
 
-  const [userState, setUserState] = useState<UserType | null>(() => {
-    return null;
-  });
-
-  const [paymentIdState, setPaymentIdState] = useState<number | null>(() => {
-    return null;
-  });
+  const [userState, setUserState] = useState<UserType | null>(() => null);
+  const [paymentIdState, setPaymentIdState] = useState<number | null>(
+    () => null
+  );
 
   const [openMessageBox, setOpenMessageBox] = useState(false);
-
   const [chatRoomId, setChatRoomId] = useState<number | null>(null);
 
   const setUser = useCallback(
@@ -63,7 +60,6 @@ const AppProvider = ({ children }: PropsWithChildren) => {
     },
     [setUserState]
   );
-
   const setPaymentId = useCallback(
     (paymentId: number | null) => {
       setPaymentIdState(paymentId);
@@ -74,17 +70,30 @@ const AppProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const ws = new Websocket();
+    socketClientRef.current = ws;
 
-    if (userState) {
-      console.log("Connecting to websocket server...");
-      ws.connect(userState.accessToken);
-    }
-
-    setWebsocketClient(ws);
+    setSocketClient(ws);
 
     return () => {
       console.log("Disconnecting from websocket server...");
       ws.disconnect();
+    };
+  }, []);
+
+  useEffect(() => {
+    if (userState?.accountType === ROLES.ADMIN && socketClientRef.current) {
+      console.log("Admin is not allowed to connect to websocket server.");
+      socketClientRef.current.disconnect();
+    } else {
+      if (userState && socketClientRef.current) {
+        console.log("Connecting to websocket server...");
+        socketClientRef.current.connect(userState?.accessToken);
+      }
+    }
+
+    return () => {
+      console.log("Disconnecting from websocket server...");
+      socketClientRef.current?.disconnect();
     };
   }, [userState]);
 

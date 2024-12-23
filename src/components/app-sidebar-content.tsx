@@ -22,13 +22,14 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
 } from "@/components/ui/sidebar";
+import { ROLES } from "@/constants/enum";
 import { SidebarMenuItems } from "@/constants/menu-item";
 import { useAppContext } from "@/providers/app.provider";
 
 const AppSidebarContent = ({ role }: { role: string }) => {
   const t = useTranslations("sidebar");
 
-  const { socketClient } = useAppContext();
+  const { user, socketClient } = useAppContext();
 
   const [numberOfUnreadMessages, setNumberOfUnreadMessages] = useState(0);
 
@@ -50,11 +51,13 @@ const AppSidebarContent = ({ role }: { role: string }) => {
   };
 
   useEffect(() => {
-    fetchChatRooms();
-  }, []);
+    if (user?.accountType === ROLES.MENTOR) {
+      fetchChatRooms();
+    }
+  }, [user]);
 
   useEffect(() => {
-    if (!socketClient) return;
+    if (!socketClient || user?.accountType === ROLES.ADMIN) return;
 
     socketClient.on("newMessage", () => {
       fetchChatRooms();
@@ -63,7 +66,7 @@ const AppSidebarContent = ({ role }: { role: string }) => {
     return () => {
       socketClient.off("newMessage");
     };
-  }, [socketClient]);
+  }, [socketClient, user]);
 
   return (
     <SidebarContent>

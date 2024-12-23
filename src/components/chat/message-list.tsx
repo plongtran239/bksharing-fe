@@ -1,14 +1,24 @@
 import { InboxIcon } from "lucide-react";
 
 import MessageItem from "@/components/chat/message-item";
+import Loader from "@/components/loader";
 import { Separator } from "@/components/ui/separator";
 import { RoomType } from "@/schemas/chat.schema";
 
 interface IProps {
   chatRooms: RoomType[];
+  loading?: boolean;
 }
 
-const MessageList = ({ chatRooms }: IProps) => {
+const MessageList = ({ chatRooms, loading }: IProps) => {
+  if (loading) {
+    return (
+      <div className="flex flex-col items-center gap-3 p-5 text-base text-foreground">
+        <Loader />
+      </div>
+    );
+  }
+
   if (chatRooms.length === 0) {
     return (
       <div className="flex flex-col items-center gap-3 p-5 text-base text-foreground">

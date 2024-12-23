@@ -9,6 +9,7 @@ import MessageBoxDialog from "@/components/chat/message-box-dialog";
 import MessageTooltip from "@/components/chat/message-tooltip";
 import MobileSidebar from "@/components/header/mobile-sidebar";
 import Navbar from "@/components/header/navbar";
+import NotificationTooltip from "@/components/notification/notification-tooltip";
 // import LangSwitcher from "@/components/lang-switcher";
 import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
@@ -40,6 +41,8 @@ const Header = () => {
             {user ? (
               <div className="flex-center space-x-5">
                 <MessageTooltip />
+
+                <NotificationTooltip />
 
                 <AvatarDropdown
                   name={user.name}

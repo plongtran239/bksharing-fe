@@ -3,8 +3,10 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 import authApi from "@/apis/auth.api";
+import fcmApi from "@/apis/fcm.api";
 import { ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
+import { generateFcmToken } from "@/lib/firebase";
 import { useAppContext } from "@/providers/app.provider";
 import { LoginRequestType } from "@/schemas";
 
@@ -20,13 +22,25 @@ export const useLogin = () => {
 
     try {
       const result = await authApi.login(values);
+
       const data = result.payload.data;
+
+      const fcmToken = await generateFcmToken();
+
+      if (!fcmToken) {
+        throw new Error("generate FCM Token failed");
+      }
+
+      await fcmApi.registerToken({ token: fcmToken });
+
       await authApi.auth({
         sessionToken: data.accessToken,
         role: data.accountType,
       });
 
       setUser(data);
+
+      localStorage.setItem("fcmToken", fcmToken);
 
       toast({
         title: t("success"),
@@ -35,13 +49,13 @@ export const useLogin = () => {
 
       switch (data.accountType) {
         case ROLES.ADMIN:
-          router.push("/admin/dashboard");
+          router.replace("/admin/dashboard");
           break;
         case ROLES.MENTOR:
-          router.push("/mentor/courses");
+          router.replace("/mentor/courses");
           break;
         case ROLES.STUDENT:
-          router.push("/");
+          router.replace("/");
           break;
         default:
           break;

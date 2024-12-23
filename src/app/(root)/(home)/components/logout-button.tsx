@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import authApi from "@/apis/auth.api";
+import fcmApi from "@/apis/fcm.api";
 import { DropdownMenuItem } from "@/components/ui/dropdown-menu";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
@@ -16,12 +17,21 @@ interface LogoutButtonProps {
 const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
   const router = useRouter();
   const { toast } = useToast();
-  const { setUser } = useAppContext();
   const tCommon = useTranslations("common");
   const tMessages = useTranslations("messages");
 
+  const { setUser, setOpenMessageBox } = useAppContext();
+
   const handleLogout = async () => {
+    const fcmToken = localStorage.getItem("fcmToken");
+
+    if (!fcmToken) {
+      return;
+    }
+
     try {
+      await fcmApi.removeToken({ token: fcmToken });
+
       await authApi.logout();
 
       toast({
@@ -29,12 +39,13 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
         description: tMessages("logoutSuccess") + "!",
       });
 
-      setUser(null);
-
       localStorage.clear();
 
+      setUser(null);
+
+      setOpenMessageBox(false);
+
       router.push("/");
-      router.refresh();
     } catch (error) {
       console.error({ error });
     }

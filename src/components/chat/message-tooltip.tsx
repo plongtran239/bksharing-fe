@@ -18,6 +18,7 @@ import { NewMessageType, RoomType } from "@/schemas/chat.schema";
 const MessageTooltip = () => {
   const { socketClient } = useAppContext();
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [chatRooms, setChatRooms] = useState<RoomType[]>([]);
   const [numberOfUnreadMessages, setNumberOfUnreadMessages] = useState(0);
 
@@ -25,6 +26,7 @@ const MessageTooltip = () => {
 
   // Fetch chat rooms
   const fetchChatRooms = async () => {
+    setLoading(true);
     try {
       const {
         payload: { data },
@@ -39,6 +41,8 @@ const MessageTooltip = () => {
       setNumberOfUnreadMessages(unreadMessages);
     } catch (error) {
       console.error({ error });
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -107,7 +111,7 @@ const MessageTooltip = () => {
           ref={tooltipRef}
           className="translate-y-6 border border-primary bg-white"
         >
-          <MessageList chatRooms={chatRooms} />
+          <MessageList chatRooms={chatRooms} loading={loading} />
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
