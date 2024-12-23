@@ -13,6 +13,8 @@ const ChatButton = ({ accountId }: { accountId: number }) => {
       return;
     }
 
+    console.log({ socketClient });
+
     socketClient.emit(
       "join-room",
       {

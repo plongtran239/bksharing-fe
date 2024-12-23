@@ -18,7 +18,7 @@ const NotificationTooltip = () => {
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  // const [unreadNotifications, setUnreadNotifications] = useState(0);
+  const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
 
@@ -46,6 +46,12 @@ const NotificationTooltip = () => {
         } = await notificationApi.getNotifications();
 
         setNotifications(data);
+
+        const numberOfUnreadNotifications = data.filter(
+          (notification) => !notification.isRead
+        ).length;
+
+        setUnreadNotifications(numberOfUnreadNotifications);
       } catch (error) {
         console.error({ error });
       } finally {
@@ -66,6 +72,12 @@ const NotificationTooltip = () => {
         >
           <div className="relative">
             <BellIcon size={18} strokeWidth={2.5} />
+
+            {unreadNotifications > 0 && (
+              <span className="absolute -right-4 -top-4 rounded-full bg-primary px-2 py-1 text-xs font-semibold text-white">
+                {unreadNotifications}
+              </span>
+            )}
           </div>
         </TooltipTrigger>
 

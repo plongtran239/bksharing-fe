@@ -1,6 +1,8 @@
 import { PackageOpenIcon } from "lucide-react";
 
 import Loader from "@/components/loader";
+import NotificationItem from "@/components/notification/notification-item";
+import { Separator } from "@/components/ui/separator";
 import { NotificationType } from "@/schemas/notification.schema";
 
 interface IProps {
@@ -26,6 +28,20 @@ const NotificationList = ({ notifications, loading }: IProps) => {
     );
   }
 
-  return <div>NotificationList</div>;
+  return (
+    <div>
+      <h1 className="p-4 text-base text-primary">
+        Thông báo ({notifications.length})
+      </h1>
+
+      <Separator />
+
+      <div className="max-h-[437px] w-80 overflow-y-scroll overscroll-none">
+        {notifications.map((notification) => (
+          <NotificationItem key={notification.id} notification={notification} />
+        ))}
+      </div>
+    </div>
+  );
 };
 export default NotificationList;
