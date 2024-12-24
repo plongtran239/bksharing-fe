@@ -14,7 +14,7 @@ import {
 import { cn } from "@/lib/utils";
 import { NotificationType } from "@/schemas/notification.schema";
 
-const NotificationTooltip = () => {
+const NotificationTooltip = ({ className }: { className?: string }) => {
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
@@ -83,7 +83,10 @@ const NotificationTooltip = () => {
 
         <TooltipContent
           ref={tooltipRef}
-          className="translate-y-6 border border-primary bg-white"
+          className={cn(
+            "translate-y-6 border border-primary bg-white",
+            className
+          )}
         >
           <NotificationList notifications={notifications} loading={loading} />
         </TooltipContent>

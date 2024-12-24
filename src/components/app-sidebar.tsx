@@ -5,6 +5,7 @@ import userApi from "@/apis/user.api";
 import AppSidebarContent from "@/components/app-sidebar-content";
 import AvatarDropdown from "@/components/avatar-dropdown";
 import LangSwitcher from "@/components/lang-switcher";
+import NotificationTooltip from "@/components/notification/notification-tooltip";
 import {
   Sidebar,
   SidebarFooter,
@@ -64,6 +65,9 @@ const AppSidebar = async () => {
             isSidebar
             mobileDisplayName
           />
+
+          <NotificationTooltip className="-translate-y-4" />
+
           <LangSwitcher lang={lang} />
         </div>
       </SidebarFooter>

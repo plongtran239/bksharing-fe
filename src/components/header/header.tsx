@@ -9,12 +9,12 @@ import MessageBoxDialog from "@/components/chat/message-box-dialog";
 import MessageTooltip from "@/components/chat/message-tooltip";
 import MobileSidebar from "@/components/header/mobile-sidebar";
 import Navbar from "@/components/header/navbar";
+import LangSwitcher from "@/components/lang-switcher";
 import NotificationTooltip from "@/components/notification/notification-tooltip";
-// import LangSwitcher from "@/components/lang-switcher";
 import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
 
-const Header = () => {
+const Header = ({ lang }: { lang: string }) => {
   const { user, openMessageBox } = useAppContext();
 
   return (
@@ -54,7 +54,7 @@ const Header = () => {
               <AuthButton />
             )}
 
-            {/* <LangSwitcher lang={lang} /> */}
+            <LangSwitcher lang={lang} />
 
             <MobileSidebar user={user} className="lg:hidden" />
           </div>
