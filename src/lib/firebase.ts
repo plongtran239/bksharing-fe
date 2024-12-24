@@ -18,14 +18,20 @@ export const vapidKey = envConfig.firebaseConfig.NEXT_PUBLIC_VAPID_KEY;
 const firebaseApp = initializeApp(firebaseConfig);
 
 const generateFcmToken = async () => {
+  const messaging = getMessaging(firebaseApp);
+
   try {
-    const messaging = getMessaging(firebaseApp);
+    const permission = await Notification.requestPermission();
 
-    const token = await getToken(messaging, {
-      vapidKey,
-    });
+    console.log("notification permission", permission);
 
-    return token;
+    if (permission === "granted") {
+      const token = await getToken(messaging, {
+        vapidKey,
+      });
+
+      return token;
+    }
   } catch (error) {
     console.error({ error });
   }

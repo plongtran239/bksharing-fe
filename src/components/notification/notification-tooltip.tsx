@@ -11,16 +11,49 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { NotificationType } from "@/schemas/notification.schema";
 
 const NotificationTooltip = ({ className }: { className?: string }) => {
+  const { toast } = useToast();
+
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
   const [unreadNotifications, setUnreadNotifications] = useState(0);
 
   const [notifications, setNotifications] = useState<NotificationType[]>([]);
+
+  useEffect(() => {
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker
+        .register("/firebase-messaging-sw.js")
+        .then((res) => console.log("service worker registered", res))
+        .catch((err) =>
+          console.error("service worker registration failed", err)
+        );
+
+      navigator.serviceWorker.addEventListener("message", ({ data }) => {
+        toast({
+          title: data.notification.title,
+          description: JSON.parse(data.notification.body).content,
+          variant: "default",
+        });
+      });
+    }
+
+    return () => {
+      navigator.serviceWorker.removeEventListener("message", ({ data }) => {
+        toast({
+          title: data.notification.title,
+          description: JSON.parse(data.notification.body).content,
+          variant: "default",
+        });
+      });
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   // Close tooltip when click outside
   useEffect(() => {

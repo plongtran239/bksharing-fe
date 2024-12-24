@@ -27,11 +27,11 @@ export const useLogin = () => {
 
       const fcmToken = await generateFcmToken();
 
-      if (!fcmToken) {
-        throw new Error("generate FCM Token failed");
-      }
+      if (fcmToken) {
+        await fcmApi.registerToken({ token: fcmToken });
 
-      await fcmApi.registerToken({ token: fcmToken });
+        localStorage.setItem("fcmToken", fcmToken);
+      }
 
       await authApi.auth({
         sessionToken: data.accessToken,
@@ -39,8 +39,6 @@ export const useLogin = () => {
       });
 
       setUser(data);
-
-      localStorage.setItem("fcmToken", fcmToken);
 
       toast({
         title: t("success"),

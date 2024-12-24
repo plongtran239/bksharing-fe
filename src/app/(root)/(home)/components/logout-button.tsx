@@ -25,13 +25,11 @@ const LogoutButton = ({ handleClick }: LogoutButtonProps) => {
   const handleLogout = async () => {
     const fcmToken = localStorage.getItem("fcmToken");
 
-    if (!fcmToken) {
-      return;
+    if (fcmToken) {
+      await fcmApi.removeToken({ token: fcmToken });
     }
 
     try {
-      await fcmApi.removeToken({ token: fcmToken });
-
       await authApi.logout();
 
       toast({
