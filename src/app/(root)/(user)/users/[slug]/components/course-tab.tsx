@@ -8,10 +8,19 @@ import { generateNameId } from "@/lib/utils";
 
 interface IProps {
   mentorId: number;
+  isAccepted: boolean;
 }
 
-const CourseTab = async ({ mentorId }: IProps) => {
+const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
+  if (!isAccepted) {
+    return (
+      <div className="w-full rounded-xl bg-white p-5">
+        <p>No courses available for this mentor yet!</p>
+      </div>
+    );
+  }
 
   const {
     payload: { data: courses },

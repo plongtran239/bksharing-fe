@@ -13,19 +13,40 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { NotificationType } from "@/schemas/notification.schema";
+import useNotificationStore from "@/stores/notification.store";
 
 const NotificationTooltip = ({ className }: { className?: string }) => {
   const { toast } = useToast();
 
+  const {
+    notifications,
+    numberOfUnreadNotifications,
+    setNotifications,
+    addNotification,
+  } = useNotificationStore();
+
   const [open, setOpen] = useState(false);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(false);
-  const [unreadNotifications, setUnreadNotifications] = useState(0);
 
-  const [notifications, setNotifications] = useState<NotificationType[]>([]);
+  const fetchNotifications = async () => {
+    setLoading(true);
+    try {
+      const {
+        payload: { data },
+      } = await notificationApi.getNotifications();
+
+      setNotifications(data);
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
+    fetchNotifications();
+
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker
         .register("/firebase-messaging-sw.js")
@@ -40,6 +61,8 @@ const NotificationTooltip = ({ className }: { className?: string }) => {
           description: JSON.parse(data.notification.body).content,
           variant: "default",
         });
+
+        addNotification(JSON.parse(data.notification.body));
       });
     }
 
@@ -70,31 +93,6 @@ const NotificationTooltip = ({ className }: { className?: string }) => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    async function fetchNotifications() {
-      setLoading(true);
-      try {
-        const {
-          payload: { data },
-        } = await notificationApi.getNotifications();
-
-        setNotifications(data);
-
-        const numberOfUnreadNotifications = data.filter(
-          (notification) => !notification.isRead
-        ).length;
-
-        setUnreadNotifications(numberOfUnreadNotifications);
-      } catch (error) {
-        console.error({ error });
-      } finally {
-        setLoading(false);
-      }
-    }
-
-    fetchNotifications();
-  }, []);
-
   return (
     <TooltipProvider>
       <Tooltip open={open}>
@@ -106,9 +104,9 @@ const NotificationTooltip = ({ className }: { className?: string }) => {
           <div className="relative">
             <BellIcon size={18} strokeWidth={2.5} />
 
-            {unreadNotifications > 0 && (
+            {numberOfUnreadNotifications > 0 && (
               <span className="absolute -right-4 -top-4 rounded-full bg-primary px-2 py-1 text-xs font-semibold text-white">
-                {unreadNotifications}
+                {numberOfUnreadNotifications}
               </span>
             )}
           </div>

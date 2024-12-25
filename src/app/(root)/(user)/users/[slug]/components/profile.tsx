@@ -11,6 +11,7 @@ import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { MENTOR_STATUS } from "@/constants/enum";
 import { useGetProfile } from "@/hooks/use-get-profile";
 import { classifyAchievements } from "@/lib/utils";
 
@@ -95,7 +96,10 @@ const Profile = async ({ slug }: { slug: string }) => {
             </TabsContent>
 
             <TabsContent value="courses">
-              <CourseTab mentorId={result.data.id} />
+              <CourseTab
+                mentorId={result.data.id}
+                isAccepted={result.data.status === MENTOR_STATUS.ACCEPTED}
+              />
             </TabsContent>
 
             <TabsContent value="reviews">

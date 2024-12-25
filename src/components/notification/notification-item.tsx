@@ -11,6 +11,7 @@ import {
 import { cn } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 import { NotificationType } from "@/schemas/notification.schema";
+import useNotificationStore from "@/stores/notification.store";
 
 const NotificationItem = ({
   notification,
@@ -19,40 +20,41 @@ const NotificationItem = ({
 }) => {
   const router = useRouter();
   const { user } = useAppContext();
+  const { updateIsReadNotification } = useNotificationStore();
 
   const handleClick = async () => {
     if (!user) {
       return;
     }
 
+    switch (notification.relationType) {
+      case NOTIFICATION_RELATION_TYPE.SUBSCRIPTION:
+        if (user.accountType === ROLES.STUDENT) {
+          router.push("/subscriptions");
+        }
+        if (user.accountType === ROLES.MENTOR) {
+          router.push("/mentor/requests");
+        }
+        break;
+
+      case NOTIFICATION_RELATION_TYPE.COURSE:
+        if (user.accountType === ROLES.MENTOR) {
+          router.push(`/mentor/courses?status=${COURSE_STATUS.APPROVED}`);
+        }
+        break;
+
+      default:
+        break;
+    }
+
     try {
-      await notificationApi.readNotification(notification.id, {
-        isRead: true,
-      });
+      if (!notification.isRead) {
+        await notificationApi.readNotification(notification.id, {
+          isRead: true,
+        });
 
-      switch (notification.relationType) {
-        case NOTIFICATION_RELATION_TYPE.SUBSCRIPTION:
-          if (user.accountType === ROLES.STUDENT) {
-            router.push("/subscriptions");
-          }
-          if (user.accountType === ROLES.MENTOR) {
-            router.push("/mentor/requests");
-          }
-          router.refresh();
-          break;
-
-        case NOTIFICATION_RELATION_TYPE.COURSE:
-          if (user.accountType === ROLES.MENTOR) {
-            router.push(`/mentor/courses?status=${COURSE_STATUS.APPROVED}`);
-          }
-          router.refresh();
-          break;
-
-        default:
-          break;
+        updateIsReadNotification(notification.id);
       }
-
-      console.log("Notification read successfully");
     } catch (error) {
       console.error({ error });
     }
