@@ -344,13 +344,13 @@ const AchievementForm = ({ form }: IProps) => {
                 name={`achievements.${index}.isCurrent`}
                 render={({ field }) => (
                   <FormItem className="flex-center gap-2">
+                    <FormLabel className="mt-1">{t("current")}</FormLabel>
                     <FormControl>
                       <Checkbox
                         checked={field.value}
                         onCheckedChange={field.onChange}
                       />
                     </FormControl>
-                    <FormLabel>{t("current")}</FormLabel>
                   </FormItem>
                 )}
               />

@@ -80,6 +80,7 @@ const ProfileSection = ({
     description: "",
     organization: "",
     startDate: undefined,
+    isCurrent: true,
     endDate: undefined,
     major: "",
     position: "",
@@ -179,6 +180,7 @@ const ProfileSection = ({
       major: achievement.major,
       position: achievement.position,
       name: achievement.name,
+      isCurrent: achievement.isCurrent,
     });
 
     handleOpenModal();

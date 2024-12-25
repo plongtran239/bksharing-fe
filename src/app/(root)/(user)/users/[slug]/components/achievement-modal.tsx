@@ -4,6 +4,7 @@ import { UseFormReturn } from "react-hook-form";
 
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Dialog,
@@ -125,32 +126,52 @@ const AchievementModal = ({
                   )}
                 />
 
-                <div className="grid grid-cols-2 gap-5">
-                  <FormField
-                    control={form.control}
-                    name="startDate"
-                    render={({ field }) => (
-                      <FormItem className="w-full">
-                        <FormLabel htmlFor="start" required>
-                          Start Date
-                        </FormLabel>
-                        <FormControl>
-                          <DateTimePicker
-                            id="start"
-                            value={field.value}
-                            onChange={field.onChange}
-                            placeholder="date of birth"
-                            displayFormat={{ hour24: "dd/MM/yyyy" }}
-                            granularity="day"
-                            limitToCurrent={true}
-                            locale={vi}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                <FormField
+                  control={form.control}
+                  name="isCurrent"
+                  render={({ field }) => (
+                    <FormItem className="flex items-center gap-2">
+                      <FormLabel htmlFor="isCurrent" className="mt-1">
+                        Current
+                      </FormLabel>
+                      <FormControl>
+                        <Checkbox
+                          id="isCurrent"
+                          checked={field.value}
+                          onCheckedChange={field.onChange}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
 
+                <FormField
+                  control={form.control}
+                  name="startDate"
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel htmlFor="start" required>
+                        Start Date
+                      </FormLabel>
+                      <FormControl>
+                        <DateTimePicker
+                          id="start"
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder="date of birth"
+                          displayFormat={{ hour24: "dd/MM/yyyy" }}
+                          granularity="day"
+                          limitToCurrent={true}
+                          locale={vi}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {!form.watch("isCurrent") && (
                   <FormField
                     control={form.control}
                     name="endDate"
@@ -162,7 +183,7 @@ const AchievementModal = ({
                             id="end"
                             value={field.value}
                             onChange={field.onChange}
-                            placeholder="date of birth"
+                            placeholder="end date"
                             displayFormat={{ hour24: "dd/MM/yyyy" }}
                             granularity="day"
                             locale={vi}
@@ -172,7 +193,7 @@ const AchievementModal = ({
                       </FormItem>
                     )}
                   />
-                </div>
+                )}
 
                 <FormField
                   control={form.control}

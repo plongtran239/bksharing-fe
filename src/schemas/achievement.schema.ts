@@ -82,6 +82,7 @@ const Achievement = z
     description: z.string().trim(),
     startDate: z.string().trim(),
     endDate: z.string().trim(),
+    isCurrent: z.boolean().optional(),
   })
   .extend({
     position: z.string().trim().optional(), // only for EXPERIENCE
