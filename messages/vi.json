@@ -146,6 +146,7 @@
         "achievementForm": {
           "achievement": "Thành tựu",
           "type": "Loại",
+          "current": "Hiện tại",
           "education": "Học vấn",
           "experience": "Kinh nghiệm",
           "certification": "Chứng chỉ",

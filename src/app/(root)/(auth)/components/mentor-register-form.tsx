@@ -56,6 +56,7 @@ const MentorRegisterForm = () => {
           name: undefined,
           major: undefined,
           position: undefined,
+          isCurrent: true,
         },
       ],
     },

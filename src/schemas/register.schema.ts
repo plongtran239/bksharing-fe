@@ -32,7 +32,7 @@ const RegisterRequest = LoginRequest.extend({
 }).strict();
 
 const StudentRegisterRequest = RegisterRequest.extend({
-  major: z.string().trim().min(2).max(256),
+  major: z.string().trim(),
   educationLevel: z.nativeEnum(EDUCATION_LEVELS),
 }).superRefine(({ password, confirmPassword }, ctx) => {
   if (password !== confirmPassword) {

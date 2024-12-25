@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { UseFormReturn, useFieldArray } from "react-hook-form";
 
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   FormControl,
@@ -69,6 +70,7 @@ const AchievementForm = ({ form }: IProps) => {
       name: undefined,
       major: undefined,
       position: undefined,
+      isCurrent: true,
     });
   };
 
@@ -96,7 +98,7 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("position")}</FormLabel>
                   <FormControl>
-                    <Select>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger
                           className={cn("text-sm", {
@@ -141,7 +143,7 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("major")}</FormLabel>
                   <FormControl>
-                    <Select>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger
                           className={cn("text-sm", {
@@ -186,7 +188,7 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("name")}</FormLabel>
                   <FormControl>
-                    <Select>
+                    <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger
                           className={cn("text-sm", {
@@ -282,7 +284,7 @@ const AchievementForm = ({ form }: IProps) => {
             <FormItem className="w-full">
               <FormLabel required>{renderOrganizationLabel(index)}</FormLabel>
               <FormControl>
-                <Select>
+                <Select value={field.value} onValueChange={field.onChange}>
                   <FormControl>
                     <SelectTrigger
                       className={cn("text-sm", {
@@ -301,11 +303,16 @@ const AchievementForm = ({ form }: IProps) => {
                           <SelectLabel className="font-bold">
                             {renderOrganizationSelectItem(index, major.label)}
                           </SelectLabel>
-                          {Object.entries(
-                            major.subs as Record<string, string>
-                          ).map(([value, label]) => (
-                            <SelectItem key={value} value={value}>
-                              {renderOrganizationSelectItem(index, label)}
+
+                          {Object.values(major.subs).map((item) => (
+                            <SelectItem
+                              key={item as string}
+                              value={item as string}
+                            >
+                              {renderOrganizationSelectItem(
+                                index,
+                                item as string
+                              )}
                             </SelectItem>
                           ))}
                         </SelectGroup>
@@ -327,9 +334,27 @@ const AchievementForm = ({ form }: IProps) => {
       {fields.map((field, index) => (
         <div key={field.id} className="space-y-5">
           <motion.div className="flex-between" variants={childVariants}>
-            <h2 className="text-lg font-medium text-primary">
-              {t("achievement")} #{index + 1}
-            </h2>
+            <div className="flex-center gap-10">
+              <h2 className="text-lg font-medium text-primary">
+                {t("achievement")} #{index + 1}
+              </h2>
+
+              <FormField
+                control={form.control}
+                name={`achievements.${index}.isCurrent`}
+                render={({ field }) => (
+                  <FormItem className="flex-center gap-2">
+                    <FormControl>
+                      <Checkbox
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormLabel>{t("current")}</FormLabel>
+                  </FormItem>
+                )}
+              />
+            </div>
 
             <button
               type="button"
@@ -382,7 +407,11 @@ const AchievementForm = ({ form }: IProps) => {
             {renderOrganizationField(index)}
           </div>
 
-          <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
+          <div
+            className={cn("grid gap-5 max-sm:grid-cols-1", {
+              "grid-cols-1": form.watch(`achievements.${index}.isCurrent`),
+            })}
+          >
             <motion.div className="w-full" variants={childVariants}>
               <FormField
                 control={form.control}
@@ -410,29 +439,31 @@ const AchievementForm = ({ form }: IProps) => {
               />
             </motion.div>
 
-            <motion.div className="w-full" variants={childVariants}>
-              <FormField
-                control={form.control}
-                name={`achievements.${index}.endDate`}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel htmlFor="end-date">{t("endDate")}</FormLabel>
-                    <FormControl>
-                      <DateTimePicker
-                        id="end-date"
-                        value={field.value}
-                        onChange={field.onChange}
-                        placeholder={t("endDate")}
-                        displayFormat={{ hour24: "dd/MM/yyyy" }}
-                        granularity="day"
-                        locale={vi}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
+            {!form.watch(`achievements.${index}.isCurrent`) && (
+              <motion.div className="w-full" variants={childVariants}>
+                <FormField
+                  control={form.control}
+                  name={`achievements.${index}.endDate`}
+                  render={({ field }) => (
+                    <FormItem className="w-full">
+                      <FormLabel htmlFor="end-date">{t("endDate")}</FormLabel>
+                      <FormControl>
+                        <DateTimePicker
+                          id="end-date"
+                          value={field.value}
+                          onChange={field.onChange}
+                          placeholder={t("endDate")}
+                          displayFormat={{ hour24: "dd/MM/yyyy" }}
+                          granularity="day"
+                          locale={vi}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </motion.div>
+            )}
           </div>
 
           <motion.div className="w-full" variants={childVariants}>
