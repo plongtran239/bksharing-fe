@@ -35,9 +35,10 @@ export const useRegister = (role: ROLES) => {
       }
 
       if (role === ROLES.STUDENT) {
-        result = await authApi.studentRegister(
-          values as StudentRegisterRequestType
-        );
+        result = await authApi.studentRegister({
+          ...(values as StudentRegisterRequestType),
+          major: (values as StudentRegisterRequestType).major || "student",
+        });
       }
 
       if (result === null) {

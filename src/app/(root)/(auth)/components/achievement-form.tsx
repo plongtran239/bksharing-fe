@@ -13,18 +13,25 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { Textarea } from "@/components/ui/textarea";
+import CERTIFICATIONS from "@/constants/certification";
+import COMPANIES from "@/constants/company";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import MAJORS from "@/constants/major";
 import { childVariants } from "@/constants/motion";
+import ORGANIZATIONS from "@/constants/organization";
+import POSITIONS from "@/constants/position";
+import SCHOOLS from "@/constants/school";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { MentorRegisterRequestType } from "@/schemas";
@@ -35,6 +42,15 @@ interface IProps {
 
 const AchievementForm = ({ form }: IProps) => {
   const t = useTranslations("authPage.register.mentorForm.achievementForm");
+
+  const tMajor = useTranslations("major");
+  const tSchool = useTranslations("school");
+
+  const tPosition = useTranslations("position");
+  const tCompany = useTranslations("company");
+
+  const tCertification = useTranslations("certification");
+  const tOrganization = useTranslations("organization");
 
   const { toast } = useToast();
 
@@ -80,7 +96,33 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("position")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("position")} {...field} />
+                    <Select>
+                      <FormControl>
+                        <SelectTrigger
+                          className={cn("text-sm", {
+                            "text-muted-foreground": !field.value,
+                          })}
+                        >
+                          <SelectValue placeholder={t("position")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.values(POSITIONS).map((postion) => (
+                          <SelectGroup key={postion.label}>
+                            <SelectLabel className="font-bold">
+                              {tPosition(postion.label)}
+                            </SelectLabel>
+                            {Object.entries(postion.subs).map(
+                              ([value, label]) => (
+                                <SelectItem key={value} value={value}>
+                                  {tPosition(label)}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectGroup>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -99,7 +141,33 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("major")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("major")} {...field} />
+                    <Select>
+                      <FormControl>
+                        <SelectTrigger
+                          className={cn("text-sm", {
+                            "text-muted-foreground": !field.value,
+                          })}
+                        >
+                          <SelectValue placeholder={t("major")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.values(MAJORS).map((major) => (
+                          <SelectGroup key={major.label}>
+                            <SelectLabel className="font-bold">
+                              {tMajor(major.label)}
+                            </SelectLabel>
+                            {Object.entries(major.subs).map(
+                              ([value, label]) => (
+                                <SelectItem key={value} value={value}>
+                                  {tMajor(label)}
+                                </SelectItem>
+                              )
+                            )}
+                          </SelectGroup>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -118,7 +186,31 @@ const AchievementForm = ({ form }: IProps) => {
                 <FormItem className="w-full">
                   <FormLabel required>{t("name")}</FormLabel>
                   <FormControl>
-                    <Input placeholder={t("name")} {...field} />
+                    <Select>
+                      <FormControl>
+                        <SelectTrigger
+                          className={cn("text-sm", {
+                            "text-muted-foreground": !field.value,
+                          })}
+                        >
+                          <SelectValue placeholder={t("name")} />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        {Object.values(CERTIFICATIONS).map((cer) => (
+                          <SelectGroup key={cer.label}>
+                            <SelectLabel className="font-bold">
+                              {tCertification(cer.label)}
+                            </SelectLabel>
+                            {Object.entries(cer.subs).map(([value, label]) => (
+                              <SelectItem key={value} value={value}>
+                                {tCertification(label)}
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
+                        ))}
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -130,6 +222,104 @@ const AchievementForm = ({ form }: IProps) => {
       default:
         return null;
     }
+  };
+
+  const renderOrganizationField = (index: number) => {
+    const renderOrganizationLabel = (index: number) => {
+      switch (form.watch(`achievements.${index}.achievementType`)) {
+        case ACHIEVEMENT_TYPES.EXPERIENCE:
+          return t("company");
+
+        case ACHIEVEMENT_TYPES.EDUCATION:
+          return t("school");
+
+        case ACHIEVEMENT_TYPES.CERTIFICATION:
+          return t("organization");
+
+        default:
+          return t("organization");
+      }
+    };
+
+    const renderOrganizationSelect = (index: number) => {
+      switch (form.watch(`achievements.${index}.achievementType`)) {
+        case ACHIEVEMENT_TYPES.EXPERIENCE:
+          return COMPANIES;
+
+        case ACHIEVEMENT_TYPES.EDUCATION:
+          return SCHOOLS;
+
+        case ACHIEVEMENT_TYPES.CERTIFICATION:
+          return ORGANIZATIONS;
+
+        default:
+          return SCHOOLS;
+      }
+    };
+
+    const renderOrganizationSelectItem = (index: number, value: string) => {
+      switch (form.watch(`achievements.${index}.achievementType`)) {
+        case ACHIEVEMENT_TYPES.EXPERIENCE:
+          return tCompany(value);
+
+        case ACHIEVEMENT_TYPES.EDUCATION:
+          return tSchool(value);
+
+        case ACHIEVEMENT_TYPES.CERTIFICATION:
+          return tOrganization(value);
+
+        default:
+          return tSchool(value);
+      }
+    };
+
+    return (
+      <motion.div className="w-full" variants={childVariants}>
+        <FormField
+          control={form.control}
+          name={`achievements.${index}.organization`}
+          render={({ field }) => (
+            <FormItem className="w-full">
+              <FormLabel required>{renderOrganizationLabel(index)}</FormLabel>
+              <FormControl>
+                <Select>
+                  <FormControl>
+                    <SelectTrigger
+                      className={cn("text-sm", {
+                        "text-muted-foreground": !field.value,
+                      })}
+                    >
+                      <SelectValue
+                        placeholder={renderOrganizationLabel(index)}
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {Object.values(renderOrganizationSelect(index)).map(
+                      (major) => (
+                        <SelectGroup key={major.label}>
+                          <SelectLabel className="font-bold">
+                            {renderOrganizationSelectItem(index, major.label)}
+                          </SelectLabel>
+                          {Object.entries(
+                            major.subs as Record<string, string>
+                          ).map(([value, label]) => (
+                            <SelectItem key={value} value={value}>
+                              {renderOrganizationSelectItem(index, label)}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      )
+                    )}
+                  </SelectContent>
+                </Select>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+      </motion.div>
+    );
   };
 
   return (
@@ -152,13 +342,7 @@ const AchievementForm = ({ form }: IProps) => {
             </button>
           </motion.div>
 
-          <div
-            className={cn("grid grid-cols-2 gap-5 max-sm:grid-cols-1", {
-              "grid-cols-3":
-                form.watch(`achievements.${index}.achievementType`) !==
-                undefined,
-            })}
-          >
+          <div className={cn("grid gap-5")}>
             <motion.div variants={childVariants} className="w-full">
               <FormField
                 control={form.control}
@@ -195,21 +379,7 @@ const AchievementForm = ({ form }: IProps) => {
 
             {renderAchievementFields(index)}
 
-            <motion.div className="w-full" variants={childVariants}>
-              <FormField
-                control={form.control}
-                name={`achievements.${index}.organization`}
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel required>{t("organization")}</FormLabel>
-                    <FormControl>
-                      <Input placeholder={t("organization")} {...field} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </motion.div>
+            {renderOrganizationField(index)}
           </div>
 
           <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">

@@ -13,16 +13,18 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { EDUCATION_LEVELS, ROLES } from "@/constants/enum";
+import MAJORS from "@/constants/major";
 import { childVariants } from "@/constants/motion";
 import { useRegister } from "@/hooks/use-register";
 import { cn } from "@/lib/utils";
@@ -30,6 +32,8 @@ import { StudentRegisterRequest, StudentRegisterRequestType } from "@/schemas";
 
 const StudentRegisterForm = () => {
   const t = useTranslations("authPage.register.studentForm");
+
+  const tMajor = useTranslations("major");
 
   const { isLoading, register } = useRegister(ROLES.STUDENT);
 
@@ -60,7 +64,13 @@ const StudentRegisterForm = () => {
 
       {/* Educational Level & Major */}
       <div className="grid grid-cols-2 gap-5 max-sm:grid-cols-1">
-        <motion.div className="w-full" variants={childVariants}>
+        <motion.div
+          className={cn({
+            "col-span-2":
+              form.watch("educationLevel") !== EDUCATION_LEVELS.UNIVERSITY,
+          })}
+          variants={childVariants}
+        >
           <FormField
             control={form.control}
             name="educationLevel"
@@ -94,21 +104,46 @@ const StudentRegisterForm = () => {
           />
         </motion.div>
 
-        <motion.div className="w-full" variants={childVariants}>
-          <FormField
-            control={form.control}
-            name="major"
-            render={({ field }) => (
-              <FormItem className="w-full">
-                <FormLabel required>{t("major")}</FormLabel>
-                <FormControl>
-                  <Input placeholder={t("major")} {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-        </motion.div>
+        {form.watch("educationLevel") === EDUCATION_LEVELS.UNIVERSITY && (
+          <motion.div className="w-full" variants={childVariants}>
+            <FormField
+              control={form.control}
+              name="major"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel required>{t("major")}</FormLabel>
+
+                  <Select>
+                    <FormControl>
+                      <SelectTrigger
+                        className={cn("text-sm", {
+                          "text-muted-foreground": !field.value,
+                        })}
+                      >
+                        <SelectValue placeholder={t("major")} />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {Object.values(MAJORS).map((major) => (
+                        <SelectGroup key={major.label}>
+                          <SelectLabel className="font-bold">
+                            {tMajor(major.label)}
+                          </SelectLabel>
+                          {Object.entries(major.subs).map(([value, label]) => (
+                            <SelectItem key={value} value={value}>
+                              {tMajor(label)}
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </motion.div>
+        )}
       </div>
     </BaseRegisterForm>
   );

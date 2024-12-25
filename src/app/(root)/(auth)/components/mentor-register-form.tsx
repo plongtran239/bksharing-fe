@@ -10,7 +10,12 @@ import BaseRegisterForm from "@/app/(root)/(auth)/components/base-register-form"
 import FileInput from "@/components/file-input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { FOLDER, RESOURCE_TYPE, ROLES } from "@/constants/enum";
+import {
+  ACHIEVEMENT_TYPES,
+  FOLDER,
+  RESOURCE_TYPE,
+  ROLES,
+} from "@/constants/enum";
 import { childVariants } from "@/constants/motion";
 import { useRegister } from "@/hooks/use-register";
 import { useUploadFile } from "@/hooks/use-upload-file";
@@ -43,7 +48,7 @@ const MentorRegisterForm = () => {
       dob: undefined,
       achievements: [
         {
-          achievementType: undefined,
+          achievementType: ACHIEVEMENT_TYPES.EDUCATION,
           description: "",
           organization: "",
           startDate: undefined,

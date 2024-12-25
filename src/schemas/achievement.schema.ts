@@ -25,6 +25,7 @@ const AchivementRequest = z
         message: `must be greater than ${MIN_DATE}`,
       })
       .optional(),
+    isCurrent: z.boolean().optional(),
   })
   .extend({
     position: z.string().trim().optional(), // only for EXPERIENCE
