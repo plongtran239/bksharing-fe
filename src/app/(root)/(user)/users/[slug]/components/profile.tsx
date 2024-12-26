@@ -7,6 +7,7 @@ import { notFound } from "next/navigation";
 
 import ChatButton from "@/app/(root)/(user)/users/[slug]/components/chat-button";
 import CourseTab from "@/app/(root)/(user)/users/[slug]/components/course-tab";
+import FeedbackTab from "@/app/(root)/(user)/users/[slug]/components/feedback-tab";
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
 import { Progress } from "@/components/ui/progress";
@@ -103,9 +104,7 @@ const Profile = async ({ slug }: { slug: string }) => {
             </TabsContent>
 
             <TabsContent value="reviews">
-              <div className="mt-5 rounded-xl bg-white p-5">
-                <p>There are no reviews!</p>
-              </div>
+              <FeedbackTab mentorId={result.data.id} />
             </TabsContent>
           </div>
         </Tabs>

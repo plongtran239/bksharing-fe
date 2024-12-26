@@ -1,3 +1,4 @@
+import { ArchiveXIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -29,6 +30,15 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
     mentorId,
     COURSE_STATUS.APPROVED
   );
+
+  if (courses.length === 0) {
+    return (
+      <div className="flex-center flex-col gap-3 rounded-lg bg-white px-5 py-10">
+        <ArchiveXIcon size={24} className="" />
+        <h2 className="font-semibold">No courses yet</h2>
+      </div>
+    );
+  }
 
   return (
     <section className="w-full rounded-xl bg-white p-5">

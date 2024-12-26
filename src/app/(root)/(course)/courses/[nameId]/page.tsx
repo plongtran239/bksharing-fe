@@ -1,3 +1,4 @@
+import { StarFilledIcon } from "@radix-ui/react-icons";
 import { ChevronsUpDownIcon, ClockIcon, PaperclipIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
@@ -5,6 +6,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
+import feedbackApi from "@/apis/feedback.api";
+import FeedbackCard from "@/app/(root)/(course)/courses/[nameId]/components/feedback-card";
 import { Button } from "@/components/ui/button";
 import {
   Collapsible,
@@ -12,6 +15,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { Separator } from "@/components/ui/separator";
+import { REVIEW_TYPE } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import {
   cn,
@@ -33,14 +37,24 @@ const CourseDetailPage = async ({
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   let course = null;
+  let feedbacks = null;
 
   if (sessionToken) {
     try {
       const {
-        payload: { data },
+        payload: { data: apiCourse },
       } = await courseApi.getCourseById(sessionToken, getIdFromNameId(nameId));
 
-      course = data;
+      course = apiCourse;
+
+      const {
+        payload: { data: apiFeedbacks },
+      } = await feedbackApi.getFeedbacks({
+        courseId: getIdFromNameId(nameId),
+        reviewType: REVIEW_TYPE.COURSE,
+      });
+
+      feedbacks = apiFeedbacks;
     } catch (error) {
       console.error(error);
     }
@@ -49,6 +63,15 @@ const CourseDetailPage = async ({
   if (!course) {
     notFound();
   }
+
+  if (!feedbacks) {
+    notFound();
+  }
+
+  const totalRating = feedbacks.reduce(
+    (acc, feedback) => acc + feedback.rating,
+    0
+  );
 
   return (
     <main className="relative">
@@ -185,6 +208,24 @@ const CourseDetailPage = async ({
                   </Collapsible>
                 );
               })}
+            </div>
+          </div>
+
+          {/* Reviews */}
+          <div className="mt-5 rounded-xl">
+            <h2 className="flex items-center gap-2 text-lg font-semibold text-secondary-foreground">
+              <div className="flex items-center gap-1">
+                <StarFilledIcon className="h-5 w-5 text-yellow-500" />
+                {(totalRating / feedbacks.length).toFixed(1)}
+              </div>
+              <div className="h-1 w-1 rounded-full bg-primary"></div>
+              {feedbacks?.length || 0} Reviews
+            </h2>
+
+            <div className="mt-5 grid grid-cols-2 gap-5">
+              {feedbacks.map((feedback, index) => (
+                <FeedbackCard key={index} feedback={feedback} />
+              ))}
             </div>
           </div>
         </section>
