@@ -15,7 +15,8 @@
     "registerSuccess": "Register successfully",
     "registerError": "Email or phone number already exists",
     "changePasswordSuccess": "Change password successfully",
-    "updateUserInfoSuccess": "Update your information successfully"
+    "updateUserInfoSuccess": "Update your information successfully",
+    "SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE": "Subscription for this course is still active"
   },
   "navbar": {
     "home": "Home",

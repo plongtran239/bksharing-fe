@@ -15,7 +15,8 @@
     "registerSuccess": "Đăng ký thành công",
     "registerError": "Email hoặc số điện thoại đã tồn tại",
     "changePasswordSuccess": "Đổi mật khẩu thành công",
-    "updateUserInfoSuccess": "Cập nhật thông tin thành công"
+    "updateUserInfoSuccess": "Cập nhật thông tin thành công",
+    "SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE": "Bạn đã đăng ký khóa học này"
   },
   "navbar": {
     "home": "Trang chủ",

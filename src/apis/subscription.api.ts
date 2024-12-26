@@ -2,6 +2,7 @@ import http from "@/lib/http";
 import { DetailResponseType, ListResponseType } from "@/schemas";
 import { MakePaymentResponseType } from "@/schemas/payment.schema";
 import {
+  MentorSubscriptionType,
   SubscriptionDetailType,
   SubscriptionType,
 } from "@/schemas/subscription.schema";
@@ -50,6 +51,11 @@ const subscriptionApi = {
     http.put<DetailResponseType<MakePaymentResponseType>>(
       `/client/subscriptions/${subscriptionId}/payments`,
       body
+    ),
+
+  getSubscriptionsByMentorId: (mentorId: number) =>
+    http.get<ListResponseType<MentorSubscriptionType>>(
+      `client/subscriptions/mentors/${mentorId}`
     ),
 };
 

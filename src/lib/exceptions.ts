@@ -1,3 +1,5 @@
+import { ERROR_ACTION } from "@/constants/enum";
+
 export type EntityErrorPayload = {
   name: string;
   message: string[] | string;
@@ -5,6 +7,9 @@ export type EntityErrorPayload = {
   timestamp: string;
   stack: string;
   statusCode: number;
+  data: {
+    action: ERROR_ACTION;
+  };
 };
 
 class HttpError extends Error {

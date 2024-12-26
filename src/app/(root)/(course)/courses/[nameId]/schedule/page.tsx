@@ -43,6 +43,7 @@ const CourseSchedule = async ({
       mentorName={mentorName}
       courseId={courseId}
       courseName={courseName}
+      mentorId={mentorId}
     />
   );
 };

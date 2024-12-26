@@ -90,10 +90,23 @@ const SubscriptionDetail = z.object({
   }),
 });
 
+const MentorSubscription = z.object({
+  id: z.number(),
+  status: z.nativeEnum(SUBSCRIPTION_STATUS),
+  courseAccessStartAt: z.string(),
+  courseAccessEndAt: z.string(),
+});
+
 type SubscriptionType = z.infer<typeof Subscription>;
 
 type SubscriptionDetailType = z.infer<typeof SubscriptionDetail>;
 
+type MentorSubscriptionType = z.infer<typeof MentorSubscription>;
+
 export { Subscription, SubscriptionDetail };
 
-export type { SubscriptionType, SubscriptionDetailType };
+export type {
+  SubscriptionType,
+  SubscriptionDetailType,
+  MentorSubscriptionType,
+};

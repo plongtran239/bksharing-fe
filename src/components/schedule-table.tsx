@@ -2,8 +2,9 @@
 
 import AvailableRow from "@/components/available-row";
 import { DAY_OF_WEEK } from "@/constants/enum";
-import { cn } from "@/lib/utils";
+import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { ScheduleType } from "@/schemas/schedule.schema";
+import { MentorSubscriptionType } from "@/schemas/subscription.schema";
 
 const ScheduleTable = ({
   schedules,
@@ -14,6 +15,7 @@ const ScheduleTable = ({
   setActiveSchedule,
   setActiveScheduleId,
   handleOpenDialog,
+  mentorSubscriptions,
 }: {
   schedules: ScheduleType[];
   weekStartDate?: Date;
@@ -25,6 +27,7 @@ const ScheduleTable = ({
   ) => void;
   setActiveScheduleId?: (id: number | undefined) => void;
   handleOpenDialog?: () => void;
+  mentorSubscriptions?: MentorSubscriptionType[];
 }) => {
   // 6:00 - 23:00
   const timeSlots = Array.from({ length: 18 }, (_, i) => i + 6);
@@ -55,12 +58,12 @@ const ScheduleTable = ({
     const currentDate = new Date(weekStartDate);
     currentDate.setDate(weekStartDate.getDate() + index);
 
-    if (
-      (currentDate < today ||
-        currentDate.toLocaleDateString() === today.toLocaleDateString()) &&
-      showToday
-    ) {
-      // Nếu ngày này trước hôm nay, trả về lịch trống
+    // Nếu ngày này trước hôm nay, trả về lịch trống
+    const notShowCondition =
+      currentDate < today ||
+      currentDate.toLocaleDateString() === today.toLocaleDateString();
+
+    if (notShowCondition && showToday) {
       return { day, schedule: timeSlots.map(() => []) };
     }
 
@@ -205,6 +208,43 @@ const ScheduleTable = ({
                               });
                           }
                         }}
+                        isBooked={mentorSubscriptions?.some((sub) => {
+                          const start = convertMilisecondsToLocaleString(
+                            sub.courseAccessStartAt,
+                            "vi-VN",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              timeZone: "UTC",
+                            }
+                          );
+
+                          const end = convertMilisecondsToLocaleString(
+                            sub.courseAccessEndAt,
+                            "vi-VN",
+                            {
+                              hour: "2-digit",
+                              minute: "2-digit",
+                              day: "2-digit",
+                              month: "2-digit",
+                              year: "numeric",
+                              timeZone: "UTC",
+                            }
+                          );
+
+                          const [timeStart, dateStart] = start.split(" ");
+                          const [timeEnd, dateEnd] = end.split(" ");
+
+                          return (
+                            dateStart === daysWithDates[index].date &&
+                            dateEnd === daysWithDates[index].date &&
+                            timeStart === ranges[0].startTime &&
+                            timeEnd === ranges[0].endTime
+                          );
+                        })}
                       >
                         {`${ranges[0].startTime} - ${ranges[0].endTime}`}
                       </AvailableRow>

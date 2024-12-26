@@ -1,8 +1,9 @@
 "use client";
 
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import subscriptionApi from "@/apis/subscription.api";
 import Loader from "@/components/loader";
@@ -17,23 +18,33 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { ERROR_ACTION } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
+import { EntityError } from "@/lib/exceptions";
 import { getMondayOfCurrentWeek } from "@/lib/utils";
 import { ScheduleType } from "@/schemas/schedule.schema";
+import { MentorSubscriptionType } from "@/schemas/subscription.schema";
 
 const Schedule = ({
   schedules,
   mentorName,
   courseId,
   courseName,
+  mentorId,
 }: {
   schedules: ScheduleType[];
   mentorName: string;
   courseId: number;
   courseName: string;
+  mentorId: number;
 }) => {
   const { toast } = useToast();
   const router = useRouter();
+  const tMessages = useTranslations("messages");
+
+  const [mentorSubscriptions, setMentorSubscriptions] = useState<
+    MentorSubscriptionType[]
+  >([]);
 
   const [loading, setLoading] = useState(false);
 
@@ -50,6 +61,25 @@ const Schedule = ({
   >();
 
   const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    const getMentorSubscription = async () => {
+      try {
+        setLoading(true);
+        const {
+          payload: { data },
+        } = await subscriptionApi.getSubscriptionsByMentorId(mentorId);
+
+        setMentorSubscriptions(data);
+      } catch (error) {
+        console.error({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    getMentorSubscription();
+  }, [mentorId]);
 
   const startDate = weekStartDate.toLocaleDateString("vi-VN", {
     month: "long",
@@ -119,19 +149,57 @@ const Schedule = ({
       setOpen(false);
     } catch (error) {
       console.error({ error });
+
+      if (error instanceof EntityError) {
+        if (
+          error.payload.data.action ===
+          ERROR_ACTION.SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE
+        ) {
+          toast({
+            title: tMessages("error"),
+            description: tMessages(
+              ERROR_ACTION.SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE
+            ),
+            variant: "destructive",
+          });
+        }
+      }
+
+      setOpen(false);
+      setActiveSchedule(undefined);
     } finally {
       setLoading(false);
     }
   };
 
+  if (loading) {
+    return (
+      <div className="h-screen">
+        <Loader />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="container py-10">
         <div className="flex-between">
-          <h1 className="text-3xl font-semibold text-black">
-            Đặt lịch hẹn với{" "}
-            <span className="capitalize text-primary">{mentorName}</span>
-          </h1>
+          <div className="flex items-center gap-10">
+            <h1 className="text-3xl font-semibold text-black">
+              Đặt lịch hẹn với{" "}
+              <span className="capitalize text-primary">{mentorName}</span>
+            </h1>
+
+            <div className="flex items-center gap-2">
+              <div className="h-5 w-5 bg-green-500"></div>
+              <span>Còn trống</span>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <div className="h-5 w-5 bg-red-500"></div>
+              <span>Đã được đặt</span>
+            </div>
+          </div>
 
           <Button onClick={() => router.back()}>Trở về</Button>
         </div>
@@ -193,6 +261,7 @@ const Schedule = ({
             showToday
             activeSchedule={activeSchedule}
             setActiveSchedule={setActiveSchedule}
+            mentorSubscriptions={mentorSubscriptions}
           />
         </div>
       </div>

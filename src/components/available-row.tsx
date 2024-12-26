@@ -9,24 +9,28 @@ const AvailableRow = ({
   children,
   handleClick,
   isActive,
+  isBooked,
 }: PropsWithChildren<{
   span: number;
   scheduleId: number;
   date?: string;
   isActive?: boolean;
   handleClick?: () => void;
+  isBooked?: boolean;
 }>) => {
   return (
     <td
       rowSpan={span}
-      className={cn(
-        "cursor-pointer border border-gray-300 bg-green-500 text-white hover:bg-green-400 hover:text-white",
-        {
-          "border-2 border-primary bg-secondary text-secondary-foreground":
-            isActive,
-        }
-      )}
-      onClick={handleClick}
+      className={cn("cursor-pointer border border-gray-300", {
+        "border-2 border-primary bg-secondary text-secondary-foreground":
+          isActive,
+        "bg-green-500 text-white hover:bg-green-400 hover:text-white":
+          !isBooked,
+        "cursor-not-allowed bg-red-500 text-white": isBooked,
+      })}
+      onClick={() => {
+        handleClick && !isBooked && handleClick();
+      }}
     >
       {children}
       {isActive && <p className="text-xs">(Đã chọn)</p>}
