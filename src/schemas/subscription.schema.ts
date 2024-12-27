@@ -48,6 +48,15 @@ const Subscription = z.object({
       price: z.number(),
     })
     .nullable(),
+  feedback: z
+    .object({
+      id: z.number(),
+      courseRating: z.number(),
+      courseReview: z.string(),
+      mentorRating: z.number(),
+      mentorReview: z.string(),
+    })
+    .nullable(),
   canceledAt: z.string().nullable(),
   approvedAt: z.string().nullable(),
   rejectedAt: z.string().nullable(),

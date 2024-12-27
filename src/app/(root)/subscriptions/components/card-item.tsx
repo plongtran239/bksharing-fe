@@ -1,6 +1,7 @@
 "use client";
 
 import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
+import { CheckIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -37,16 +38,16 @@ interface IProps {
 
 type ReviewType = {
   courseRating: number;
-  courseContent: string;
+  courseReview: string;
   mentorRating: number;
-  mentorContent: string;
+  mentorReview: string;
 };
 
 const initialReview: ReviewType = {
   courseRating: 0,
-  courseContent: "",
+  courseReview: "",
   mentorRating: 0,
-  mentorContent: "",
+  mentorReview: "",
 };
 
 const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
@@ -120,22 +121,13 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
   const handleReview = async () => {
     try {
-      await Promise.all([
-        feedbackApi.createFeedback({
-          content: review.courseContent,
-          rating: review.courseRating,
-          reviewType: REVIEW_TYPE.COURSE,
-          courseId: item.course.id,
-        }),
-        feedbackApi.createFeedback({
-          content: review.mentorContent,
-          rating: review.mentorRating,
-          reviewType: REVIEW_TYPE.MENTOR,
-          mentorId: item.mentorInfo.id,
-        }),
-      ]);
+      await feedbackApi.createFeedback({
+        ...review,
+        subscriptionId: item.id,
+      });
 
       setOpenReview(false);
+      setReview(initialReview);
 
       toast({
         title: "Thành công",
@@ -235,9 +227,20 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
             </Button>
           )}
 
-          {hasReivewButton && (
+          {hasReivewButton && !item.feedback && (
             <Button className="px-3" onClick={() => setOpenReview(true)}>
               Đánh giá
+            </Button>
+          )}
+
+          {item.feedback && (
+            <Button
+              variant="link"
+              className="flex-center gap-2 px-3 disabled:opacity-70"
+              disabled
+            >
+              Đã đánh giá
+              <CheckIcon size={16} />
             </Button>
           )}
 
@@ -307,11 +310,11 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
               <Label className="text-black">Nhận xét khóa học</Label>
               <Input
                 placeholder="Nhận xét..."
-                value={review.courseContent}
+                value={review.courseReview}
                 onChange={(e) =>
                   setReview({
                     ...review,
-                    courseContent: e.target.value,
+                    courseReview: e.target.value,
                   })
                 }
               />
@@ -321,11 +324,11 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
               <Label className="text-black">Nhận xét gia sư</Label>
               <Input
                 placeholder="Nhận xét..."
-                value={review.mentorContent}
+                value={review.mentorReview}
                 onChange={(e) =>
                   setReview({
                     ...review,
-                    mentorContent: e.target.value,
+                    mentorReview: e.target.value,
                   })
                 }
               />

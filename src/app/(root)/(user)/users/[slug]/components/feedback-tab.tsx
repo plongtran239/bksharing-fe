@@ -11,8 +11,8 @@ const FeedbackTab = async ({ mentorId }: { mentorId: number }) => {
     const {
       payload: { data },
     } = await feedbackApi.getFeedbacks({
-      reviewType: REVIEW_TYPE.MENTOR,
-      mentorId,
+      relationType: REVIEW_TYPE.MENTOR,
+      relationId: mentorId,
     });
 
     feedbacks = data;
@@ -26,7 +26,7 @@ const FeedbackTab = async ({ mentorId }: { mentorId: number }) => {
 
   if (feedbacks.length === 0) {
     return (
-      <div className="flex-center flex-col gap-3 rounded-lg bg-white px-5 py-10">
+      <div className="flex-center flex-col gap-3 rounded-xl bg-white px-5 py-10">
         <InboxIcon size={24} className="" />
         <h2 className="font-semibold">No reviews yet</h2>
       </div>
@@ -34,7 +34,7 @@ const FeedbackTab = async ({ mentorId }: { mentorId: number }) => {
   }
 
   return (
-    <div className="rounded-lg bg-white p-5">
+    <div className="rounded-xl bg-white p-5">
       <h2 className="text-2xl font-semibold text-primary">
         Reviews ({feedbacks.length})
       </h2>

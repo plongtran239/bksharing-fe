@@ -50,8 +50,8 @@ const CourseDetailPage = async ({
       const {
         payload: { data: apiFeedbacks },
       } = await feedbackApi.getFeedbacks({
-        courseId: getIdFromNameId(nameId),
-        reviewType: REVIEW_TYPE.COURSE,
+        relationType: REVIEW_TYPE.COURSE,
+        relationId: course.id,
       });
 
       feedbacks = apiFeedbacks;
@@ -69,7 +69,7 @@ const CourseDetailPage = async ({
   }
 
   const totalRating = feedbacks.reduce(
-    (acc, feedback) => acc + feedback.rating,
+    (acc, feedback) => acc + feedback.courseRating,
     0
   );
 

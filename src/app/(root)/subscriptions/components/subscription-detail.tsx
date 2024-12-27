@@ -1,6 +1,5 @@
 "use client";
 
-import { CheckIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -59,7 +58,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
   return (
     <div className="space-y-5 text-lg">
       <div className="flex items-center gap-5">
-        <CheckIcon size={16} className="text-primary" />
+        <div className="h-2 w-2 rounded-full bg-primary" />
         <p>
           Học với gia sư{" "}
           <span className="text-primary">{subscriptionDetail.mentor.name}</span>
@@ -78,7 +77,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
       </div>
 
       <div className="flex items-center gap-5">
-        <CheckIcon size={16} className="text-primary" />
+        <div className="h-2 w-2 rounded-full bg-primary" />
         <p>
           Thời gian: {""}
           <span className="text-primary">
@@ -109,7 +108,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
       </div>
 
       <div className="flex items-center gap-5">
-        <CheckIcon size={16} className="text-primary" />
+        <div className="h-2 w-2 rounded-full bg-primary" />
         <p>
           Thời lượng: {""}
           <span className="text-primary">
@@ -123,7 +122,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
       </div>
 
       <div className="flex items-center gap-5">
-        <CheckIcon size={16} className="text-primary" />
+        <div className="h-2 w-2 rounded-full bg-primary" />
         <p>
           Khóa học: {""}
           <span className="text-primary">{subscriptionDetail.course.name}</span>
@@ -131,7 +130,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
       </div>
 
       <div className="flex items-center gap-5">
-        <CheckIcon size={16} className="text-primary" />
+        <div className="h-2 w-2 rounded-full bg-primary" />
         <p>
           Giá tiền: {""}
           <span className="text-primary">

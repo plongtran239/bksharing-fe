@@ -10,9 +10,8 @@ import {
 type FeedbackParams = {
   pageSize?: number;
   pageNumber?: number;
-  reviewType: REVIEW_TYPE;
-  courseId?: number;
-  mentorId?: number;
+  relationType: REVIEW_TYPE;
+  relationId: number;
 };
 
 const feedbackApi = {
@@ -20,20 +19,14 @@ const feedbackApi = {
     http.post("/client/feedbacks", body),
 
   getFeedbacks: (params: FeedbackParams) => {
-    const { reviewType } = params;
+    const { relationType, relationId } = params;
 
     const pageNumber = params.pageNumber || 1;
     const pageSize = params.pageSize || 10;
 
-    if (reviewType === REVIEW_TYPE.MENTOR) {
-      return http.get<ListResponseType<FeedbackType>>(
-        `/client/feedbacks?reviewType=${reviewType}&mentorId=${params.mentorId}&pageSize=${pageSize}&pageNumber=${pageNumber}`
-      );
-    } else {
-      return http.get<ListResponseType<FeedbackType>>(
-        `/client/feedbacks?reviewType=${reviewType}&courseId=${params.courseId}&pageSize=${pageSize}&pageNumber=${pageNumber}`
-      );
-    }
+    return http.get<ListResponseType<FeedbackType>>(
+      `/client/feedbacks?relationType=${relationType}&relationId=${relationId}&pageSize=${pageSize}&pageNumber=${pageNumber}`
+    );
   },
 
   updateFeedback: (feedbackId: number, body: UpdateFeedbackType) =>

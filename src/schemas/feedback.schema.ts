@@ -1,13 +1,11 @@
 import { z } from "zod";
 
-import { REVIEW_TYPE } from "@/constants/enum";
-
 const CreateFeedback = z.object({
-  content: z.string(),
-  rating: z.number().int().min(1).max(5),
-  reviewType: z.nativeEnum(REVIEW_TYPE),
-  mentorId: z.number().optional(),
-  courseId: z.number().optional(),
+  mentorRating: z.number().int().min(1).max(5),
+  courseRating: z.number().int().min(1).max(5),
+  mentorReview: z.string(),
+  courseReview: z.string(),
+  subscriptionId: z.number(),
 });
 
 const UpdateFeedback = z.object({
@@ -26,11 +24,11 @@ const Feedback = z.object({
       })
       .nullable(),
   }),
-  reviewType: z.nativeEnum(REVIEW_TYPE),
-  courseId: z.number().nullable(),
-  mentorId: z.number().nullable(),
-  rating: z.number().int().min(1).max(5),
-  content: z.string(),
+  courseRating: z.number(),
+  mentorRating: z.number(),
+  courseReview: z.string(),
+  mentorReview: z.string(),
+  subscriptionId: z.number(),
   updatedAt: z.string(),
 });
 

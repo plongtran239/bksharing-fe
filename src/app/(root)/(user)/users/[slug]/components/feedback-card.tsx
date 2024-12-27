@@ -7,7 +7,7 @@ const FeedbackCard = ({ feedback }: { feedback: FeedbackType }) => {
   const renderRating = () => {
     return [1, 2, 3, 4, 5].map((star) => (
       <div key={star} className="cursor-pointer">
-        {star <= feedback.rating ? (
+        {star <= feedback.mentorRating ? (
           <StarFilledIcon className="h-3 w-3 text-yellow-500" />
         ) : (
           <StarIcon className="h-3 w-3 text-yellow-500" />
@@ -38,7 +38,7 @@ const FeedbackCard = ({ feedback }: { feedback: FeedbackType }) => {
   };
 
   return (
-    <div className="space-y-5 rounded-lg border border-primary p-4">
+    <div className="space-y-5 rounded-lg border border-primary p-5">
       <div className="flex items-center gap-5">
         <div className="relative h-10 w-10">
           <Image
@@ -64,7 +64,7 @@ const FeedbackCard = ({ feedback }: { feedback: FeedbackType }) => {
         </div>
       </div>
 
-      <p className="text-black">{feedback.content}</p>
+      <p className="text-black">{feedback.mentorReview}</p>
     </div>
   );
 };
