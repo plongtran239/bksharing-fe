@@ -4,6 +4,7 @@ import {
   LoginRequestType,
   MentorRegisterRequestType,
   StudentRegisterRequestType,
+  VerifyResponseType,
 } from "@/schemas";
 import { AuthResponseType } from "@/schemas";
 
@@ -31,6 +32,15 @@ const authApi = {
         })),
       ],
     }),
+
+  verifyEmail: (token: string) =>
+    http.patch<VerifyResponseType>(`/auth/verification/${token}`),
+
+  forgotPassword: (body: { email: string }) =>
+    http.post("/auth/email/forgot-password", body),
+
+  resetPassword: (body: { token: string; password: string }) =>
+    http.patch("/auth/reset-password", body),
 
   auth: (body: { sessionToken: string; role: string }) =>
     http.post("/api/auth", body, {

@@ -86,12 +86,18 @@ const LoginForm = () => {
         >
           <span className="text-sm">
             {t("dontHaveAccount")}{" "}
-            <Link href="/register" className="text-blue-500">
-              <span className="hover:underline">{t("register")}</span>
+            <Link href="/register">
+              <Button className="px-1 py-0" variant="link">
+                {t("register")}
+              </Button>
             </Link>
           </span>
 
-          <span className="text-sm text-blue-500">{t("forgotPassword")}</span>
+          <Link href="/reset-password">
+            <Button className="p-0" variant="link">
+              {t("forgotPassword")}
+            </Button>
+          </Link>
         </motion.div>
 
         <motion.div

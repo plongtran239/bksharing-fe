@@ -45,12 +45,12 @@ const Achievement = ({
     >
       <div className="w-4/6 space-y-1">
         {/* name / position / major */}
-        <p className="text-lg font-semibold text-secondary-foreground">
+        <p className="text-lg font-semibold capitalize text-secondary-foreground">
           {field}
         </p>
 
         {/* organization */}
-        <p className="text-black">{organization}</p>
+        <p className="capitalize text-black">{organization}</p>
 
         {/* description */}
         <p className="text-sm text-foreground/70">

@@ -217,8 +217,10 @@ const BaseRegisterForm = <T extends FieldValues>({
         >
           <span className="text-sm">
             {t("alreadyHaveAccount")}{" "}
-            <Link href="/login" className="text-blue-500">
-              <span className="hover:underline">{t("login")}</span>
+            <Link href="/login">
+              <Button className="px-1 py-0" variant="link">
+                {t("login")}
+              </Button>
             </Link>
           </span>
 

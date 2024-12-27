@@ -11,6 +11,7 @@ import MobileSidebar from "@/components/header/mobile-sidebar";
 import Navbar from "@/components/header/navbar";
 import LangSwitcher from "@/components/lang-switcher";
 import NotificationTooltip from "@/components/notification/notification-tooltip";
+import { Button } from "@/components/ui/button";
 import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
 
@@ -21,19 +22,27 @@ const Header = ({ lang }: { lang: string }) => {
     <>
       <header className="fixed top-0 z-50 w-full bg-white shadow">
         <div className="flex-between container py-5 max-sm:px-5">
-          <Link href="/" className="mr-2 flex items-center gap-4">
-            <Image
-              src="/images/logo-icon.png"
-              alt="logo"
-              width={35}
-              height={35}
-              priority
-            />
+          <div className="flex items-center gap-10">
+            <Link href="/" className="mr-2 flex items-center gap-4">
+              <Image
+                src="/images/logo-icon.png"
+                alt="logo"
+                width={35}
+                height={35}
+                priority
+              />
 
-            <span className="text-xl font-semibold text-secondary-foreground dark:text-white">
-              BK Sharing
-            </span>
-          </Link>
+              <span className="text-xl font-semibold text-secondary-foreground dark:text-white">
+                BK Sharing
+              </span>
+            </Link>
+
+            {user?.accountType === ROLES.MENTOR && (
+              <Link href="/users/profile">
+                <Button>Cập nhật hồ sơ</Button>
+              </Link>
+            )}
+          </div>
 
           <div className="flex-between gap-10 max-lg:gap-5">
             {user?.accountType !== ROLES.ADMIN && <Navbar />}

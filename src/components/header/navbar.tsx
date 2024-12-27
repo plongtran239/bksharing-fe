@@ -36,14 +36,8 @@ const Navbar = ({ isSidebar }: IProps) => {
       })}
     >
       {NavbarMenuItems.map((item, index) => {
-        if (
-          item.label === "schedules" ||
-          item.label === "mentors" ||
-          item.label === "courses"
-        ) {
-          if (user?.accountType === ROLES.MENTOR) {
-            return null;
-          }
+        if (user?.accountType === ROLES.MENTOR) {
+          return null;
         }
 
         if (item.label === "schedules" && !user) {

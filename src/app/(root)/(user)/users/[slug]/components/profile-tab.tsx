@@ -28,10 +28,7 @@ const ProfileTab = ({
       {/* Warning */}
       {completion < 100 && isOwnProfile && (
         <div className="mb-5 rounded bg-[#FFF2CC] p-3 text-sm outline outline-1 outline-[#D6B656]">
-          Complete your profile to
-          <span className="font-semibold"> schedule a meeting </span>
-          with mentors or
-          <span className="font-semibold"> become a mentor</span>.
+          Hoàn thiện hồ sơ của bạn để được xét duyệt
         </div>
       )}
 

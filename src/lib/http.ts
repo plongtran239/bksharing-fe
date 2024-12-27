@@ -2,7 +2,7 @@
 import envConfig from "@/config";
 import { EntityError, EntityErrorPayload } from "@/lib/exceptions";
 import { normalizePath } from "@/lib/utils";
-import { AuthResponseType } from "@/schemas";
+import { AuthResponseType, VerifyResponseType } from "@/schemas";
 
 type CustomOptions = Omit<RequestInit, "method"> & {
   baseUrl?: string | undefined;
@@ -77,17 +77,16 @@ const request = async <Response>(
   }
 
   if (isClient()) {
-    if (
-      ["auth/login", "auth/students/register", "auth/mentors/register"].some(
-        (item) => item === normalizePath(url)
-      )
-    ) {
+    if (["auth/login"].some((item) => item === normalizePath(url))) {
       const { accessToken } = (payload as AuthResponseType).data;
       localStorage.setItem("sessionToken", accessToken);
     }
-    // else if ("auth/logout" === normalizePath(url)) {
-    //   localStorage.removeItem("sessionToken");
-    // }
+
+    if (normalizePath(url).startsWith("auth/verification")) {
+      const { token } = (payload as VerifyResponseType).data;
+
+      localStorage.setItem("sessionToken", token);
+    }
   }
 
   return data;

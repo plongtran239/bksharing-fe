@@ -1,3 +1,8 @@
+enum ACCOUNT_STATUS {
+  ACTIVE = "ACTIVE",
+  DEACTIVE = "DEACTIVE",
+}
+
 enum ROLES {
   ADMIN = "ADMIN",
   MENTOR = "MENTOR",
@@ -148,6 +153,7 @@ enum ERROR_ACTION {
 }
 
 export {
+  ACCOUNT_STATUS,
   ROLES,
   GENDERS,
   ACHIEVEMENT_TYPES,
