@@ -31,7 +31,9 @@ const MentorCard = ({ data }: { data: MentorType }) => {
 
         <p className="text-xl font-semibold text-black">{name}</p>
 
-        <p className="line-clamp-2 text-center text-xs">{bio || "No bio"}</p>
+        <p className="line-clamp-2 text-center text-xs">
+          {bio || "Không có mô tả"}
+        </p>
       </div>
 
       {/* Free Schedule */}

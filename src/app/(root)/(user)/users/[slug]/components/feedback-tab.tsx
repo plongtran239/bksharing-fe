@@ -28,7 +28,7 @@ const FeedbackTab = async ({ mentorId }: { mentorId: number }) => {
     return (
       <div className="flex-center flex-col gap-3 rounded-xl bg-white px-5 py-10">
         <InboxIcon size={24} className="" />
-        <h2 className="font-semibold">No reviews yet</h2>
+        <h2 className="font-semibold">Chưa có đánh giá nào!</h2>
       </div>
     );
   }

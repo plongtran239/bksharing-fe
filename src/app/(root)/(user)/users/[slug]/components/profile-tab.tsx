@@ -34,7 +34,7 @@ const ProfileTab = ({
 
       {/* About */}
       <ProfileSection
-        title="About"
+        title="Giới thiệu"
         bio={data.bio}
         type="ABOUT"
         mentorId={data.id}
@@ -45,7 +45,7 @@ const ProfileTab = ({
 
       {/* Education */}
       <ProfileSection
-        title="Education"
+        title="Học vấn"
         achievements={educations}
         type={ACHIEVEMENT_TYPES.EDUCATION}
         mentorId={data.id}
@@ -56,7 +56,7 @@ const ProfileTab = ({
 
       {/* Experience */}
       <ProfileSection
-        title="Experience"
+        title="Kinh nghiệm"
         achievements={experiences}
         type={ACHIEVEMENT_TYPES.EXPERIENCE}
         mentorId={data.id}
@@ -67,7 +67,7 @@ const ProfileTab = ({
 
       {/* Certifications */}
       <ProfileSection
-        title="Certifications"
+        title="Chứng chỉ"
         achievements={certifications}
         type={ACHIEVEMENT_TYPES.CERTIFICATION}
         mentorId={data.id}

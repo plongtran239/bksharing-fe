@@ -18,7 +18,7 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
   if (!isAccepted) {
     return (
       <div className="w-full rounded-xl bg-white p-5">
-        <p>No courses available for this mentor yet!</p>
+        <p>Chưa được duyệt để tạo khóa học</p>
       </div>
     );
   }
@@ -35,7 +35,7 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
     return (
       <div className="flex-center flex-col gap-3 rounded-lg bg-white px-5 py-10">
         <ArchiveXIcon size={24} className="" />
-        <h2 className="font-semibold">No courses yet</h2>
+        <h2 className="font-semibold">Không có khóa học nào!</h2>
       </div>
     );
   }
@@ -43,14 +43,10 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
   return (
     <section className="w-full rounded-xl bg-white p-5">
       <h2 className="text-2xl font-semibold text-primary">
-        Courses ({courses.length})
+        Khóa học ({courses.length})
       </h2>
 
       <div className="mt-5 grid grid-cols-1 gap-5 md:grid-cols-2">
-        {courses.length === 0 && (
-          <p className="text-sm text-black">There are no courses!</p>
-        )}
-
         {courses.length > 0 &&
           courses.map((course) => (
             <Link
@@ -77,9 +73,9 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
               <h3 className="capitalize text-black">{course.name}</h3>
 
               <p className="text-sm">
-                <span>{course.totalDuration} total hours</span>
+                <span>{course.totalDuration}h để học</span>
                 <span className="mx-2">•</span>
-                <span>{course.countOfSections} sections</span>
+                <span>{course.countOfSections} phần</span>
               </p>
 
               <p className="text-primary">

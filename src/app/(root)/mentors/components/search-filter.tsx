@@ -19,7 +19,7 @@ const SearchFilter = () => {
     <div className="flex-center gap-5 rounded-xl border border-primary bg-white p-5 shadow-xl max-xl:flex-col">
       <div className="w-full">
         <Input
-          placeholder="Search by mentor name..."
+          placeholder="Tìm kiếm gia sư..."
           value={searchName}
           onChange={(e) => {
             setSearchName(e.target.value);

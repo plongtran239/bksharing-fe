@@ -23,7 +23,7 @@ const Course = async () => {
       </div>
 
       <section className="container space-y-10 py-10">
-        <p className="text-2xl font-semibold text-black">Courses</p>
+        <p className="text-2xl font-semibold text-black">Danh sách khóa học</p>
 
         <div className="grid grid-cols-3 gap-10">
           {courses.map((course) => (

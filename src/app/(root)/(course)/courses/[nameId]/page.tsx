@@ -86,11 +86,11 @@ const CourseDetailPage = async ({
             </h1>
 
             <p className="line-clamp-5 text-black">
-              {course.description || "No description"}
+              {course.description || "Không có mô tả"}
             </p>
 
             <p className="text-sm">
-              Created by{" "}
+              Tạo bởi{" "}
               <Link
                 href={`/users/${generateNameId({
                   id: course.mentor.id,
@@ -100,14 +100,14 @@ const CourseDetailPage = async ({
               >
                 {course.mentor.name}
               </Link>{" "}
-              at {convertMilisecondsToLocaleDateString(course.createdAt)}
+              vào ngày {convertMilisecondsToLocaleDateString(course.createdAt)}
             </p>
           </div>
 
           {/* Objectives */}
           <div className="mt-20 space-y-5 rounded-xl border border-primary bg-secondary p-5 text-sm">
             <h2 className="text-xl font-semibold text-secondary-foreground">
-              What you will learn
+              Bạn sẽ học được gì?
             </h2>
 
             <div className="mt-2 grid grid-cols-2 gap-x-10 space-y-2">
@@ -125,9 +125,9 @@ const CourseDetailPage = async ({
           {/* Sections */}
           <div className="mt-5 rounded-xl">
             <div className="flex items-center gap-2 text-lg font-semibold text-secondary-foreground">
-              <p className="">{course.sections.length} sections</p>
+              <p className="">{course.sections.length} phần</p>
               <div className="h-1 w-1 rounded-full bg-primary"></div>
-              <p>{course.totalDuration}h total length</p>
+              <p>{course.totalDuration}h để hoàn thành</p>
             </div>
 
             <div className="mt-5 space-y-5">
@@ -143,7 +143,7 @@ const CourseDetailPage = async ({
                       <div className="flex-between w-full gap-5 p-5">
                         <h3 className="flex flex-1 items-center gap-2 font-semibold text-secondary-foreground">
                           <span className="line-clamp-1 flex-1">
-                            Section {index + 1}: {section.title}
+                            Phần {index + 1}: {section.title}
                           </span>
                           <ChevronsUpDownIcon
                             size={16}
@@ -172,7 +172,7 @@ const CourseDetailPage = async ({
                                   <br />
                                 </span>
                               ))
-                          : "No description"}
+                          : "Không có mô tả"}
                       </p>
 
                       {section.files && section.files.length > 0 && (
@@ -216,10 +216,10 @@ const CourseDetailPage = async ({
             <h2 className="flex items-center gap-2 text-lg font-semibold text-secondary-foreground">
               <div className="flex items-center gap-1">
                 <StarFilledIcon className="h-5 w-5 text-yellow-500" />
-                {(totalRating / feedbacks.length).toFixed(1)}
+                {(totalRating / feedbacks.length).toFixed(1) || 0}
               </div>
               <div className="h-1 w-1 rounded-full bg-primary"></div>
-              {feedbacks?.length || 0} Reviews
+              {feedbacks?.length || 0} Lượt đánh giá
             </h2>
 
             <div className="mt-5 grid grid-cols-2 gap-5">
@@ -285,7 +285,7 @@ const CourseDetailPage = async ({
 
             {/* Target */}
             <div className="space-y-2">
-              <p className="font-medium text-black">Target Audiences:</p>
+              <p className="font-medium text-black">Phù hợp với:</p>
               <ul className="space-y-2 text-sm">
                 {course.targetAudiences.map((targetAudience, index) => (
                   <li
@@ -301,7 +301,7 @@ const CourseDetailPage = async ({
 
             {/* Requirements */}
             <div className="space-y-2">
-              <p className="font-medium text-black">Requirement:</p>
+              <p className="font-medium text-black">Yêu cầu khi đăng ký:</p>
               <ul className="space-y-2 text-sm">
                 {course.prerequisites.length > 0
                   ? course.prerequisites.map((prerequisite, index) => (
@@ -310,7 +310,7 @@ const CourseDetailPage = async ({
                         {prerequisite}
                       </li>
                     ))
-                  : "No requirement"}
+                  : "Không có"}
               </ul>
             </div>
           </div>

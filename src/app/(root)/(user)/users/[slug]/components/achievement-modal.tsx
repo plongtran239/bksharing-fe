@@ -73,7 +73,7 @@ const AchievementModal = ({
               <Textarea
                 rows={5}
                 className="mb-5 mt-3 text-black"
-                placeholder="Enter your about..."
+                placeholder="Nhập thông tin ..."
                 value={bio}
                 onChange={(e) => setBio(e.target.value)}
               />
@@ -91,13 +91,18 @@ const AchievementModal = ({
                   name={achievementField}
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="achievementField" required>
+                      <FormLabel
+                        htmlFor="achievementField"
+                        required
+                        className="capitalize"
+                      >
                         {achievementField}
                       </FormLabel>
                       <FormControl>
                         <Input
                           id="achievementField"
-                          placeholder={`enter ${achievementField}...`}
+                          // placeholder={`enter ${achievementField}...`}
+                          placeholder="nhập..."
                           {...field}
                         />
                       </FormControl>
@@ -112,7 +117,7 @@ const AchievementModal = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel htmlFor="organization" required>
-                        Organization
+                        Nơi học tập / làm việc
                       </FormLabel>
                       <FormControl>
                         <Input
@@ -132,7 +137,7 @@ const AchievementModal = ({
                   render={({ field }) => (
                     <FormItem className="flex items-center gap-2">
                       <FormLabel htmlFor="isCurrent" className="mt-1">
-                        Current
+                        Hiện tại
                       </FormLabel>
                       <FormControl>
                         <Checkbox
@@ -152,14 +157,14 @@ const AchievementModal = ({
                   render={({ field }) => (
                     <FormItem className="w-full">
                       <FormLabel htmlFor="start" required>
-                        Start Date
+                        Ngày bắt đầu
                       </FormLabel>
                       <FormControl>
                         <DateTimePicker
                           id="start"
                           value={field.value}
                           onChange={field.onChange}
-                          placeholder="date of birth"
+                          placeholder="ngày bắt đầu"
                           displayFormat={{ hour24: "dd/MM/yyyy" }}
                           granularity="day"
                           limitToCurrent={true}
@@ -177,13 +182,13 @@ const AchievementModal = ({
                     name="endDate"
                     render={({ field }) => (
                       <FormItem className="w-full">
-                        <FormLabel htmlFor="end">End Date</FormLabel>
+                        <FormLabel htmlFor="end">Ngày kết thúc</FormLabel>
                         <FormControl>
                           <DateTimePicker
                             id="end"
                             value={field.value}
                             onChange={field.onChange}
-                            placeholder="end date"
+                            placeholder="ngày kết thúc"
                             displayFormat={{ hour24: "dd/MM/yyyy" }}
                             granularity="day"
                             locale={vi}
@@ -200,11 +205,11 @@ const AchievementModal = ({
                   name="description"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel htmlFor="description">Description</FormLabel>
+                      <FormLabel htmlFor="description">Mô tả</FormLabel>
                       <FormControl>
                         <Textarea
                           id="description"
-                          placeholder="enter description..."
+                          placeholder="nhập..."
                           {...field}
                         />
                       </FormControl>

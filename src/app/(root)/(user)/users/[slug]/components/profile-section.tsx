@@ -216,7 +216,7 @@ const ProfileSection = ({
                 </div>
               </TooltipTrigger>
               <TooltipContent align="center">
-                <p className="text-xs">Add {type.toLowerCase()}</p>
+                <p className="text-xs">Thêm {type.toLowerCase()}</p>
               </TooltipContent>
             </Tooltip>
 
@@ -244,7 +244,7 @@ const ProfileSection = ({
                 </div>
               </TooltipTrigger>
               <TooltipContent align="center">
-                <p className="text-xs">Edit {type.toLowerCase()}</p>
+                <p className="text-xs">Sửa {type.toLowerCase()}</p>
               </TooltipContent>
             </Tooltip>
 
@@ -266,7 +266,7 @@ const ProfileSection = ({
                 </div>
               </TooltipTrigger>
               <TooltipContent align="center">
-                <p className="text-xs">Done</p>
+                <p className="text-xs">Hoàn thành</p>
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
@@ -275,7 +275,7 @@ const ProfileSection = ({
         <Progress value={100} className="h-1 w-[100px]" />
 
         <CollapsibleContent className="space-y-5 pt-2">
-          {type === "ABOUT" && (bio ? <p>{bio}</p> : <p>No about</p>)}
+          {type === "ABOUT" && (bio ? <p>{bio}</p> : <p>Không có</p>)}
 
           {type !== "ABOUT" &&
             (achievements && achievements.length > 0 ? (
@@ -302,7 +302,7 @@ const ProfileSection = ({
                 />
               ))
             ) : (
-              <p>No {title.toLowerCase()}</p>
+              <p>Không có</p>
             ))}
         </CollapsibleContent>
       </Collapsible>
@@ -311,12 +311,8 @@ const ProfileSection = ({
         <AchievementModal
           key={achievementType}
           isOpen={isOpenModal && type === achievementType}
-          title={`${isEdit ? "Edit" : "Add"} ${convertToCapitalizeCase(achievementType)}`}
-          description={
-            type === "ABOUT"
-              ? "You can write about your years of experience, industry, or skills. People also talk about their achievements or previous job experiences."
-              : `You can ${isEdit ? "edit" : "add"} your ${achievementType.toLowerCase()} here.`
-          }
+          title={`${isEdit ? "Chỉnh sửa" : "Thêm"} ${convertToCapitalizeCase(achievementType)}`}
+          description={"Nhập thông tin"}
           type={achievementType as ACHIEVEMENT_TYPES | "ABOUT"}
           handleCancel={handleCancel}
           handleSave={handleSave}
@@ -333,9 +329,8 @@ const ProfileSection = ({
         onCancel={() => setDeleteAchievementId(undefined)}
         onConfirm={handleDelete}
         isLoading={isLoading}
-        title="Are you absolutely sure?"
-        description="This action cannot be undone. This will permanently delete this
-          achievement from our server."
+        title="Bạn có chắc chắn muốn xóa?"
+        description="Hành động này không thể hoàn tác"
       />
     </section>
   );

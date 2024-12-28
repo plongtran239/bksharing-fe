@@ -58,7 +58,7 @@ const Profile = async ({ slug }: { slug: string }) => {
 
           <div className="flex-center flex-col">
             <div className="mb-2 flex gap-2 text-sm">
-              completion: <span>{completion}%</span>
+              Hoàn thành: <span>{completion}%</span>
             </div>
             <Progress value={completion} className="w-[200px]" />
           </div>
@@ -76,17 +76,17 @@ const Profile = async ({ slug }: { slug: string }) => {
             <TabsList className="gap-2">
               <TabsTrigger value="profile">
                 <FileTextIcon size={16} className="max-sm:hidden" />
-                Profile
+                Hồ sơ
               </TabsTrigger>
 
               <TabsTrigger value="courses">
                 <SquareLibraryIcon size={16} className="max-sm:hidden" />
-                Courses
+                Khóa học
               </TabsTrigger>
 
               <TabsTrigger value="reviews">
                 <MessageSquareQuoteIcon size={16} className="max-sm:hidden" />
-                Reviews
+                Đánh giá
               </TabsTrigger>
             </TabsList>
           </div>

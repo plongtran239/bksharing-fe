@@ -35,11 +35,11 @@ const Welcome = async () => {
 
         <div className="space-y-1">
           <p className="text-xl font-semibold text-secondary-foreground">
-            Welcome back, {user?.name}!
+            Chào mừng trở lại, {user?.name}!
           </p>
           <div>
             <Link href="/categories" className="underline hover:text-primary">
-              Edit your interests
+              Lựa chọn danh mục yêu thích
             </Link>
           </div>
         </div>

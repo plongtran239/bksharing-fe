@@ -35,7 +35,7 @@ const Achievement = ({
 
   const end = endDate
     ? convertMilisecondsToLocaleDateString(endDate).slice(3)
-    : "Now";
+    : "Hiện tại";
 
   return (
     <div
@@ -54,7 +54,7 @@ const Achievement = ({
 
         {/* description */}
         <p className="text-sm text-foreground/70">
-          {description || "No description"}
+          {description || "Không có mô tả"}
         </p>
       </div>
 
