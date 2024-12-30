@@ -189,6 +189,10 @@
   height: 100%;
 }
 
+.slick-slide > div {
+  margin: 0 10px;
+}
+
 @keyframes show {
   0% {
     animation-timing-function: ease-in;

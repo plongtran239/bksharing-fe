@@ -1,7 +1,9 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Metadata } from "next";
 
+import categoryApi from "@/apis/category.api";
 import courseApi from "@/apis/course.api";
+import CategoryList from "@/app/(root)/(course)/courses/components/category-list";
 import CourseCard from "@/app/(root)/(course)/courses/components/course-card";
 import Welcome from "@/app/(root)/(course)/courses/components/welcome";
 import { Button } from "@/components/ui/button";
@@ -16,19 +18,54 @@ const Course = async () => {
     payload: { data: courses, total },
   } = await courseApi.getCourses();
 
+  const {
+    payload: { data: categories },
+  } = await categoryApi.getCategories();
+
   return (
     <main>
       <div className="bg-secondary">
         <Welcome />
       </div>
 
-      <section className="container space-y-10 py-10">
-        <p className="text-2xl font-semibold text-black">Danh sách khóa học</p>
+      <section className="container space-y-5 py-5">
+        <div className="">
+          <CategoryList categories={categories} />
+        </div>
 
-        <div className="grid grid-cols-3 gap-10">
-          {courses.map((course) => (
-            <CourseCard key={course.id} course={course} />
-          ))}
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-semibold text-primary">
+              Khóa Học Của Tôi
+            </h2>
+            <p className="text-sm text-gray-500">
+              Tất cả khóa học bạn đã tham gia
+            </p>
+          </div>
+          {/* My Courses */}
+          <div className="flex gap-5">
+            {courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-4">
+          <div className="space-y-1">
+            <h2 className="text-2xl font-semibold text-primary">
+              Khóa Học Phổ Biến
+            </h2>
+            <p className="text-sm text-gray-500">
+              Các khóa học được nhiều người tham gia nhất
+            </p>
+          </div>
+
+          {/* Popular */}
+          <div className="flex gap-5">
+            {courses.map((course) => (
+              <CourseCard key={course.id} course={course} />
+            ))}
+          </div>
         </div>
 
         {total > 3 && (

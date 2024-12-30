@@ -94,32 +94,50 @@ const AdminSidebarMenuItems: MenuItemsType = [
     label: "mentors",
     href: "/admin/mentors",
     icon: <GraduationCapIcon size={18} strokeWidth={2.5} />,
-    subs: Object.values(MENTOR_STATUS).map((status) => ({
-      label: status.toLowerCase(),
-      href: `/admin/mentors?status=${status}`,
-    })),
+    subs: [
+      {
+        label: "all",
+        href: "/admin/mentors",
+      },
+      ...Object.values(MENTOR_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/mentors?status=${status}`,
+      })),
+    ],
   },
   {
     label: "meetings",
     href: "/admin/meetings",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
-    subs: Object.values(MEETING_STATUS).map((status) => ({
-      label: status.toLowerCase(),
-      href: `/admin/meetings?status=${status}`,
-    })),
+    subs: [
+      {
+        label: "all",
+        href: "/admin/meetings",
+      },
+      ...Object.values(MEETING_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/meetings?status=${status}`,
+      })),
+    ],
   },
   {
     label: "courses",
     href: "/admin/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
     subs: [
-      COURSE_STATUS.PENDING,
-      COURSE_STATUS.APPROVED,
-      COURSE_STATUS.REJECTED,
-    ].map((status) => ({
-      label: status.toLowerCase(),
-      href: `/admin/courses?status=${status}`,
-    })),
+      {
+        label: "all",
+        href: "/admin/courses",
+      },
+      ...[
+        COURSE_STATUS.PENDING,
+        COURSE_STATUS.APPROVED,
+        COURSE_STATUS.REJECTED,
+      ].map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/courses?status=${status}`,
+      })),
+    ],
   },
   {
     label: "categories",
@@ -138,16 +156,26 @@ const MentorSidebarMenuItems: MenuItemsType = [
     label: "appointments",
     href: "/mentor/appointments",
     icon: <VideoIcon size={18} strokeWidth={2.5} />,
-    subs: Object.values(MEETING_STATUS).map((status) => ({
-      label: status.toLowerCase(),
-      href: `/mentor/appointments?status=${status}`,
-    })),
+    subs: [
+      {
+        label: "all",
+        href: "/mentor/appointments",
+      },
+      ...Object.values(MEETING_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/mentor/appointments?status=${status}`,
+      })),
+    ],
   },
   {
     label: "requests",
     href: "/mentor/requests",
     icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
     subs: [
+      {
+        label: "all",
+        href: "/mentor/requests",
+      },
       ...Object.values(SUBSCRIPTION_STATUS).map((status) => ({
         label: status.toLowerCase(),
         href: `/mentor/requests?status=${status}`,
@@ -159,14 +187,20 @@ const MentorSidebarMenuItems: MenuItemsType = [
     href: "/mentor/courses",
     icon: <LibraryIcon size={18} strokeWidth={2.5} />,
     subs: [
-      COURSE_STATUS.DRAFT,
-      COURSE_STATUS.PENDING,
-      COURSE_STATUS.APPROVED,
-      COURSE_STATUS.REJECTED,
-    ].map((status) => ({
-      label: status.toLowerCase(),
-      href: `/mentor/courses?status=${status}`,
-    })),
+      {
+        label: "all",
+        href: "/mentor/courses",
+      },
+      ...[
+        COURSE_STATUS.DRAFT,
+        COURSE_STATUS.PENDING,
+        COURSE_STATUS.APPROVED,
+        COURSE_STATUS.REJECTED,
+      ].map((status) => ({
+        label: status.toLowerCase(),
+        href: `/mentor/courses?status=${status}`,
+      })),
+    ],
   },
   {
     label: "chat",

@@ -19,7 +19,11 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { convertToCapitalizeCase, generateNameId } from "@/lib/utils";
+import {
+  convertMilisecondsToLocaleString,
+  convertToCapitalizeCase,
+  generateNameId,
+} from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
@@ -93,6 +97,43 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       ),
     },
     {
+      accessorKey: "mentor",
+      header: "Mentor",
+      cell: ({ row }) => (
+        <div className="capitalize">{row.original.mentor.name}</div>
+      ),
+    },
+    {
+      accessorKey: "noOfSubscriptions",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Subscriptions
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => <div>{row.original.noOfSubscriptions}</div>,
+    },
+    {
+      accessorKey: "noOfFeedbacks",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Feedbacks
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => <div>{row.original.noOfFeedbacks}</div>,
+    },
+    {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
@@ -102,10 +143,20 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       ),
     },
     {
-      accessorKey: "mentor",
-      header: "Mentor",
+      accessorKey: "createdAt",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Created At
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
       cell: ({ row }) => (
-        <div className="capitalize">{row.original.mentor.name}</div>
+        <div>{convertMilisecondsToLocaleString(row.getValue("createdAt"))}</div>
       ),
     },
     {

@@ -16,9 +16,9 @@ const CourseCard = ({ course }: IProps) => {
         id: course.id,
         name: course.name,
       })}`}
-      className="space-y-5 rounded-xl border border-primary bg-white p-5 shadow-2xl transition-all hover:scale-105"
+      className="space-y-5 rounded-xl border border-primary bg-white p-5 shadow transition-all hover:scale-105"
     >
-      <div className="relative h-[12rem] w-full">
+      <div className="relative h-40 w-60">
         <Image
           src={course.image?.originalUrl || "/images/landing-1.png"}
           alt=""
@@ -41,7 +41,7 @@ const CourseCard = ({ course }: IProps) => {
 
       <p className="text-black">{course.name}</p>
 
-      <p className="line-clamp-2 min-h-[40px] text-sm">
+      <p className="line-clamp-2 min-h-10 text-sm">
         {course.description || "Không có mô tả"}
       </p>
 

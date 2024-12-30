@@ -1,7 +1,7 @@
 import { vi } from "date-fns/locale";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FieldValues, Path, UseFormReturn } from "react-hook-form";
 
 import Loader from "@/components/loader";
@@ -41,6 +41,8 @@ const BaseRegisterForm = <T extends FieldValues>({
   loading,
   children,
 }: IBaseRegisterFormProps<T>) => {
+  const router = useRouter();
+
   const t = useTranslations("authPage.register");
 
   return (
@@ -217,11 +219,14 @@ const BaseRegisterForm = <T extends FieldValues>({
         >
           <span className="text-sm">
             {t("alreadyHaveAccount")}{" "}
-            <Link href="/login">
-              <Button className="px-1 py-0" variant="link">
-                {t("login")}
-              </Button>
-            </Link>
+            <Button
+              type="button"
+              className="px-1 py-0"
+              variant="link"
+              onClick={() => router.push("/login")}
+            >
+              {t("login")}
+            </Button>
           </span>
 
           <Button

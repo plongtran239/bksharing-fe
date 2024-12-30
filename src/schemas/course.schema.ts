@@ -112,6 +112,9 @@ const CourseBase = z.object({
 
 const Course = CourseBase.extend({
   countOfSections: z.number(),
+  createdAt: z.string(),
+  noOfSubscriptions: z.number(),
+  noOfFeedbacks: z.number(),
 });
 
 const CourseDetail = CourseBase.extend({

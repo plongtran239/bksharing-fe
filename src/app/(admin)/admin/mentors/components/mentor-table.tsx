@@ -29,7 +29,11 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { convertToCapitalizeCase, generateNameId } from "@/lib/utils";
+import {
+  convertMilisecondsToLocaleString,
+  convertToCapitalizeCase,
+  generateNameId,
+} from "@/lib/utils";
 import { MentorType } from "@/schemas";
 
 interface IProps {
@@ -181,6 +185,25 @@ const MentorTable = ({ data }: IProps) => {
       cell: ({ row }) => (
         <div className="capitalize">
           {convertToCapitalizeCase(row.getValue("status"))}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "registeredAt",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Joined At
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div>
+          {convertMilisecondsToLocaleString(row.getValue("registeredAt"))}
         </div>
       ),
     },

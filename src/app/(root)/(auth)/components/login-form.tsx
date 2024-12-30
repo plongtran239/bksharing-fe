@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 
 import Loader from "@/components/loader";
@@ -24,6 +24,7 @@ import { LoginRequest, LoginRequestType } from "@/schemas";
 
 const LoginForm = () => {
   const t = useTranslations("authPage.login");
+  const router = useRouter();
 
   const { login, loading } = useLogin();
 
@@ -85,19 +86,25 @@ const LoginForm = () => {
           variants={childVariants}
         >
           <span className="text-sm">
-            {t("dontHaveAccount")}{" "}
-            <Link href="/register">
-              <Button className="px-1 py-0" variant="link">
-                {t("register")}
-              </Button>
-            </Link>
+            {t("dontHaveAccount")}
+            <Button
+              type="button"
+              variant="link"
+              className="px-1 py-0"
+              onClick={() => router.push("/register")}
+            >
+              {t("register")}
+            </Button>
           </span>
 
-          <Link href="/reset-password">
-            <Button className="p-0" variant="link">
-              {t("forgotPassword")}
-            </Button>
-          </Link>
+          <Button
+            type="button"
+            variant="link"
+            className="p-0"
+            onClick={() => router.push("/reset-password")}
+          >
+            {t("forgotPassword")}
+          </Button>
         </motion.div>
 
         <motion.div

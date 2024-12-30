@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import userApi from "@/apis/user.api";
+import { Input } from "@/components/ui/input";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const Welcome = async () => {
@@ -21,7 +22,7 @@ const Welcome = async () => {
   }
 
   return (
-    <section className="container py-10">
+    <section className="flex-between container gap-36 py-10">
       <div className="flex items-center gap-5">
         <div className="relative h-16 w-16">
           <Image
@@ -43,6 +44,10 @@ const Welcome = async () => {
             </Link>
           </div>
         </div>
+      </div>
+
+      <div className="flex-1">
+        <Input className="bg-white" placeholder="tìm kiếm khóa học" />
       </div>
     </section>
   );
