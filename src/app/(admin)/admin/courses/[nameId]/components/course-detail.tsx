@@ -131,7 +131,6 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
                       />
                     </h3>
                     <p className="text-sm">
-                      Duration: {section.duration || 0}h -{" "}
                       {section.isPublic ? "Public" : "Private"}
                     </p>
                   </div>

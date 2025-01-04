@@ -62,7 +62,6 @@ const CourseSetting = ({
     try {
       await courseApi.updateCourse(course.id, {
         isPublic,
-        courseType: course.courseType,
         status: course.status,
         objectives: course.objectives,
         price: course.price,
@@ -86,7 +85,6 @@ const CourseSetting = ({
     try {
       await courseApi.updateCourse(course.id, {
         isPublic,
-        courseType: course.courseType,
         status: COURSE_STATUS.PENDING,
         objectives: course.objectives,
         price: course.price,
