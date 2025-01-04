@@ -1,5 +1,5 @@
 import { StarFilledIcon } from "@radix-ui/react-icons";
-import { ChevronsUpDownIcon, ClockIcon, PaperclipIcon } from "lucide-react";
+import { ChevronsUpDownIcon, PaperclipIcon } from "lucide-react";
 import { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
@@ -68,10 +68,18 @@ const CourseDetailPage = async ({
     notFound();
   }
 
-  const totalRating = feedbacks.reduce(
-    (acc, feedback) => acc + feedback.courseRating,
-    0
-  );
+  const caculateRating = () => {
+    if (feedbacks.length === 0) {
+      return 0;
+    }
+
+    const totalRating = feedbacks.reduce(
+      (acc, feedback) => acc + feedback.courseRating,
+      0
+    );
+
+    return (totalRating / feedbacks.length).toFixed(1);
+  };
 
   return (
     <main className="relative">
@@ -152,10 +160,6 @@ const CourseDetailPage = async ({
                             })}
                           />
                         </h3>
-                        <p className="flex items-center gap-2 text-sm">
-                          <ClockIcon size={16} />
-                          {section.duration || 0}h
-                        </p>
                       </div>
                     </CollapsibleTrigger>
 
@@ -216,7 +220,7 @@ const CourseDetailPage = async ({
             <h2 className="flex items-center gap-2 text-lg font-semibold text-secondary-foreground">
               <div className="flex items-center gap-1">
                 <StarFilledIcon className="h-5 w-5 text-yellow-500" />
-                {(totalRating / feedbacks.length).toFixed(1) || 0}
+                {caculateRating()}
               </div>
               <div className="h-1 w-1 rounded-full bg-primary"></div>
               {feedbacks?.length || 0} Lượt đánh giá

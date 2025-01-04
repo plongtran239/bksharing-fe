@@ -7,6 +7,7 @@ const Category = z.object({
   description: z.string().optional(),
   thumbnail: z.string().optional(),
   parentCategoryId: z.number().optional(),
+  noOfCourses: z.number(),
   childCategories: z.array(z.lazy((): z.ZodTypeAny => Category)),
 });
 

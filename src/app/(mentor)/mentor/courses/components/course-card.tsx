@@ -52,8 +52,7 @@ const CourseCard = ({ course }: { course: CourseType }) => {
           <p className="text-sm">
             <span className="text-black">
               {convertToCapitalizeCase(course.status)}
-            </span>{" "}
-            - {convertToCapitalizeCase(course.courseType)}
+            </span>
           </p>
         </div>
 

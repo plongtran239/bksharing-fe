@@ -14,9 +14,9 @@ const courseApi = {
     http.post("/client/courses", {
       ...body,
       price: Number(body.price),
+      totalDuration: Number(body.totalDuration),
       startDate: convertDateToLocaleDateString(body.startDate),
       endDate: convertDateToLocaleDateString(body.endDate),
-      totalDuration: 2,
     }),
 
   getCourses: () =>
@@ -39,6 +39,13 @@ const courseApi = {
       },
     });
   },
+
+  getLearnedCourses: (sessionToken: string) =>
+    http.get<ListResponseType<CourseType>>("/client/courses/students", {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
 
   getCourseById: (sessionToken: string, courseId: number) =>
     http.get<DetailResponseType<CourseDetailType>>(

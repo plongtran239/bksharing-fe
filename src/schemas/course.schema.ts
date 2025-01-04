@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { COURSE_STATUS, COURSE_TYPE, TARGET_AUDIENCE } from "@/constants/enum";
+import { COURSE_STATUS, TARGET_AUDIENCE } from "@/constants/enum";
 
 const SectionRequest = z.object({
   id: z.number().optional(),
@@ -9,9 +9,6 @@ const SectionRequest = z.object({
     message: "Section title must be at least 3 character long",
   }),
   description: z.string().optional(),
-  duration: z.number().min(1, {
-    message: "Duration must be at least 1",
-  }),
   isPublic: z.boolean().default(false),
   files: z.array(z.object({ fileId: z.number(), isPublic: z.boolean() })),
 });
@@ -27,18 +24,17 @@ const Section = z.object({
   id: z.number(),
   title: z.string(),
   description: z.string(),
-  duration: z.number(),
   isPublic: z.boolean(),
   files: z.array(SectionFile),
 });
 
 const CourseRequest = z
   .object({
-    courseType: z.nativeEnum(COURSE_TYPE),
     name: z.string().min(1, {
       message: "Course name must be at least 1 character long",
     }),
     description: z.string().optional(),
+    totalDuration: z.number(),
     categoryId: z.number(),
     objectives: z
       .array(
@@ -80,7 +76,6 @@ const CourseBase = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string().optional(),
-  courseType: z.nativeEnum(COURSE_TYPE),
   status: z.nativeEnum(COURSE_STATUS),
   category: z.object({ id: z.number(), name: z.string() }),
   objectives: z.array(z.string()),

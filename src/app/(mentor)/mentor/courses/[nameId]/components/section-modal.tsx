@@ -59,7 +59,6 @@ const SectionModal = ({
       id: undefined,
       title: "",
       description: "",
-      duration: undefined,
       isPublic: false,
       files: [],
     },
@@ -101,7 +100,6 @@ const SectionModal = ({
     form.reset({
       title: "",
       description: "",
-      duration: 0,
       isPublic: false,
       files: [],
     });
@@ -155,57 +153,32 @@ const SectionModal = ({
                 )}
               />
 
-              <div className="grid grid-cols-2 gap-5">
-                <FormField
-                  control={form.control}
-                  name="duration"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Duration</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          placeholder="duration..."
-                          value={field.value || ""}
-                          onChange={(e) => {
-                            field.onChange({
-                              target: { value: Number(e.target.value) || "" },
-                            });
-                          }}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-
-                <FormField
-                  control={form.control}
-                  name="isPublic"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Visibility</FormLabel>
-                      <FormControl>
-                        <Select
-                          defaultValue={field.value ? "Public" : "Private"}
-                          onValueChange={(value) =>
-                            field.onChange(value === "Public")
-                          }
-                        >
-                          <SelectTrigger>
-                            <SelectValue placeholder="select visibility"></SelectValue>
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="Private">Private</SelectItem>
-                            <SelectItem value="Public">Public</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="isPublic"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Visibility</FormLabel>
+                    <FormControl>
+                      <Select
+                        defaultValue={field.value ? "Public" : "Private"}
+                        onValueChange={(value) =>
+                          field.onChange(value === "Public")
+                        }
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="select visibility"></SelectValue>
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="Private">Private</SelectItem>
+                          <SelectItem value="Public">Public</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </form>
           </Form>
 

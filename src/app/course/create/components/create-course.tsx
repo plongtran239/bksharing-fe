@@ -7,7 +7,6 @@ import { useForm } from "react-hook-form";
 
 import courseApi from "@/apis/course.api";
 import ChooseCategory from "@/app/course/create/components/choose-category";
-import ChooseType from "@/app/course/create/components/choose-type";
 import InputInfo from "@/app/course/create/components/input-info";
 import PrerequisiteObjective from "@/app/course/create/components/prerequisite-obj";
 import SetDate from "@/app/course/create/components/set-date";
@@ -26,7 +25,6 @@ const CreateCourse = () => {
   const form = useForm<CourseRequestType>({
     resolver: zodResolver(CourseRequest),
     defaultValues: {
-      courseType: undefined,
       name: "",
       description: "",
       categoryId: undefined,
@@ -39,18 +37,19 @@ const CreateCourse = () => {
       endDate: undefined,
       isPublic: false,
       imageId: undefined,
+      totalDuration: undefined,
     },
   });
 
   const isDisabledNext = () => {
     switch (step) {
       case 1:
-        return !form.watch("courseType");
+        return !form.watch("name") || !form.watch("totalDuration");
       case 2:
-        return !form.watch("name");
-      case 3:
         return !form.watch("categoryId");
-      case 5:
+      case 3:
+        return form.watch("objectives").length === 0;
+      case 4:
         return (
           !form.watch("price") || form.watch("targetAudiences").length === 0
         );
@@ -82,7 +81,7 @@ const CreateCourse = () => {
 
   return (
     <ProgressLayout
-      totalSteps={6}
+      totalSteps={5}
       step={step}
       setStep={setStep}
       isDisabledNext={isDisabledNext}
@@ -92,23 +91,15 @@ const CreateCourse = () => {
     >
       {/* Content */}
       <div className="h-[calc(100vh-75px-4px-77px)] py-10">
-        {/* Step 1: Course type */}
-        {step === 1 && <ChooseType form={form} />}
+        {step === 1 && <InputInfo form={form} />}
 
-        {/* Step 2 */}
-        {step === 2 && <InputInfo form={form} />}
+        {step === 2 && <ChooseCategory form={form} />}
 
-        {/* Step 3 */}
-        {step === 3 && <ChooseCategory form={form} />}
+        {step === 3 && <PrerequisiteObjective form={form} />}
 
-        {/* Step 4 */}
-        {step === 4 && <PrerequisiteObjective form={form} />}
+        {step === 4 && <TargetAudiencePrice form={form} />}
 
-        {/* Step 5 */}
-        {step === 5 && <TargetAudiencePrice form={form} />}
-
-        {/* Step 6 */}
-        {step === 6 && <SetDate form={form} />}
+        {step === 5 && <SetDate form={form} />}
       </div>
     </ProgressLayout>
   );

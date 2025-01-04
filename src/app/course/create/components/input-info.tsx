@@ -9,7 +9,7 @@ const InputInfo = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
   return (
     <div className="container space-y-10">
       <h1 className="text-center text-3xl font-semibold text-secondary-foreground">
-        Enter the course name and description.
+        Enter the course name, duration & description.
       </h1>
 
       <p className="text-center text-black">
@@ -27,6 +27,19 @@ const InputInfo = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
             placeholder="Enter course name..."
             className="w-1/2"
             {...form.register("name")}
+          />
+        </div>
+
+        <div className="flex-center flex-col gap-2">
+          <Label htmlFor="duration" className="text-left">
+            Course Duration (from 1 to 10 hours)
+          </Label>
+          <Input
+            id="duration"
+            type="number"
+            placeholder="Enter course duration..."
+            className="w-1/2"
+            {...form.register("totalDuration")}
           />
         </div>
 

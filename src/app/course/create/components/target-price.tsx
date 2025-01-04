@@ -13,7 +13,7 @@ const TargetAudiencePrice = ({
   form: UseFormReturn<CourseRequestType>;
 }) => {
   return (
-    <div className="container space-y-10 text-center">
+    <div className="space-y-10 text-center">
       <h1 className="text-3xl font-semibold text-secondary-foreground">
         Enter Price and Target Audiences for Your Course
       </h1>
@@ -23,7 +23,7 @@ const TargetAudiencePrice = ({
         your course.
       </p>
 
-      <div className="space-y-10">
+      <div className="space-y-20">
         <div className="flex-center flex-col gap-2">
           <Label required htmlFor="price" className="text-left">
             Price
@@ -48,6 +48,7 @@ const TargetAudiencePrice = ({
               label: convertToCapitalizeCase(audience),
               value: audience,
             }))}
+            maxCount={4}
             onValueChange={(value) => {
               form.setValue("targetAudiences", value as TARGET_AUDIENCE[]);
             }}
@@ -56,7 +57,7 @@ const TargetAudiencePrice = ({
                 ? form.getValues("targetAudiences")
                 : []
             }
-            className="w-1/4"
+            className="w-1/2"
           />
         </div>
       </div>

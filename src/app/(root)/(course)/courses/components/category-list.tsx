@@ -29,6 +29,7 @@ const settings: Settings = {
   swipeToSlide: true,
   autoplay: true,
   pauseOnHover: true,
+  focusOnSelect: true,
 };
 
 const ICONS = {
@@ -58,7 +59,9 @@ const CategoryList = ({ categories }: { categories: CategoryType[] }) => {
               <Grid2X2Icon size={24} />
             )}
           </div>
-          <p className="mt-2 text-center text-xs">{category.name}</p>
+          <p className="mt-2 text-center text-xs">
+            {category.name} ({category.noOfCourses})
+          </p>
         </div>
       ))}
     </Slider>

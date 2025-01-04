@@ -37,7 +37,7 @@ const PrerequisiteObjective = ({
       <div className="space-y-10">
         <div className="flex-center flex-col gap-3">
           <Label htmlFor="objectives" className="text-left">
-            Course objectives
+            Course objectives (at least 1)
           </Label>
 
           {objectives.map((objective, index) => (
