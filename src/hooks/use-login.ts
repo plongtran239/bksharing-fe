@@ -4,7 +4,8 @@ import { useState } from "react";
 
 import authApi from "@/apis/auth.api";
 import fcmApi from "@/apis/fcm.api";
-import { ROLES } from "@/constants/enum";
+import userApi from "@/apis/user.api";
+import { MENTOR_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { generateFcmToken } from "@/lib/firebase";
 import { useAppContext } from "@/providers/app.provider";
@@ -38,6 +39,16 @@ export const useLogin = () => {
         role: data.accountType,
       });
 
+      let mentorStatus = MENTOR_STATUS.PENDING;
+
+      if (data.accountType === ROLES.MENTOR) {
+        const {
+          payload: { data: profile },
+        } = await userApi.getMentorProfile(data.accessToken);
+
+        mentorStatus = profile.status;
+      }
+
       setUser(data);
 
       toast({
@@ -50,7 +61,11 @@ export const useLogin = () => {
           router.replace("/admin/dashboard");
           break;
         case ROLES.MENTOR:
-          router.replace("/mentor/courses");
+          if (mentorStatus === MENTOR_STATUS.PENDING) {
+            router.replace("/users/profile");
+          } else {
+            router.replace("/mentor/appointments");
+          }
           break;
         case ROLES.STUDENT:
           router.replace("/");

@@ -1,5 +1,8 @@
 "use client";
 
+import Autoplay from "embla-carousel-autoplay";
+import { useRef } from "react";
+
 import CourseCard from "@/app/(root)/(course)/courses/components/course-card";
 import {
   Carousel,
@@ -17,8 +20,14 @@ const CourseList = ({
   courses: CourseType[];
   isLearned: boolean;
 }) => {
+  const plugin = useRef(Autoplay({ delay: 2000, stopOnInteraction: true }));
+
   return (
-    <Carousel>
+    <Carousel
+      plugins={[plugin.current]}
+      onMouseEnter={plugin.current.stop}
+      onMouseLeave={plugin.current.reset}
+    >
       <CarouselContent className="-ml-4">
         {courses.map((course) => (
           <CarouselItem key={course.id} className="basis-1/4 pl-4">

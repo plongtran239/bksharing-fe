@@ -201,7 +201,9 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
           </div>
 
           <div className="ml-4 space-y-1">
-            <p className="font-semibold text-primary">{item.course.name}</p>
+            <p className="line-clamp-1 w-72 font-semibold text-primary">
+              {item.course.name} wefjiwoefj io
+            </p>
             <p className="text-sm text-black">{item.mentorInfo.name}</p>
             <p className="text-sm text-gray-500">
               {convertMilisecondsToLocaleString(item.courseStartAt, "vi-VN", {

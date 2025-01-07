@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 import { Card, CardContent } from "@/components/ui/card";
-import { generateNameId } from "@/lib/utils";
+import { cn, generateNameId } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 interface IProps {
@@ -28,9 +28,16 @@ const CourseCard = ({ course, isLearned }: IProps) => {
       }
       className="cursor-pointer"
     >
-      <CardContent className="flex aspect-square items-center justify-center p-4">
-        <div className="space-y-5 rounded-xl">
-          <div className="relative h-40 w-full">
+      <CardContent
+        className={cn(
+          "flex aspect-square h-[356px] w-full items-center justify-center p-4",
+          {
+            "h-fit": isLearned,
+          }
+        )}
+      >
+        <div className="space-y-3 rounded-xl">
+          <div className="relative h-40 w-[234px]">
             <Image
               src={
                 course.image?.originalUrl || "/images/default-background.png"
@@ -53,10 +60,10 @@ const CourseCard = ({ course, isLearned }: IProps) => {
             </div>
           </div>
 
-          <p className="text-black">{course.name}</p>
+          <p className="line-clamp-1 text-black">{course.name}</p>
 
           {!isLearned && (
-            <p className="line-clamp-2 min-h-10 text-sm">
+            <p className="line-clamp-2 min-h-10 text-sm text-foreground">
               {course.description || "Không có mô tả"}
             </p>
           )}

@@ -131,6 +131,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
               day: "2-digit",
               hour: "numeric",
               minute: "numeric",
+              timeZone: "UTC",
             }
           )}
         </div>
@@ -160,6 +161,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
               day: "2-digit",
               hour: "numeric",
               minute: "numeric",
+              timeZone: "UTC",
             }
           )}
         </div>
