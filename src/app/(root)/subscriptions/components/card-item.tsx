@@ -1,33 +1,24 @@
 "use client";
 
-import { StarFilledIcon, StarIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { CheckIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
+import { useForm } from "react-hook-form";
 
 import feedbackApi from "@/apis/feedback.api";
+import reportApi from "@/apis/report.api";
 import subscriptionApi from "@/apis/subscription.api";
+import ReportDialog from "@/app/(root)/subscriptions/components/report-dialog";
+import ReviewDialog from "@/app/(root)/subscriptions/components/review-dialog";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  MEETING_STATUS,
-  REVIEW_TYPE,
-  SUBSCRIPTION_STATUS,
-} from "@/constants/enum";
+import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
+import { ReportRequest, ReportRequestType } from "@/schemas/report.schema";
 import { SubscriptionType } from "@/schemas/subscription.schema";
 
 interface IProps {
@@ -36,14 +27,14 @@ interface IProps {
   setActiveItemId: Dispatch<SetStateAction<number | undefined>>;
 }
 
-type ReviewType = {
+export type ReviewType = {
   courseRating: number;
   courseReview: string;
   mentorRating: number;
   mentorReview: string;
 };
 
-const initialReview: ReviewType = {
+export const initialReview: ReviewType = {
   courseRating: 0,
   courseReview: "",
   mentorRating: 0,
@@ -54,7 +45,6 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
   const { toast } = useToast();
   const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [openReview, setOpenReview] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const { setPaymentId } = useAppContext();
@@ -64,9 +54,20 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
     item.status === SUBSCRIPTION_STATUS.ACCEPTED;
   const hasPaymentButton = item.status === SUBSCRIPTION_STATUS.ACCEPTED;
   const hasJoinMeetingButton = item.audiCall?.status === MEETING_STATUS.ONGOING;
-  const hasReivewButton = item.status === SUBSCRIPTION_STATUS.ENDED;
 
+  const [openReview, setOpenReview] = useState(false);
   const [review, setReview] = useState<ReviewType>(initialReview);
+
+  const reportForm = useForm<ReportRequestType>({
+    resolver: zodResolver(ReportRequest),
+    defaultValues: {
+      subscriptionId: item.id,
+      description: "",
+      type: undefined,
+    },
+  });
+
+  const [openReport, setOpenReport] = useState(false);
 
   const handleCancel = async () => {
     try {
@@ -133,47 +134,27 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
         title: "Thành công",
         description: "Đánh giá thành công",
       });
+
+      router.refresh();
     } catch (error) {
       console.error({ error });
     }
   };
 
-  const renderRating = (reviewType: REVIEW_TYPE) => {
-    return (
-      <>
-        {reviewType === REVIEW_TYPE.COURSE
-          ? [1, 2, 3, 4, 5].map((star) => (
-              <div key={star} className="cursor-pointer">
-                {star <= review.courseRating ? (
-                  <StarFilledIcon
-                    className="h-6 w-6 text-yellow-400"
-                    onClick={() => setReview({ ...review, courseRating: star })}
-                  />
-                ) : (
-                  <StarIcon
-                    className="h-6 w-6 text-yellow-400"
-                    onClick={() => setReview({ ...review, courseRating: star })}
-                  />
-                )}
-              </div>
-            ))
-          : [1, 2, 3, 4, 5].map((star) => (
-              <div key={star} className="cursor-pointer">
-                {star <= review.mentorRating ? (
-                  <StarFilledIcon
-                    className="h-6 w-6 text-yellow-400"
-                    onClick={() => setReview({ ...review, mentorRating: star })}
-                  />
-                ) : (
-                  <StarIcon
-                    className="h-6 w-6 text-yellow-400"
-                    onClick={() => setReview({ ...review, mentorRating: star })}
-                  />
-                )}
-              </div>
-            ))}
-      </>
-    );
+  const handleReport = async () => {
+    try {
+      await reportApi.createReport(reportForm.getValues());
+
+      setOpenReport(false);
+      reportForm.reset();
+
+      toast({
+        title: "Thành công",
+        description: "Báo cáo thành công",
+      });
+    } catch (error) {
+      console.error({ error });
+    }
   };
 
   return (
@@ -202,7 +183,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
           <div className="ml-4 space-y-1">
             <p className="line-clamp-1 w-72 font-semibold text-primary">
-              {item.course.name} wefjiwoefj io
+              {item.course.name}
             </p>
             <p className="text-sm text-black">{item.mentorInfo.name}</p>
             <p className="text-sm text-gray-500">
@@ -229,10 +210,20 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
             </Button>
           )}
 
-          {hasReivewButton && !item.feedback && (
-            <Button className="px-3" onClick={() => setOpenReview(true)}>
-              Đánh giá
-            </Button>
+          {item.status === SUBSCRIPTION_STATUS.ENDED && !item.feedback && (
+            <div className="flex items-center gap-3">
+              <Button className="px-3" onClick={() => setOpenReview(true)}>
+                Đánh giá
+              </Button>
+
+              <Button
+                className="px-3"
+                variant="destructive"
+                onClick={() => setOpenReport(true)}
+              >
+                Báo cáo
+              </Button>
+            </div>
           )}
 
           {item.feedback && (
@@ -278,82 +269,20 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
         isLoading={loading}
       />
 
-      <Dialog
-        open={openReview}
-        onOpenChange={() => {
-          setOpenReview(!openReview);
-          setReview(initialReview);
-        }}
-      >
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle className="text-primary">Đánh giá</DialogTitle>
-            <DialogDescription></DialogDescription>
-          </DialogHeader>
+      <ReviewDialog
+        openReview={openReview}
+        setOpenReview={setOpenReview}
+        review={review}
+        setReview={setReview}
+        handleReview={handleReview}
+      />
 
-          <div className="space-y-5">
-            <div className="grid grid-cols-7 items-center gap-5">
-              <Label className="col-span-3 text-black">
-                Đánh giá khóa học:{" "}
-              </Label>
-              <div className="flex items-center gap-2">
-                {renderRating(REVIEW_TYPE.COURSE)}
-              </div>
-            </div>
-
-            <div className="grid grid-cols-7 items-center gap-5">
-              <Label className="col-span-3 text-black">Đánh giá gia sư: </Label>
-              <div className="flex items-center gap-2">
-                {renderRating(REVIEW_TYPE.MENTOR)}
-              </div>
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-black">Nhận xét khóa học</Label>
-              <Input
-                placeholder="Nhận xét..."
-                value={review.courseReview}
-                onChange={(e) =>
-                  setReview({
-                    ...review,
-                    courseReview: e.target.value,
-                  })
-                }
-              />
-            </div>
-
-            <div className="space-y-2">
-              <Label className="text-black">Nhận xét gia sư</Label>
-              <Input
-                placeholder="Nhận xét..."
-                value={review.mentorReview}
-                onChange={(e) =>
-                  setReview({
-                    ...review,
-                    mentorReview: e.target.value,
-                  })
-                }
-              />
-            </div>
-          </div>
-
-          <DialogFooter>
-            <Button
-              className="w-32"
-              variant="outline"
-              onClick={() => {
-                setOpenReview(false);
-                setReview(initialReview);
-              }}
-            >
-              Đóng
-            </Button>
-            <Button className="w-32" onClick={handleReview}>
-              Đánh giá
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+      <ReportDialog
+        openReport={openReport}
+        setOpenReport={setOpenReport}
+        reportForm={reportForm}
+        handleReport={handleReport}
+      />
     </>
   );
 };

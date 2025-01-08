@@ -7,6 +7,7 @@ import {
   KeyRoundIcon,
   LibraryIcon,
   MessageCircleIcon,
+  MessageSquareWarningIcon,
   UserIcon,
   UserPlusIcon,
   VideoIcon,
@@ -138,6 +139,11 @@ const AdminSidebarMenuItems: MenuItemsType = [
         href: `/admin/courses?status=${status}`,
       })),
     ],
+  },
+  {
+    label: "reports",
+    href: "/admin/reports",
+    icon: <MessageSquareWarningIcon size={18} strokeWidth={2.5} />,
   },
   {
     label: "categories",
