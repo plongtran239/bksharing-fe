@@ -10,28 +10,14 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Form, FormField, FormItem, FormLabel } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
-import { REPORT_TYPE } from "@/constants/enum";
-import { SubscriptionReportRequestType } from "@/schemas/report.schema";
+import { FeedbackReportRequestType } from "@/schemas/report.schema";
 
 interface IProps {
   openReport: boolean;
   setOpenReport: Dispatch<SetStateAction<boolean>>;
-  reportForm: UseFormReturn<SubscriptionReportRequestType>;
+  reportForm: UseFormReturn<FeedbackReportRequestType>;
   handleReport: () => void;
 }
 
@@ -45,7 +31,7 @@ const ReportDialog = ({
     <Dialog open={openReport} onOpenChange={() => setOpenReport(!openReport)}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="text-primary">Báo cáo</DialogTitle>
+          <DialogTitle className="text-primary">Báo cáo đánh giá</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
 
@@ -54,34 +40,6 @@ const ReportDialog = ({
             onSubmit={reportForm.handleSubmit(handleReport)}
             className="space-y-4"
           >
-            <FormField
-              control={reportForm.control}
-              name="type"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Loại báo cáo</FormLabel>
-                  <Select
-                    defaultValue={field.value}
-                    onValueChange={field.onChange}
-                  >
-                    <FormControl>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Chọn loại báo cáo" />
-                      </SelectTrigger>
-                    </FormControl>
-                    <SelectContent>
-                      <SelectItem value={REPORT_TYPE.COURSE_UNQUALIFIED}>
-                        Khóa học không đạt chất lượng
-                      </SelectItem>
-                      <SelectItem value={REPORT_TYPE.MENTOR_ISSUES}>
-                        Vấn đề với mentor
-                      </SelectItem>
-                    </SelectContent>
-                  </Select>
-                </FormItem>
-              )}
-            />
-
             <FormField
               control={reportForm.control}
               name="description"

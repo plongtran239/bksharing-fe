@@ -1,10 +1,18 @@
 import { REPORT_STATUS, REPORT_TYPE } from "@/constants/enum";
 import http from "@/lib/http";
 import { ListResponseType } from "@/schemas";
-import { ReportRequestType, ReportType } from "@/schemas/report.schema";
+import {
+  FeedbackReportRequestType,
+  ReportType,
+  SubscriptionReportRequestType,
+} from "@/schemas/report.schema";
 
 const reportApi = {
-  createReport: (body: ReportRequestType) => http.post("/reports", body),
+  createSubscriptionReport: (body: SubscriptionReportRequestType) =>
+    http.post("/reports/subscriptions", body),
+
+  createFeedbackReport: (body: FeedbackReportRequestType) =>
+    http.post("/reports/feedbacks", body),
 
   resolveReport: (
     reportId: number,

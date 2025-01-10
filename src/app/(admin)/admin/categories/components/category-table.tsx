@@ -1,10 +1,17 @@
 "use client";
 
-import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { PencilIcon, TrashIcon } from "lucide-react";
+import {
+  ChevronUpIcon,
+  PencilIcon,
+  PlusSquareIcon,
+  TrashIcon,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 import categoryApi from "@/apis/category.api";
 import CategoryModal from "@/app/(admin)/admin/categories/components/category-modal";
@@ -16,13 +23,11 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { useToast } from "@/hooks/use-toast";
-import { CategoryType } from "@/schemas";
-
-type CategoryTableType = CategoryType & { parent: string };
+import { CategoryRequest, CategoryRequestType, CategoryType } from "@/schemas";
 
 interface IProps {
   data: CategoryType[];
@@ -31,9 +36,18 @@ interface IProps {
 const CategoryTable = ({ data }: IProps) => {
   const { toast } = useToast();
 
+  const [expandedRows, setExpandedRows] = useState<Record<number, boolean>>({});
+
+  const toggleRow = (rowId: number) => {
+    setExpandedRows((prev) => ({
+      ...prev,
+      [rowId]: !prev[rowId],
+    }));
+  };
+
   const router = useRouter();
 
-  const [editCategory, setEditCategory] = useState<CategoryType | undefined>(
+  const [editCategoryId, setEditCategoryId] = useState<number | undefined>(
     undefined
   );
 
@@ -47,9 +61,14 @@ const CategoryTable = ({ data }: IProps) => {
 
   const [openAlertDialog, setOpenAlertDialog] = useState(false);
 
-  const handleOpenChange = () => {
-    setOpenCategoryModal(!openCategoryModal);
-  };
+  const form = useForm<CategoryRequestType>({
+    resolver: zodResolver(CategoryRequest),
+    defaultValues: {
+      name: "",
+      description: "",
+      parentCategoryId: undefined,
+    },
+  });
 
   const handleDeleteCategory = async (id: number) => {
     try {
@@ -75,7 +94,52 @@ const CategoryTable = ({ data }: IProps) => {
     }
   };
 
-  const columns: ColumnDef<CategoryTableType>[] = [
+  const handleSubmit = async (values: CategoryRequestType) => {
+    try {
+      setIsLoading(true);
+
+      if (editCategoryId) {
+        await categoryApi.updateCategory(editCategoryId, values);
+
+        toast({
+          title: "Success",
+          description: "Category updated successfully!",
+        });
+      } else {
+        await categoryApi.createCategory(values);
+
+        toast({
+          title: "Success",
+          description: "Category created successfully!",
+        });
+      }
+
+      form.reset();
+
+      setOpenCategoryModal(false);
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  // Generate rows with expanded rows logic
+  const rowsWithExpanded = data.flatMap((category) => {
+    const isExpanded = expandedRows[category.id];
+    const childRows = isExpanded
+      ? category.childCategories.map((child) => ({
+          ...child,
+          isChild: true, // Mark row as child
+        }))
+      : [];
+
+    return [category, ...childRows];
+  });
+
+  const columns: ColumnDef<CategoryType>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -100,18 +164,10 @@ const CategoryTable = ({ data }: IProps) => {
     },
     {
       accessorKey: "name",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Name
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
+      header: ({}) => {
+        return <div>Name</div>;
       },
-      cell: ({ row }) => <div>{row.getValue("name")}</div>,
+      cell: ({ row }) => <div className="">{row.getValue("name")}</div>,
     },
     {
       accessorKey: "description",
@@ -125,16 +181,44 @@ const CategoryTable = ({ data }: IProps) => {
       ),
     },
     {
-      accessorKey: "parent",
-      header: ({}) => {
-        return <div>Parent</div>;
+      accessorKey: "childCategories",
+      header: "Child Categories",
+      cell: ({ row }) => {
+        const isChild = row.original.parentCategoryId !== null;
+
+        if (isChild) {
+          return null;
+        }
+
+        const childCategories = row.getValue(
+          "childCategories"
+        ) as CategoryType[];
+        const isExpanded = expandedRows[row.original.id];
+
+        return (
+          <div>
+            <Button
+              variant="link"
+              className="flex items-center gap-2 bg-transparent px-0 text-foreground"
+              onClick={() => toggleRow(row.original.id)}
+            >
+              {childCategories.length} child categories
+              <ChevronUpIcon
+                className={`h-4 w-4 transition-transform ${
+                  isExpanded ? "rotate-180" : "rotate-0"
+                }`}
+              />
+            </Button>
+          </div>
+        );
       },
-      cell: ({ row }) => <div>{row.getValue("parent") ?? "None"}</div>,
     },
     {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
+        const isParent = row.original.parentCategoryId === null;
+
         return (
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -144,17 +228,40 @@ const CategoryTable = ({ data }: IProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
+              {isParent && (
+                <>
+                  <DropdownMenuItem
+                    className="flex items-center gap-2"
+                    onClick={() => {
+                      setOpenCategoryModal(true);
+                      form.setValue("parentCategoryId", row.original.id);
+                      console.log({ form: form.getValues() });
+                    }}
+                  >
+                    <PlusSquareIcon size={16} />
+                    Add Child Category
+                  </DropdownMenuItem>
+                  <Separator />
+                </>
+              )}
+
               <DropdownMenuItem
                 className="flex items-center gap-2"
                 onClick={() => {
-                  handleOpenChange();
-                  setEditCategory(row.original);
+                  setOpenCategoryModal(true);
+                  setEditCategoryId(row.original.id);
+                  form.setValue("name", row.original.name);
+                  form.setValue("description", row.original.description);
+                  form.setValue(
+                    "parentCategoryId",
+                    row.original.parentCategoryId || undefined
+                  );
                 }}
               >
                 <PencilIcon size={16} />
                 Update
               </DropdownMenuItem>
+
               <DropdownMenuItem
                 className="flex items-center gap-2"
                 onClick={() => {
@@ -172,31 +279,21 @@ const CategoryTable = ({ data }: IProps) => {
     },
   ];
 
-  const newData = [
-    ...data,
-    ...data
-      .map((category) => {
-        if (category.childCategories.length > 0) {
-          return category.childCategories.map((childCategory) => ({
-            ...childCategory,
-            parent: category.name,
-          }));
-        }
-        return null;
-      })
-      .flat()
-      .filter((item) => item !== null),
-  ];
-
   return (
     <>
-      <DataTable columns={columns} data={newData} searchBy="name" />
+      <DataTable columns={columns} data={rowsWithExpanded} searchBy="name" />
 
       <CategoryModal
         open={openCategoryModal}
-        onOpenChange={handleOpenChange}
-        editCategory={editCategory}
-        categories={data}
+        onOpenChange={() => {
+          setOpenCategoryModal(!openCategoryModal);
+          setEditCategoryId(undefined);
+          form.reset();
+        }}
+        editCategoryId={editCategoryId}
+        form={form}
+        onSubmit={handleSubmit}
+        isLoading={isLoading}
       />
 
       <AlertDialog

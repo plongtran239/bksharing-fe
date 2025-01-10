@@ -18,7 +18,10 @@ import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
-import { ReportRequest, ReportRequestType } from "@/schemas/report.schema";
+import {
+  SubscriptionReportRequest,
+  SubscriptionReportRequestType,
+} from "@/schemas/report.schema";
 import { SubscriptionType } from "@/schemas/subscription.schema";
 
 interface IProps {
@@ -58,8 +61,8 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
   const [openReview, setOpenReview] = useState(false);
   const [review, setReview] = useState<ReviewType>(initialReview);
 
-  const reportForm = useForm<ReportRequestType>({
-    resolver: zodResolver(ReportRequest),
+  const reportForm = useForm<SubscriptionReportRequestType>({
+    resolver: zodResolver(SubscriptionReportRequest),
     defaultValues: {
       subscriptionId: item.id,
       description: "",
@@ -143,7 +146,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
   const handleReport = async () => {
     try {
-      await reportApi.createReport(reportForm.getValues());
+      await reportApi.createSubscriptionReport(reportForm.getValues());
 
       setOpenReport(false);
       reportForm.reset();
