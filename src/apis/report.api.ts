@@ -1,7 +1,8 @@
 import { REPORT_STATUS, REPORT_TYPE } from "@/constants/enum";
 import http from "@/lib/http";
-import { ListResponseType } from "@/schemas";
+import { DetailResponseType, ListResponseType } from "@/schemas";
 import {
+  DetailReportType,
   FeedbackReportRequestType,
   ReportType,
   SubscriptionReportRequestType,
@@ -22,13 +23,16 @@ const reportApi = {
     }
   ) => http.put(`/reports/${reportId}/resolve`, body),
 
-  getReports: (params: {
-    pageSize?: number;
-    pageNumber?: number;
-    status?: REPORT_STATUS;
-    type?: REPORT_TYPE;
-  }) => {
-    const { pageSize = 10, pageNumber = 1, status, type } = params;
+  getReports: (
+    sessionToken: string,
+    params?: {
+      pageSize?: number;
+      pageNumber?: number;
+      status?: REPORT_STATUS;
+      type?: REPORT_TYPE;
+    }
+  ) => {
+    const { pageSize = 10, pageNumber = 1, status, type } = params || {};
 
     let paramsString = `pageSize=${pageSize}&pageNumber=${pageNumber}`;
 
@@ -40,8 +44,19 @@ const reportApi = {
       paramsString += `&type=${type}`;
     }
 
-    return http.get<ListResponseType<ReportType>>(`/reports?${paramsString}`);
+    return http.get<ListResponseType<ReportType>>(`/reports?${paramsString}`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    });
   },
+
+  getDetailReport: (reportId: number, sessionToken: string) =>
+    http.get<DetailResponseType<DetailReportType>>(`/reports/${reportId}`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
 };
 
 export default reportApi;

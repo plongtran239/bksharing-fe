@@ -281,7 +281,12 @@ const CategoryTable = ({ data }: IProps) => {
 
   return (
     <>
-      <DataTable columns={columns} data={rowsWithExpanded} searchBy="name" />
+      <DataTable
+        columns={columns}
+        data={rowsWithExpanded}
+        searchBy="name"
+        getRowClassName={(row) => (row.isChild ? "bg-gray-100" : "")}
+      />
 
       <CategoryModal
         open={openCategoryModal}

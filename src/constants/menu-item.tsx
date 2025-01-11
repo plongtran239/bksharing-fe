@@ -18,6 +18,7 @@ import {
   COURSE_STATUS,
   MEETING_STATUS,
   MENTOR_STATUS,
+  REPORT_STATUS,
   ROLES,
   SUBSCRIPTION_STATUS,
 } from "@/constants/enum";
@@ -144,6 +145,16 @@ const AdminSidebarMenuItems: MenuItemsType = [
     label: "reports",
     href: "/admin/reports",
     icon: <MessageSquareWarningIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      {
+        label: "all",
+        href: "/admin/reports",
+      },
+      ...Object.values(REPORT_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/reports?status=${status}`,
+      })),
+    ],
   },
   {
     label: "categories",

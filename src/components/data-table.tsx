@@ -51,6 +51,7 @@ interface IDataTableProps<T> {
   searchBy?: string;
   filterBy?: string;
   filterOptions?: string[];
+  getRowClassName?: (row: T) => string;
 }
 
 const DataTable = <T,>({
@@ -59,6 +60,7 @@ const DataTable = <T,>({
   searchBy,
   filterBy,
   filterOptions,
+  getRowClassName,
 }: IDataTableProps<T>) => {
   const router = useRouter();
   const pathname = usePathname();
@@ -203,6 +205,9 @@ const DataTable = <T,>({
                 <TableRow
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
+                  className={
+                    getRowClassName ? getRowClassName(row.original) : ""
+                  }
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
