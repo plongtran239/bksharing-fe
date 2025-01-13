@@ -19,10 +19,19 @@ const courseApi = {
       endDate: convertDateToLocaleDateString(body.endDate),
     }),
 
-  getCourses: () =>
-    http.get<ListResponseType<CourseType>>("/client/courses", {
+  getCourses: (filter?: { courseName?: string; categoryIds?: number[] }) => {
+    const url = `/client/courses${
+      filter?.courseName ? `?courseName=${filter?.courseName}` : ""
+    }${filter?.courseName && filter?.categoryIds ? "&" : ""}${
+      filter?.categoryIds
+        ? `${filter?.courseName ? "" : "?"}categoryIds=[${filter?.categoryIds.join(",")}]`
+        : ""
+    }`;
+
+    return http.get<ListResponseType<CourseType>>(url, {
       cache: "no-store",
-    }),
+    });
+  },
 
   getCoursesByMentorId: (
     sessionToken: string,

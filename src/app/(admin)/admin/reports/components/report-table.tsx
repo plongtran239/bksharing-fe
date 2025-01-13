@@ -18,7 +18,6 @@ import { REPORT_STATUS } from "@/constants/enum";
 import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
-  generateNameId,
 } from "@/lib/utils";
 import { ReportType } from "@/schemas/report.schema";
 
@@ -112,14 +111,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 className="flex items-center gap-2"
-                onClick={() =>
-                  router.push(
-                    `/admin/reports/${generateNameId({
-                      id: row.original.id,
-                      name: row.original.reporter.name,
-                    })}`
-                  )
-                }
+                onClick={() => router.push(`/admin/reports/${row.original.id}`)}
               >
                 <EyeIcon size={16} />
                 View Report

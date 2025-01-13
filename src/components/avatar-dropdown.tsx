@@ -50,7 +50,7 @@ const AvatarDropdown = ({
           }
         )}
       >
-        <div className="flex-center gap-2">
+        <div className="flex-center gap-1">
           <div className="relative h-7 w-7">
             <Image
               src={avatar || "/images/default-user.png"}
@@ -62,7 +62,7 @@ const AvatarDropdown = ({
             />
           </div>
           <span
-            className={cn("font-medium max-sm:hidden", {
+            className={cn("line-clamp-1 flex-1 font-medium max-sm:hidden", {
               "max-sm:block": mobileDisplayName,
               "max-lg:hidden": role === ROLES.ADMIN || role === ROLES.MENTOR,
             })}

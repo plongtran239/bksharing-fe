@@ -2,7 +2,7 @@
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
+import { EyeIcon, UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
 import subscriptionApi from "@/apis/subscription.api";
@@ -13,9 +13,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Separator } from "@/components/ui/separator";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -84,7 +84,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {(row.getValue("studentInfo") as { name: string }).name}
+          {row.original.studentInfo.name}
         </div>
       ),
     },
@@ -103,7 +103,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {(row.getValue("course") as { name: string }).name}
+          {row.original.course.name}
         </div>
       ),
     },
@@ -169,16 +169,8 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
     },
     {
       accessorKey: "status",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Trạng thái
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
+      header: ({}) => {
+        return <div>Trạng thái</div>;
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
@@ -190,35 +182,47 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       id: "actions",
       enableHiding: false,
       cell: ({ row }) => {
-        if (row.getValue("status") === SUBSCRIPTION_STATUS.PENDING) {
-          return (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="h-8 w-8 p-0">
-                  <span className="sr-only">Open menu</span>
-                  <DotsHorizontalIcon className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
-                  onClick={() => handleRequest(row.original.id, true)}
-                  className="flex items-center gap-2"
-                >
-                  <UserRoundCheckIcon size={16} />
-                  Accept
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleRequest(row.original.id, false)}
-                  className="flex items-center gap-2"
-                >
-                  <UserRoundXIcon size={16} />
-                  Reject
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
-          );
-        }
+        return (
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" className="h-8 w-8 p-0">
+                <span className="sr-only">Open menu</span>
+                <DotsHorizontalIcon className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              <DropdownMenuItem
+                onClick={() =>
+                  router.push(`/mentor/requests/${row.original.id}`)
+                }
+                className="flex items-center gap-2"
+              >
+                <EyeIcon size={16} />
+                Xem chi tiết
+              </DropdownMenuItem>
+
+              {row.original.status === SUBSCRIPTION_STATUS.PENDING && (
+                <>
+                  <Separator />
+                  <DropdownMenuItem
+                    onClick={() => handleRequest(row.original.id, true)}
+                    className="flex items-center gap-2"
+                  >
+                    <UserRoundCheckIcon size={16} />
+                    Chấp nhận
+                  </DropdownMenuItem>
+                  <DropdownMenuItem
+                    onClick={() => handleRequest(row.original.id, false)}
+                    className="flex items-center gap-2"
+                  >
+                    <UserRoundXIcon size={16} />
+                    Từ chối
+                  </DropdownMenuItem>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        );
       },
     },
   ];
@@ -229,7 +233,6 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       data={data.sort(
         (a, b) => Number(a.courseStartAt) - Number(b.courseStartAt)
       )}
-      searchBy="title"
       filterBy="status"
       filterOptions={Object.values(SUBSCRIPTION_STATUS)}
     />

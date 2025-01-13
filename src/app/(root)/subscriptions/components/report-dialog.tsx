@@ -74,7 +74,7 @@ const ReportDialog = ({
                         Khóa học không đạt chất lượng
                       </SelectItem>
                       <SelectItem value={REPORT_TYPE.MENTOR_ISSUES}>
-                        Vấn đề với mentor
+                        Gia sư không đạt chất lượng
                       </SelectItem>
                     </SelectContent>
                   </Select>

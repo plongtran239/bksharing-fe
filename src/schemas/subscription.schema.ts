@@ -3,6 +3,8 @@ import { z } from "zod";
 import {
   MEETING_STATUS,
   PAYMENT_STATUS,
+  REPORT_STATUS,
+  REPORT_TYPE,
   SUBSCRIPTION_STATUS,
 } from "@/constants/enum";
 
@@ -57,6 +59,15 @@ const Subscription = z.object({
       mentorReview: z.string(),
     })
     .nullable(),
+  report: z
+    .object({
+      id: z.number(),
+      type: z.nativeEnum(REPORT_TYPE),
+      description: z.string(),
+      status: z.nativeEnum(REPORT_STATUS),
+      resolution: z.string(),
+    })
+    .nullable(),
   canceledAt: z.string().nullable(),
   approvedAt: z.string().nullable(),
   rejectedAt: z.string().nullable(),
@@ -92,6 +103,21 @@ const SubscriptionDetail = z.object({
     id: z.number(),
     name: z.string(),
     email: z.string(),
+    phoneNumber: z.string(),
+    thumbnail: z
+      .object({
+        fileId: z.number(),
+        fileName: z.string(),
+        fileSize: z.number(),
+        originalUrl: z.string(),
+        versions: z.array(z.unknown()),
+      })
+      .nullable(),
+    dob: z.string(),
+  }),
+  payment: z.object({
+    status: z.nativeEnum(PAYMENT_STATUS),
+    price: z.number(),
   }),
   audiCall: z.object({
     status: z.nativeEnum(MEETING_STATUS),

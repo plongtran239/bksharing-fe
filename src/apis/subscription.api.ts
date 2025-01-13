@@ -27,6 +27,16 @@ const subscriptionApi = {
   getDetailSubscription: (subscriptionId: number) =>
     http.get<SubscriptionDetailType>(`/client/subscriptions/${subscriptionId}`),
 
+  getDetailSubscriptionServer: (sessionToken: string, subscriptionId: number) =>
+    http.get<SubscriptionDetailType>(
+      `/client/subscriptions/${subscriptionId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
+
   mentorApproveSubscription: (body: {
     subscriptionId: number;
     isApproved: boolean;

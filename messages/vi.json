@@ -18,6 +18,27 @@
     "updateUserInfoSuccess": "Cập nhật thông tin thành công",
     "SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE": "Bạn đã đăng ký khóa học này"
   },
+
+  "report": {
+    "mentor_issues": "Gia sư không đạt chất lượng",
+    "course_unqualified": "Khóa học không đạt chất lượng",
+    "pending": "Đang chờ xử lý",
+    "resolved": "Đã giải quyết"
+  },
+  "subscriptionStatus": {
+    "pending": "Đang chờ duyệt",
+    "accepted": "Đã duyệt",
+    "active": "Đang hoạt động",
+    "canceled": "Đã hủy",
+    "ended": "Đã kết thúc",
+    "expired": "Đã hết hạn",
+    "rejected": "Đã từ chối"
+  },
+  "paymentStatus": {
+    "pending": "Chờ thanh toán",
+    "in_progress": "Đang xử lý",
+    "done": "Đã thanh toán"
+  },
   "navbar": {
     "home": "Trang chủ",
     "mentors": "Gia sư",

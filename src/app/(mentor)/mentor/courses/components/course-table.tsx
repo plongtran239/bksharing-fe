@@ -2,10 +2,9 @@
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { CircleCheckIcon, CircleXIcon, EyeIcon } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { useRouter } from "next/navigation";
 
-import adminApi from "@/apis/admin.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -16,9 +15,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { COURSE_STATUS } from "@/constants/enum";
-import { useToast } from "@/hooks/use-toast";
 import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
@@ -28,33 +25,6 @@ import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
   const router = useRouter();
-
-  const { toast } = useToast();
-
-  const handleProcessCourse = async (courseId: number, isApproved: boolean) => {
-    try {
-      await adminApi.approveCourse(courseId, isApproved);
-
-      const toastMessage = isApproved
-        ? "Course has been approved!"
-        : "Course has been rejected!";
-
-      toast({
-        title: "Success",
-        description: toastMessage,
-      });
-
-      router.refresh();
-    } catch (error) {
-      console.error({ error });
-
-      toast({
-        title: "Error",
-        description: "An error occurred. Please try again later.",
-        variant: "destructive",
-      });
-    }
-  };
 
   const columns: ColumnDef<CourseType>[] = [
     {
@@ -101,13 +71,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       header: "Category",
       cell: ({ row }) => (
         <div className="capitalize">{row.original.category.name}</div>
-      ),
-    },
-    {
-      accessorKey: "mentor",
-      header: "Mentor",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.original.mentor.name}</div>
       ),
     },
     {
@@ -184,7 +147,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               <DropdownMenuItem
                 onClick={() =>
                   router.push(
-                    `/admin/courses/${generateNameId({
+                    `/mentor/courses/${generateNameId({
                       name: row.original.name,
                       id: row.original.id,
                     })}`
@@ -195,49 +158,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
                 <EyeIcon size={16} />
                 View details
               </DropdownMenuItem>
-
-              <Separator className="my-1" />
-
-              {row.original.status === COURSE_STATUS.PENDING ? (
-                <>
-                  <DropdownMenuItem
-                    onClick={() => handleProcessCourse(row.original.id, true)}
-                    className="flex items-center gap-2"
-                  >
-                    <CircleCheckIcon size={16} />
-                    Approve
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleProcessCourse(row.original.id, false)}
-                    className="flex items-center gap-2"
-                  >
-                    <CircleXIcon size={16} />
-                    Reject
-                  </DropdownMenuItem>
-                </>
-              ) : (
-                <DropdownMenuItem
-                  onClick={() =>
-                    handleProcessCourse(
-                      row.original.id,
-                      row.original.status === COURSE_STATUS.REJECTED
-                    )
-                  }
-                  className="flex items-center gap-2"
-                >
-                  {row.original.status === COURSE_STATUS.APPROVED ? (
-                    <>
-                      <CircleXIcon size={16} />
-                      Reject
-                    </>
-                  ) : (
-                    <>
-                      <CircleCheckIcon size={16} />
-                      Accept
-                    </>
-                  )}
-                </DropdownMenuItem>
-              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -252,6 +172,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       searchBy="name"
       filterBy="status"
       filterOptions={[
+        COURSE_STATUS.DRAFT,
         COURSE_STATUS.PENDING,
         COURSE_STATUS.APPROVED,
         COURSE_STATUS.REJECTED,

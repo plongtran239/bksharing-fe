@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CheckIcon } from "lucide-react";
+import { CheckIcon, TriangleAlertIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -14,6 +14,12 @@ import ReportDialog from "@/app/(root)/subscriptions/components/report-dialog";
 import ReviewDialog from "@/app/(root)/subscriptions/components/review-dialog";
 import AlertDialog from "@/components/alert-dialog";
 import { Button } from "@/components/ui/button";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { MEETING_STATUS, SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
@@ -149,7 +155,10 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
       await reportApi.createSubscriptionReport(reportForm.getValues());
 
       setOpenReport(false);
+
       reportForm.reset();
+
+      router.refresh();
 
       toast({
         title: "Thành công",
@@ -213,32 +222,39 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
             </Button>
           )}
 
-          {item.status === SUBSCRIPTION_STATUS.ENDED && !item.feedback && (
-            <div className="flex items-center gap-3">
+          <div className="flex items-center gap-5">
+            {item.status === SUBSCRIPTION_STATUS.ENDED && !item.feedback && (
               <Button className="px-3" onClick={() => setOpenReview(true)}>
                 Đánh giá
               </Button>
+            )}
 
+            {item.feedback && (
               <Button
-                className="px-3"
-                variant="destructive"
-                onClick={() => setOpenReport(true)}
+                variant="link"
+                className="flex-center w-full gap-2 px-0 disabled:opacity-70"
+                disabled
               >
-                Báo cáo
+                Đã đánh giá
+                <CheckIcon size={16} />
               </Button>
-            </div>
-          )}
+            )}
 
-          {item.feedback && (
-            <Button
-              variant="link"
-              className="flex-center gap-2 px-3 disabled:opacity-70"
-              disabled
-            >
-              Đã đánh giá
-              <CheckIcon size={16} />
-            </Button>
-          )}
+            {item.status === SUBSCRIPTION_STATUS.ENDED && !item.report && (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger>
+                    <div onClick={() => setOpenReport(true)}>
+                      <TriangleAlertIcon size={20} className="text-red-400" />
+                    </div>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Báo cáo</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
 
           {hasCancelButton && (
             <Button

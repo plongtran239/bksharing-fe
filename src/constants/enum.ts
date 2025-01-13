@@ -94,7 +94,6 @@ enum PAYMENT_STATUS {
   IN_PROGRESS = "IN_PROGRESS",
   DONE = "DONE", // Authorization Succeeded
   CANCELED = "CANCELED", // Cancel a payment
-  PARTIAL_CANCELED = "PARTIAL_CANCELED", // Partially cancel a payment
   EXPIRED = "EXPIRED", // Payment expired
 }
 

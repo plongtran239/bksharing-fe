@@ -59,6 +59,9 @@ const Student = z.object({
       originalUrl: z.string(),
     })
     .nullable(),
+  email: z.string(),
+  phoneNumber: z.string(),
+  dob: z.string(),
 });
 
 const AudioCall = z.object({
@@ -83,6 +86,9 @@ const SubscriptionFeedback = z.object({
 const Subscription = z.object({
   id: z.number(),
   status: z.nativeEnum(SUBSCRIPTION_STATUS),
+  courseAccessStartAt: z.string(),
+  courseAccessEndAt: z.string(),
+  orginalPrice: z.number(),
   course: Course,
   mentor: Mentor,
   student: Student,

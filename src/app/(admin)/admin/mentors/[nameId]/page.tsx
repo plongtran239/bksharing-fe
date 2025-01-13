@@ -1,9 +1,6 @@
-import { ChevronLeftIcon } from "lucide-react";
-import Link from "next/link";
-
 import adminApi from "@/apis/admin.api";
 import MentorDetail from "@/app/(admin)/admin/mentors/components/mentor-detail";
-import { Button } from "@/components/ui/button";
+import BackButton from "@/components/back-button";
 import { Separator } from "@/components/ui/separator";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import { getIdFromNameId } from "@/lib/utils";
@@ -26,12 +23,7 @@ const AdminMentorDetail = async ({
       <div className="flex-between">
         <h1 className="text-3xl font-semibold text-primary">Mentor Detail</h1>
 
-        <Link href="/admin/mentors">
-          <Button className="flex-center gap-2">
-            <ChevronLeftIcon size={16} />
-            Back to Mentor List
-          </Button>
-        </Link>
+        <BackButton />
       </div>
 
       <Separator className="my-5" />

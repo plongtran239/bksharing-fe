@@ -24,6 +24,15 @@
     "courses": "Courses",
     "schedules": "Schedules"
   },
+  "subscriptionStatus": {
+    "pending": "Pending",
+    "accepted": "Accepted",
+    "active": "Active",
+    "canceled": "Canceled",
+    "ended": "Ended",
+    "expired": "Expired",
+    "rejected": "Rejected"
+  },
   "dropdown": {
     "myAccount": "My Account",
     "dashboard": "Dashboard",

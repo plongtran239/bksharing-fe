@@ -1,16 +1,24 @@
 import { PlusIcon } from "lucide-react";
 import Link from "next/link";
 
-import CourseList from "@/app/(mentor)/mentor/courses/components/course-list";
+import courseApi from "@/apis/course.api";
+import userApi from "@/apis/user.api";
+import CourseTable from "@/app/(mentor)/mentor/courses/components/course-table";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { COURSE_STATUS } from "@/constants/enum";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
-const MentorCourse = async ({
-  searchParams,
-}: {
-  searchParams: { [key: string]: string | string[] | undefined };
-}) => {
+const MentorCourse = async () => {
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
+  const {
+    payload: { data: mentor },
+  } = await userApi.getMentorProfile(sessionToken);
+
+  const {
+    payload: { data },
+  } = await courseApi.getCoursesByMentorId(sessionToken, mentor.id);
+
   return (
     <section>
       <div className="flex-between">
@@ -26,7 +34,7 @@ const MentorCourse = async ({
 
       <Separator className="my-5" />
 
-      <CourseList status={searchParams.status as COURSE_STATUS} />
+      <CourseTable data={data} />
     </section>
   );
 };

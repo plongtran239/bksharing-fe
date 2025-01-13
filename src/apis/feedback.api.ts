@@ -29,6 +29,22 @@ const feedbackApi = {
     );
   },
 
+  getAdminFeedbacks: (sessionToken: string, params: FeedbackParams) => {
+    const { relationType, relationId } = params;
+
+    const pageNumber = params.pageNumber || 1;
+    const pageSize = params.pageSize || 10;
+
+    return http.get<ListResponseType<FeedbackType>>(
+      `/admin/feedbacks/relations?relationType=${relationType}&relationId=${relationId}&pageSize=${pageSize}&pageNumber=${pageNumber}`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    );
+  },
+
   updateFeedback: (feedbackId: number, body: UpdateFeedbackType) =>
     http.put(`/client/feedbacks/${feedbackId}`, body),
 };
