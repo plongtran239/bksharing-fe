@@ -22,8 +22,31 @@ const Meeting = z.object({
   ),
 });
 
+enum ROLE {
+  ADMIN = "ADMIN",
+  USER = "USER",
+}
+
+const MeetingHistory = z.object({
+  id: z.number(),
+  joinedAt: z.string(),
+  leftAt: z.string().nullable(),
+  AudioParticipant: z.object({
+    accountId: z.number(),
+    name: z.string(),
+    thumbnail: z
+      .object({
+        originalUrl: z.string(),
+      })
+      .nullable(),
+    role: z.nativeEnum(ROLE),
+  }),
+});
+
 type MeetingType = z.infer<typeof Meeting>;
+
+type MeetingHistoryType = z.infer<typeof MeetingHistory>;
 
 export { Meeting };
 
-export type { MeetingType };
+export type { MeetingType, MeetingHistoryType };

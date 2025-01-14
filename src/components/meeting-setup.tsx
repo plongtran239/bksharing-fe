@@ -4,10 +4,12 @@ import {
   DeviceSettings,
   VideoPreview,
   useCall,
+  useCallStateHooks,
 } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
 
 import meetingApi from "@/apis/meeting.api";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { useAppContext } from "@/providers/app.provider";
@@ -23,11 +25,17 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
 
   const [isAuthorized, setIsAuthorized] = useState(true);
 
+  const [isHost, setIsHost] = useState(false);
+
   const [isLoading, setIsLoading] = useState(false);
 
   const { user } = useAppContext();
 
   const call = useCall();
+
+  const { useIsCallRecordingInProgress } = useCallStateHooks();
+
+  const isRecordingInProgress = useIsCallRecordingInProgress();
 
   if (!call) {
     throw new Error("Call not found");
@@ -53,6 +61,13 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
         setIsAuthorized(
           members.some((member) => member.user_id === user?.id.toString())
         );
+
+        setIsHost(
+          members.some(
+            (member) =>
+              member.user_id === user?.id.toString() && member.role === "admin"
+          )
+        );
       } catch (error) {
         console.error({ error });
       } finally {
@@ -69,6 +84,11 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
       await meetingApi.joinMeeting(meetingId);
 
       await call.join();
+
+      if (isHost && !isRecordingInProgress) {
+        console.log("Starting recording...");
+        await call.startRecording();
+      }
 
       toast({
         title: "Meeting joined",
@@ -92,10 +112,8 @@ const MeetingSetup = ({ setIsSetupComplete }: MeetingSetupProps) => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
-
-  //TODO: Implement Header fot this component
 
   return (
     <>

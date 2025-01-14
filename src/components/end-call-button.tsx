@@ -34,6 +34,9 @@ const EndCallButton = () => {
     try {
       await meetingApi.endMeeting(meetingId);
 
+      await call.stopRecording();
+      console.log("Recording stopped");
+
       await call.endCall();
 
       if (user?.accountType === ROLES.ADMIN) {
@@ -60,7 +63,7 @@ const EndCallButton = () => {
 
   return (
     <Button onClick={handleEndCall} variant="destructive">
-      End call for everyone
+      Kết thúc cuộc gọi
     </Button>
   );
 };

@@ -15,14 +15,6 @@ const reportApi = {
   createFeedbackReport: (body: FeedbackReportRequestType) =>
     http.post("/reports/feedbacks", body),
 
-  resolveReport: (
-    reportId: number,
-    body: {
-      status: REPORT_STATUS;
-      resolution: string;
-    }
-  ) => http.put(`/reports/${reportId}/resolve`, body),
-
   getReports: (
     sessionToken: string,
     params?: {
@@ -57,6 +49,22 @@ const reportApi = {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
+
+  resolveSubscriptionReport: (
+    reportId: number,
+    body: {
+      status: REPORT_STATUS;
+      resolution: string;
+    }
+  ) => http.patch(`/reports/${reportId}/subscription-resolutions`, body),
+
+  resolveFeedbackReport: (
+    reportId: number,
+    body: {
+      status: REPORT_STATUS;
+      resolution: string;
+    }
+  ) => http.patch(`/reports/${reportId}/feedback-resolutions`, body),
 };
 
 export default reportApi;

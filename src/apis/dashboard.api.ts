@@ -4,6 +4,7 @@ import { DetailResponseType, ListResponseType } from "@/schemas";
 import {
   DashboardOverviewType,
   DashboardPaymentType,
+  DashboardSubscriptionType,
 } from "@/schemas/dashboard.schema";
 
 const dashboardApi = {
@@ -15,6 +16,11 @@ const dashboardApi = {
   payments: (filterDateRange: DATE_RANGE = DATE_RANGE.ALL) =>
     http.get<ListResponseType<DashboardPaymentType>>(
       `/admin/dashboard/payments?dateRange=${filterDateRange}`
+    ),
+
+  subscriptions: (filterDateRange: DATE_RANGE = DATE_RANGE.ALL) =>
+    http.get<ListResponseType<DashboardSubscriptionType>>(
+      `/admin/dashboard/subscriptions?dateRange=${filterDateRange}`
     ),
 };
 

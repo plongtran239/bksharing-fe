@@ -1,7 +1,10 @@
 import Image from "next/image";
 
+import RecordButton from "@/app/(admin)/admin/reports/[id]/components/record-button";
 import { TranslationsType } from "@/app/(admin)/admin/reports/[id]/components/report";
+import Resolution from "@/app/(admin)/admin/reports/[id]/components/resolution";
 import Section from "@/app/(admin)/admin/reports/[id]/components/section";
+import { Separator } from "@/components/ui/separator";
 import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
 import {
   convertMilisecondsToLocaleDateString,
@@ -68,6 +71,14 @@ const DetailReport = ({
                 {data.resolution || "Chưa có"}
               </span>
             </div>
+
+            {data.status === "PENDING" && (
+              <>
+                <Separator className="bg-primary" />
+
+                <Resolution reportId={data.id} />
+              </>
+            )}
           </Section>
 
           {/* Subscription */}
@@ -128,6 +139,14 @@ const DetailReport = ({
                 }).format(data.subscription.payment.price)}
               </span>
             </div>
+
+            <Separator className="bg-primary" />
+
+            <RecordButton
+              reportId={data.id}
+              callId={data.subscription.audioCall.id}
+              cid={data.subscription.audioCall.cid}
+            />
           </Section>
         </div>
 

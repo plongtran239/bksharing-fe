@@ -149,7 +149,10 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                 members: participants.map((participant) => ({
                   user_id: participant.id.toString(),
                   role:
-                    participant.accountType === ROLES.ADMIN ? "admin" : "user",
+                    participant.accountType === ROLES.ADMIN ||
+                    participant.accountType === ROLES.MENTOR
+                      ? "admin"
+                      : "user",
                 })),
                 starts_at: new Date(Number(startsAt)).toISOString(),
                 custom: {

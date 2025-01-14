@@ -1,5 +1,5 @@
 import http from "@/lib/http";
-import { ListResponseType, MeetingType } from "@/schemas";
+import { ListResponseType, MeetingHistoryType, MeetingType } from "@/schemas";
 
 const meetingApi = {
   getAdminMeetings: (sessionToken: string) => {
@@ -34,6 +34,18 @@ const meetingApi = {
 
   leaveMeeting: (meetingId: number) => {
     return http.patch(`/audio-call/${meetingId}/leave`);
+  },
+
+  getMeetingHistory: (sessionToken: string, meetingId: number) => {
+    return http.get<ListResponseType<MeetingHistoryType>>(
+      `/audio-call/${meetingId}/histories`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+        cache: "no-store",
+      }
+    );
   },
 };
 

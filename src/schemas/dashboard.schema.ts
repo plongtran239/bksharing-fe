@@ -1,11 +1,40 @@
 import { z } from "zod";
 
+import { SUBSCRIPTION_STATUS } from "@/constants/enum";
+
 const dashboardOverview = z.object({
-  totalCourses: z.number(),
-  totalStudents: z.number(),
-  totalMentors: z.number(),
-  totalSubscriptions: z.number(),
-  revenue: z.number(),
+  mentorOverview: z.object({
+    approvedMentor: z.number(),
+    pendingMentor: z.number(),
+  }),
+
+  courseOverview: z.object({
+    approvedCourse: z.number(),
+    pendingCourse: z.number(),
+    suspendedCourse: z.number(),
+  }),
+
+  studentOverview: z.object({
+    activeStudent: z.number(),
+    suspendedStudent: z.number(),
+  }),
+
+  subscriptionOverview: z.object({
+    activeSubscription: z.number(),
+    pendingSubscription: z.number(),
+    expiredSubscription: z.number(),
+    cancelledSubscription: z.number(),
+  }),
+
+  reportOverview: z.object({
+    pendingReport: z.number(),
+    resolvedReport: z.number(),
+  }),
+
+  revenueOverview: z.object({
+    totalRevenue: z.number(),
+    refundAmount: z.number(),
+  }),
 });
 
 const DashboardPayment = z.record(
@@ -16,8 +45,33 @@ const DashboardPayment = z.record(
   })
 );
 
+const DashboardSubscription = z.object({
+  id: z.number(),
+  originalPrice: z.number(),
+  course: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  mentorInfo: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  studentInfo: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  courseStartAt: z.string(),
+  status: z.nativeEnum(SUBSCRIPTION_STATUS),
+});
+
 type DashboardOverviewType = z.infer<typeof dashboardOverview>;
 
 type DashboardPaymentType = z.infer<typeof DashboardPayment>;
 
-export type { DashboardOverviewType, DashboardPaymentType };
+type DashboardSubscriptionType = z.infer<typeof DashboardSubscription>;
+
+export type {
+  DashboardOverviewType,
+  DashboardPaymentType,
+  DashboardSubscriptionType,
+};

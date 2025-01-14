@@ -23,6 +23,7 @@ import {
 } from "./ui/dropdown-menu";
 
 import EndCallButton from "@/components/end-call-button";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { cn } from "@/lib/utils";
@@ -61,12 +62,6 @@ const MeetingRoom = () => {
   }
 
   const handleLeave = async () => {
-    if (user.accountType === ROLES.ADMIN) {
-      router.push("/admin/meetings");
-    } else {
-      router.push("/meeting");
-    }
-
     switch (user.accountType) {
       case ROLES.ADMIN:
         router.push("/admin/meetings");
@@ -84,13 +79,13 @@ const MeetingRoom = () => {
   };
 
   if (callingState === CallingState.JOINING) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   if (callingState === CallingState.LEFT) {
     return (
       <div className="flex-center h-screen gap-5">
-        <p>Call has ended</p>
+        <p>Đã rời khỏi cuộc gọi</p>
         <Link href={"/"}>
           <Button>Back</Button>
         </Link>
