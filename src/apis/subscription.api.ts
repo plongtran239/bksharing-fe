@@ -2,6 +2,7 @@ import http from "@/lib/http";
 import { DetailResponseType, ListResponseType } from "@/schemas";
 import { MakePaymentResponseType } from "@/schemas/payment.schema";
 import {
+  AdminSubscriptionType,
   MentorSubscriptionType,
   SubscriptionDetailType,
   SubscriptionType,
@@ -67,6 +68,20 @@ const subscriptionApi = {
     http.get<ListResponseType<MentorSubscriptionType>>(
       `client/subscriptions/mentors/${mentorId}`
     ),
+
+  getAdminSubscriptions: (sessionToken: string) =>
+    http.get<ListResponseType<AdminSubscriptionType>>("/admin/subscriptions", {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
+
+  getAdminSubscriptionDetail: (sessionToken: string, subscriptionId: number) =>
+    http.get<SubscriptionDetailType>(`/admin/subscriptions/${subscriptionId}`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
 };
 
 export default subscriptionApi;

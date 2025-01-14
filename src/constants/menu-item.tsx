@@ -142,6 +142,21 @@ const AdminSidebarMenuItems: MenuItemsType = [
     ],
   },
   {
+    label: "subscriptions",
+    href: "/admin/subscriptions",
+    icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      {
+        label: "all",
+        href: "/admin/subscriptions",
+      },
+      ...Object.values(SUBSCRIPTION_STATUS).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/subscriptions?status=${status}`,
+      })),
+    ],
+  },
+  {
     label: "reports",
     href: "/admin/reports",
     icon: <MessageSquareWarningIcon size={18} strokeWidth={2.5} />,

@@ -6,6 +6,7 @@ import {
   REPORT_STATUS,
   REPORT_TYPE,
   SUBSCRIPTION_STATUS,
+  WAGE_STATUS,
 } from "@/constants/enum";
 
 const Subscription = z.object({
@@ -139,11 +140,46 @@ const MentorSubscription = z.object({
   courseAccessEndAt: z.string(),
 });
 
+const AdminSubscription = z.object({
+  id: z.number(),
+  status: z.nativeEnum(SUBSCRIPTION_STATUS),
+  wageStatus: z.nativeEnum(WAGE_STATUS),
+  originalPrice: z.number(),
+  courseAccessStartAt: z.string(),
+  courseAccessEndAt: z.string(),
+  course: z.object({
+    id: z.number(),
+    name: z.string(),
+  }),
+  mentorInfo: z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string(),
+    phoneNumber: z.string(),
+    thumbnail: z
+      .object({
+        originalUrl: z.string(),
+      })
+      .nullable(),
+  }),
+  studentInfo: z.object({
+    id: z.number(),
+    name: z.string(),
+    thumbnail: z
+      .object({
+        originalUrl: z.string(),
+      })
+      .nullable(),
+  }),
+});
+
 type SubscriptionType = z.infer<typeof Subscription>;
 
 type SubscriptionDetailType = z.infer<typeof SubscriptionDetail>;
 
 type MentorSubscriptionType = z.infer<typeof MentorSubscription>;
+
+type AdminSubscriptionType = z.infer<typeof AdminSubscription>;
 
 export { Subscription, SubscriptionDetail };
 
@@ -151,4 +187,5 @@ export type {
   SubscriptionType,
   SubscriptionDetailType,
   MentorSubscriptionType,
+  AdminSubscriptionType,
 };

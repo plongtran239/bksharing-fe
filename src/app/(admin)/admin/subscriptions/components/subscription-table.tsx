@@ -12,21 +12,19 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { COURSE_STATUS } from "@/constants/enum";
+import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
-  generateNameId,
 } from "@/lib/utils";
-import { CourseType } from "@/schemas";
+import { AdminSubscriptionType } from "@/schemas/subscription.schema";
 
-const CourseTable = ({ data }: { data: CourseType[] }) => {
+const SubscriptionTable = ({ data }: { data: AdminSubscriptionType[] }) => {
   const router = useRouter();
 
-  const columns: ColumnDef<CourseType>[] = [
+  const columns: ColumnDef<AdminSubscriptionType>[] = [
     {
       id: "select",
       header: ({ table }) => (
@@ -50,98 +48,131 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       enableHiding: false,
     },
     {
-      accessorKey: "name",
+      accessorKey: "course",
       header: ({ column }) => {
         return (
           <button
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Name
+            Khóa học
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
       },
       cell: ({ row }) => (
-        <div className="line-clamp-1 max-w-[300px]">{row.getValue("name")}</div>
-      ),
-    },
-    {
-      accessorKey: "category",
-      header: "Category",
-      cell: ({ row }) => (
-        <div className="capitalize">{row.original.category.name}</div>
-      ),
-    },
-    {
-      accessorKey: "noOfSubscriptions",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Subscriptions
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
-      },
-      cell: ({ row }) => <div>{row.original.noOfSubscriptions}</div>,
-    },
-    {
-      accessorKey: "noOfFeedbacks",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Feedbacks
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
-      },
-      cell: ({ row }) => <div>{row.original.noOfFeedbacks}</div>,
-    },
-    {
-      accessorKey: "rateOfCourse",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Rating
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
-      },
-      cell: ({ row }) => <div>{row.original.rateOfCourse.toFixed(1)}</div>,
-    },
-    {
-      accessorKey: "status",
-      header: "Status",
-      cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
+        <div className="line-clamp-1 max-w-[300px]">
+          {row.original.course.name}
         </div>
       ),
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "mentorInfo",
       header: ({ column }) => {
         return (
           <button
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Created At
+            Gia sư
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
       },
       cell: ({ row }) => (
-        <div>{convertMilisecondsToLocaleString(row.getValue("createdAt"))}</div>
+        <div className="line-clamp-1 max-w-[300px]">
+          {row.original.mentorInfo.name}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "studentInfo",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Học viên
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {row.original.studentInfo.name}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "courseAccessStartAt",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Thời gian bắt đầu
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {convertMilisecondsToLocaleString(
+            row.original.courseAccessStartAt,
+            "vi-VN",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+              timeZone: "UTC",
+            }
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "courseAccessEndAt",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Thời gian kết thúc
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {convertMilisecondsToLocaleString(
+            row.original.courseAccessEndAt,
+            "vi-VN",
+            {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "numeric",
+              minute: "numeric",
+              timeZone: "UTC",
+            }
+          )}
+        </div>
+      ),
+    },
+    {
+      accessorKey: "status",
+      header: ({}) => {
+        return <div>Trạng thái</div>;
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {convertToCapitalizeCase(row.original.status)}
+        </div>
       ),
     },
     {
@@ -157,21 +188,14 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
               <DropdownMenuItem
                 onClick={() =>
-                  router.push(
-                    `/mentor/courses/${generateNameId({
-                      name: row.original.name,
-                      id: row.original.id,
-                    })}`
-                  )
+                  router.push(`/admin/subscriptions/${row.original.id}`)
                 }
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
-                View details
+                Xem chi tiết
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
@@ -184,15 +208,9 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
     <DataTable
       data={data}
       columns={columns}
-      searchBy="name"
       filterBy="status"
-      filterOptions={[
-        COURSE_STATUS.DRAFT,
-        COURSE_STATUS.PENDING,
-        COURSE_STATUS.APPROVED,
-        COURSE_STATUS.REJECTED,
-      ]}
+      filterOptions={Object.values(SUBSCRIPTION_STATUS)}
     />
   );
 };
-export default CourseTable;
+export default SubscriptionTable;

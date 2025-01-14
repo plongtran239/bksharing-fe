@@ -110,6 +110,7 @@ const Course = CourseBase.extend({
   createdAt: z.string(),
   noOfSubscriptions: z.number(),
   noOfFeedbacks: z.number(),
+  rateOfCourse: z.number(),
 });
 
 const CourseDetail = CourseBase.extend({

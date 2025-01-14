@@ -17,6 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -58,7 +59,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
     {
       accessorKey: "title",
       header: ({}) => {
-        return <button className="flex-center">Title</button>;
+        return <button className="flex-center">Tên cuộc gọi</button>;
       },
       cell: ({ row }) => <div className="">{row.getValue("title")}</div>,
     },
@@ -70,20 +71,16 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Date & Time
+            Thời gian bắt đầu
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
       },
       cell: ({ row }) => (
         <div>
-          {convertMilisecondsToLocaleString(row.getValue("startsAt"), "en-US", {
-            hour: "2-digit",
-            minute: "2-digit",
-            day: "2-digit",
-            month: "short",
-            year: "numeric",
-            timeZone: "UTC",
+          {convertMilisecondsToLocaleString(row.getValue("startsAt"), LOCALE, {
+            ...DATE_TIME_FORMAT_OPTIONS,
+            // timeZone: "UTC",
           })}
         </div>
       ),
@@ -99,7 +96,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
     },
     {
       accessorKey: "participants",
-      header: "Candidate",
+      header: "Người tham gia",
       cell: ({ row }) => {
         const participants = row.original.participants.filter(
           (participant) => participant.accountType !== ROLES.ADMIN

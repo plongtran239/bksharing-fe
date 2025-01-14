@@ -58,6 +58,7 @@
     "mentors": "Gia sư",
     "courses": "Khóa học",
     "meetings": "Cuộc họp",
+    "subscriptions": "Đăng ký học",
     "categories": "Danh mục",
     "chat": "Tin nhắn",
     "all": "Tất cả",
@@ -78,7 +79,7 @@
     "resolved": "Đã giải quyết",
     "appointments": "Lịch hẹn",
     "schedule": "Sắp xếp lịch",
-    "requests": "Yêu cầu đăng ký"
+    "requests": "Đăng ký học"
   },
   "footer": {
     "label": "Đăng ký nhận thông tin mới nhất",
