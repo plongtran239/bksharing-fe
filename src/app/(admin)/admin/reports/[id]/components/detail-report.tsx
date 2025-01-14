@@ -27,6 +27,7 @@ const DetailReport = ({
     return (
       <div className="grid grid-cols-2 gap-5">
         <div className="grid grid-cols-1 gap-5">
+          {/* Report */}
           <Section title="Thông tin báo cáo">
             <div>
               <div className="mb-[2px] mr-2 inline-block h-2 w-2 rounded-full bg-primary" />
@@ -69,6 +70,7 @@ const DetailReport = ({
             </div>
           </Section>
 
+          {/* Subscription */}
           <Section title="Thông tin đăng ký">
             <div>
               <div className="mb-[2px] mr-2 inline-block h-2 w-2 rounded-full bg-primary" />
@@ -131,7 +133,13 @@ const DetailReport = ({
 
         <div className="grid grid-cols-1 gap-5">
           {/* Course */}
-          <Section title="Thông tin khóa học">
+          <Section
+            title="Thông tin khóa học"
+            link={`/admin/courses/${generateNameId({
+              id: data.subscription.course.id,
+              name: data.subscription.course.name,
+            })}`}
+          >
             <div>
               <div className="mb-[2px] mr-2 inline-block h-2 w-2 rounded-full bg-primary" />
               <span>Tên khóa học: </span>

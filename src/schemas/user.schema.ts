@@ -70,6 +70,8 @@ const Mentor = User.extend({
       versions: z.array(z.string()),
     })
     .optional(),
+  noOfSubscriptions: z.number(),
+  rateOfMentor: z.number(),
 });
 
 type UserType = z.infer<typeof User>;

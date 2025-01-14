@@ -42,31 +42,31 @@ const Overview = () => {
     <div>
       <div className="grid grid-cols-3 gap-5">
         <OverviewCard
-          icon={<GraduationCapIcon size={24} className="text-white" />}
+          icon={<GraduationCapIcon size={20} className="text-white" />}
           data={overview.totalMentors}
           type={OVERVIEW_TYPE.MENTORS}
         />
 
         <OverviewCard
-          icon={<UserIcon size={24} className="text-white" />}
+          icon={<UserIcon size={20} className="text-white" />}
           data={overview.totalStudents}
           type={OVERVIEW_TYPE.STUDENTS}
         />
 
         <OverviewCard
-          icon={<BookCopyIcon size={24} className="text-white" />}
+          icon={<BookCopyIcon size={20} className="text-white" />}
           data={overview.totalCourses}
           type={OVERVIEW_TYPE.COURSES}
         />
 
         <OverviewCard
-          icon={<UserPlusIcon size={24} className="text-white" />}
+          icon={<UserPlusIcon size={20} className="text-white" />}
           data={overview.totalSubscriptions}
           type={OVERVIEW_TYPE.SUBSCRIPTIONS}
         />
 
         <OverviewCard
-          icon={<DollarSignIcon size={24} className="text-white" />}
+          icon={<DollarSignIcon size={20} className="text-white" />}
           data={Intl.NumberFormat("vi-VN", {
             style: "currency",
             currency: "VND",

@@ -25,12 +25,14 @@ const OverviewCard = ({ icon, data, type }: IProps) => {
   };
 
   return (
-    <div className="flex w-full items-center gap-5 rounded-xl bg-secondary p-5">
+    <div className="flex w-full items-center gap-5 rounded-xl bg-secondary p-3">
       {/* Mentors */}
       <div className="rounded-full bg-secondary-foreground p-4">{icon}</div>
-      <div className="space-y-1">
-        <p className="text-xl font-bold text-secondary-foreground">{data}</p>
-        <p className="">{renderType()}</p>
+      <div className="space-x-2">
+        <span className="text-lg font-bold text-secondary-foreground">
+          {data}
+        </span>
+        <span className="text-secondary-foreground">{renderType()}</span>
       </div>
     </div>
   );

@@ -123,6 +123,13 @@ const SubscriptionDetail = z.object({
     status: z.nativeEnum(MEETING_STATUS),
     cid: z.string(),
   }),
+  report: z.object({
+    id: z.number(),
+    type: z.nativeEnum(REPORT_TYPE),
+    description: z.string(),
+    status: z.nativeEnum(REPORT_STATUS),
+    resolution: z.string().nullable(),
+  }),
 });
 
 const MentorSubscription = z.object({

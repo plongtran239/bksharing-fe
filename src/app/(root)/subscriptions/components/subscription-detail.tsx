@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -15,6 +16,8 @@ interface IProps {
 }
 
 const SubscriptionDetail = ({ activeItemId }: IProps) => {
+  const t = useTranslations("report");
+
   const [loading, setLoading] = useState(false);
 
   const [subscriptionDetail, setSubscriptionDetail] =
@@ -141,6 +144,30 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
           </span>
         </p>
       </div>
+
+      {subscriptionDetail.report && (
+        <>
+          <div className="flex items-center gap-5">
+            <div className="h-2 w-2 rounded-full bg-red-400" />
+            <p>
+              Tình trạng báo cáo: {""}
+              <span className="text-red-400">
+                {t(subscriptionDetail.report.status.toLowerCase())}
+              </span>
+            </p>
+          </div>
+
+          {/* <div className="flex items-center gap-5">
+            <div className="h-2 w-2 rounded-full bg-red-400" />
+            <p className="w-[500px]">
+              Hướng giải quyết: {""}
+              <span className="text-red-400">
+                {subscriptionDetail.report.resolution || "Chưa có"}
+              </span>
+            </p>
+          </div> */}
+        </>
+      )}
     </div>
   );
 };

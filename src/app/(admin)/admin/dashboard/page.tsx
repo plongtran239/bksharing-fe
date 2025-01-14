@@ -7,11 +7,11 @@ export const metadata: Metadata = {
   description: "Dashboard page for BK Sharing admin",
 };
 
-const DashboardPaye = () => {
+const DashboardPage = () => {
   return (
     <main>
       <Dashboard />
     </main>
   );
 };
-export default DashboardPaye;
+export default DashboardPage;

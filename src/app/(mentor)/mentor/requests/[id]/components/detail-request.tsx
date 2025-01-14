@@ -2,8 +2,11 @@ import { Formats, TranslationValues } from "next-intl";
 import Image from "next/image";
 
 import subscriptionApi from "@/apis/subscription.api";
+import ActionButtons from "@/app/(mentor)/mentor/requests/[id]/components/action-buttons";
 import Section from "@/app/(mentor)/mentor/requests/[id]/components/section";
+import { Separator } from "@/components/ui/separator";
 import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
+import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import {
   convertMilisecondsToLocaleDateString,
@@ -109,6 +112,14 @@ const DetailRequest = async ({
               {tPaymentStatus("pending")}
             </span>
           </div>
+        )}
+
+        {payload.status === SUBSCRIPTION_STATUS.PENDING && (
+          <>
+            <Separator className="my-5 bg-primary" />
+
+            <ActionButtons subscription={payload} />
+          </>
         )}
       </Section>
 

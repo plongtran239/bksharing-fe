@@ -1,4 +1,5 @@
-// import { CircleUserIcon, HeartIcon } from "lucide-react";
+import { StarFilledIcon } from "@radix-ui/react-icons";
+import { CircleUserRoundIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -14,7 +15,6 @@ const MentorCard = ({ data }: { data: MentorType }) => {
         name,
         id,
       })}`}
-      // className="flex-between min-h-[420px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
       className="flex-between min-h-[300px] w-full flex-col rounded-xl border border-primary p-5 shadow-lg transition-all hover:-translate-y-2 hover:shadow-2xl"
     >
       <div className="flex-center flex-col gap-4">
@@ -24,37 +24,34 @@ const MentorCard = ({ data }: { data: MentorType }) => {
             alt="mentor avatar"
             fill
             sizes="(max-width: 640px) 100px,"
-            className="rounded-full"
+            className="rounded-full shadow-xl"
             priority
           />
         </div>
 
         <p className="text-xl font-semibold text-black">{name}</p>
 
-        <p className="line-clamp-2 text-center text-xs">
-          {bio || "Không có mô tả"}
-        </p>
+        <div className="line-clamp-2 min-w-[200px] rounded-md bg-secondary p-2 text-center text-xs text-secondary-foreground">
+          <p>{bio || "Không có mô tả"}</p>
+        </div>
       </div>
 
       {/* Free Schedule */}
-      {/* <div className="w-full text-center text-sm">
-        <div className="rounded-lg bg-secondary p-2">
-          <p>Free schedule: </p>
-          <p className="font-semibold text-black">20:00, 22/09/2024</p>
-        </div>
+      <div className="w-full text-center text-sm">
+        <div className="flex-between mt-5 w-full px-2 text-sm text-primary">
+          <div className="flex-center gap-1">
+            <CircleUserRoundIcon size={16} />
+            <span className="text-black">
+              {data.noOfSubscriptions} lượt đăng ký
+            </span>
+          </div>
 
-        <div className="flex-between mt-5 w-full px-2 text-sm text-secondary-foreground">
-          <span className="flex-center gap-1">
-            <CircleUserIcon size={16} />
-            30 mentees
-          </span>
-
-          <span className="flex-center gap-1">
-            <HeartIcon size={16} />
-            1,1k
-          </span>
+          <div className="flex-center gap-1">
+            <span className="text-black">{data.rateOfMentor.toFixed(1)}</span>
+            <StarFilledIcon className="text-yellow-400" />
+          </div>
         </div>
-      </div> */}
+      </div>
     </Link>
   );
 };

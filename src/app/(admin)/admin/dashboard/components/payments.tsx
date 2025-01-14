@@ -73,7 +73,7 @@ const Payments = () => {
   });
 
   return (
-    <>
+    <div className="w-full space-y-5">
       <div className="flex justify-end gap-5">
         <Select
           defaultValue={DATE_RANGE.ONE_WEEK}
@@ -114,57 +114,54 @@ const Payments = () => {
         </Select>
       </div>
 
-      <ChartContainer
-        config={chartConfig}
-        className="min-h-[200px] w-full pb-10"
-      >
-        <LineChart data={chartData} accessibilityLayer>
-          <CartesianGrid />
+      <div className="flex-center">
+        <ChartContainer config={chartConfig} className="h-[460px] w-full pb-10">
+          <LineChart data={chartData} accessibilityLayer>
+            <CartesianGrid />
 
-          <XAxis
-            dataKey="date"
-            tickLine={false}
-            tickMargin={10}
-            axisLine={true}
-            angle={-60}
-          />
-
-          <YAxis
-            dataKey={activeChart}
-            tickFormatter={(value) =>
-              activeChart === "totalAmount"
-                ? Intl.NumberFormat("vi-VN").format(value)
-                : value
-            }
-            tickLine={false}
-            tickMargin={10}
-            axisLine={true}
-          />
-
-          <ChartTooltip content={<ChartTooltipContent />} />
-
-          {/* <ChartLegend content={<ChartLegendContent />} /> */}
-
-          {activeChart === "totalAmount" ? (
-            <Line
-              dataKey="totalAmount"
-              type="monotone"
-              stroke="var(--color-totalAmount)"
-              strokeWidth={2}
-              dot={false}
+            <XAxis
+              dataKey="date"
+              tickLine={false}
+              tickMargin={10}
+              axisLine={true}
+              angle={-60}
             />
-          ) : (
-            <Line
-              dataKey="noOfPayments"
-              type="monotone"
-              stroke="var(--color-noOfPayments)"
-              strokeWidth={2}
-              dot={false}
+
+            <YAxis
+              dataKey={activeChart}
+              tickFormatter={(value) =>
+                activeChart === "totalAmount"
+                  ? Intl.NumberFormat("vi-VN").format(value)
+                  : value
+              }
+              tickLine={false}
+              tickMargin={10}
+              axisLine={true}
             />
-          )}
-        </LineChart>
-      </ChartContainer>
-    </>
+
+            <ChartTooltip content={<ChartTooltipContent />} />
+
+            {activeChart === "totalAmount" ? (
+              <Line
+                dataKey="totalAmount"
+                type="monotone"
+                stroke="var(--color-totalAmount)"
+                strokeWidth={2}
+                dot={false}
+              />
+            ) : (
+              <Line
+                dataKey="noOfPayments"
+                type="monotone"
+                stroke="var(--color-noOfPayments)"
+                strokeWidth={2}
+                dot={false}
+              />
+            )}
+          </LineChart>
+        </ChartContainer>
+      </div>
+    </div>
   );
 };
 export default Payments;

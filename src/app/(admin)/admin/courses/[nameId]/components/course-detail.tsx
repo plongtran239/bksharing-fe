@@ -7,8 +7,8 @@ import { CourseDetailType } from "@/schemas";
 
 const CourseDetail = ({ course }: { course: CourseDetailType }) => {
   return (
-    <section className="flex-center">
-      <div className="w-3/4 space-y-5">
+    <section className="grid grid-cols-3 gap-5">
+      <div className="col-span-2 w-full space-y-5">
         <div className="flex items-center gap-10 rounded-xl bg-secondary p-5">
           {/* Thumbnail */}
           <div className="relative h-[211px] w-[375px]">
@@ -104,11 +104,9 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
 
         {/* Sections */}
         <CourseSections course={course} />
-
-        <Separator />
-
-        <CourseFeedbacks courseId={course.id} />
       </div>
+
+      <CourseFeedbacks courseId={course.id} />
     </section>
   );
 };

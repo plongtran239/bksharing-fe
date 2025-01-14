@@ -1,10 +1,8 @@
-import { ChevronLeftIcon } from "lucide-react";
-import Link from "next/link";
 import { notFound } from "next/navigation";
 
 import courseApi from "@/apis/course.api";
 import CourseTab from "@/app/(mentor)/mentor/courses/[nameId]/components/course-tab";
-import { Button } from "@/components/ui/button";
+import BackButton from "@/components/back-button";
 import { Separator } from "@/components/ui/separator";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
@@ -73,12 +71,7 @@ const CourseDetail = async ({
           </span>
         </div>
 
-        <Link href="/mentor/courses">
-          <Button className="flex-center gap-2">
-            <ChevronLeftIcon size={16} />
-            Back to Courses
-          </Button>
-        </Link>
+        <BackButton />
       </div>
 
       <Separator className="my-5" />

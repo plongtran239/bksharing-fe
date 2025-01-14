@@ -15,7 +15,7 @@ const Section: FC<IProps> = ({ title, children }) => {
           {title}
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-2">{children}</CardContent>
+      <CardContent className="space-y-5">{children}</CardContent>
     </Card>
   );
 };

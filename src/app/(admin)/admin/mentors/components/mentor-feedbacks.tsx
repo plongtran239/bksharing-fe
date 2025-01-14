@@ -2,7 +2,7 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import { ChevronsUpDownIcon } from "lucide-react";
 
 import feedbackApi from "@/apis/feedback.api";
-import FeedbackCard from "@/app/(admin)/admin/courses/[nameId]/components/feedback-card";
+import FeedbackCard from "@/app/(admin)/admin/mentors/components/feedback-card";
 import {
   Collapsible,
   CollapsibleContent,
@@ -11,14 +11,14 @@ import {
 import { REVIEW_TYPE } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
-const CourseFeedbacks = async ({ courseId }: { courseId: number }) => {
+const MentorFeedbacks = async ({ mentorId }: { mentorId: number }) => {
   const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
   const {
     payload: { data },
   } = await feedbackApi.getAdminFeedbacks(sessionToken, {
-    relationType: REVIEW_TYPE.COURSE,
-    relationId: courseId,
+    relationType: REVIEW_TYPE.MENTOR,
+    relationId: mentorId,
   });
 
   const caculateRating = () => {
@@ -52,7 +52,7 @@ const CourseFeedbacks = async ({ courseId }: { courseId: number }) => {
       </CollapsibleTrigger>
 
       <CollapsibleContent>
-        <div className="mt-5 grid grid-cols-1 gap-5">
+        <div className="mt-5 grid grid-cols-2 gap-5">
           {data.map((feedback) => (
             <FeedbackCard feedback={feedback} key={feedback.id} />
           ))}
@@ -61,4 +61,4 @@ const CourseFeedbacks = async ({ courseId }: { courseId: number }) => {
     </Collapsible>
   );
 };
-export default CourseFeedbacks;
+export default MentorFeedbacks;
