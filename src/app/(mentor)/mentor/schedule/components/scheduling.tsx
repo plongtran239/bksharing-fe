@@ -1,6 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -33,6 +34,8 @@ import {
 } from "@/schemas/schedule.schema";
 
 const Scheduling = () => {
+  const t = useTranslations("dateOfWeek");
+
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
   const router = useRouter();
@@ -55,17 +58,11 @@ const Scheduling = () => {
       router.refresh();
 
       toast({
-        title: "Success",
-        description: "Schedule added successfully",
+        title: "Thành công",
+        description: "Thêm lịch thành công",
       });
     } catch (error) {
       console.error({ error });
-
-      toast({
-        title: "Error",
-        description: "Failed to add schedule",
-        variant: "destructive",
-      });
     } finally {
       setLoading(false);
     }
@@ -80,7 +77,7 @@ const Scheduling = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="select" required>
-                Day Of Week
+                Ngày trong tuần
               </FormLabel>
               <FormControl>
                 <Select value={field.value} onValueChange={field.onChange}>
@@ -90,7 +87,7 @@ const Scheduling = () => {
                   <SelectContent className="capitalize">
                     {Object.values(DAY_OF_WEEK).map((day) => (
                       <SelectItem key={day} value={day}>
-                        {day.toLowerCase()}
+                        {t(day.toLowerCase())}
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -107,7 +104,7 @@ const Scheduling = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="start" required>
-                Start Time
+                Thời gian bắt đầu
               </FormLabel>
               <FormControl>
                 <TimePicker
@@ -128,7 +125,7 @@ const Scheduling = () => {
           render={({ field }) => (
             <FormItem>
               <FormLabel htmlFor="duration" required>
-                Duration
+                Thời lượng
               </FormLabel>
               <FormControl>
                 <Select
@@ -141,13 +138,13 @@ const Scheduling = () => {
                     <SelectValue placeholder="Select duration" />
                   </SelectTrigger>
                   <SelectContent className="capitalize">
-                    <SelectItem value="1">1 hour</SelectItem>
-                    <SelectItem value="1.5">1.5 hours</SelectItem>
-                    <SelectItem value="2">2 hours</SelectItem>
-                    <SelectItem value="2.5">2.5 hours</SelectItem>
-                    <SelectItem value="3">3 hours</SelectItem>
-                    <SelectItem value="3.5">3.5 hours</SelectItem>
-                    <SelectItem value="4">4 hours</SelectItem>
+                    <SelectItem value="1">1 giờ</SelectItem>
+                    <SelectItem value="1.5">1.5 giờ</SelectItem>
+                    <SelectItem value="2">2 giờ</SelectItem>
+                    <SelectItem value="2.5">2.5 giờ</SelectItem>
+                    <SelectItem value="3">3 giờ</SelectItem>
+                    <SelectItem value="3.5">3.5 giờ</SelectItem>
+                    <SelectItem value="4">4 giờ</SelectItem>
                   </SelectContent>
                 </Select>
               </FormControl>
@@ -159,7 +156,7 @@ const Scheduling = () => {
         <Separator />
 
         <Button type="submit" disabled={loading}>
-          {loading ? <Loader /> : "Add Schedule"}
+          {loading ? <Loader /> : "Thêm lịch"}
         </Button>
       </form>
     </Form>

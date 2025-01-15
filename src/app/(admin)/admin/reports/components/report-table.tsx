@@ -3,6 +3,7 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/data-table";
@@ -15,13 +16,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { REPORT_STATUS } from "@/constants/enum";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 import { ReportType } from "@/schemas/report.schema";
 
 const ReportTable = ({ data }: { data: ReportType[] }) => {
+  const tType = useTranslations("reportType");
+  const t = useTranslations("reportStatus");
+
   const router = useRouter();
 
   const columns: ColumnDef<ReportType>[] = [
@@ -53,7 +54,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
         return <div>Loại</div>;
       },
       cell: ({ row }) => (
-        <div className="">{convertToCapitalizeCase(row.getValue("type"))}</div>
+        <div className="">{tType(row.original.type.toLowerCase())}</div>
       ),
     },
     {
@@ -73,9 +74,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
         return <div>Trạng thái</div>;
       },
       cell: ({ row }) => (
-        <div className="">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {
@@ -114,7 +113,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
                 onClick={() => router.push(`/admin/reports/${row.original.id}`)}
               >
                 <EyeIcon size={16} />
-                View Report
+                Xem chi tiết
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

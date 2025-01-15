@@ -8,6 +8,7 @@ import {
   UserRoundCheckIcon,
   UserRoundXIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -15,13 +16,12 @@ import adminApi from "@/apis/admin.api";
 import DataTable from "@/components/data-table";
 import MeetingModal from "@/components/meeting-modal";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
@@ -30,11 +30,7 @@ import { Separator } from "@/components/ui/separator";
 import { LOCALE } from "@/constants/date";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-  generateNameId,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString, generateNameId } from "@/lib/utils";
 import { MentorType } from "@/schemas";
 
 interface IProps {
@@ -42,6 +38,8 @@ interface IProps {
 }
 
 const MentorTable = ({ data }: IProps) => {
+  const t = useTranslations("mentorStatus");
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -111,28 +109,28 @@ const MentorTable = ({ data }: IProps) => {
   };
 
   const columns: ColumnDef<MentorType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "name",
       header: ({ column }) => {
@@ -184,9 +182,7 @@ const MentorTable = ({ data }: IProps) => {
       accessorKey: "status",
       header: "Trạng thái",
       cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="capitalize">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {
@@ -231,8 +227,6 @@ const MentorTable = ({ data }: IProps) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
               <DropdownMenuItem
                 onClick={() => {
                   router.push(
@@ -245,7 +239,7 @@ const MentorTable = ({ data }: IProps) => {
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
-                View details
+                Xem chi tiết
               </DropdownMenuItem>
 
               {![MENTOR_STATUS.ACCEPTED, MENTOR_STATUS.REJECTED].includes(
@@ -259,7 +253,7 @@ const MentorTable = ({ data }: IProps) => {
                   className="flex items-center gap-2"
                 >
                   <CalendarCheck2Icon size={16} />
-                  Schedule interview
+                  Đặt lịch phỏng vấn
                 </DropdownMenuItem>
               )}
 
@@ -274,7 +268,7 @@ const MentorTable = ({ data }: IProps) => {
                     className="flex items-center gap-2"
                   >
                     <UserRoundCheckIcon size={16} />
-                    Accept
+                    Chấp nhận
                   </DropdownMenuItem>
                   <DropdownMenuItem
                     onClick={() =>
@@ -283,7 +277,7 @@ const MentorTable = ({ data }: IProps) => {
                     className="flex items-center gap-2"
                   >
                     <UserRoundXIcon size={16} />
-                    Reject
+                    Từ chối
                   </DropdownMenuItem>
                 </>
               ) : (
@@ -299,12 +293,12 @@ const MentorTable = ({ data }: IProps) => {
                   {row.original.status === MENTOR_STATUS.ACCEPTED ? (
                     <>
                       <UserRoundXIcon size={16} />
-                      Reject
+                      Từ chối
                     </>
                   ) : (
                     <>
                       <UserRoundCheckIcon size={16} />
-                      Accept
+                      Chấp nhận
                     </>
                   )}
                 </DropdownMenuItem>

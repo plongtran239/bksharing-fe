@@ -1,6 +1,6 @@
 "use client";
 
-import { ChevronDownIcon } from "@radix-ui/react-icons";
+// import { ChevronDownIcon } from "@radix-ui/react-icons";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -13,16 +13,17 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+// import {
+//   DropdownMenu,
+//   DropdownMenuCheckboxItem,
+//   DropdownMenuContent,
+//   DropdownMenuTrigger,
+// } from "@/components/ui/dropdown-menu";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -40,10 +41,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import {
-  convertToCapitalizeCase,
-  covertCamelCaseToTitleCase,
-} from "@/lib/utils";
 
 interface IDataTableProps<T> {
   data: T[];
@@ -62,6 +59,7 @@ const DataTable = <T,>({
   filterOptions,
   getRowClassName,
 }: IDataTableProps<T>) => {
+  const t = useTranslations("sidebar");
   const router = useRouter();
   const pathname = usePathname();
   const params = useSearchParams();
@@ -112,7 +110,7 @@ const DataTable = <T,>({
       <div className="flex-between gap-2">
         {searchBy && (
           <Input
-            placeholder={`Search by ${searchBy}`}
+            placeholder={`Tìm kiếm`}
             value={search}
             onChange={(event) => {
               setSearch(event.target.value);
@@ -137,20 +135,20 @@ const DataTable = <T,>({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">All {filterBy}</SelectItem>
+              <SelectItem value="all">Tất cả trạng thái</SelectItem>
 
               <Separator className="my-1" />
 
               {filterOptions.map((status) => (
                 <SelectItem key={status} value={status}>
-                  {convertToCapitalizeCase(status)}
+                  {t(status.toLowerCase())}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
         )}
 
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
               Columns <ChevronDownIcon className="ml-2 h-4 w-4" />
@@ -175,7 +173,7 @@ const DataTable = <T,>({
                 );
               })}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
       </div>
 
       {/* Table */}
@@ -225,7 +223,7 @@ const DataTable = <T,>({
                   colSpan={columns.length}
                   className="h-24 text-center"
                 >
-                  No results.
+                  Không có dữ liệu
                 </TableCell>
               </TableRow>
             )}
@@ -235,10 +233,10 @@ const DataTable = <T,>({
 
       {/* Count selected & navigation */}
       <div className="mt-5 flex items-center justify-end space-x-2">
-        <div className="flex-1 text-sm text-muted-foreground">
+        {/* <div className="flex-1 text-sm text-muted-foreground">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
+        </div> */}
         <div className="space-x-2">
           <Button
             variant="outline"
@@ -246,7 +244,7 @@ const DataTable = <T,>({
             onClick={() => table.previousPage()}
             disabled={!table.getCanPreviousPage()}
           >
-            Previous
+            Trước
           </Button>
           <Button
             variant="outline"
@@ -254,7 +252,7 @@ const DataTable = <T,>({
             onClick={() => table.nextPage()}
             disabled={!table.getCanNextPage()}
           >
-            Next
+            Sau
           </Button>
         </div>
       </div>

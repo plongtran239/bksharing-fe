@@ -12,7 +12,9 @@ const AdminCategory = async () => {
   return (
     <main>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Category List</h1>
+        <h1 className="text-3xl font-semibold text-primary">
+          Danh sách danh mục
+        </h1>
 
         <AddCategoryButton />
       </div>

@@ -3,11 +3,12 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -15,38 +16,37 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 import { AdminSubscriptionType } from "@/schemas/subscription.schema";
 
 const SubscriptionTable = ({ data }: { data: AdminSubscriptionType[] }) => {
+  const t = useTranslations("subscriptionStatus");
+
   const router = useRouter();
 
   const columns: ColumnDef<AdminSubscriptionType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "course",
       header: ({ column }) => {
@@ -171,7 +171,7 @@ const SubscriptionTable = ({ data }: { data: AdminSubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {convertToCapitalizeCase(row.original.status)}
+          {t(row.original.status.toLowerCase())}
         </div>
       ),
     },

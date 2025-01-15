@@ -61,7 +61,7 @@ const AddCategoryButton = () => {
     <>
       <Button className="px-5" onClick={handleOpenChange}>
         <PlusIcon className="mr-2" size={16} />
-        Add Category
+        Thêm danh mục
       </Button>
 
       <CategoryModal

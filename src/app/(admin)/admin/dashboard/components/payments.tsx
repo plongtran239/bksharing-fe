@@ -83,14 +83,14 @@ const Payments = () => {
             <SelectValue placeholder="" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value={DATE_RANGE.TODAY}>Today</SelectItem>
-            <SelectItem value={DATE_RANGE.ONE_WEEK}>Last 7 days</SelectItem>
-            <SelectItem value={DATE_RANGE.ONE_MONTH}>Last 30 days</SelectItem>
+            <SelectItem value={DATE_RANGE.TODAY}>Hôm nay</SelectItem>
+            <SelectItem value={DATE_RANGE.ONE_WEEK}>7 ngày trước</SelectItem>
+            <SelectItem value={DATE_RANGE.ONE_MONTH}>30 ngày trước</SelectItem>
             <SelectItem value={DATE_RANGE.THREE_MONTHS}>
-              Last 3 months
+              3 tháng trước
             </SelectItem>
-            <SelectItem value={DATE_RANGE.SIX_MONTHS}>Last 6 months</SelectItem>
-            <SelectItem value={DATE_RANGE.ONE_YEAR}>Last 1 year</SelectItem>
+            <SelectItem value={DATE_RANGE.SIX_MONTHS}>6 tháng trước</SelectItem>
+            <SelectItem value={DATE_RANGE.ONE_YEAR}>1 năm trước</SelectItem>
           </SelectContent>
         </Select>
 
@@ -100,7 +100,7 @@ const Payments = () => {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="totalAmount">
-              Total Amount (
+              Tổng doanh thu (
               {Intl.NumberFormat("vi-VN", {
                 style: "currency",
                 currency: "VND",
@@ -108,7 +108,7 @@ const Payments = () => {
               )
             </SelectItem>
             <SelectItem value="noOfPayments">
-              Number of Payments ({total().noOfPayments})
+              Số lượt thanh toán ({total().noOfPayments})
             </SelectItem>
           </SelectContent>
         </Select>

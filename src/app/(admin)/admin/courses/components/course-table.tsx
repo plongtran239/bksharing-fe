@@ -3,6 +3,7 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { CircleCheckIcon, CircleXIcon, EyeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import adminApi from "@/apis/admin.api";
@@ -20,14 +21,12 @@ import { Separator } from "@/components/ui/separator";
 import { LOCALE } from "@/constants/date";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-  generateNameId,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString, generateNameId } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
+  const t = useTranslations("courseStatus");
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -37,23 +36,17 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       await adminApi.approveCourse(courseId, isApproved);
 
       const toastMessage = isApproved
-        ? "Course has been approved!"
-        : "Course has been rejected!";
+        ? "Khóa học đã được duyệt!"
+        : "Khóa học đã bị từ chối!";
 
       toast({
-        title: "Success",
+        title: "Thành công",
         description: toastMessage,
       });
 
       router.refresh();
     } catch (error) {
       console.error({ error });
-
-      toast({
-        title: "Error",
-        description: "An error occurred. Please try again later.",
-        variant: "destructive",
-      });
     }
   };
 
@@ -145,9 +138,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
       accessorKey: "status",
       header: "Status",
       cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="capitalize">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {

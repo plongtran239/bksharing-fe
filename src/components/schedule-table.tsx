@@ -1,5 +1,7 @@
 "use client";
 
+import { useTranslations } from "next-intl";
+
 import AvailableRow from "@/components/available-row";
 import { DAY_OF_WEEK } from "@/constants/enum";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
@@ -29,6 +31,8 @@ const ScheduleTable = ({
   handleOpenDialog?: () => void;
   mentorSubscriptions?: MentorSubscriptionType[];
 }) => {
+  const t = useTranslations("dateOfWeek");
+
   // 6:00 - 23:00
   const timeSlots = Array.from({ length: 18 }, (_, i) => i + 6);
   const today = new Date();
@@ -144,7 +148,7 @@ const ScheduleTable = ({
                   scope="col"
                   className="border border-gray-300 capitalize"
                 >
-                  {day.toLowerCase()}
+                  {t(day.toLowerCase())}
                 </th>
               ))}
         </tr>

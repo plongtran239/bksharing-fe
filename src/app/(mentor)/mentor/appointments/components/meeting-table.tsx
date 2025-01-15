@@ -4,28 +4,27 @@ import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
 import { LogInIcon, PlayIcon, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import meetingApi from "@/apis/meeting.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 import { MeetingType } from "@/schemas";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
+  const t = useTranslations("meetingStatus");
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -33,28 +32,28 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const client = useStreamVideoClient();
 
   const columns: ColumnDef<MeetingType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "title",
       header: "Tên khóa học",
@@ -92,9 +91,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       accessorKey: "status",
       header: "Trạng thái",
       cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="capitalize">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {
@@ -156,7 +153,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                 })),
                 starts_at: new Date(Number(startsAt)).toISOString(),
                 custom: {
-                  title: title || "Interview Meeting",
+                  title: title || "Cuộc gọi phỏng vấn",
                 },
               },
             });
@@ -166,8 +163,8 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             router.push(`/meeting/${cid}`);
 
             toast({
-              title: "Success",
-              description: "Meeting started successfully!",
+              title: "Thành công",
+              description: "Cuộc gọi đã bắt đầu!",
             });
           } catch (error) {
             console.error({ error });
@@ -191,8 +188,8 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
             await call.endCall();
 
             toast({
-              title: "Success",
-              description: "Meeting ended successfully!",
+              title: "Thành công",
+              description: "Kết thúc cuộc gọi thành công!",
             });
 
             router.refresh();
@@ -238,8 +235,6 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                   </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
-                  <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
                   <DropdownMenuItem
                     onClick={handleJoinMeeting}
                     className="flex items-center gap-2"

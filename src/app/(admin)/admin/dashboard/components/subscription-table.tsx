@@ -3,6 +3,7 @@
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -20,6 +21,8 @@ import { LOCALE } from "@/constants/date";
 import { DashboardSubscriptionType } from "@/schemas/dashboard.schema";
 
 const SubscriptionTable = () => {
+  const t = useTranslations("subscriptionStatus");
+
   const router = useRouter();
   const [loading, setLoading] = useState<boolean>(true);
   const [subscriptions, setSubscriptions] = useState<
@@ -71,7 +74,7 @@ const SubscriptionTable = () => {
     {
       accessorKey: "status",
       header: "Trạng thái",
-      cell: ({ row }) => row.original.status.toLowerCase(),
+      cell: ({ row }) => t(row.original.status.toLowerCase()),
     },
     {
       id: "actions",

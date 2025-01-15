@@ -49,11 +49,11 @@ const CategoryModal = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>{isEdit ? "Edit Category" : "Add Category"}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? "Cập nhật danh mục" : "Thêm danh mục"}
+          </DialogTitle>
           <DialogDescription>
-            {isEdit
-              ? "Update the details of the category"
-              : "Add a new category to the system"}
+            {isEdit ? "Cập nhật thông tin danh mục" : "Thêm mới danh mục mới"}
           </DialogDescription>
         </DialogHeader>
 
@@ -68,9 +68,9 @@ const CategoryModal = ({
               render={({ field }) => {
                 return (
                   <FormItem>
-                    <FormLabel required>Category Name</FormLabel>
+                    <FormLabel required>Tên danh mục</FormLabel>
                     <FormControl>
-                      <Input placeholder="category name" {...field} />
+                      <Input placeholder="tên danh mục" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -83,9 +83,9 @@ const CategoryModal = ({
               name="description"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Category Description</FormLabel>
+                  <FormLabel>Mô tả danh mục</FormLabel>
                   <FormControl>
-                    <Textarea placeholder="category description" {...field} />
+                    <Textarea placeholder="mô tả danh mục" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -97,7 +97,7 @@ const CategoryModal = ({
                 type="submit"
                 disabled={isLoading || !form.formState.isDirty}
               >
-                {!isLoading ? isEdit ? "Update" : "Add" : <Loader />}
+                {!isLoading ? isEdit ? "Cập nhật" : "Thêm" : <Loader />}
               </Button>
             </DialogFooter>
           </form>

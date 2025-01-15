@@ -22,12 +22,14 @@ const MentorCourse = async () => {
   return (
     <section>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Courses</h1>
+        <h1 className="text-3xl font-semibold text-primary">
+          Danh sách khóa học
+        </h1>
 
         <Link href="/course/create">
           <Button className="flex-center gap-2">
             <PlusIcon size={16} />
-            Create New Course
+            Tạo khóa học
           </Button>
         </Link>
       </div>

@@ -3,52 +3,50 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { COURSE_STATUS } from "@/constants/enum";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-  generateNameId,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString, generateNameId } from "@/lib/utils";
 import { CourseType } from "@/schemas";
 
 const CourseTable = ({ data }: { data: CourseType[] }) => {
+  const t = useTranslations("courseStatus");
+
   const router = useRouter();
 
   const columns: ColumnDef<CourseType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "name",
       header: ({ column }) => {
@@ -57,7 +55,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Name
+            Tên khóa học
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -68,7 +66,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
     },
     {
       accessorKey: "category",
-      header: "Category",
+      header: "Danh mục",
       cell: ({ row }) => (
         <div className="capitalize">{row.original.category.name}</div>
       ),
@@ -81,7 +79,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Subscriptions
+            Lượt đăng ký
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -96,7 +94,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Feedbacks
+            Lượt đánh giá
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -111,7 +109,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Rating
+            Đánh giá
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -120,11 +118,9 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng thái",
       cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="capitalize">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {
@@ -135,7 +131,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Created At
+            Thời gian tạo
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -157,8 +153,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
               <DropdownMenuItem
                 onClick={() =>
                   router.push(
@@ -171,7 +165,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
-                View details
+                Xem chi tiết
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

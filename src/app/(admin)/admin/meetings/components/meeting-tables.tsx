@@ -4,12 +4,12 @@ import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { useStreamVideoClient } from "@stream-io/video-react-sdk";
 import { ColumnDef } from "@tanstack/react-table";
 import { LogInIcon, PlayIcon, XIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import meetingApi from "@/apis/meeting.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -20,14 +20,13 @@ import {
 import { LOCALE } from "@/constants/date";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 import { MeetingType } from "@/schemas";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
+  const t = useTranslations("meetingStatus");
+
   const router = useRouter();
 
   const { toast } = useToast();
@@ -37,28 +36,28 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const { user } = useAppContext();
 
   const columns: ColumnDef<MeetingType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "title",
       header: ({}) => {
@@ -96,9 +95,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       accessorKey: "status",
       header: "Trạng thái",
       cell: ({ row }) => (
-        <div className="capitalize">
-          {convertToCapitalizeCase(row.getValue("status"))}
-        </div>
+        <div className="capitalize">{t(row.original.status.toLowerCase())}</div>
       ),
     },
     {

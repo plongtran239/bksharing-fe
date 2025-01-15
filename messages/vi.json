@@ -35,6 +35,32 @@
     "expired": "Đã hết hạn",
     "rejected": "Đã từ chối"
   },
+  "mentorStatus": {
+    "pending": "Đang chờ duyệt",
+    "accepted": "Đã duyệt",
+    "rejected": "Đã từ chối"
+  },
+  "meetingStatus": {
+    "scheduled": "Đã lên lịch",
+    "ongoing": "Đang diễn ra",
+    "finished": "Đã kết thúc",
+    "cancelled": "Đã hủy"
+  },
+  "courseStatus": {
+    "draft": "Nháp",
+    "pending": "Đang chờ duyệt",
+    "approved": "Đã duyệt",
+    "rejected": "Đã từ chối"
+  },
+  "reportType": {
+    "mentor_issues": "Gia sư không đạt chất lượng",
+    "course_unqualified": "Khóa học không đạt chất lượng"
+  },
+  "reportStatus": {
+    "pending": "Đang chờ xử lý",
+    "resolved": "Đã giải quyết",
+    "rejected": "Đã từ chối"
+  },
   "paymentStatus": {
     "pending": "Chờ thanh toán",
     "in_progress": "Đang xử lý",
@@ -53,6 +79,30 @@
     "changePassword": "Đổi mật khẩu",
     "personalInformation": "Thông tin cá nhân",
     "mentorDashboard": "Bảng điều khiển gia sư"
+  },
+  "notification": {
+    "title": {
+      "Report Resolved": "Báo cáo đã được giải quyết",
+      "Subscription Request": "Yêu cầu đăng ký học",
+      "Subscription Approved": "Đăng ký học đã được duyệt",
+      "Course Approved": "Khóa học đã được duyệt",
+      "Course Reported": "Báo cáo khóa học",
+      "New Course Created": "Khóa học mới được tạo",
+      "Payment Successful": "Thanh toán thành công"
+    },
+    "content": {
+      "Your report has been resolved. Please check the resolution.": "Báo cáo của bạn đã được giải quyết. Vui lòng kiểm tra giải pháp.",
+      "Your subscription request has been approved successfully.": "Yêu cầu đăng ký học của bạn đã được duyệt thành công."
+    }
+  },
+  "dateOfWeek": {
+    "monday": "Thứ hai",
+    "tuesday": "Thứ ba",
+    "wednesday": "Thứ tư",
+    "thursday": "Thứ năm",
+    "friday": "Thứ sáu",
+    "saturday": "Thứ bảy",
+    "sunday": "Chủ nhật"
   },
   "sidebar": {
     "dashboard": "Bảng điều khiển",

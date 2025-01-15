@@ -3,12 +3,13 @@
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
 import { EyeIcon, UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import subscriptionApi from "@/apis/subscription.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
+// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -18,13 +19,12 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import {
-  convertMilisecondsToLocaleString,
-  convertToCapitalizeCase,
-} from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 import { SubscriptionType } from "@/schemas/subscription.schema";
 
 const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
+  const t = useTranslations("subscriptionStatus");
+
   const { toast } = useToast();
   const router = useRouter();
 
@@ -47,28 +47,28 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
   };
 
   const columns: ColumnDef<SubscriptionType>[] = [
-    {
-      id: "select",
-      header: ({ table }) => (
-        <Checkbox
-          checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
-          }
-          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-          aria-label="Select all"
-        />
-      ),
-      cell: ({ row }) => (
-        <Checkbox
-          checked={row.getIsSelected()}
-          onCheckedChange={(value) => row.toggleSelected(!!value)}
-          aria-label="Select row"
-        />
-      ),
-      enableSorting: false,
-      enableHiding: false,
-    },
+    // {
+    //   id: "select",
+    //   header: ({ table }) => (
+    //     <Checkbox
+    //       checked={
+    //         table.getIsAllPageRowsSelected() ||
+    //         (table.getIsSomePageRowsSelected() && "indeterminate")
+    //       }
+    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+    //       aria-label="Select all"
+    //     />
+    //   ),
+    //   cell: ({ row }) => (
+    //     <Checkbox
+    //       checked={row.getIsSelected()}
+    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
+    //       aria-label="Select row"
+    //     />
+    //   ),
+    //   enableSorting: false,
+    //   enableHiding: false,
+    // },
     {
       accessorKey: "studentInfo",
       header: ({ column }) => {
@@ -174,7 +174,7 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {convertToCapitalizeCase(row.getValue("status"))}
+          {t(row.original.status.toLowerCase())}
         </div>
       ),
     },

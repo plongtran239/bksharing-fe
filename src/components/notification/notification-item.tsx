@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
 import notificationApi from "@/apis/notification.api";
@@ -18,6 +19,8 @@ const NotificationItem = ({
 }: {
   notification: NotificationType;
 }) => {
+  const tTitle = useTranslations("notification.title");
+
   const router = useRouter();
   const { user } = useAppContext();
   const { updateIsReadNotification } = useNotificationStore();
@@ -60,6 +63,27 @@ const NotificationItem = ({
     }
   };
 
+  const generateContent = () => {
+    switch (notification.title) {
+      case "Course Reported":
+        return "Một khóa học đã bị báo cáo";
+      case "Course Approved":
+        return "Khóa học của bạn đã được duyệt";
+      case "Subscription Request":
+        return "Bạn có yêu cầu đăng ký mới";
+      case "New Course Created":
+        return "Một gia sư đã tạo khóa học mới và đang chờ duyệt";
+      case "Subscription Approved":
+        return "Yêu cầu đăng ký của bạn đã được duyệt";
+      case "Payment Successful":
+        return "Học viên đã thanh toán cho khóa học của bạn";
+      case "Report Resolved":
+        return "Báo cáo của bạn đã được giải quyết";
+      default:
+        break;
+    }
+  };
+
   return (
     <div
       className="flex-between gap-5 p-4 hover:bg-primary/30"
@@ -71,14 +95,15 @@ const NotificationItem = ({
             "font-semibold": !notification.isRead,
           })}
         >
-          {notification.title}
+          {tTitle(notification.title)}
         </p>
         <p
           className={cn("line-clamp-2 text-sm text-foreground", {
             "font-semibold text-black": !notification.isRead,
           })}
         >
-          {notification.content}
+          {/* {notification.content} */}
+          {generateContent()}
         </p>
       </div>
 
