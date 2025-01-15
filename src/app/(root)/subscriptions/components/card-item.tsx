@@ -205,6 +205,7 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
                 day: "2-digit",
                 hour: "2-digit",
                 minute: "2-digit",
+                timeZone: "UTC",
               })}
             </p>
           </div>

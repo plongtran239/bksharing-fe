@@ -90,6 +90,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
               {
                 hour: "numeric",
                 minute: "numeric",
+                timeZone: "UTC",
               }
             )}
           </span>
@@ -104,6 +105,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
                 day: "numeric",
                 month: "numeric",
                 year: "numeric",
+                timeZone: "UTC",
               }
             )}
           </span>

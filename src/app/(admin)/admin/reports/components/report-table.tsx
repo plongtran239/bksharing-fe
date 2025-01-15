@@ -50,7 +50,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
     {
       accessorKey: "type",
       header: ({}) => {
-        return <div>Type</div>;
+        return <div>Loại</div>;
       },
       cell: ({ row }) => (
         <div className="">{convertToCapitalizeCase(row.getValue("type"))}</div>
@@ -59,7 +59,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
     {
       accessorKey: "description",
       header: ({}) => {
-        return <div>Description</div>;
+        return <div>Mô tả</div>;
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
@@ -70,7 +70,7 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
     {
       accessorKey: "status",
       header: ({}) => {
-        return <div>Status</div>;
+        return <div>Trạng thái</div>;
       },
       cell: ({ row }) => (
         <div className="">
@@ -81,14 +81,14 @@ const ReportTable = ({ data }: { data: ReportType[] }) => {
     {
       accessorKey: "reporter",
       header: ({}) => {
-        return <div>Reporter</div>;
+        return <div>Người báo cáo</div>;
       },
       cell: ({ row }) => <div className="">{row.original.reporter.name}</div>,
     },
     {
       accessorKey: "createdAt",
       header: ({}) => {
-        return <div>Created At</div>;
+        return <div>Thời gian tạo</div>;
       },
       cell: ({ row }) => (
         <div className="">

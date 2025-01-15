@@ -17,7 +17,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
+import { LOCALE } from "@/constants/date";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -82,15 +82,19 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
       cell: ({ row }) => (
         <div>
           {convertMilisecondsToLocaleString(row.getValue("startsAt"), LOCALE, {
-            ...DATE_TIME_FORMAT_OPTIONS,
-            // timeZone: "UTC",
+            hour: "2-digit",
+            minute: "2-digit",
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            timeZone: "UTC",
           })}
         </div>
       ),
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng thái",
       cell: ({ row }) => (
         <div className="capitalize">
           {convertToCapitalizeCase(row.getValue("status"))}

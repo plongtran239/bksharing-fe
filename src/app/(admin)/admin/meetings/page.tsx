@@ -10,7 +10,9 @@ const AdminUpcoming = async () => {
 
   return (
     <div>
-      <h1 className="text-3xl font-semibold text-primary">Meeting List</h1>
+      <h1 className="text-3xl font-semibold text-primary">
+        Danh sách cuộc gọi
+      </h1>
 
       <Separator className="my-5" />
 

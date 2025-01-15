@@ -88,7 +88,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Name
+            Tên khóa học
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -99,14 +99,14 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
     },
     {
       accessorKey: "category",
-      header: "Category",
+      header: "Danh mục",
       cell: ({ row }) => (
         <div className="capitalize">{row.original.category.name}</div>
       ),
     },
     {
       accessorKey: "mentor",
-      header: "Mentor",
+      header: "Gia sư",
       cell: ({ row }) => (
         <div className="capitalize">{row.original.mentor.name}</div>
       ),
@@ -119,7 +119,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Subscriptions
+            Lượt đăng ký
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -134,7 +134,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Feedbacks
+            Lượt đánh giá
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -158,7 +158,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Created At
+            Tạo vào lúc
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );

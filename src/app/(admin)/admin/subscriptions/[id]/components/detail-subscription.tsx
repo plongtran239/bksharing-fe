@@ -123,7 +123,8 @@ const DetailSubscription = async ({
           </>
         )}
 
-        {payload.status === SUBSCRIPTION_STATUS.ENDED && (
+        {(payload.status === SUBSCRIPTION_STATUS.ENDED ||
+          payload.status === SUBSCRIPTION_STATUS.ACTIVE) && (
           <>
             <Separator className="my-5 bg-primary" />
 

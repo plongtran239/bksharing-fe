@@ -165,24 +165,24 @@ const CategoryTable = ({ data }: IProps) => {
     {
       accessorKey: "name",
       header: ({}) => {
-        return <div>Name</div>;
+        return <div>Tên danh mục</div>;
       },
       cell: ({ row }) => <div className="">{row.getValue("name")}</div>,
     },
     {
       accessorKey: "description",
       header: ({}) => {
-        return <div>Description</div>;
+        return <div>Mô tả danh mục</div>;
       },
       cell: ({ row }) => (
         <div className="line-clamp-1 max-w-[300px]">
-          {row.getValue("description") || "No description"}
+          {row.getValue("description") || "Không có mô tả"}
         </div>
       ),
     },
     {
       accessorKey: "childCategories",
-      header: "Child Categories",
+      header: "Danh mục con",
       cell: ({ row }) => {
         const isChild = row.original.parentCategoryId !== null;
 
@@ -202,7 +202,7 @@ const CategoryTable = ({ data }: IProps) => {
               className="flex items-center gap-2 bg-transparent px-0 text-foreground"
               onClick={() => toggleRow(row.original.id)}
             >
-              {childCategories.length} child categories
+              {childCategories.length} danh mục con
               <ChevronUpIcon
                 className={`h-4 w-4 transition-transform ${
                   isExpanded ? "rotate-180" : "rotate-0"
@@ -239,7 +239,7 @@ const CategoryTable = ({ data }: IProps) => {
                     }}
                   >
                     <PlusSquareIcon size={16} />
-                    Add Child Category
+                    Thêm danh mục con
                   </DropdownMenuItem>
                   <Separator />
                 </>
@@ -259,7 +259,7 @@ const CategoryTable = ({ data }: IProps) => {
                 }}
               >
                 <PencilIcon size={16} />
-                Update
+                Cập nhật danh mục
               </DropdownMenuItem>
 
               <DropdownMenuItem
@@ -270,7 +270,7 @@ const CategoryTable = ({ data }: IProps) => {
                 }}
               >
                 <TrashIcon size={16} />
-                Delete
+                Xóa danh mục
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

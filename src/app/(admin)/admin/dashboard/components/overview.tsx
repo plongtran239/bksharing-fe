@@ -265,7 +265,10 @@ const Overview = () => {
                 Doanh thu
               </button>
               <p className="text-xl font-semibold text-secondary-foreground">
-                {overview.revenueOverview.totalRevenue}
+                {Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(overview.revenueOverview.totalRevenue)}
               </p>
             </div>
             <div className="rounded-full bg-secondary-foreground p-3">
@@ -278,10 +281,14 @@ const Overview = () => {
           <div className="flex-between">
             <div>
               <button className="text-secondary-foreground hover:underline">
-                Hoàn trả:{" "}
+                Hoàn trả:
               </button>
               <span className="font-semibold text-secondary-foreground">
-                {overview.revenueOverview.refundAmount}
+                {" "}
+                {Intl.NumberFormat("vi-VN", {
+                  style: "currency",
+                  currency: "VND",
+                }).format(overview.revenueOverview.totalRevenue)}
               </span>
             </div>
           </div>

@@ -27,6 +27,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { LOCALE } from "@/constants/date";
 import { MENTOR_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -140,7 +141,7 @@ const MentorTable = ({ data }: IProps) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Name
+            Họ tên
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -172,7 +173,7 @@ const MentorTable = ({ data }: IProps) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Phone Number
+            Số điện thoại
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
@@ -181,7 +182,7 @@ const MentorTable = ({ data }: IProps) => {
     },
     {
       accessorKey: "status",
-      header: "Status",
+      header: "Trạng thái",
       cell: ({ row }) => (
         <div className="capitalize">
           {convertToCapitalizeCase(row.getValue("status"))}
@@ -196,14 +197,24 @@ const MentorTable = ({ data }: IProps) => {
             onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
             className="flex-center"
           >
-            Joined At
+            Tham gia vào
             <CaretSortIcon className="ml-2 h-4 w-4" />
           </button>
         );
       },
       cell: ({ row }) => (
         <div>
-          {convertMilisecondsToLocaleString(row.getValue("registeredAt"))}
+          {convertMilisecondsToLocaleString(
+            row.getValue("registeredAt"),
+            LOCALE,
+            {
+              hour: "2-digit",
+              minute: "2-digit",
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            }
+          )}
         </div>
       ),
     },

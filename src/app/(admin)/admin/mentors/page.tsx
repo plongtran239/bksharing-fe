@@ -11,7 +11,9 @@ const AdminMentor = async () => {
   return (
     <main>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Mentor List</h1>
+        <h1 className="text-3xl font-semibold text-primary">
+          Danh sách gia sư
+        </h1>
       </div>
 
       <Separator className="my-5" />
