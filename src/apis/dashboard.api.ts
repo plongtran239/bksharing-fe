@@ -1,10 +1,11 @@
-import { DATE_RANGE } from "@/constants/enum";
+import { DATE_RANGE, TOP_COURSE_TYPE } from "@/constants/enum";
 import http from "@/lib/http";
 import { DetailResponseType, ListResponseType } from "@/schemas";
 import {
   DashboardOverviewType,
   DashboardPaymentType,
   DashboardSubscriptionType,
+  DashboardTopCourseType,
 } from "@/schemas/dashboard.schema";
 
 const dashboardApi = {
@@ -36,6 +37,11 @@ const dashboardApi = {
   clientSubscriptions: (filterDateRange: DATE_RANGE = DATE_RANGE.ALL) =>
     http.get<ListResponseType<DashboardSubscriptionType>>(
       `/client/dashboard/subscriptions?dateRange=${filterDateRange}`
+    ),
+
+  clientTopCourses: (topCourseType: TOP_COURSE_TYPE) =>
+    http.get<ListResponseType<DashboardTopCourseType>>(
+      `/client/dashboard/top-courses?topCourseType=${topCourseType}`
     ),
 };
 

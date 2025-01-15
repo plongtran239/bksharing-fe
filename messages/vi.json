@@ -88,11 +88,8 @@
       "Course Approved": "Khóa học đã được duyệt",
       "Course Reported": "Báo cáo khóa học",
       "New Course Created": "Khóa học mới được tạo",
-      "Payment Successful": "Thanh toán thành công"
-    },
-    "content": {
-      "Your report has been resolved. Please check the resolution.": "Báo cáo của bạn đã được giải quyết. Vui lòng kiểm tra giải pháp.",
-      "Your subscription request has been approved successfully.": "Yêu cầu đăng ký học của bạn đã được duyệt thành công."
+      "Payment Successful": "Thanh toán thành công",
+      "Account Suspension Warning": "Cảnh báo đình chỉ tài khoản"
     }
   },
   "dateOfWeek": {

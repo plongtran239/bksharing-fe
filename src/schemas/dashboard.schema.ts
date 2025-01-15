@@ -64,14 +64,24 @@ const DashboardSubscription = z.object({
   status: z.nativeEnum(SUBSCRIPTION_STATUS),
 });
 
+const DashboardTopCourse = z.object({
+  id: z.number(),
+  name: z.string(),
+  noOfSubscription: z.number().optional(),
+  rate: z.number().optional(),
+});
+
 type DashboardOverviewType = z.infer<typeof dashboardOverview>;
 
 type DashboardPaymentType = z.infer<typeof DashboardPayment>;
 
 type DashboardSubscriptionType = z.infer<typeof DashboardSubscription>;
 
+type DashboardTopCourseType = z.infer<typeof DashboardTopCourse>;
+
 export type {
   DashboardOverviewType,
   DashboardPaymentType,
   DashboardSubscriptionType,
+  DashboardTopCourseType,
 };

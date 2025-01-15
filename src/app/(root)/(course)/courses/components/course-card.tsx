@@ -1,6 +1,7 @@
 "use client";
 
-import { Clock12Icon, Grid2X2Icon } from "lucide-react";
+import { StarFilledIcon } from "@radix-ui/react-icons";
+import { CircleUserRoundIcon, Clock12Icon, Grid2X2Icon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 
@@ -30,7 +31,7 @@ const CourseCard = ({ course, isLearned }: IProps) => {
     >
       <CardContent
         className={cn(
-          "flex aspect-square h-[356px] w-full items-center justify-center p-4",
+          "flex aspect-square h-[380px] w-full items-center justify-center p-4",
           {
             "h-fit": isLearned,
           }
@@ -62,12 +63,6 @@ const CourseCard = ({ course, isLearned }: IProps) => {
 
           <p className="line-clamp-1 text-black">{course.name}</p>
 
-          {!isLearned && (
-            <p className="line-clamp-2 min-h-10 text-sm text-foreground">
-              {course.description || "Không có mô tả"}
-            </p>
-          )}
-
           <div className="flex-between">
             <div className="flex-center gap-2 text-sm">
               <div className="relative h-5 w-5 rounded-full">
@@ -93,6 +88,32 @@ const CourseCard = ({ course, isLearned }: IProps) => {
               </p>
             )}
           </div>
+
+          {!isLearned && (
+            <p className="line-clamp-2 min-h-10 text-sm text-foreground">
+              {course.description || "Không có mô tả"}
+            </p>
+          )}
+
+          {!isLearned && (
+            <div className="w-full text-sm">
+              <div className="flex-between w-full text-sm text-primary">
+                <div className="flex-center gap-1">
+                  <CircleUserRoundIcon size={16} />
+                  <span className="text-black">
+                    {course.noOfSubscriptions} lượt đăng ký
+                  </span>
+                </div>
+
+                <div className="flex-center gap-1">
+                  <span className="text-black">
+                    {course.rateOfCourse.toFixed(1)}
+                  </span>
+                  <StarFilledIcon className="text-yellow-400" />
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </CardContent>
     </Card>

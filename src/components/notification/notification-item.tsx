@@ -9,7 +9,7 @@ import {
   NOTIFICATION_RELATION_TYPE,
   ROLES,
 } from "@/constants/enum";
-import { cn } from "@/lib/utils";
+import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
 import { NotificationType } from "@/schemas/notification.schema";
 import useNotificationStore from "@/stores/notification.store";
@@ -79,6 +79,8 @@ const NotificationItem = ({
         return "Học viên đã thanh toán cho khóa học của bạn";
       case "Report Resolved":
         return "Báo cáo của bạn đã được giải quyết";
+      case "Account Suspension Warning":
+        return "Tài khoản của bạn sắp bị tạm khóa";
       default:
         break;
     }
@@ -90,6 +92,9 @@ const NotificationItem = ({
       onClick={handleClick}
     >
       <div className="flex-1">
+        <p className="text-foreground">
+          {convertMilisecondsToLocaleString(notification.createdAt)}
+        </p>
         <p
           className={cn("text-base font-medium text-black", {
             "font-semibold": !notification.isRead,
@@ -102,7 +107,6 @@ const NotificationItem = ({
             "font-semibold text-black": !notification.isRead,
           })}
         >
-          {/* {notification.content} */}
           {generateContent()}
         </p>
       </div>

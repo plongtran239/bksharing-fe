@@ -36,7 +36,6 @@ const MentorCard = ({ data }: { data: MentorType }) => {
         </div>
       </div>
 
-      {/* Free Schedule */}
       <div className="w-full text-center text-sm">
         <div className="flex-between mt-5 w-full px-2 text-sm text-primary">
           <div className="flex-center gap-1">
