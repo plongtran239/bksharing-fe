@@ -94,7 +94,7 @@ const CourseBase = z.object({
   mentor: z.object({
     id: z.number(),
     name: z.string(),
-    avatar: z
+    thumbnail: z
       .object({
         fileId: z.number(),
         fileSize: z.number(),

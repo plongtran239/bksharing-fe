@@ -288,7 +288,7 @@ const Overview = () => {
                 {Intl.NumberFormat("vi-VN", {
                   style: "currency",
                   currency: "VND",
-                }).format(overview.revenueOverview.totalRevenue)}
+                }).format(overview.revenueOverview.refundAmount)}
               </span>
             </div>
           </div>

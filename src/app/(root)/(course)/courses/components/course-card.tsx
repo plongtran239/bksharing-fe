@@ -73,7 +73,7 @@ const CourseCard = ({ course, isLearned }: IProps) => {
               <div className="relative h-5 w-5 rounded-full">
                 <Image
                   src={
-                    course.mentor.avatar?.originalUrl ||
+                    course.mentor.thumbnail?.originalUrl ||
                     "/images/default-user.png"
                   }
                   alt=""
