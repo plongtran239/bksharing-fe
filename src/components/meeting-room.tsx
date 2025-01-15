@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 
+import meetingApi from "@/apis/meeting.api";
 import EndCallButton from "@/components/end-call-button";
 import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
@@ -62,20 +63,28 @@ const MeetingRoom = () => {
   }
 
   const handleLeave = async () => {
-    switch (user.accountType) {
-      case ROLES.ADMIN:
-        router.push("/admin/meetings");
-        break;
-      case ROLES.MENTOR:
-        router.push(`/mentor/appointments?status=${MEETING_STATUS.ONGOING}`);
-      case ROLES.STUDENT:
-        router.push("/subscriptions");
-        break;
-      default:
-        break;
-    }
+    const meetingId = Number(call.id.split("-")[0]);
 
-    router.refresh();
+    try {
+      await meetingApi.leaveMeeting(meetingId);
+
+      switch (user.accountType) {
+        case ROLES.ADMIN:
+          router.push("/admin/meetings");
+          break;
+        case ROLES.MENTOR:
+          router.push(`/mentor/appointments?status=${MEETING_STATUS.ONGOING}`);
+        case ROLES.STUDENT:
+          router.push("/subscriptions");
+          break;
+        default:
+          break;
+      }
+
+      router.refresh();
+    } catch (error) {
+      console.error({ error });
+    }
   };
 
   if (callingState === CallingState.JOINING) {

@@ -2,6 +2,7 @@ import { Formats, TranslationValues } from "next-intl";
 import Image from "next/image";
 
 import subscriptionApi from "@/apis/subscription.api";
+import CallButton from "@/app/(admin)/admin/subscriptions/[id]/components/call-button";
 import Section from "@/app/(admin)/admin/subscriptions/[id]/components/section";
 import ActionButtons from "@/app/(mentor)/mentor/requests/[id]/components/action-buttons";
 import { Separator } from "@/components/ui/separator";
@@ -119,6 +120,18 @@ const DetailSubscription = async ({
             <Separator className="my-5 bg-primary" />
 
             <ActionButtons subscription={payload} />
+          </>
+        )}
+
+        {payload.status === SUBSCRIPTION_STATUS.ENDED && (
+          <>
+            <Separator className="my-5 bg-primary" />
+
+            <CallButton
+              subscriptionId={subscriptionId}
+              callId={Number(payload.audiCall.cid.split("-")[1])}
+              cid={payload.audiCall.cid}
+            />
           </>
         )}
       </Section>

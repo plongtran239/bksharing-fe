@@ -163,6 +163,19 @@ const Schedule = ({
             variant: "destructive",
           });
         }
+
+        if (
+          error.payload.data.action ===
+          ERROR_ACTION.SUBSCRIPTION_ACTIVE_OVERLAP_SCHEDULE
+        ) {
+          toast({
+            title: tMessages("error"),
+            description: tMessages(
+              ERROR_ACTION.SUBSCRIPTION_ACTIVE_OVERLAP_SCHEDULE
+            ),
+            variant: "destructive",
+          });
+        }
       }
 
       setOpen(false);

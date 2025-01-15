@@ -8,10 +8,17 @@ import {
   UserIcon,
   UserPlusIcon,
 } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 import dashboardApi from "@/apis/dashboard.api";
 import { Separator } from "@/components/ui/separator";
+import {
+  COURSE_STATUS,
+  MENTOR_STATUS,
+  REPORT_STATUS,
+  SUBSCRIPTION_STATUS,
+} from "@/constants/enum";
 import { DashboardOverviewType } from "@/schemas/dashboard.schema";
 
 export enum OVERVIEW_TYPE {
@@ -23,6 +30,8 @@ export enum OVERVIEW_TYPE {
 }
 
 const Overview = () => {
+  const router = useRouter();
+
   const [overview, setOverview] = useState<DashboardOverviewType | undefined>();
 
   useEffect(() => {
@@ -46,7 +55,14 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Gia sư</p>
+              <button
+                className="block text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/mentors?status=${MENTOR_STATUS.ACCEPTED}`)
+                }
+              >
+                Gia sư
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.mentorOverview.approvedMentor}
               </p>
@@ -60,8 +76,16 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">Chờ duyệt: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/mentors?status=${MENTOR_STATUS.PENDING}`)
+                }
+              >
+                <span>Chờ duyệt:</span>
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.mentorOverview.pendingMentor}
               </span>
             </div>
@@ -72,7 +96,14 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Khóa học</p>
+              <button
+                className="block text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/courses?status=${COURSE_STATUS.APPROVED}`)
+                }
+              >
+                Khóa học
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.courseOverview.approvedCourse}
               </p>
@@ -86,16 +117,30 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">Chờ duyệt: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/courses?status=${COURSE_STATUS.PENDING}`)
+                }
+              >
+                Chờ duyệt:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.courseOverview.pendingCourse}
               </span>
             </div>
             <div>
-              <span className="text-secondary-foreground">
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/courses?status=${COURSE_STATUS.REJECTED}`)
+                }
+              >
                 Dừng hoạt động:{" "}
-              </span>
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.courseOverview.suspendedCourse}
               </span>
             </div>
@@ -106,7 +151,9 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Học viên</p>
+              <button className="block text-secondary-foreground hover:underline">
+                Học viên
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.studentOverview.activeStudent}
               </p>
@@ -120,10 +167,11 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">
-                Dừng hoạt động:{" "}
-              </span>
+              <button className="text-secondary-foreground hover:underline">
+                Dừng hoạt động:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.courseOverview.suspendedCourse}
               </span>
             </div>
@@ -134,7 +182,16 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Đăng ký</p>
+              <button
+                className="block text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(
+                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.ACTIVE}`
+                  )
+                }
+              >
+                Đăng ký
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.subscriptionOverview.activeSubscription}
               </p>
@@ -148,22 +205,52 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">Chờ duyệt: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(
+                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.PENDING}`
+                  )
+                }
+              >
+                Chờ duyệt:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.subscriptionOverview.pendingSubscription}
               </span>
             </div>
 
             <div>
-              <span className="text-secondary-foreground">Hết hạn: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(
+                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.EXPIRED}`
+                  )
+                }
+              >
+                Hết hạn:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.subscriptionOverview.expiredSubscription}
               </span>
             </div>
 
             <div>
-              <span className="text-secondary-foreground">Hủy: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(
+                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.CANCELED}`
+                  )
+                }
+              >
+                Hủy:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.subscriptionOverview.cancelledSubscription}
               </span>
             </div>
@@ -174,7 +261,9 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Doanh thu</p>
+              <button className="block text-secondary-foreground hover:underline">
+                Doanh thu
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.revenueOverview.totalRevenue}
               </p>
@@ -188,7 +277,9 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">Hoàn trả: </span>
+              <button className="text-secondary-foreground hover:underline">
+                Hoàn trả:{" "}
+              </button>
               <span className="font-semibold text-secondary-foreground">
                 {overview.revenueOverview.refundAmount}
               </span>
@@ -200,7 +291,12 @@ const Overview = () => {
         <div className="rounded-xl border border-primary bg-secondary p-5 shadow">
           <div className="flex-between">
             <div>
-              <p className="text-secondary-foreground">Báo cáo</p>
+              <button
+                className="block text-secondary-foreground hover:underline"
+                onClick={() => router.push("/admin/reports")}
+              >
+                Báo cáo
+              </button>
               <p className="text-xl font-semibold text-secondary-foreground">
                 {overview.reportOverview.pendingReport +
                   overview.reportOverview.resolvedReport}
@@ -215,15 +311,31 @@ const Overview = () => {
 
           <div className="flex-between">
             <div>
-              <span className="text-secondary-foreground">Chờ duyệt: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/reports?status=${REPORT_STATUS.PENDING}`)
+                }
+              >
+                Chờ duyệt:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.reportOverview.pendingReport}
               </span>
             </div>
 
             <div>
-              <span className="text-secondary-foreground">Đã xử lý: </span>
+              <button
+                className="text-secondary-foreground hover:underline"
+                onClick={() =>
+                  router.push(`/admin/reports?status=${REPORT_STATUS.RESOLVED}`)
+                }
+              >
+                Đã xử lý:
+              </button>
               <span className="font-semibold text-secondary-foreground">
+                {" "}
                 {overview.reportOverview.resolvedReport}
               </span>
             </div>

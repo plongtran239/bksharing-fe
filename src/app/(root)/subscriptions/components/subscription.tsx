@@ -22,15 +22,11 @@ const Subscription = ({ data }: IProps) => {
         "grid-cols-1": !activeItemId,
       })}
     >
-      {activeItemId && (
-        <div className="space-y-5">
-          <CardList
-            data={data}
-            activeItemId={activeItemId}
-            setActiveItemId={setActiveItemId}
-          />
-        </div>
-      )}
+      <CardList
+        data={data}
+        activeItemId={activeItemId}
+        setActiveItemId={setActiveItemId}
+      />
 
       <SubscriptionDetail activeItemId={activeItemId} />
     </div>

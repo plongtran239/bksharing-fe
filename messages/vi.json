@@ -16,7 +16,8 @@
     "registerError": "Email hoặc số điện thoại đã tồn tại",
     "changePasswordSuccess": "Đổi mật khẩu thành công",
     "updateUserInfoSuccess": "Cập nhật thông tin thành công",
-    "SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE": "Bạn đã đăng ký khóa học này"
+    "SUBSCRIPTION_FOR_THIS_COURSE_STILL_ACTIVE": "Bạn đã đăng ký khóa học này",
+    "SUBSCRIPTION_ACTIVE_OVERLAP_SCHEDULE": "Không thể đăng ký khóa học này vì trùng lịch với khóa học khác"
   },
 
   "report": {

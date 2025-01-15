@@ -84,8 +84,6 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
 
       await subscriptionApi.cancelSubscription(item.id);
 
-      setActiveItemId(undefined);
-
       setOpen(false);
 
       toast({
@@ -94,6 +92,8 @@ const CardItem = ({ item, isActive, setActiveItemId }: IProps) => {
       });
 
       router.refresh();
+
+      setActiveItemId(undefined);
     } catch (error) {
       console.error({ error });
     } finally {

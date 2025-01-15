@@ -17,6 +17,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
+import { LOCALE } from "@/constants/date";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -163,7 +164,15 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
         );
       },
       cell: ({ row }) => (
-        <div>{convertMilisecondsToLocaleString(row.getValue("createdAt"))}</div>
+        <div>
+          {convertMilisecondsToLocaleString(row.original.createdAt, LOCALE, {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </div>
       ),
     },
     {

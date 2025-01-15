@@ -24,6 +24,7 @@ import {
   convertMilisecondsToLocaleString,
   convertToCapitalizeCase,
 } from "@/lib/utils";
+import { useAppContext } from "@/providers/app.provider";
 import { MeetingType } from "@/schemas";
 
 const MeetingTable = ({ data }: { data: MeetingType[] }) => {
@@ -32,6 +33,8 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
   const { toast } = useToast();
 
   const client = useStreamVideoClient();
+
+  const { user } = useAppContext();
 
   const columns: ColumnDef<MeetingType>[] = [
     {
@@ -197,9 +200,13 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
           }
         };
 
+        const isHost = participants.some(
+          (participant) => participant.id === user?.id
+        );
+
         return (
           <>
-            {row.getValue("status") === MEETING_STATUS.SCHEDULED && (
+            {row.getValue("status") === MEETING_STATUS.SCHEDULED && isHost && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0">
@@ -215,21 +222,21 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                     className="flex items-center gap-2"
                   >
                     <PlayIcon size={16} />
-                    Start Meeting
+                    Bắt đầu cuộc gọi
                   </DropdownMenuItem>
-                  <DropdownMenuItem
+                  {/* <DropdownMenuItem
                     onClick={() => {}}
                     className="flex items-center gap-2"
                     disabled
                   >
                     <XIcon size={16} />
                     Cancel Meeting
-                  </DropdownMenuItem>
+                  </DropdownMenuItem> */}
                 </DropdownMenuContent>
               </DropdownMenu>
             )}
 
-            {row.getValue("status") === MEETING_STATUS.ONGOING && (
+            {row.getValue("status") === MEETING_STATUS.ONGOING && isHost && (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="ghost" className="h-8 w-8 p-0">
@@ -243,7 +250,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                     className="flex items-center gap-2"
                   >
                     <LogInIcon size={16} />
-                    Join Meeting
+                    Tham gia cuộc gọi
                   </DropdownMenuItem>
 
                   <DropdownMenuItem
@@ -251,7 +258,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                     className="flex items-center gap-2"
                   >
                     <XIcon size={16} />
-                    End Meeting
+                    Kết thúc cuộc gọi
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
