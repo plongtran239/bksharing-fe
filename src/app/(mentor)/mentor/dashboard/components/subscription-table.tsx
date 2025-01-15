@@ -86,7 +86,7 @@ const SubscriptionTable = () => {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={() =>
-                  router.push(`/admin/subscriptions/${row.original.id}`)
+                  router.push(`/mentor/requests/${row.original.id}`)
                 }
                 className="flex items-center gap-2"
               >

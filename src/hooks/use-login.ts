@@ -64,7 +64,7 @@ export const useLogin = () => {
           if (mentorStatus === MENTOR_STATUS.PENDING) {
             router.replace("/users/profile");
           } else {
-            router.replace("/mentor/appointments");
+            router.replace("/mentor/dashboard");
           }
           break;
         case ROLES.STUDENT:

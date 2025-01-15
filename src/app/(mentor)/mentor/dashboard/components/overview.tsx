@@ -46,7 +46,9 @@ const Overview = () => {
               <button
                 className="block text-secondary-foreground hover:underline"
                 onClick={() =>
-                  router.push(`/admin/courses?status=${COURSE_STATUS.APPROVED}`)
+                  router.push(
+                    `/mentor/courses?status=${COURSE_STATUS.APPROVED}`
+                  )
                 }
               >
                 Khóa học
@@ -67,7 +69,7 @@ const Overview = () => {
               <button
                 className="text-secondary-foreground hover:underline"
                 onClick={() =>
-                  router.push(`/admin/courses?status=${COURSE_STATUS.PENDING}`)
+                  router.push(`/mentor/courses?status=${COURSE_STATUS.PENDING}`)
                 }
               >
                 Chờ duyệt:
@@ -81,7 +83,9 @@ const Overview = () => {
               <button
                 className="text-secondary-foreground hover:underline"
                 onClick={() =>
-                  router.push(`/admin/courses?status=${COURSE_STATUS.REJECTED}`)
+                  router.push(
+                    `/mentor/courses?status=${COURSE_STATUS.REJECTED}`
+                  )
                 }
               >
                 Dừng hoạt động:{" "}
@@ -102,7 +106,7 @@ const Overview = () => {
                 className="block text-secondary-foreground hover:underline"
                 onClick={() =>
                   router.push(
-                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.ACTIVE}`
+                    `/mentor/requests?status=${SUBSCRIPTION_STATUS.ACTIVE}`
                   )
                 }
               >
@@ -125,7 +129,7 @@ const Overview = () => {
                 className="text-secondary-foreground hover:underline"
                 onClick={() =>
                   router.push(
-                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.PENDING}`
+                    `/mentor/requests?status=${SUBSCRIPTION_STATUS.PENDING}`
                   )
                 }
               >
@@ -142,7 +146,7 @@ const Overview = () => {
                 className="text-secondary-foreground hover:underline"
                 onClick={() =>
                   router.push(
-                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.EXPIRED}`
+                    `/mentor/requests?status=${SUBSCRIPTION_STATUS.EXPIRED}`
                   )
                 }
               >
@@ -159,7 +163,7 @@ const Overview = () => {
                 className="text-secondary-foreground hover:underline"
                 onClick={() =>
                   router.push(
-                    `/admin/subscriptions?status=${SUBSCRIPTION_STATUS.CANCELED}`
+                    `/mentor/requests?status=${SUBSCRIPTION_STATUS.CANCELED}`
                   )
                 }
               >
