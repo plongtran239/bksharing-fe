@@ -180,6 +180,11 @@ const AdminSidebarMenuItems: MenuItemsType = [
 
 const MentorSidebarMenuItems: MenuItemsType = [
   {
+    label: "dashboard",
+    href: "/mentor/dashboard",
+    icon: <HomeIcon size={18} strokeWidth={2.5} />,
+  },
+  {
     label: "schedule",
     href: "/mentor/schedule",
     icon: <CalendarIcon size={18} strokeWidth={2.5} />,
