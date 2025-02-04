@@ -35,11 +35,6 @@ const Mentor = async ({ searchParams }: MentorProps) => {
       </div>
 
       <div className="container mt-10">
-        {/* Mentor List */}
-        <p className="text-lg font-semibold max-sm:px-5">
-          Gia sư ({mentors.length})
-        </p>
-
         {total === 0 ? (
           <div className="mt-10 min-h-[184px]">No mentors found.</div>
         ) : (

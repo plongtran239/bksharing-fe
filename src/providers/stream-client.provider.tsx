@@ -8,7 +8,7 @@ import envConfig from "@/config";
 import { useAppContext } from "@/providers/app.provider";
 
 const StreamClientProvider = ({ children }: { children: React.ReactNode }) => {
-  const apiKey = envConfig.NEXT_PUBLIC_STREAM_API_KEY;
+  const apiKey = envConfig.streamConfig.NEXT_PUBLIC_STREAM_API_KEY;
 
   const { user } = useAppContext();
 

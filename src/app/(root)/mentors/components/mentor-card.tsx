@@ -31,8 +31,8 @@ const MentorCard = ({ data }: { data: MentorType }) => {
 
         <p className="text-xl font-semibold text-black">{name}</p>
 
-        <div className="line-clamp-2 min-w-[200px] rounded-md bg-secondary p-2 text-center text-xs text-secondary-foreground">
-          <p>{bio || "Không có mô tả"}</p>
+        <div className="w-[200px] rounded-md bg-secondary p-2 text-center text-xs text-secondary-foreground">
+          <p className="line-clamp-2">{bio || "Không có mô tả"}</p>
         </div>
       </div>
 

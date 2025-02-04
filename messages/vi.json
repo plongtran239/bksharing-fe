@@ -85,11 +85,14 @@
       "Report Resolved": "Báo cáo đã được giải quyết",
       "Subscription Request": "Yêu cầu đăng ký học",
       "Subscription Approved": "Đăng ký học đã được duyệt",
+      "Subscription Expired": "Đăng ký học đã hết hạn",
       "Course Approved": "Khóa học đã được duyệt",
       "Course Reported": "Báo cáo khóa học",
       "New Course Created": "Khóa học mới được tạo",
       "Payment Successful": "Thanh toán thành công",
-      "Account Suspension Warning": "Cảnh báo đình chỉ tài khoản"
+      "Account Suspension Warning": "Cảnh báo đình chỉ tài khoản",
+      "Mentor Approved": "Gia sư đã được duyệt",
+      "Audio Call Created": "Cuộc gọi âm thanh đã được tạo"
     }
   },
   "dateOfWeek": {

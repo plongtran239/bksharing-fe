@@ -4,8 +4,8 @@ import { StreamClient } from "@stream-io/node-sdk";
 
 import envConfig from "@/config";
 
-const apiKey = envConfig.NEXT_PUBLIC_STREAM_API_KEY;
-const secretKey = process.env.STREAM_SECRET_KEY;
+const apiKey = envConfig.streamConfig.NEXT_PUBLIC_STREAM_API_KEY;
+const secretKey = envConfig.streamConfig.NEXT_PUBLIC_STREAM_SECRET_KEY;
 
 export const tokenProvider = async (userId: string) => {
   if (!apiKey || !secretKey) {

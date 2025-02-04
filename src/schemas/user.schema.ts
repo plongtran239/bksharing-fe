@@ -58,9 +58,11 @@ const Mentor = User.extend({
   phoneNumber: z.string(),
   registeredAt: z.string(),
   status: z.nativeEnum(MENTOR_STATUS),
-  cv: z.object({
-    url: z.string(),
-  }),
+  cv: z
+    .object({
+      url: z.string(),
+    })
+    .nullable(),
   achievements: z.array(Achievement),
   thumbnail: z
     .object({

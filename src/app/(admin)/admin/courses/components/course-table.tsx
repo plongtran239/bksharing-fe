@@ -196,10 +196,10 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
                 View details
               </DropdownMenuItem>
 
-              <Separator className="my-1" />
-
-              {row.original.status === COURSE_STATUS.PENDING ? (
+              {row.original.status === COURSE_STATUS.PENDING && (
                 <>
+                  <Separator className="my-1" />
+
                   <DropdownMenuItem
                     onClick={() => handleProcessCourse(row.original.id, true)}
                     className="flex items-center gap-2"
@@ -215,28 +215,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
                     Reject
                   </DropdownMenuItem>
                 </>
-              ) : (
-                <DropdownMenuItem
-                  onClick={() =>
-                    handleProcessCourse(
-                      row.original.id,
-                      row.original.status === COURSE_STATUS.REJECTED
-                    )
-                  }
-                  className="flex items-center gap-2"
-                >
-                  {row.original.status === COURSE_STATUS.APPROVED ? (
-                    <>
-                      <CircleXIcon size={16} />
-                      Reject
-                    </>
-                  ) : (
-                    <>
-                      <CircleCheckIcon size={16} />
-                      Accept
-                    </>
-                  )}
-                </DropdownMenuItem>
               )}
             </DropdownMenuContent>
           </DropdownMenu>

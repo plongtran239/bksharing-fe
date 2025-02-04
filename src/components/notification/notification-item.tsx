@@ -81,6 +81,10 @@ const NotificationItem = ({
         return "Báo cáo của bạn đã được giải quyết";
       case "Account Suspension Warning":
         return "Tài khoản của bạn sắp bị tạm khóa";
+      case "Mentor Approved":
+        return "Yêu cầu trở thành gia sư của bạn đã được duyệt";
+      case "Audio Call Created":
+        return "Bạn có cuộc gọi mới";
       default:
         break;
     }

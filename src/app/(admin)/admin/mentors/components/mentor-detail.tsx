@@ -75,8 +75,10 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
           </div>
 
           <div className="flex flex-col gap-2">
-            <Link href={mentor.cv.url || "#"} target="_blank">
-              <Button className="px-2">View CV / Resume</Button>
+            <Link href={mentor.cv ? mentor.cv.url : "#"} target="_blank">
+              <Button className="px-2" disabled={mentor.cv === null}>
+                View CV / Resume
+              </Button>
             </Link>
           </div>
         </div>
