@@ -9,7 +9,7 @@ import {
   useCall,
   useCallStateHooks,
 } from "@stream-io/video-react-sdk";
-import { LayoutList, Users } from "lucide-react";
+import { LayoutList, MessageCircle, Users } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -25,6 +25,7 @@ import {
 import meetingApi from "@/apis/meeting.api";
 import EndCallButton from "@/components/end-call-button";
 import Loader from "@/components/loader";
+import MeetingChat from "@/components/meeting-chat";
 import { Button } from "@/components/ui/button";
 import { MEETING_STATUS, ROLES } from "@/constants/enum";
 import { cn } from "@/lib/utils";
@@ -42,6 +43,8 @@ const MeetingRoom = () => {
   const [layout, setLayout] = useState<CallLayoutType>("speaker-left");
 
   const [showParticipants, setShowParticipants] = useState(false);
+
+  const [showChat, setShowChat] = useState(false);
 
   const { useCallCallingState } = useCallStateHooks();
 
@@ -109,11 +112,25 @@ const MeetingRoom = () => {
           <CallLayout />
         </div>
         <div
-          className={cn("ml-2 hidden h-[calc(100vh-86px)]", {
-            "show-block": showParticipants,
-          })}
+          className={cn(
+            "ml-2 hidden h-[calc(100vh-120px)] overflow-hidden rounded-xl",
+            {
+              "show-block": showParticipants,
+            }
+          )}
         >
           <CallParticipantsList onClose={() => setShowParticipants(false)} />
+        </div>
+
+        <div
+          className={cn(
+            "ml-2 hidden h-[calc(100vh-120px)] overflow-hidden rounded-xl",
+            {
+              "show-block": showChat,
+            }
+          )}
+        >
+          <MeetingChat />
         </div>
       </div>
 
@@ -146,7 +163,27 @@ const MeetingRoom = () => {
 
         {/* <CallStatsButton /> */}
 
-        <button onClick={() => setShowParticipants((prev) => !prev)}>
+        <button
+          onClick={() => {
+            if (showParticipants) {
+              setShowParticipants(false);
+            }
+            setShowChat((prev) => !prev);
+          }}
+        >
+          <div className="cursor-pointer rounded-full bg-primary p-2 hover:bg-primary/80">
+            <MessageCircle size={20} className="text-white" />
+          </div>
+        </button>
+
+        <button
+          onClick={() => {
+            if (showChat) {
+              setShowChat(false);
+            }
+            setShowParticipants((prev) => !prev);
+          }}
+        >
           <div className="cursor-pointer rounded-full bg-primary p-2 hover:bg-primary/80">
             <Users size={20} className="text-white" />
           </div>

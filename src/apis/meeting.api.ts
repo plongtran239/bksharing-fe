@@ -1,5 +1,11 @@
 import http from "@/lib/http";
-import { ListResponseType, MeetingHistoryType, MeetingType } from "@/schemas";
+import {
+  DetailResponseType,
+  ListResponseType,
+  MeetingHistoryType,
+  MeetingType,
+  ParticipantType,
+} from "@/schemas";
 
 const meetingApi = {
   getAdminMeetings: (sessionToken: string) => {
@@ -47,6 +53,11 @@ const meetingApi = {
       }
     );
   },
+
+  getParticipantsByMeetingId: (meetingId: number) =>
+    http.get<DetailResponseType<ParticipantType[]>>(
+      `/audio-call/${meetingId}/participants`
+    ),
 };
 
 export default meetingApi;

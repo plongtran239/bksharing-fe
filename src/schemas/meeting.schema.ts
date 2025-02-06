@@ -43,10 +43,18 @@ const MeetingHistory = z.object({
   }),
 });
 
+const Participant = z.object({
+  accountId: z.number(),
+  role: z.enum(["ADMIN", "USER"]),
+  isInCall: z.boolean(),
+});
+
 type MeetingType = z.infer<typeof Meeting>;
 
 type MeetingHistoryType = z.infer<typeof MeetingHistory>;
 
+type ParticipantType = z.infer<typeof Participant>;
+
 export { Meeting };
 
-export type { MeetingType, MeetingHistoryType };
+export type { MeetingType, MeetingHistoryType, ParticipantType };
