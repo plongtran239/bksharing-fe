@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { ROLES } from "@/constants/enum";
+import { MENTOR_STATUS, ROLES } from "@/constants/enum";
 import { AvatarDropdownMenuItems } from "@/constants/menu-item";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +22,7 @@ interface IProps {
   name?: string;
   avatar?: string;
   role?: string;
+  mentorStatus?: MENTOR_STATUS;
   handleClick?: () => void;
   className?: string;
   mobileDisplayName?: boolean;
@@ -32,6 +33,7 @@ const AvatarDropdown = ({
   name,
   avatar,
   role,
+  mentorStatus,
   handleClick,
   className,
   mobileDisplayName,
@@ -86,6 +88,26 @@ const AvatarDropdown = ({
 
         {AvatarDropdownMenuItems[ROLES[role as keyof typeof ROLES]].map(
           (item, index) => {
+            if (
+              mentorStatus &&
+              mentorStatus === MENTOR_STATUS.PENDING &&
+              item.label === "mentorDashboard"
+            ) {
+              return (
+                <>
+                  {item.hasSeparator && <DropdownMenuSeparator />}
+
+                  <DropdownMenuItem
+                    className="flex items-center gap-2"
+                    disabled
+                  >
+                    {item.icon}
+                    {t(item.label)}
+                  </DropdownMenuItem>
+                </>
+              );
+            }
+
             return (
               <Link key={index} href={item.href} onClick={handleClick}>
                 {item.hasSeparator && <DropdownMenuSeparator />}

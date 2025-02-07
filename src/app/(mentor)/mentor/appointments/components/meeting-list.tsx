@@ -1,5 +1,6 @@
 import meetingApi from "@/apis/meeting.api";
 import MeetingTable from "@/app/(mentor)/mentor/appointments/components/meeting-table";
+import { MEETING_TYPE } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const MeetingList = async () => {
@@ -7,7 +8,7 @@ const MeetingList = async () => {
 
   const {
     payload: { data },
-  } = await meetingApi.getClientMeetings(sessionToken);
+  } = await meetingApi.getClientMeetings(sessionToken, MEETING_TYPE.AUDIOROOM);
 
   return <MeetingTable data={data} />;
 };

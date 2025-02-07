@@ -78,7 +78,7 @@ const CourseSections = ({ course }: { course: CourseDetailType }) => {
                             >
                               <PaperclipIcon size={16} />
                               <span className="line-clamp-1 flex-1">
-                                {file.url}
+                                {file.fileName}
                               </span>
                               <span>
                                 ({(file.fileSize / 1000).toFixed(1)} kB)

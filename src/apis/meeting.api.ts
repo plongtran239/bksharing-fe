@@ -1,3 +1,4 @@
+import { MEETING_TYPE } from "@/constants/enum";
 import http from "@/lib/http";
 import {
   DetailResponseType,
@@ -17,8 +18,16 @@ const meetingApi = {
     });
   },
 
-  getClientMeetings: (sessionToken: string) => {
-    return http.get<ListResponseType<MeetingType>>("/client/audio-call", {
+  getClientMeetings: (sessionToken: string, type?: MEETING_TYPE) => {
+    let url = "";
+
+    if (type) {
+      url = `/client/audio-call?type=${type}`;
+    } else {
+      url = "/client/audio-call";
+    }
+
+    return http.get<ListResponseType<MeetingType>>(url, {
       headers: {
         Authorization: `Bearer ${sessionToken}`,
       },

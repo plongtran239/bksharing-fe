@@ -9,13 +9,16 @@ const SectionRequest = z.object({
     message: "Section title must be at least 3 character long",
   }),
   description: z.string().optional(),
-  isPublic: z.boolean().default(false),
-  files: z.array(z.object({ fileId: z.number(), isPublic: z.boolean() })),
+  isPublic: z.boolean(),
+  files: z
+    .array(z.object({ fileId: z.number(), isPublic: z.boolean() }))
+    .optional(),
 });
 
 const SectionFile = z.object({
   fileId: z.number(),
   fileSize: z.number(),
+  fileName: z.string(),
   url: z.string().nullable(),
   isPublic: z.boolean(),
 });

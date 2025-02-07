@@ -66,7 +66,16 @@ const SectionModal = ({
 
   useEffect(() => {
     if (editSection) {
-      form.reset(editSection);
+      form.reset({
+        id: editSection.id,
+        title: editSection.title,
+        description: editSection.description,
+        isPublic: editSection.isPublic,
+        files: editSection.files.map((file) => ({
+          fileId: file.fileId,
+          isPublic: file.isPublic,
+        })),
+      });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [editSection]);
@@ -98,6 +107,7 @@ const SectionModal = ({
 
   const cancel = () => {
     form.reset({
+      id: undefined,
       title: "",
       description: "",
       isPublic: false,
@@ -179,20 +189,20 @@ const SectionModal = ({
                   </FormItem>
                 )}
               />
+
+              <DialogFooter>
+                <Button variant="outline" onClick={cancel}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={() => onSubmit(form.getValues())}
+                  disabled={!form.formState.isDirty || isLoading}
+                >
+                  {isLoading ? <Loader /> : editSection ? "Update" : "Add"}
+                </Button>
+              </DialogFooter>
             </form>
           </Form>
-
-          <DialogFooter>
-            <Button variant="outline" onClick={cancel}>
-              Cancel
-            </Button>
-            <Button
-              onClick={form.handleSubmit(onSubmit)}
-              disabled={!form.formState.isDirty || isLoading}
-            >
-              {isLoading ? <Loader /> : editSection ? "Update" : "Add"}
-            </Button>
-          </DialogFooter>
         </DialogHeader>
       </DialogContent>
     </Dialog>

@@ -52,6 +52,9 @@ const userApi = {
       },
     }),
 
+  getMentorProfileClient: () =>
+    http.get<DetailResponseType<MentorType>>(`client/mentors/profile`),
+
   addMentorAchievement: (
     mentorId: number,
     achievement: AchivementRequestType

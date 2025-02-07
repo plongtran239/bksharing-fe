@@ -85,6 +85,8 @@ const NotificationItem = ({
         return "Yêu cầu trở thành gia sư của bạn đã được duyệt";
       case "Audio Call Created":
         return "Bạn có cuộc gọi mới";
+      case "Mentor Registered":
+        return "Có một gia sư mới đăng ký";
       default:
         break;
     }

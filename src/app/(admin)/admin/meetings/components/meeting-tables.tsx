@@ -150,7 +150,7 @@ const MeetingTable = ({ data }: { data: MeetingType[] }) => {
                 })),
                 starts_at: new Date(Number(startsAt)).toISOString(),
                 custom: {
-                  title: title || "Interview Meeting",
+                  title: title || "Cuộc gọi phỏng vấn",
                 },
               },
             });

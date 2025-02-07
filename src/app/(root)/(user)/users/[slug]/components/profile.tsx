@@ -3,38 +3,57 @@ import {
   MessageSquareQuoteIcon,
   SquareLibraryIcon,
 } from "lucide-react";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
+import meetingApi from "@/apis/meeting.api";
 import ChatButton from "@/app/(root)/(user)/users/[slug]/components/chat-button";
 import CourseTab from "@/app/(root)/(user)/users/[slug]/components/course-tab";
 import FeedbackTab from "@/app/(root)/(user)/users/[slug]/components/feedback-tab";
 import ProfileHeading from "@/app/(root)/(user)/users/[slug]/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/users/[slug]/components/profile-tab";
+import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { MENTOR_STATUS } from "@/constants/enum";
+import { LOCALE } from "@/constants/date";
+import {
+  ACHIEVEMENT_TYPES,
+  MEETING_STATUS,
+  MEETING_TYPE,
+  MENTOR_STATUS,
+} from "@/constants/enum";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 import { useGetProfile } from "@/hooks/use-get-profile";
-import { classifyAchievements } from "@/lib/utils";
+import { convertMilisecondsToLocaleString } from "@/lib/utils";
 
 const Profile = async ({ slug }: { slug: string }) => {
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
   const result = await useGetProfile(slug);
+
+  const {
+    payload: { data: interview },
+  } = await meetingApi.getClientMeetings(sessionToken, MEETING_TYPE.INTERVIEW);
 
   if (!result) {
     notFound();
   }
 
-  const { name, bio, achievements, thumbnail, accountId } = result.data;
-
-  const classifiedAchievements = classifyAchievements(achievements);
+  const { name, bio, achievements, thumbnail, accountId, status } = result.data;
 
   const handleCalculateProfileCompletion = () => {
-    const totalSections = 5;
+    const totalSections = 4;
     const sectionWeight = 100 / totalSections;
 
     const completedSections = [
       bio,
       name,
-      ...classifiedAchievements.map((achievement) => achievement.length),
+      achievements.filter(
+        (achievement) => achievement.type === ACHIEVEMENT_TYPES.EDUCATION
+      ).length,
+      achievements.filter(
+        (achievement) => achievement.type === ACHIEVEMENT_TYPES.EXPERIENCE
+      ).length,
     ].filter(Boolean).length;
 
     return completedSections * sectionWeight;
@@ -53,8 +72,30 @@ const Profile = async ({ slug }: { slug: string }) => {
         />
 
         {/* User info */}
-        <div className="flex-between mt-10">
-          <div className="flex-1"></div>
+        <div className="flex-between mt-10 px-10">
+          <div className="flex-1">
+            {interview.length > 0 &&
+              interview[0].status !== MEETING_STATUS.FINISHED &&
+              status === MENTOR_STATUS.PENDING && (
+                <div className="block text-primary">
+                  <p className="text-foreground">Bạn có lịch phỏng vấn vào </p>
+                  <p>
+                    {convertMilisecondsToLocaleString(
+                      interview[0].startsAt,
+                      LOCALE,
+                      {
+                        year: "numeric",
+                        month: "2-digit",
+                        day: "2-digit",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        timeZone: "UTC",
+                      }
+                    )}
+                  </p>
+                </div>
+              )}
+          </div>
 
           <div className="flex-center flex-col">
             <div className="mb-2 flex gap-2 text-sm">
@@ -64,7 +105,23 @@ const Profile = async ({ slug }: { slug: string }) => {
           </div>
 
           <div className="flex flex-1 justify-end">
-            <ChatButton accountId={accountId} />
+            {status === MENTOR_STATUS.ACCEPTED && (
+              <ChatButton accountId={accountId} />
+            )}
+
+            {interview.length > 0 &&
+              interview[0].status === MEETING_STATUS.ONGOING &&
+              status === MENTOR_STATUS.PENDING && (
+                <Link href={`/meeting/${interview[0].cid}`}>
+                  <Button>Tham gia phòng</Button>
+                </Link>
+              )}
+
+            {interview.length > 0 &&
+              interview[0].status === MEETING_STATUS.SCHEDULED &&
+              status === MENTOR_STATUS.PENDING && (
+                <Button disabled>Chưa diễn ra</Button>
+              )}
           </div>
         </div>
       </div>
