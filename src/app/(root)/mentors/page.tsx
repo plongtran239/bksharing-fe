@@ -38,7 +38,7 @@ const Mentor = async ({ searchParams }: MentorProps) => {
       <div className="container mt-5 grid grid-cols-4 gap-5">
         <div className="col-span-3 mt-5">
           {total === 0 ? (
-            <div className="min-h-[184px]">No mentors found.</div>
+            <div className="min-h-[184px]">Không tìm thấy gia sư phù hợp.</div>
           ) : (
             <div className="grid grid-cols-3 gap-5 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
               {mentors.map((mentor, index) => (
