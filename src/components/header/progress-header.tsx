@@ -38,7 +38,7 @@ const ProgressHeader = ({
         </div>
 
         <Link href={exitLink} className="p-5 font-semibold text-primary">
-          Exit
+          Thoát
         </Link>
       </header>
       <Progress value={(step / totalSteps) * 100} className="h-1" />

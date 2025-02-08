@@ -3,7 +3,8 @@ import { z } from "zod";
 const MentorRecommandation = z.object({
   account_id: z.number(),
   account_name: z.string(),
-  similarity: z.number(),
+  similarity: z.number().optional(),
+  predicted_clicks: z.number().optional(),
 });
 
 const MentorRecommandationList = z.object({

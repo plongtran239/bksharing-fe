@@ -30,7 +30,7 @@ const ProgressFooter = ({
         disabled={isLoading}
         onClick={handleBack}
       >
-        Previous
+        Quay lại
       </Button>
 
       <Button
@@ -40,7 +40,7 @@ const ProgressFooter = ({
         disabled={isDisabledNext && isDisabledNext()}
         onClick={handleNext}
       >
-        Next
+        Tiếp theo
       </Button>
 
       <Button
@@ -50,7 +50,7 @@ const ProgressFooter = ({
         disabled={(isDisabledNext && isDisabledNext()) || isLoading}
         onClick={handleFinish}
       >
-        {isLoading ? <Loader /> : "Finish"}
+        {isLoading ? <Loader /> : "Hoàn thành"}
       </Button>
     </footer>
   );

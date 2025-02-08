@@ -27,7 +27,7 @@ const CourseCard = ({ course, isLearned }: IProps) => {
           })}`
         )
       }
-      className="cursor-pointer"
+      className="cursor-pointer transition-transform hover:-translate-y-2 hover:shadow-lg"
     >
       <CardContent
         className={cn(

@@ -31,13 +31,13 @@ const MentorCard = ({ data }: { data: MentorType }) => {
 
         <p className="text-xl font-semibold text-black">{name}</p>
 
-        <div className="w-[200px] rounded-md bg-secondary p-2 text-center text-xs text-secondary-foreground">
+        <div className="w-full rounded-md bg-secondary p-2 text-center text-xs text-secondary-foreground">
           <p className="line-clamp-2">{bio || "Không có mô tả"}</p>
         </div>
       </div>
 
       <div className="w-full text-center text-sm">
-        <div className="flex-between mt-5 w-full px-2 text-sm text-primary">
+        <div className="flex-between mt-5 w-full text-sm text-primary">
           <div className="flex-center gap-1">
             <CircleUserRoundIcon size={16} />
             <span className="text-black">
