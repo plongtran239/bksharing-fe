@@ -2,6 +2,7 @@ import { Metadata } from "next";
 
 import userApi from "@/apis/user.api";
 import MentorCard from "@/app/(root)/mentors/components/mentor-card";
+import MentorRecommendations from "@/app/(root)/mentors/components/mentor-recommendations";
 import SearchFilter from "@/app/(root)/mentors/components/search-filter";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
 
@@ -34,18 +35,22 @@ const Mentor = async ({ searchParams }: MentorProps) => {
         </div>
       </div>
 
-      <div className="container mt-10">
-        {total === 0 ? (
-          <div className="mt-10 min-h-[184px]">No mentors found.</div>
-        ) : (
-          <div className="mt-10 grid grid-cols-4 gap-10 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
-            {mentors.map((mentor, index) => (
-              <div key={index}>
-                <MentorCard data={mentor} />
-              </div>
-            ))}
-          </div>
-        )}
+      <div className="container mt-5 grid grid-cols-4 gap-5">
+        <div className="col-span-3 mt-5">
+          {total === 0 ? (
+            <div className="min-h-[184px]">No mentors found.</div>
+          ) : (
+            <div className="grid grid-cols-3 gap-5 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
+              {mentors.map((mentor, index) => (
+                <div key={index}>
+                  <MentorCard data={mentor} />
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <MentorRecommendations />
       </div>
 
       {total > 12 && (

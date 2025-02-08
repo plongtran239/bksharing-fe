@@ -4,18 +4,15 @@ import { useEffect, useState } from "react";
 
 import recommandationApi from "@/apis/recommandation.api";
 import SuggestionCard from "@/app/(root)/(user)/users/[slug]/components/suggestion-card";
-import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
 import { MentorDTOType } from "@/schemas/recommandation.schema";
 
-const Suggestions = () => {
+const MentorRecommendations = () => {
   const { user } = useAppContext();
 
   const [suggestions, setSuggestions] = useState<MentorDTOType[]>();
-
-  const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     async function fetchSuggestions() {
@@ -30,7 +27,7 @@ const Suggestions = () => {
       try {
         const {
           payload: { recommendations },
-        } = await recommandationApi.getCollaborativeMentorRecommandations(
+        } = await recommandationApi.getContentBasedMentorRecommandations(
           user.id
         );
 
@@ -49,10 +46,6 @@ const Suggestions = () => {
     fetchSuggestions();
   }, [user]);
 
-  const handleShowMore = () => {
-    setShowMore((prev) => !prev);
-  };
-
   if (user && user.accountType === ROLES.MENTOR) {
     return null;
   }
@@ -63,30 +56,17 @@ const Suggestions = () => {
 
   return (
     <div className="col-auto h-fit rounded-xl bg-white p-5 max-xl:w-full max-xl:px-5">
-      <p className="text-lg font-semibold text-primary">Có thể bạn yêu thích</p>
+      <p className="text-xl font-semibold text-primary">
+        Gia sư phù hợp với bạn
+      </p>
 
-      {showMore
-        ? suggestions.map((mentor) => (
-            <div key={mentor.id} className="">
-              <Separator className="my-3" />
-              <SuggestionCard mentor={mentor} />
-            </div>
-          ))
-        : suggestions.slice(0, 5).map((mentor) => (
-            <div key={mentor.id} className="">
-              <Separator className="my-3" />
-              <SuggestionCard mentor={mentor} />
-            </div>
-          ))}
-
-      <Separator className="my-3" />
-
-      <div className="flex-center">
-        <Button variant="link" onClick={handleShowMore}>
-          {showMore ? "Thu gọn" : "Xem thêm"}
-        </Button>
-      </div>
+      {suggestions.map((mentor) => (
+        <div key={mentor.id} className="">
+          <Separator className="my-3" />
+          <SuggestionCard mentor={mentor} />
+        </div>
+      ))}
     </div>
   );
 };
-export default Suggestions;
+export default MentorRecommendations;
