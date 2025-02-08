@@ -31,9 +31,18 @@ const Profile = async ({ slug }: { slug: string }) => {
 
   const result = await useGetProfile(slug);
 
-  const {
-    payload: { data: interview },
-  } = await meetingApi.getClientMeetings(sessionToken, MEETING_TYPE.INTERVIEW);
+  let interview;
+
+  if (sessionToken) {
+    const {
+      payload: { data },
+    } = await meetingApi.getClientMeetings(
+      sessionToken,
+      MEETING_TYPE.INTERVIEW
+    );
+
+    interview = data;
+  }
 
   if (!result) {
     notFound();
@@ -74,7 +83,8 @@ const Profile = async ({ slug }: { slug: string }) => {
         {/* User info */}
         <div className="flex-between mt-10 px-10">
           <div className="flex-1">
-            {interview.length > 0 &&
+            {interview &&
+              interview.length > 0 &&
               interview[0].status !== MEETING_STATUS.FINISHED &&
               status === MENTOR_STATUS.PENDING && (
                 <div className="block text-primary">
@@ -109,7 +119,8 @@ const Profile = async ({ slug }: { slug: string }) => {
               <ChatButton accountId={accountId} />
             )}
 
-            {interview.length > 0 &&
+            {interview &&
+              interview.length > 0 &&
               interview[0].status === MEETING_STATUS.ONGOING &&
               status === MENTOR_STATUS.PENDING && (
                 <Link href={`/meeting/${interview[0].cid}`}>
@@ -117,7 +128,8 @@ const Profile = async ({ slug }: { slug: string }) => {
                 </Link>
               )}
 
-            {interview.length > 0 &&
+            {interview &&
+              interview.length > 0 &&
               interview[0].status === MEETING_STATUS.SCHEDULED &&
               status === MENTOR_STATUS.PENDING && (
                 <Button disabled>Chưa diễn ra</Button>

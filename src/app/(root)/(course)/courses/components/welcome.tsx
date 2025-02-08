@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import userApi from "@/apis/user.api";
-import { Input } from "@/components/ui/input";
+import SearchCourseInput from "@/app/(root)/(course)/courses/components/search-course-input";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const Welcome = async () => {
@@ -46,9 +46,7 @@ const Welcome = async () => {
         </div>
       </div>
 
-      <div className="flex-1">
-        <Input className="bg-white" placeholder="tìm kiếm khóa học" />
-      </div>
+      <SearchCourseInput />
     </section>
   );
 };

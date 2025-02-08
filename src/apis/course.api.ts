@@ -19,18 +19,28 @@ const courseApi = {
       endDate: convertDateToLocaleDateString(body.endDate),
     }),
 
-  getCourses: (filter?: { courseName?: string; categoryIds?: number[] }) => {
-    const url = `/client/courses${
-      filter?.courseName ? `?courseName=${filter?.courseName}` : ""
-    }${filter?.courseName && filter?.categoryIds ? "&" : ""}${
-      filter?.categoryIds
-        ? `${filter?.courseName ? "" : "?"}categoryIds=[${filter?.categoryIds.join(",")}]`
-        : ""
-    }`;
+  getCourses: ({
+    pageNumber = 1,
+    pageSize = 12,
+    courseName,
+    categoryIds,
+  }: {
+    pageNumber?: number;
+    pageSize?: number;
+    courseName?: string;
+    categoryIds?: number[];
+  }) => {
+    let url = `/client/courses?pageNumber=${pageNumber}&pageSize=${pageSize}`;
 
-    return http.get<ListResponseType<CourseType>>(url, {
-      cache: "no-store",
-    });
+    if (categoryIds && categoryIds.length > 0) {
+      url += `&categoryIds=[${categoryIds.join(",")}]`;
+    }
+
+    if (courseName) {
+      url += `&courseName=${courseName}`;
+    }
+
+    return http.get<ListResponseType<CourseType>>(url);
   },
 
   getCoursesByMentorId: (

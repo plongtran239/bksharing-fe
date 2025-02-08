@@ -1,8 +1,6 @@
 import { Metadata } from "next";
 
-import Categories from "@/app/(root)/(course)/courses/components/categories";
-import MyCourses from "@/app/(root)/(course)/courses/components/my-courses";
-import PopularCourses from "@/app/(root)/(course)/courses/components/popular-courses";
+import Courses from "@/app/(root)/(course)/courses/components/courses";
 import Welcome from "@/app/(root)/(course)/courses/components/welcome";
 
 export const metadata: Metadata = {
@@ -18,11 +16,7 @@ const Course = () => {
       </div>
 
       <section className="container space-y-5 py-5">
-        <Categories />
-
-        <MyCourses />
-
-        <PopularCourses />
+        <Courses />
       </section>
     </main>
   );
