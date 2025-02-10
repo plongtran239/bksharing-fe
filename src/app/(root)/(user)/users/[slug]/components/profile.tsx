@@ -48,7 +48,8 @@ const Profile = async ({ slug }: { slug: string }) => {
     notFound();
   }
 
-  const { name, bio, achievements, thumbnail, accountId, status } = result.data;
+  const { name, bio, achievements, thumbnail, accountId, status, id } =
+    result.data;
 
   const handleCalculateProfileCompletion = () => {
     const totalSections = 4;
@@ -78,6 +79,7 @@ const Profile = async ({ slug }: { slug: string }) => {
           name={name}
           avatarUrl={thumbnail?.originalUrl}
           accountId={accountId}
+          mentorId={id}
         />
 
         {/* User info */}

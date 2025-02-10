@@ -3,8 +3,9 @@
 import { PencilIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
+import recommandationApi from "@/apis/recommandation.api";
 import userApi from "@/apis/user.api";
 import FileInput from "@/components/file-input";
 import Loader from "@/components/loader";
@@ -32,10 +33,12 @@ const ProfileHeading = ({
   name,
   avatarUrl,
   accountId,
+  mentorId,
 }: {
   name: string;
   avatarUrl: string | undefined;
   accountId: number;
+  mentorId: number;
 }) => {
   const {
     file,
@@ -55,6 +58,20 @@ const ProfileHeading = ({
   const { user } = useAppContext();
 
   const isOwnProfile = accountId === user?.id;
+
+  useEffect(() => {
+    async function viewCount() {
+      try {
+        await recommandationApi.mentorViewCount(mentorId);
+      } catch (error) {
+        console.error({ error });
+      }
+    }
+
+    if (user && !isOwnProfile) {
+      viewCount();
+    }
+  }, [isOwnProfile, mentorId, user]);
 
   const handleOpenDialog = () => {
     setIsDialogOpen(!isDialogOpen);

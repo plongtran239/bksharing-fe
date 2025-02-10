@@ -70,6 +70,9 @@ const recommandationApi = {
       "/client/mentors/recommendations",
       { accountIds: mentorIds }
     ),
+
+  mentorViewCount: async (mentorId: number) =>
+    http.post(`/client/mentors/${mentorId}/viewCounts`),
 };
 
 export default recommandationApi;

@@ -10,7 +10,7 @@ import { ROLES } from "@/constants/enum";
 import { useAppContext } from "@/providers/app.provider";
 import { MentorDTOType } from "@/schemas/recommandation.schema";
 
-const Suggestions = () => {
+const Suggestions = ({ mentorId }: { mentorId?: number }) => {
   const { user } = useAppContext();
 
   const [suggestions, setSuggestions] = useState<MentorDTOType[]>();
@@ -40,7 +40,9 @@ const Suggestions = () => {
           payload: { data },
         } = await recommandationApi.getMentorsByIds(accountIds);
 
-        setSuggestions(data.mentorsDTO);
+        setSuggestions(
+          data.mentorsDTO.filter((mentor) => mentor.id !== mentorId)
+        );
       } catch (error) {
         console.error({ error });
       }
