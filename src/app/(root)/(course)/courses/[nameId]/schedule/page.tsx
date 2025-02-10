@@ -30,7 +30,11 @@ const CourseSchedule = async ({
   try {
     const {
       payload: { data },
-    } = await ScheduleApi.getSchedulesByMentorId(sessionToken, mentorId);
+    } = await ScheduleApi.getSchedulesByMentorIdAndCourseId(
+      sessionToken,
+      mentorId,
+      courseId
+    );
 
     schedules = data;
   } catch (error) {

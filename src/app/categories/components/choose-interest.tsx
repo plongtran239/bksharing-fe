@@ -67,7 +67,6 @@ const ChooseInterest = ({ categories }: { categories: CategoryType[] }) => {
       step={step}
       setStep={setStep}
       totalSteps={1}
-      exitLink="/courses"
       isDisabledNext={() => !form.formState.isDirty}
       handleFinish={handleChooseInterests}
       isLoading={isLoading}

@@ -13,6 +13,7 @@ const ScheduleTable = ({
   weekStartDate = new Date(),
   showDate = false,
   showToday = false,
+  showCourseName = false,
   activeSchedule,
   setActiveSchedule,
   setActiveScheduleId,
@@ -23,6 +24,7 @@ const ScheduleTable = ({
   weekStartDate?: Date;
   showDate?: boolean;
   showToday?: boolean;
+  showCourseName?: boolean;
   activeSchedule?: { scheduleId: number; date: string };
   setActiveSchedule?: (
     schedule: { scheduleId: number; date: string } | undefined
@@ -250,7 +252,12 @@ const ScheduleTable = ({
                           );
                         })}
                       >
-                        {`${ranges[0].startTime} - ${ranges[0].endTime}`}
+                        {showCourseName && (
+                          <p className="text-xs font-semibold">{`${ranges[0].course.name}`}</p>
+                        )}
+                        <p className="text-sm">
+                          ({`${ranges[0].startTime} - ${ranges[0].endTime}`})
+                        </p>
                       </AvailableRow>
                     );
                   }

@@ -48,6 +48,7 @@ const ClientSchedule = ({ schedules }: { schedules: ScheduleType[] }) => {
               setOpen(true);
             }}
             setActiveScheduleId={setActiveScheduleId}
+            showCourseName
           />
         </div>
 

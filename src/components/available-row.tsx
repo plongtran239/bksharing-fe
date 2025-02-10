@@ -21,10 +21,10 @@ const AvailableRow = ({
   return (
     <td
       rowSpan={span}
-      className={cn("cursor-pointer border border-gray-300", {
-        "border-2 border-primary bg-secondary text-secondary-foreground":
+      className={cn("cursor-pointer space-y-1 border border-gray-300", {
+        "border-2 border-secondary-foreground bg-secondary text-secondary-foreground":
           isActive,
-        "bg-green-500 text-white hover:bg-green-400 hover:text-white":
+        "bg-primary text-white hover:bg-secondary hover:text-secondary-foreground":
           !isBooked,
         "cursor-not-allowed bg-red-500 text-white": isBooked,
       })}

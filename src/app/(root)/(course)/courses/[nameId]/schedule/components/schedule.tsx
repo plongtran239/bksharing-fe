@@ -63,6 +63,17 @@ const Schedule = ({
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    if (schedules.length === 0) {
+      toast({
+        title: "Không có lịch hẹn",
+        description: "Gia sư chưa cập nhật lịch hẹn",
+        variant: "warning",
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [schedules]);
+
+  useEffect(() => {
     const getMentorSubscription = async () => {
       try {
         setLoading(true);
@@ -204,7 +215,7 @@ const Schedule = ({
             </h1>
 
             <div className="flex items-center gap-2">
-              <div className="h-5 w-5 bg-green-500"></div>
+              <div className="h-5 w-5 bg-primary"></div>
               <span>Còn trống</span>
             </div>
 

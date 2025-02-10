@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import ScheduleApi from "@/apis/schedule.api";
@@ -28,7 +28,9 @@ import {
 import { Separator } from "@/components/ui/separator";
 import { DAY_OF_WEEK } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
+import { EntityError } from "@/lib/exceptions";
 import {
+  ScheduleDurationType,
   ScheduleRequest,
   ScheduleRequestType,
 } from "@/schemas/schedule.schema";
@@ -40,12 +42,35 @@ const Scheduling = () => {
   const { toast } = useToast();
   const router = useRouter();
 
+  const [scheduleDuration, setScheduleDuration] = useState<
+    ScheduleDurationType[]
+  >([]);
+
+  useEffect(() => {
+    const fetchScheduleDuration = async () => {
+      try {
+        const {
+          payload: { data },
+        } = await ScheduleApi.getScheduleDuration();
+
+        setScheduleDuration(data);
+      } catch (error) {
+        console.error({ error });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScheduleDuration();
+  }, []);
+
   const form = useForm<ScheduleRequestType>({
     resolver: zodResolver(ScheduleRequest),
     defaultValues: {
       dayOfWeek: DAY_OF_WEEK.MONDAY,
       startTime: new Date(new Date().setHours(6, 0, 0, 0)),
       duration: 1,
+      courseId: undefined,
     },
   });
 
@@ -63,10 +88,32 @@ const Scheduling = () => {
       });
     } catch (error) {
       console.error({ error });
+
+      if (error instanceof EntityError) {
+        toast({
+          title: "Lỗi",
+          description: "Lịch bị trùng lặp",
+          variant: "destructive",
+        });
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  if (scheduleDuration.length === 0) {
+    return (
+      <div>
+        <div className="mb-5 rounded bg-[#FFF2CC] p-3 text-sm outline outline-1 outline-[#D6B656]">
+          Bạn chưa có khóa học để xếp lịch! Tạo khóa học để tiếp tục.
+        </div>
+
+        <Button onClick={() => router.push("/course/create")}>
+          Tạo khóa học
+        </Button>
+      </div>
+    );
+  }
 
   return (
     <Form {...form}>
@@ -122,29 +169,35 @@ const Scheduling = () => {
         <FormField
           control={form.control}
           name="duration"
-          render={({ field }) => (
+          render={({}) => (
             <FormItem>
               <FormLabel htmlFor="duration" required>
-                Thời lượng
+                Khóa học
               </FormLabel>
               <FormControl>
                 <Select
                   onValueChange={(value) => {
-                    field.onChange(parseFloat(value));
+                    form.setValue("courseId", parseInt(value, 10));
+
+                    scheduleDuration.filter((duration) => {
+                      if (duration.courseId === parseInt(value, 10)) {
+                        form.setValue("duration", duration.duration);
+                      }
+                    });
                   }}
-                  value={field.value.toString()}
                 >
                   <SelectTrigger id="select" className="capitalize">
-                    <SelectValue placeholder="Select duration" />
+                    <SelectValue placeholder="Chọn khóa học" />
                   </SelectTrigger>
-                  <SelectContent className="capitalize">
-                    <SelectItem value="1">1 giờ</SelectItem>
-                    <SelectItem value="1.5">1.5 giờ</SelectItem>
-                    <SelectItem value="2">2 giờ</SelectItem>
-                    <SelectItem value="2.5">2.5 giờ</SelectItem>
-                    <SelectItem value="3">3 giờ</SelectItem>
-                    <SelectItem value="3.5">3.5 giờ</SelectItem>
-                    <SelectItem value="4">4 giờ</SelectItem>
+                  <SelectContent className="capitalize" align="end">
+                    {scheduleDuration.map((duration) => (
+                      <SelectItem
+                        key={duration.courseId}
+                        value={duration.courseId.toString()}
+                      >
+                        {duration.name} ({duration.duration} giờ)
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>

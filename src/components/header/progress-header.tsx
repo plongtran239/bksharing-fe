@@ -1,17 +1,17 @@
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 import { Progress } from "@/components/ui/progress";
 
 const ProgressHeader = ({
   step,
   totalSteps,
-  exitLink,
 }: {
   step: number;
   totalSteps: number;
-  exitLink: string;
 }) => {
+  const router = useRouter();
+
   return (
     <>
       <header className="flex-between">
@@ -37,9 +37,12 @@ const ProgressHeader = ({
           )}
         </div>
 
-        <Link href={exitLink} className="p-5 font-semibold text-primary">
+        <button
+          onClick={() => router.back()}
+          className="p-5 font-semibold text-primary"
+        >
           Thoát
-        </Link>
+        </button>
       </header>
       <Progress value={(step / totalSteps) * 100} className="h-1" />
     </>

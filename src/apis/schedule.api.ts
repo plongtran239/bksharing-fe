@@ -1,12 +1,17 @@
+import { LOCALE } from "@/constants/date";
 import http from "@/lib/http";
 import { ListResponseType } from "@/schemas";
-import { ScheduleRequestType, ScheduleType } from "@/schemas/schedule.schema";
+import {
+  ScheduleDurationType,
+  ScheduleRequestType,
+  ScheduleType,
+} from "@/schemas/schedule.schema";
 
 const ScheduleApi = {
   createSchedule: (body: ScheduleRequestType) =>
     http.post("/client/mentors/schedules", {
       ...body,
-      startTime: body.startTime.toLocaleTimeString("en-US", {
+      startTime: body.startTime.toLocaleTimeString(LOCALE, {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -16,7 +21,7 @@ const ScheduleApi = {
           body.startTime.getHours() + Math.floor(body.duration),
           body.startTime.getMinutes() + (body.duration % 1) * 60
         )
-      ).toLocaleTimeString("en-US", {
+      ).toLocaleTimeString(LOCALE, {
         hour: "2-digit",
         minute: "2-digit",
         hour12: false,
@@ -33,14 +38,23 @@ const ScheduleApi = {
       },
     }),
 
-  getSchedulesByMentorId: (sessionToken: string, mentorId: number) =>
+  getSchedulesByMentorIdAndCourseId: (
+    sessionToken: string,
+    mentorId: number,
+    courseId: number
+  ) =>
     http.get<ListResponseType<ScheduleType>>(
-      `/client/mentors/${mentorId}/schedules`,
+      `/client/mentors/${mentorId}/schedules/courses/${courseId}`,
       {
         headers: {
           Authorization: `Bearer ${sessionToken}`,
         },
       }
+    ),
+
+  getScheduleDuration: () =>
+    http.get<ListResponseType<ScheduleDurationType>>(
+      "/client/mentors/schedules/durations"
     ),
 };
 

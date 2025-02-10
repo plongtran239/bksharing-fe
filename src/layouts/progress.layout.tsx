@@ -8,7 +8,6 @@ interface IProps {
   setStep: Dispatch<SetStateAction<number>>;
   totalSteps: number;
   handleFinish: () => void;
-  exitLink: string;
   isLoading?: boolean;
   isDisabledNext?: () => boolean;
 }
@@ -18,14 +17,13 @@ const ProgressLayout = ({
   setStep,
   totalSteps,
   handleFinish,
-  exitLink,
   isLoading,
   isDisabledNext,
   children,
 }: PropsWithChildren<IProps>) => {
   return (
     <main className="h-screen">
-      <ProgressHeader step={step} totalSteps={totalSteps} exitLink={exitLink} />
+      <ProgressHeader step={step} totalSteps={totalSteps} />
 
       {children}
 

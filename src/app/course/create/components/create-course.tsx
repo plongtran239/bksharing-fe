@@ -87,7 +87,6 @@ const CreateCourse = () => {
       isDisabledNext={isDisabledNext}
       handleFinish={handleCreateCourse}
       isLoading={isLoading}
-      exitLink="/mentor/courses"
     >
       {/* Content */}
       <div className="h-[calc(100vh-75px-4px-77px)] py-10">
