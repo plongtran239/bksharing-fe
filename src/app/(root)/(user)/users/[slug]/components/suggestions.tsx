@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import recommandationApi from "@/apis/recommandation.api";
 import SuggestionCard from "@/app/(root)/(user)/users/[slug]/components/suggestion-card";
+import Loader from "@/components/loader";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { ROLES } from "@/constants/enum";
@@ -12,6 +13,8 @@ import { MentorDTOType } from "@/schemas/recommandation.schema";
 
 const Suggestions = ({ mentorId }: { mentorId?: number }) => {
   const { user } = useAppContext();
+
+  const [loading, setLoading] = useState(false);
 
   const [suggestions, setSuggestions] = useState<MentorDTOType[]>();
 
@@ -28,6 +31,8 @@ const Suggestions = ({ mentorId }: { mentorId?: number }) => {
       }
 
       try {
+        setLoading(true);
+
         const {
           payload: { recommendations },
         } = await recommandationApi.getCollaborativeMentorRecommandations(
@@ -45,11 +50,13 @@ const Suggestions = ({ mentorId }: { mentorId?: number }) => {
         );
       } catch (error) {
         console.error({ error });
+      } finally {
+        setLoading(false);
       }
     }
 
     fetchSuggestions();
-  }, [user]);
+  }, [mentorId, user]);
 
   const handleShowMore = () => {
     setShowMore((prev) => !prev);
@@ -59,27 +66,30 @@ const Suggestions = ({ mentorId }: { mentorId?: number }) => {
     return null;
   }
 
-  if (!suggestions) {
-    return null;
-  }
-
   return (
     <div className="col-auto h-fit rounded-xl bg-white p-5 max-xl:w-full max-xl:px-5">
       <p className="text-lg font-semibold text-primary">Có thể bạn yêu thích</p>
 
-      {showMore
-        ? suggestions.map((mentor) => (
-            <div key={mentor.id} className="">
-              <Separator className="my-3" />
-              <SuggestionCard mentor={mentor} />
-            </div>
-          ))
-        : suggestions.slice(0, 5).map((mentor) => (
-            <div key={mentor.id} className="">
-              <Separator className="my-3" />
-              <SuggestionCard mentor={mentor} />
-            </div>
-          ))}
+      {loading && (
+        <div className="mt-5">
+          <Loader />
+        </div>
+      )}
+
+      {suggestions &&
+        (showMore
+          ? suggestions.map((mentor) => (
+              <div key={mentor.id} className="">
+                <Separator className="my-3" />
+                <SuggestionCard mentor={mentor} />
+              </div>
+            ))
+          : suggestions.slice(0, 5).map((mentor) => (
+              <div key={mentor.id} className="">
+                <Separator className="my-3" />
+                <SuggestionCard mentor={mentor} />
+              </div>
+            )))}
 
       <Separator className="my-3" />
 

@@ -5,6 +5,8 @@ import MentorCard from "@/app/(root)/mentors/components/mentor-card";
 import MentorRecommendations from "@/app/(root)/mentors/components/mentor-recommendations";
 import SearchFilter from "@/app/(root)/mentors/components/search-filter";
 import { PaginationWithLinks } from "@/components/ui/pagination-with-links";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: "Mentors | BK Sharing",
@@ -18,6 +20,8 @@ interface MentorProps {
 }
 
 const Mentor = async ({ searchParams }: MentorProps) => {
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
+
   const pageNumber = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 12;
   const name = searchParams.name;
@@ -36,11 +40,22 @@ const Mentor = async ({ searchParams }: MentorProps) => {
       </div>
 
       <div className="container mt-5 grid grid-cols-4 gap-5">
-        <div className="col-span-3 mt-5">
+        <div
+          className={cn("col-span-3 mt-5", {
+            "col-span-4": !sessionToken,
+          })}
+        >
           {total === 0 ? (
             <div className="min-h-[184px]">Không tìm thấy gia sư phù hợp.</div>
           ) : (
-            <div className="grid grid-cols-3 gap-5 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5">
+            <div
+              className={cn(
+                "grid grid-cols-3 gap-5 max-xl:grid-cols-2 max-sm:grid-cols-1 max-sm:px-5",
+                {
+                  "grid-cols-4": !sessionToken,
+                }
+              )}
+            >
               {mentors.map((mentor, index) => (
                 <div key={index}>
                   <MentorCard data={mentor} />
@@ -50,7 +65,7 @@ const Mentor = async ({ searchParams }: MentorProps) => {
           )}
         </div>
 
-        <MentorRecommendations />
+        {sessionToken && <MentorRecommendations />}
       </div>
 
       {total > 12 && (
