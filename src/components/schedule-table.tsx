@@ -4,7 +4,9 @@ import { useTranslations } from "next-intl";
 
 import AvailableRow from "@/components/available-row";
 import { DAY_OF_WEEK } from "@/constants/enum";
-import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
+import {
+  cn, // convertMilisecondsToLocaleString
+} from "@/lib/utils";
 import { ScheduleType } from "@/schemas/schedule.schema";
 import { MentorSubscriptionType } from "@/schemas/subscription.schema";
 
@@ -18,7 +20,7 @@ const ScheduleTable = ({
   setActiveSchedule,
   setActiveScheduleId,
   handleOpenDialog,
-  mentorSubscriptions,
+  // mentorSubscriptions,
 }: {
   schedules: ScheduleType[];
   weekStartDate?: Date;
@@ -214,43 +216,43 @@ const ScheduleTable = ({
                               });
                           }
                         }}
-                        isBooked={mentorSubscriptions?.some((sub) => {
-                          const start = convertMilisecondsToLocaleString(
-                            sub.courseAccessStartAt,
-                            "vi-VN",
-                            {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                              timeZone: "UTC",
-                            }
-                          );
+                        // isBooked={mentorSubscriptions?.some((sub) => {
+                        //   const start = convertMilisecondsToLocaleString(
+                        //     sub.courseAccessStartAt,
+                        //     "vi-VN",
+                        //     {
+                        //       hour: "2-digit",
+                        //       minute: "2-digit",
+                        //       day: "2-digit",
+                        //       month: "2-digit",
+                        //       year: "numeric",
+                        //       timeZone: "UTC",
+                        //     }
+                        //   );
 
-                          const end = convertMilisecondsToLocaleString(
-                            sub.courseAccessEndAt,
-                            "vi-VN",
-                            {
-                              hour: "2-digit",
-                              minute: "2-digit",
-                              day: "2-digit",
-                              month: "2-digit",
-                              year: "numeric",
-                              timeZone: "UTC",
-                            }
-                          );
+                        //   const end = convertMilisecondsToLocaleString(
+                        //     sub.courseAccessEndAt,
+                        //     "vi-VN",
+                        //     {
+                        //       hour: "2-digit",
+                        //       minute: "2-digit",
+                        //       day: "2-digit",
+                        //       month: "2-digit",
+                        //       year: "numeric",
+                        //       timeZone: "UTC",
+                        //     }
+                        //   );
 
-                          const [timeStart, dateStart] = start.split(" ");
-                          const [timeEnd, dateEnd] = end.split(" ");
+                        //   const [timeStart, dateStart] = start.split(" ");
+                        //   const [timeEnd, dateEnd] = end.split(" ");
 
-                          return (
-                            dateStart === daysWithDates[index].date &&
-                            dateEnd === daysWithDates[index].date &&
-                            timeStart === ranges[0].startTime &&
-                            timeEnd === ranges[0].endTime
-                          );
-                        })}
+                        //   return (
+                        //     dateStart === daysWithDates[index].date &&
+                        //     dateEnd === daysWithDates[index].date &&
+                        //     timeStart === ranges[0].startTime &&
+                        //     timeEnd === ranges[0].endTime
+                        //   );
+                        // })}
                       >
                         {showCourseName && (
                           <p className="text-xs font-semibold">{`${ranges[0].course.name}`}</p>

@@ -49,6 +49,7 @@ interface IDataTableProps<T> {
   filterBy?: string;
   filterOptions?: string[];
   getRowClassName?: (row: T) => string;
+  noFilterAll?: boolean;
 }
 
 const DataTable = <T,>({
@@ -57,6 +58,7 @@ const DataTable = <T,>({
   searchBy,
   filterBy,
   filterOptions,
+  noFilterAll = false,
   getRowClassName,
 }: IDataTableProps<T>) => {
   const t = useTranslations("sidebar");
@@ -135,7 +137,7 @@ const DataTable = <T,>({
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Tất cả trạng thái</SelectItem>
+              {!noFilterAll && <SelectItem value="all">Tất cả</SelectItem>}
 
               <Separator className="my-1" />
 

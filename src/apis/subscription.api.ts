@@ -1,8 +1,11 @@
+import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import http from "@/lib/http";
 import { DetailResponseType, ListResponseType } from "@/schemas";
 import { MakePaymentResponseType } from "@/schemas/payment.schema";
 import {
   AdminSubscriptionType,
+  CombinationSubscriptionType,
+  DetailCombinationSubscriptionType,
   MentorSubscriptionType,
   SubscriptionDetailType,
   SubscriptionType,
@@ -82,6 +85,32 @@ const subscriptionApi = {
         Authorization: `Bearer ${sessionToken}`,
       },
     }),
+
+  getCombinationSubscriptions: (
+    sessionToken: string,
+    status: SUBSCRIPTION_STATUS
+  ) =>
+    http.get<ListResponseType<CombinationSubscriptionType>>(
+      "/client/subscriptions/combination?status=" + status,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
+
+  getDetailCombinationSubscription: (
+    sessionToken: string,
+    subscriptionId: number
+  ) =>
+    http.get<DetailResponseType<DetailCombinationSubscriptionType>>(
+      `/client/subscriptions/${subscriptionId}/combination`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
 };
 
 export default subscriptionApi;

@@ -210,15 +210,35 @@ const MentorSidebarMenuItems: MenuItemsType = [
     ],
   },
   {
+    label: "subscriptions",
+    href: "/mentor/subscriptions",
+    icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      ...Object.values([
+        SUBSCRIPTION_STATUS.ACTIVE,
+        SUBSCRIPTION_STATUS.ENDED,
+      ]).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/mentor/subscriptions?status=${status}`,
+      })),
+    ],
+  },
+  {
     label: "requests",
     href: "/mentor/requests",
     icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
     subs: [
-      {
-        label: "all",
-        href: "/mentor/requests",
-      },
-      ...Object.values(SUBSCRIPTION_STATUS).map((status) => ({
+      // {
+      //   label: "all",
+      //   href: "/mentor/requests",
+      // },
+      ...Object.values([
+        SUBSCRIPTION_STATUS.PENDING,
+        SUBSCRIPTION_STATUS.ACCEPTED,
+        SUBSCRIPTION_STATUS.CANCELED,
+        SUBSCRIPTION_STATUS.EXPIRED,
+        SUBSCRIPTION_STATUS.REJECTED,
+      ]).map((status) => ({
         label: status.toLowerCase(),
         href: `/mentor/requests?status=${status}`,
       })),

@@ -2,92 +2,32 @@
 
 import { CaretSortIcon, DotsHorizontalIcon } from "@radix-ui/react-icons";
 import { ColumnDef } from "@tanstack/react-table";
-import { EyeIcon, UserRoundCheckIcon, UserRoundXIcon } from "lucide-react";
+import { EyeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 
-import subscriptionApi from "@/apis/subscription.api";
 import DataTable from "@/components/data-table";
 import { Button } from "@/components/ui/button";
-// import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
-import { useToast } from "@/hooks/use-toast";
 import { convertMilisecondsToLocaleString } from "@/lib/utils";
-import { SubscriptionType } from "@/schemas/subscription.schema";
+import { CombinationSubscriptionType } from "@/schemas/subscription.schema";
 
-const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
+const SubscriptionTable = ({
+  data,
+}: {
+  data: CombinationSubscriptionType[];
+}) => {
   const t = useTranslations("subscriptionStatus");
 
-  const { toast } = useToast();
   const router = useRouter();
 
-  const handleRequest = async (subscriptionId: number, isApproved: boolean) => {
-    try {
-      await subscriptionApi.mentorApproveSubscription({
-        subscriptionId,
-        isApproved,
-      });
-
-      router.refresh();
-
-      toast({
-        title: "Thành công",
-        description: isApproved ? "Đã chấp nhận yêu cầu" : "Đã từ chối yêu cầu",
-      });
-    } catch (error) {
-      console.error({ error });
-    }
-  };
-
-  const columns: ColumnDef<SubscriptionType>[] = [
-    // {
-    //   id: "select",
-    //   header: ({ table }) => (
-    //     <Checkbox
-    //       checked={
-    //         table.getIsAllPageRowsSelected() ||
-    //         (table.getIsSomePageRowsSelected() && "indeterminate")
-    //       }
-    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-    //       aria-label="Select all"
-    //     />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <Checkbox
-    //       checked={row.getIsSelected()}
-    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-    //       aria-label="Select row"
-    //     />
-    //   ),
-    //   enableSorting: false,
-    //   enableHiding: false,
-    // },
-    {
-      accessorKey: "studentInfo",
-      header: ({ column }) => {
-        return (
-          <button
-            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-            className="flex-center"
-          >
-            Học viên
-            <CaretSortIcon className="ml-2 h-4 w-4" />
-          </button>
-        );
-      },
-      cell: ({ row }) => (
-        <div className="line-clamp-1 max-w-[300px]">
-          {row.original.studentInfo.name}
-        </div>
-      ),
-    },
+  const columns: ColumnDef<CombinationSubscriptionType>[] = [
     {
       accessorKey: "course",
       header: ({ column }) => {
@@ -107,6 +47,26 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
         </div>
       ),
     },
+    {
+      accessorKey: "ids",
+      header: ({ column }) => {
+        return (
+          <button
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="flex-center"
+          >
+            Số lượng học viên
+            <CaretSortIcon className="ml-2 h-4 w-4" />
+          </button>
+        );
+      },
+      cell: ({ row }) => (
+        <div className="line-clamp-1 max-w-[300px]">
+          {row.original.ids.length}
+        </div>
+      ),
+    },
+
     {
       accessorKey: "courseStartAt",
       header: ({ column }) => {
@@ -193,33 +153,13 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
             <DropdownMenuContent align="end">
               <DropdownMenuItem
                 onClick={() =>
-                  router.push(`/mentor/requests/${row.original.id}`)
+                  router.push(`/mentor/subscriptions/${row.original.ids[0]}`)
                 }
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
                 Xem chi tiết
               </DropdownMenuItem>
-
-              {row.original.status === SUBSCRIPTION_STATUS.PENDING && (
-                <>
-                  <Separator />
-                  <DropdownMenuItem
-                    onClick={() => handleRequest(row.original.id, true)}
-                    className="flex items-center gap-2"
-                  >
-                    <UserRoundCheckIcon size={16} />
-                    Chấp nhận
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    onClick={() => handleRequest(row.original.id, false)}
-                    className="flex items-center gap-2"
-                  >
-                    <UserRoundXIcon size={16} />
-                    Từ chối
-                  </DropdownMenuItem>
-                </>
-              )}
             </DropdownMenuContent>
           </DropdownMenu>
         );
@@ -234,9 +174,12 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
         (a, b) => Number(a.courseStartAt) - Number(b.courseStartAt)
       )}
       filterBy="status"
-      filterOptions={Object.values(SUBSCRIPTION_STATUS)}
+      filterOptions={Object.values([
+        SUBSCRIPTION_STATUS.ACTIVE,
+        SUBSCRIPTION_STATUS.ENDED,
+      ])}
       noFilterAll
     />
   );
 };
-export default RequestTable;
+export default SubscriptionTable;
