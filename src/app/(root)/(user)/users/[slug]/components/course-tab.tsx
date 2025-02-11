@@ -1,4 +1,5 @@
-import { ArchiveXIcon } from "lucide-react";
+import { StarFilledIcon } from "@radix-ui/react-icons";
+import { ArchiveXIcon, CircleUserRoundIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -57,7 +58,7 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
               key={course.id}
               className="space-y-3"
             >
-              <div className="relative h-[211px] w-[375px]">
+              <div className="relative h-64 w-full">
                 <Image
                   src={
                     course.image?.originalUrl ||
@@ -70,20 +71,40 @@ const CourseTab = async ({ mentorId, isAccepted }: IProps) => {
                 />
               </div>
 
-              <h3 className="capitalize text-black">{course.name}</h3>
+              <h3 className="line-clamp-2 font-semibold capitalize text-black">
+                {course.name}
+              </h3>
 
-              <p className="text-sm">
-                <span>{course.totalDuration}h để học</span>
-                <span className="mx-2">•</span>
-                <span>{course.countOfSections} phần</span>
-              </p>
+              <div className="flex-between">
+                <p className="text-sm">
+                  <span>{course.totalDuration}h để học</span>
+                  <span className="mx-2">•</span>
+                  <span>{course.countOfSections} phần</span>
+                </p>
 
-              <p className="text-primary">
-                {Intl.NumberFormat("vi-VN", {
-                  style: "currency",
-                  currency: "VND",
-                }).format(course.price)}
-              </p>
+                <p className="text-primary">
+                  {Intl.NumberFormat("vi-VN", {
+                    style: "currency",
+                    currency: "VND",
+                  }).format(course.price)}
+                </p>
+              </div>
+
+              <div className="flex-between">
+                <div className="flex-center gap-1">
+                  <CircleUserRoundIcon size={16} className="text-primary" />
+                  <span className="text-black">
+                    {course.noOfSubscriptions} lượt đăng ký
+                  </span>
+                </div>
+
+                <div className="flex-center gap-1">
+                  <span className="text-black">
+                    {course.rateOfCourse.toFixed(1)}
+                  </span>
+                  <StarFilledIcon className="text-yellow-400" />
+                </div>
+              </div>
             </Link>
           ))}
       </div>

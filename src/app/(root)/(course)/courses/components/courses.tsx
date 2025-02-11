@@ -133,14 +133,15 @@ const Courses = () => {
           </div>
         )}
 
-        {!courseLoading && courses.length === 0 ? (
-          <div className="flex-center h-60 flex-col gap-5">
-            <ArchiveXIcon size={64} />
-            <p>Không có khóa học nào</p>
-          </div>
-        ) : (
-          <CourseList courses={courses} />
-        )}
+        {!courseLoading &&
+          (courses.length === 0 ? (
+            <div className="flex-center h-60 flex-col gap-5">
+              <ArchiveXIcon size={64} />
+              <p>Không có khóa học nào</p>
+            </div>
+          ) : (
+            <CourseList courses={courses} />
+          ))}
 
         {total > 12 && (
           <div className="mt-10">

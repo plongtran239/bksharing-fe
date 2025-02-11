@@ -110,11 +110,20 @@ const Schedule = ({
   };
 
   const handleNextWeek = () => {
-    const nextWeek = new Date(weekStartDate);
+    const currentWeekStart = new Date();
+    currentWeekStart.setDate(
+      currentWeekStart.getDate() - currentWeekStart.getDay()
+    ); // Start of the current week
 
+    const maxAllowedWeek = new Date(currentWeekStart);
+    maxAllowedWeek.setDate(maxAllowedWeek.getDate() + 15); // 2 weeks after current week
+
+    const nextWeek = new Date(weekStartDate);
     nextWeek.setDate(weekStartDate.getDate() + 7);
 
-    setWeekStartDate(nextWeek);
+    if (nextWeek <= maxAllowedWeek) {
+      setWeekStartDate(nextWeek);
+    }
   };
 
   const handleResetWeek = () => {
