@@ -20,6 +20,7 @@ const User = z.object({
 });
 
 const Account = z.object({
+  id: z.number(),
   email: z.string().email(),
   name: z.string().min(6).max(256),
   phoneNumber: z

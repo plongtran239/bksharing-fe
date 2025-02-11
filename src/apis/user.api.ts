@@ -20,6 +20,8 @@ const userApi = {
       },
     }),
 
+  getMeClient: () => http.get<DetailResponseType<AccountType>>(`accounts/me`),
+
   updateMe: (body: Partial<AccountType>) =>
     http.patch(`accounts/me`, {
       ...body,

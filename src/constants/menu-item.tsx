@@ -52,6 +52,11 @@ const NavbarMenuItems: MenuItemsType = [
 
 const StudentAvatarDropdownMenuItems: MenuItemsType = [
   {
+    label: "profile",
+    href: "/student/profile",
+    icon: <UserIcon size={16} />,
+  },
+  {
     label: "changePassword",
     href: "/change-password",
     icon: <KeyRoundIcon size={16} />,

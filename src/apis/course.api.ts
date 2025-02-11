@@ -66,6 +66,9 @@ const courseApi = {
       },
     }),
 
+  getLearnedCourseClient: () =>
+    http.get<ListResponseType<CourseType>>("/client/courses/students"),
+
   getCourseById: (sessionToken: string, courseId: number) =>
     http.get<DetailResponseType<CourseDetailType>>(
       `/client/courses/${courseId}`,

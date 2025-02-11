@@ -138,7 +138,7 @@ const ScheduleTable = ({
                   scope="col"
                   className="border border-gray-300 capitalize"
                 >
-                  <div>{day.toLowerCase()}</div>
+                  <div>{t(day.toLowerCase())}</div>
                   <div className="text-xs text-gray-500">
                     {date.slice(0, 5)}
                   </div>
