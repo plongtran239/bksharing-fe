@@ -80,6 +80,15 @@ const AchievementModal = ({
 
   const t = useTranslations("authPage.register.mentorForm.achievementForm");
 
+  const tMajor = useTranslations("major");
+  const tSchool = useTranslations("school");
+
+  const tPosition = useTranslations("position");
+  const tCompany = useTranslations("company");
+
+  const tCertification = useTranslations("certification");
+  const tOrganization = useTranslations("organization");
+
   const renderField = (type: ACHIEVEMENT_TYPES) => {
     switch (type) {
       case ACHIEVEMENT_TYPES.EDUCATION:
@@ -99,6 +108,35 @@ const AchievementModal = ({
         return COMPANIES;
       case ACHIEVEMENT_TYPES.CERTIFICATION:
         return ORGANIZATIONS;
+    }
+  };
+
+  const translateField = (type: ACHIEVEMENT_TYPES, item: string) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return tMajor(item);
+
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return tPosition(item);
+
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return tCertification(item);
+    }
+  };
+
+  const translateOrganizationField = (
+    type: ACHIEVEMENT_TYPES,
+    item: string
+  ) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return tSchool(item);
+
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return tCompany(item);
+
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return tOrganization(item);
     }
   };
 
@@ -152,13 +190,15 @@ const AchievementModal = ({
                               "text-muted-foreground": !field.value,
                             })}
                           >
-                            <SelectValue placeholder="chọn..." />
+                            <SelectValue
+                              placeholder={`Chọn ${t(achievementField)}`}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {renderField(type).map((item) => (
                             <SelectItem key={item} value={item}>
-                              {item}
+                              {translateField(type, item)}
                             </SelectItem>
                           ))}
                         </SelectContent>
@@ -186,13 +226,15 @@ const AchievementModal = ({
                               "text-muted-foreground": !field.value,
                             })}
                           >
-                            <SelectValue placeholder="chọn ..." />
+                            <SelectValue
+                              placeholder={`Chọn ${t(organizationField)}`}
+                            />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
                           {renderOrganizationField(type).map((item) => (
                             <SelectItem key={item} value={item}>
-                              {item}
+                              {translateOrganizationField(type, item)}
                             </SelectItem>
                           ))}
                         </SelectContent>

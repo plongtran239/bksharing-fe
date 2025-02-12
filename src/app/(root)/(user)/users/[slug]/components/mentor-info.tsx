@@ -4,6 +4,7 @@ import userApi from "@/apis/user.api";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { GENDERS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
 const MentorInfo = async () => {
@@ -39,7 +40,7 @@ const MentorInfo = async () => {
       <div>
         <Label className="text-secondary-foreground">Giới tính</Label>
         <p className="font-semibold capitalize text-black">
-          {gender.toLowerCase()}
+          {gender === GENDERS.MALE ? "Nam" : "Nữ"}
         </p>
       </div>
 
