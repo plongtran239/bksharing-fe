@@ -128,6 +128,7 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
                               description={achievement.description}
                               startDate={achievement.startDate}
                               endDate={achievement.endDate}
+                              type={ACHIEVEMENT_TYPES.EDUCATION}
                             />
                           </div>
                         ))}
@@ -144,6 +145,7 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
                               description={achievement.description}
                               startDate={achievement.startDate}
                               endDate={achievement.endDate}
+                              type={ACHIEVEMENT_TYPES.EXPERIENCE}
                             />
                           </div>
                         ))}
@@ -160,6 +162,7 @@ const MentorDetail = ({ mentor }: { mentor: MentorType }) => {
                               description={achievement.description}
                               startDate={achievement.startDate}
                               endDate={achievement.endDate}
+                              type={ACHIEVEMENT_TYPES.CERTIFICATION}
                             />
                           </div>
                         ))}

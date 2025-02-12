@@ -56,6 +56,7 @@ const ProfileSection = ({ title, achievements }: IProps) => {
               handleDelete={() => {
                 // setDeleteAchievementId(achievement.id);
               }}
+              type={achievement.type}
             />
           ))
         ) : (
