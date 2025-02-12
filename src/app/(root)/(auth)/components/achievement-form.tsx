@@ -17,9 +17,7 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -109,19 +107,10 @@ const AchievementForm = ({ form }: IProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.values(POSITIONS).map((postion) => (
-                          <SelectGroup key={postion.label}>
-                            <SelectLabel className="font-bold">
-                              {tPosition(postion.label)}
-                            </SelectLabel>
-                            {Object.entries(postion.subs).map(
-                              ([value, label]) => (
-                                <SelectItem key={value} value={value}>
-                                  {tPosition(label)}
-                                </SelectItem>
-                              )
-                            )}
-                          </SelectGroup>
+                        {POSITIONS.map((position) => (
+                          <SelectItem key={position} value={position}>
+                            {tPosition(position)}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -154,19 +143,10 @@ const AchievementForm = ({ form }: IProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.values(MAJORS).map((major) => (
-                          <SelectGroup key={major.label}>
-                            <SelectLabel className="font-bold">
-                              {tMajor(major.label)}
-                            </SelectLabel>
-                            {Object.entries(major.subs).map(
-                              ([value, label]) => (
-                                <SelectItem key={value} value={value}>
-                                  {tMajor(label)}
-                                </SelectItem>
-                              )
-                            )}
-                          </SelectGroup>
+                        {MAJORS.map((major) => (
+                          <SelectItem key={major} value={major}>
+                            {tMajor(major)}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -199,17 +179,10 @@ const AchievementForm = ({ form }: IProps) => {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        {Object.values(CERTIFICATIONS).map((cer) => (
-                          <SelectGroup key={cer.label}>
-                            <SelectLabel className="font-bold">
-                              {tCertification(cer.label)}
-                            </SelectLabel>
-                            {Object.entries(cer.subs).map(([value, label]) => (
-                              <SelectItem key={value} value={value}>
-                                {tCertification(label)}
-                              </SelectItem>
-                            ))}
-                          </SelectGroup>
+                        {CERTIFICATIONS.map((certification) => (
+                          <SelectItem key={certification} value={certification}>
+                            {tCertification(certification)}
+                          </SelectItem>
                         ))}
                       </SelectContent>
                     </Select>
@@ -297,27 +270,14 @@ const AchievementForm = ({ form }: IProps) => {
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
-                    {Object.values(renderOrganizationSelect(index)).map(
-                      (major) => (
-                        <SelectGroup key={major.label}>
-                          <SelectLabel className="font-bold">
-                            {renderOrganizationSelectItem(index, major.label)}
-                          </SelectLabel>
-
-                          {Object.values(major.subs).map((item) => (
-                            <SelectItem
-                              key={item as string}
-                              value={item as string}
-                            >
-                              {renderOrganizationSelectItem(
-                                index,
-                                item as string
-                              )}
-                            </SelectItem>
-                          ))}
-                        </SelectGroup>
-                      )
-                    )}
+                    {renderOrganizationSelect(index).map((item: string) => (
+                      <SelectItem key={item} value={item}>
+                        {renderOrganizationSelectItem(
+                          index,
+                          item.toLowerCase()
+                        )}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </FormControl>
