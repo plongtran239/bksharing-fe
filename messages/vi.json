@@ -89,19 +89,41 @@
   },
   "notification": {
     "title": {
-      "Report Resolved": "Báo cáo đã được giải quyết",
+      "New Course Created": "Khóa học mới được tạo",
+      "Course Updated": "Khóa học đã được cập nhật",
+      "Course Deleted": "Khóa học đã bị xóa",
+      "Course Approved": "Khóa học đã được duyệt",
+      "Course Rejected": "Khóa học đã bị từ chối",
+      "Course Reported": "Báo cáo khóa học",
+
+      "Course Suspension Warn": "Cảnh báo đình chỉ khóa học",
+      "Course Suspended": "Khóa học đã bị đình chỉ",
+      "Course Not Yet Scheduled": "Khóa học chưa được lên lịch",
+
+      "Subscription Canceled": "Đăng ký học đã bị hủy",
+      "Subscription Refunded": "Đăng ký học đã được hoàn tiền",
+
+      "Mentor Registered": "Yêu cầu đăng ký gia sư",
+      "Mentor Approved": "Gia sư đã được duyệt",
+      "Mentor Rejected": "Gia sư đã bị từ chối",
+      "Mentor Reported": "Báo cáo gia sư",
+
+      "Audio Call Created": "Cuộc gọi âm thanh đã được tạo",
+      "Audio Call Started": "Cuộc gọi âm thanh đã bắt đầu",
+
       "Subscription Request": "Yêu cầu đăng ký học",
       "Subscription Approved": "Đăng ký học đã được duyệt",
+      "Subscription Rejected": "Đăng ký học đã bị từ chối",
       "Subscription Expired": "Đăng ký học đã hết hạn",
-      "Course Approved": "Khóa học đã được duyệt",
-      "Course Reported": "Báo cáo khóa học",
-      "New Course Created": "Khóa học mới được tạo",
+
       "Payment Successful": "Thanh toán thành công",
-      "Account Suspension Warning": "Cảnh báo đình chỉ tài khoản",
-      "Mentor Approved": "Gia sư đã được duyệt",
-      "Audio Call Created": "Cuộc gọi âm thanh đã được tạo",
-      "Mentor Registered": "Yêu cầu đăng ký gia sư",
-      "Mentor Reported": "Báo cáo gia sư"
+      "Payment Failed": "Thanh toán thất bại",
+
+      "Feedback Created": "Phản hồi mới",
+
+      "Report Resolved": "Báo cáo đã được giải quyết",
+
+      "Account Suspension Warning": "Cảnh báo đình chỉ tài khoản"
     }
   },
   "dateOfWeek": {

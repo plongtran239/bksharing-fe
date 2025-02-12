@@ -3,7 +3,7 @@ import { Formats, TranslationValues } from "next-intl";
 import subscriptionApi from "@/apis/subscription.api";
 import Section from "@/app/(mentor)/mentor/requests/[id]/components/section";
 import StartButton from "@/app/(mentor)/mentor/subscriptions/[id]/components/start-button";
-import StudentTable from "@/app/(mentor)/mentor/subscriptions/[id]/components/student-table";
+import StudentCard from "@/app/(mentor)/mentor/subscriptions/[id]/components/student-card";
 import { Separator } from "@/components/ui/separator";
 import { DATE_TIME_FORMAT_OPTIONS, LOCALE } from "@/constants/date";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
@@ -43,6 +43,12 @@ const DetailSubscription = async ({
             <span className="text-secondary-foreground">
               {tSubscriptionStatus(data.status.toLowerCase())}
             </span>
+          </div>
+
+          <div>
+            <div className="mb-[2px] mr-2 inline-block h-2 w-2 rounded-full bg-primary" />
+            <span>Số lượng đăng ký: </span>
+            <span className="text-secondary-foreground">{data.ids.length}</span>
           </div>
 
           <div>
@@ -115,11 +121,17 @@ const DetailSubscription = async ({
       </div>
 
       <div>
-        <h1 className="text-lg font-semibold text-primary">
+        {/* <h1 className="text-lg font-semibold text-primary">
           Danh sách học viên
-        </h1>
+        </h1> */}
 
-        <StudentTable data={data} />
+        {/* <StudentTable data={data} /> */}
+
+        <div className="h-[640px] space-y-5 overflow-y-scroll">
+          {data.combinedStudents.map((student) => (
+            <StudentCard key={student.info.id} student={student} />
+          ))}
+        </div>
       </div>
     </div>
   );

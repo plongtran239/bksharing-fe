@@ -73,14 +73,19 @@ const NotificationItem = ({
 
   const generateContent = () => {
     switch (notification.title) {
+      case "New Course Created":
+        return "Một gia sư đã tạo khóa học mới và đang chờ duyệt";
       case "Course Reported":
         return "Một khóa học đã bị báo cáo";
       case "Course Approved":
         return "Khóa học của bạn đã được duyệt";
+      case "Course Rejected":
+        return "Khóa học của bạn đã bị từ chối";
+      case "Course Reported":
+        return "Khóa học của bạn đã bị báo cáo";
+
       case "Subscription Request":
         return "Bạn có yêu cầu đăng ký mới";
-      case "New Course Created":
-        return "Một gia sư đã tạo khóa học mới và đang chờ duyệt";
       case "Subscription Approved":
         return "Yêu cầu đăng ký của bạn đã được duyệt";
       case "Payment Successful":
@@ -91,12 +96,18 @@ const NotificationItem = ({
         return "Tài khoản của bạn sắp bị tạm khóa";
       case "Mentor Approved":
         return "Yêu cầu trở thành gia sư của bạn đã được duyệt";
+
       case "Audio Call Created":
         return "Bạn có cuộc gọi mới";
+      case "Audio Call Started":
+        return "Cuộc gọi đã bắt đầu";
+
       case "Mentor Registered":
         return "Có một gia sư mới đăng ký";
       case "Mentor Reported":
         return "Một gia sư đã bị báo cáo";
+      case "Feedback Created":
+        return "Bạn có một phản hồi mới";
       default:
         break;
     }

@@ -163,7 +163,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
             <div className="h-2 w-2 rounded-full bg-red-400" />
             <p className="w-[500px]">
               Hướng giải quyết: {""}
-              <span className="text-red-400">
+              <span className="capitalize text-red-400">
                 {subscriptionDetail.report.resolution || "Chưa có"}
               </span>
             </p>

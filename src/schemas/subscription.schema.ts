@@ -191,6 +191,44 @@ const CombinationSubscription = z.object({
   }),
 });
 
+const StudentSubscription = z.object({
+  info: z.object({
+    id: z.number(),
+    name: z.string(),
+    email: z.string(),
+    gender: z.nativeEnum(GENDERS),
+    phoneNumber: z.string(),
+    dob: z.string(),
+    thumbnail: z
+      .object({
+        fileId: z.number(),
+        fileName: z.string(),
+        fileSize: z.number(),
+        originalUrl: z.string(),
+        versions: z.array(z.unknown()),
+      })
+      .nullable(),
+  }),
+  feeback: z
+    .object({
+      id: z.number(),
+      courseRating: z.number(),
+      mentorRating: z.number(),
+      courseReview: z.string(),
+      mentorReview: z.string(),
+    })
+    .nullable(),
+  report: z
+    .object({
+      id: z.number(),
+      type: z.nativeEnum(REPORT_TYPE),
+      description: z.string(),
+      status: z.nativeEnum(REPORT_STATUS),
+      resolution: z.string(),
+    })
+    .nullable(),
+});
+
 const DetailCombinationSubscription = z.object({
   ids: z.array(z.number()),
   status: z.nativeEnum(SUBSCRIPTION_STATUS),
@@ -222,27 +260,7 @@ const DetailCombinationSubscription = z.object({
     status: z.nativeEnum(MEETING_STATUS),
     cid: z.string(),
   }),
-  combinedStudents: z.array(
-    z.object({
-      info: z.object({
-        id: z.number(),
-        name: z.string(),
-        email: z.string(),
-        gender: z.nativeEnum(GENDERS),
-        phoneNumber: z.string(),
-        dob: z.string(),
-        thumbnail: z
-          .object({
-            fileId: z.number(),
-            fileName: z.string(),
-            fileSize: z.number(),
-            originalUrl: z.string(),
-            versions: z.array(z.unknown()),
-          })
-          .nullable(),
-      }),
-    })
-  ),
+  combinedStudents: z.array(StudentSubscription),
 });
 
 type SubscriptionType = z.infer<typeof Subscription>;
@@ -252,6 +270,8 @@ type SubscriptionDetailType = z.infer<typeof SubscriptionDetail>;
 type MentorSubscriptionType = z.infer<typeof MentorSubscription>;
 
 type AdminSubscriptionType = z.infer<typeof AdminSubscription>;
+
+type StudentSubscriptionType = z.infer<typeof StudentSubscription>;
 
 type CombinationSubscriptionType = z.infer<typeof CombinationSubscription>;
 
@@ -266,6 +286,7 @@ export type {
   SubscriptionDetailType,
   MentorSubscriptionType,
   AdminSubscriptionType,
+  StudentSubscriptionType,
   CombinationSubscriptionType,
   DetailCombinationSubscriptionType,
 };

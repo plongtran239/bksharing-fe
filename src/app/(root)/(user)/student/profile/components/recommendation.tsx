@@ -31,7 +31,7 @@ const Recommendation = () => {
 
         const {
           payload: { recommendations },
-        } = await recommandationApi.getCollaborativeMentorRecommandations(
+        } = await recommandationApi.getContentBasedMentorRecommandations(
           user.id
         );
 
