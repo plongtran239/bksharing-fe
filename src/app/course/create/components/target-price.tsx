@@ -5,7 +5,6 @@ import { MultiSelect } from "@/components/multi-select";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { TARGET_AUDIENCE } from "@/constants/enum";
-import { convertToCapitalizeCase } from "@/lib/utils";
 import { CourseRequestType } from "@/schemas";
 
 const TargetAudiencePrice = ({

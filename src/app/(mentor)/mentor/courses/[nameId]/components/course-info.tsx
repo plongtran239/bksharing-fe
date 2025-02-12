@@ -1,7 +1,6 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { vi } from "date-fns/locale";
 import { PlusIcon, TrashIcon } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
@@ -14,7 +13,6 @@ import FileInput from "@/components/file-input";
 import Loader from "@/components/loader";
 import { MultiSelect } from "@/components/multi-select";
 import { Button } from "@/components/ui/button";
-import { DateTimePicker } from "@/components/ui/datetime-picker";
 import {
   Form,
   FormControl,

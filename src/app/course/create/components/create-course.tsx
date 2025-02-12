@@ -9,7 +9,6 @@ import courseApi from "@/apis/course.api";
 import ChooseCategory from "@/app/course/create/components/choose-category";
 import InputInfo from "@/app/course/create/components/input-info";
 import PrerequisiteObjective from "@/app/course/create/components/prerequisite-obj";
-import SetDate from "@/app/course/create/components/set-date";
 import TargetAudiencePrice from "@/app/course/create/components/target-price";
 import { COURSE_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";

@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-import { MIN_DATE } from "@/constants/date";
 import { COURSE_STATUS, TARGET_AUDIENCE } from "@/constants/enum";
 
 const SectionRequest = z.object({
