@@ -13,7 +13,6 @@ const ORGANIZATIONS = [
   "the open group",
   "agile alliance",
   "scrum alliance",
-  "scrum.org",
   "itil (axelos)",
   "kubernetes (cncf - cloud native computing foundation)",
   "offensive security",

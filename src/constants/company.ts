@@ -61,7 +61,6 @@ const COMPANIES = [
   "fpt shop",
   "lotte mart vietnam",
   "big c vietnam (go!)",
-  "co.op mart",
   "circle k vietnam",
   "7-eleven vietnam",
   "manufacturing & industry",
