@@ -1,4 +1,9 @@
 const COMPANIES = [
+  "aws (amazon web services)",
+  "microsoft",
+  "google",
+  "freelance",
+  "rmit university vietnam (rmit)",
   "vintech (vingroup)",
   "fpt corporation",
   "viettel group",

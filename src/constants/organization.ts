@@ -5,6 +5,8 @@ const ORGANIZATIONS = [
   "cisco systems",
   "red hat",
   "isc2 (international information system security certification consortium)",
+  "adobe",
+  "facebook",
   "isaca",
   "oracle university",
   "linux professional institute (lpi)",

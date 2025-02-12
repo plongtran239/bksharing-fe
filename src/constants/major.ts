@@ -31,6 +31,7 @@ const MAJORS = [
   "advertising",
   "finance",
   "banking",
+  "mathematics",
   "investment banking",
   "financial engineering",
   "accounting",

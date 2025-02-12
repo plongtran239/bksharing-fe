@@ -7,6 +7,7 @@ import {
   PencilIcon,
   PlusIcon,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,7 +30,7 @@ import {
 } from "@/components/ui/tooltip";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
-import { cn, convertToCapitalizeCase } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import {
   AchivementRequest,
   AchivementRequestType,
@@ -67,6 +68,8 @@ const ProfileSection = ({
   const [deleteAchievementId, setDeleteAchievementId] = useState<
     number | undefined
   >();
+
+  const t = useTranslations("authPage.register.mentorForm.achievementForm");
 
   const [bioValue, setBioValue] = useState(bio || "");
 
@@ -299,6 +302,7 @@ const ProfileSection = ({
                     setEditAchievementId(achievement.id);
                   }}
                   handleDelete={() => setDeleteAchievementId(achievement.id)}
+                  type={achievement.type}
                 />
               ))
             ) : (
@@ -311,7 +315,7 @@ const ProfileSection = ({
         <AchievementModal
           key={achievementType}
           isOpen={isOpenModal && type === achievementType}
-          title={`${isEdit ? "Chỉnh sửa" : "Thêm"} ${convertToCapitalizeCase(achievementType)}`}
+          title={`${isEdit ? "Chỉnh sửa" : "Thêm"} ${t(achievementType.toLowerCase())}`}
           description={"Nhập thông tin"}
           type={achievementType as ACHIEVEMENT_TYPES | "ABOUT"}
           handleCancel={handleCancel}

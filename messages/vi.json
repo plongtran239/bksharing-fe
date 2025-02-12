@@ -273,6 +273,8 @@
     "information technology": "Công nghệ thông tin",
     "software engineering": "Kỹ thuật phần mềm",
     "computer science": "Khoa học máy tính",
+    "mathematics": "Toán học",
+
     "network engineering": "Kỹ thuật mạng",
     "cyber security": "Bảo mật thông tin",
     "data science": "Khoa học dữ liệu",
@@ -371,6 +373,7 @@
   },
 
   "school": {
+    "vietnam national university da nang (vnu da nang)": "Đại học Quốc gia Đà Nẵng (VNU Da Nang)",
     "vietnam national university hanoi (vnu hanoi)": "Đại học Quốc gia Hà Nội (VNU Hanoi)",
     "hanoi university of science and technology (hust)": "Đại học Bách Khoa Hà Nội (HUST)",
     "national economics university (neu)": "Đại học Kinh tế Quốc dân (NEU)",
@@ -391,6 +394,8 @@
     "hanoi open university": "Đại học Mở Hà Nội",
     "thuongmai university": "Đại học Thương mại",
     "vietnam university of commerce": "Đại học Kinh tế - Kỹ thuật Công nghiệp",
+
+    "ho chi minh city university of science and technology (hcmut)": "Đại học Bách Khoa Thành phố Hồ Chí Minh (HCMUT)",
 
     "vietnam national university da nang (vnu danang)": "Đại học Quốc gia Đà Nẵng (VNU Danang)",
     "da nang university of science and technology (dut)": "Đại học Bách Khoa Đà Nẵng (DUT)",
@@ -465,15 +470,43 @@
 
   "position": {
     "software engineer": "Kỹ sư Phần mềm",
+    "ux designer": "Nhà thiết kế UX",
+
+    "senior data analyst": "Nhân viên Phân tích Dữ liệu cấp cao",
+
+    "senior financial analyst": "Nhà phân tích Tài chính cấp cao",
+
+    "backend architect": "Kiến trúc sư Backend",
+    "cybersecurity engineer": "Kỹ sư An ninh mạng",
+
+    "senior ux researcher": "Nhà nghiên cứu UX cấp cao",
+    "software developer": "Lập trình viên Phần mềm",
+    "senior software engineer": "Kỹ sư Phần mềm cấp cao",
+    "software architect": "Kiến trúc sư Phần mềm",
+    "cloud architect": "Kiến trúc sư Đám mây",
+    "cloud solutions consultant": "Chuyên viên Giải pháp Đám mây",
+    "data analyst": "Nhân viên Phân tích Dữ liệu",
+    "senior data engineer": "Kỹ sư Dữ liệu cấp cao",
+    "senior data scientist": "Nhà khoa học dữ liệu cấp cao",
+    "senior blockchain developer": "Lập trình viên Blockchain cấp cao",
+
+    "senior graphic designer": "Nhà thiết kế Đồ họa cấp cao",
+    "visual design lead": "Trưởng nhóm Thiết kế Trực quan",
     "backend developer": "Lập trình viên Backend",
     "frontend developer": "Lập trình viên Frontend",
     "full stack developer": "Lập trình viên Full Stack",
     "mobile developer": "Lập trình viên Di động",
     "ai engineer": "Kỹ sư Trí tuệ Nhân tạo",
     "machine learning engineer": "Kỹ sư Machine Learning",
+    "ux/ui designer": "Nhà thiết kế UX/UI",
+
     "data scientist": "Nhà khoa học Dữ liệu",
     "data engineer": "Kỹ sư Dữ liệu",
     "big data analyst": "Nhà phân tích Dữ liệu Lớn",
+    "senior ai engineer": "Kỹ sư trí tuệ nhân tạo cấp cao",
+    "ai researcher": "Nhà nghiên cứu Trí tuệ Nhân tạo",
+    "cybersecurity specialist": "Chuyên gia An ninh mạng",
+    "senior security consultant": "Chuyên gia tư vấn bảo mật cấp cao",
     "cloud engineer": "Kỹ sư Đám mây",
     "devops engineer": "Kỹ sư DevOps",
     "site reliability engineer (sre)": "Kỹ sư Độ tin cậy Trang web (SRE)",
@@ -491,6 +524,8 @@
     "business analyst (it)": "Chuyên viên Phân tích Kinh doanh (IT)",
     "ui/ux designer": "Nhà thiết kế UI/UX",
     "product manager (it)": "Quản lý Sản phẩm (IT)",
+    "junior software engineer": "Kỹ sư Phần mềm tập sự",
+    "project manager": "Quản lý Dự án",
 
     "financial analyst": "Nhà phân tích Tài chính",
     "investment manager": "Quản lý Đầu tư",
@@ -525,6 +560,7 @@
     "aerospace engineer": "Kỹ sư Hàng không Vũ trụ",
     "chemical engineer": "Kỹ sư Hóa chất",
     "environmental engineer": "Kỹ sư Môi trường",
+    "senior network engineer": "Kỹ sư Mạng cấp cao",
 
     "graphic designer": "Nhà thiết kế Đồ họa",
     "motion graphics designer": "Nhà thiết kế Đồ họa Chuyển động",
@@ -556,6 +592,10 @@
   },
 
   "company": {
+    "aws (amazon web services)": "AWS (Amazon Web Services)",
+    "microsoft": "Microsoft",
+    "google": "Google",
+    "freelance": "Làm việc tự do",
     "vintech (vingroup)": "VinTech (Vingroup)",
     "fpt corporation": "Tập đoàn FPT",
     "viettel group": "Tập đoàn Viettel",
@@ -599,6 +639,7 @@
     "mb bank": "Ngân hàng MB Bank",
     "acb": "Ngân hàng ACB",
     "ocb": "Ngân hàng OCB",
+    "rmit university vietnam (rmit)": "Đại học RMIT Việt Nam (RMIT)",
     "hdbank": "Ngân hàng HDBank",
     "shinhan bank vietnam": "Ngân hàng Shinhan Việt Nam",
     "uob vietnam": "Ngân hàng UOB Việt Nam",
@@ -650,6 +691,8 @@
   },
 
   "certification": {
+    "google ux design professional certificate": "Chứng chỉ Chuyên gia Thiết kế UX của Google",
+    "adobe certified expert": "Adobe Certified Expert",
     "aws certified solutions architect": "AWS Certified Solutions Architect",
     "aws certified developer": "AWS Certified Developer",
     "aws certified sysops administrator": "AWS Certified SysOps Administrator",
@@ -720,6 +763,8 @@
   },
 
   "organization": {
+    "adobe": "Adobe",
+    "facebook": "Facebook",
     "amazon web services (aws)": "Dịch vụ Web của Amazon (AWS)",
     "microsoft": "Microsoft",
     "google": "Google",

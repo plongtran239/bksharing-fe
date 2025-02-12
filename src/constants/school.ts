@@ -1,6 +1,8 @@
 const SCHOOLS = [
   "vietnam national university hanoi (vnu hanoi)",
+  "ho chi minh city university of science and technology (hcmut)",
   "hanoi university of science and technology (hust)",
+  "vietnam national university da nang (vnu da nang)",
   "national economics university (neu)",
   "foreign trade university (ftu)",
   "post and telecommunications institute of technology (ptit)",
@@ -55,6 +57,7 @@ const SCHOOLS = [
   "rmit university vietnam (rmit)",
   "ho chi minh city university of architecture (hcmuac)",
   "ho chi minh city university of fine arts (hcmufa)",
+  "rmit university vietnam (rmit)",
   "saigon university (sgu)",
   "van lang university (vlu)",
   "ho chi minh city open university",

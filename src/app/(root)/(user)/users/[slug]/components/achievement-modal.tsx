@@ -1,4 +1,5 @@
 import { vi } from "date-fns/locale";
+import { useTranslations } from "next-intl";
 import { Dispatch, SetStateAction } from "react";
 import { UseFormReturn } from "react-hook-form";
 
@@ -22,9 +23,22 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import CERTIFICATIONS from "@/constants/certification";
+import COMPANIES from "@/constants/company";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
+import MAJORS from "@/constants/major";
+import ORGANIZATIONS from "@/constants/organization";
+import POSITIONS from "@/constants/position";
+import SCHOOLS from "@/constants/school";
+import { cn } from "@/lib/utils";
 import { AchivementRequestType } from "@/schemas";
 
 interface IModalProps {
@@ -57,6 +71,36 @@ const AchievementModal = ({
     [ACHIEVEMENT_TYPES.EXPERIENCE]: "position",
     [ACHIEVEMENT_TYPES.CERTIFICATION]: "name",
   }[type as ACHIEVEMENT_TYPES] as "major" | "position" | "name";
+
+  const organizationField = {
+    [ACHIEVEMENT_TYPES.EDUCATION]: "school",
+    [ACHIEVEMENT_TYPES.EXPERIENCE]: "company",
+    [ACHIEVEMENT_TYPES.CERTIFICATION]: "organization",
+  }[type as ACHIEVEMENT_TYPES] as "school" | "company" | "organization";
+
+  const t = useTranslations("authPage.register.mentorForm.achievementForm");
+
+  const renderField = (type: ACHIEVEMENT_TYPES) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return MAJORS;
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return POSITIONS;
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return CERTIFICATIONS;
+    }
+  };
+
+  const renderOrganizationField = (type: ACHIEVEMENT_TYPES) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return SCHOOLS;
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return COMPANIES;
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return ORGANIZATIONS;
+    }
+  };
 
   return (
     <Dialog open={isOpen} onOpenChange={handleCancel} modal>
@@ -94,18 +138,31 @@ const AchievementModal = ({
                       <FormLabel
                         htmlFor="achievementField"
                         required
-                        className="capitalize"
+                        className=""
                       >
-                        {achievementField}
+                        {t(achievementField)}
                       </FormLabel>
-                      <FormControl>
-                        <Input
-                          id="achievementField"
-                          // placeholder={`enter ${achievementField}...`}
-                          placeholder="nhập..."
-                          {...field}
-                        />
-                      </FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger
+                            className={cn("text-sm", {
+                              "text-muted-foreground": !field.value,
+                            })}
+                          >
+                            <SelectValue placeholder="chọn..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {renderField(type).map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}
@@ -117,15 +174,29 @@ const AchievementModal = ({
                   render={({ field }) => (
                     <FormItem>
                       <FormLabel htmlFor="organization" required>
-                        Nơi học tập / làm việc
+                        {t(organizationField)}
                       </FormLabel>
-                      <FormControl>
-                        <Input
-                          id="organization"
-                          placeholder="enter organization..."
-                          {...field}
-                        />
-                      </FormControl>
+                      <Select
+                        value={field.value}
+                        onValueChange={field.onChange}
+                      >
+                        <FormControl>
+                          <SelectTrigger
+                            className={cn("text-sm", {
+                              "text-muted-foreground": !field.value,
+                            })}
+                          >
+                            <SelectValue placeholder="chọn ..." />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          {renderOrganizationField(type).map((item) => (
+                            <SelectItem key={item} value={item}>
+                              {item}
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
                       <FormMessage />
                     </FormItem>
                   )}

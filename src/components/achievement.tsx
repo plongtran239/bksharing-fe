@@ -1,6 +1,7 @@
 "usse client";
 
 import { PencilIcon, TrashIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 import {
   Tooltip,
@@ -8,6 +9,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { cn, convertMilisecondsToLocaleDateString } from "@/lib/utils";
 
 interface IProps {
@@ -19,6 +21,7 @@ interface IProps {
   isEdit?: boolean;
   handleEdit?: () => void;
   handleDelete?: () => void;
+  type: ACHIEVEMENT_TYPES;
 }
 
 const Achievement = ({
@@ -30,12 +33,44 @@ const Achievement = ({
   isEdit,
   handleEdit,
   handleDelete,
+  type,
 }: IProps) => {
   const start = convertMilisecondsToLocaleDateString(startDate).slice(3);
 
   const end = endDate
     ? convertMilisecondsToLocaleDateString(endDate).slice(3)
     : "Hiện tại";
+
+  const tMajor = useTranslations("major");
+  const tSchool = useTranslations("school");
+
+  const tPosition = useTranslations("position");
+  const tCompany = useTranslations("company");
+
+  const tCertification = useTranslations("certification");
+  const tOrganization = useTranslations("organization");
+
+  const renderField = (field: string) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return tMajor(field);
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return tPosition(field);
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return tCertification(field);
+    }
+  };
+
+  const renderOrganization = (organization: string) => {
+    switch (type) {
+      case ACHIEVEMENT_TYPES.EDUCATION:
+        return tSchool(organization);
+      case ACHIEVEMENT_TYPES.EXPERIENCE:
+        return tCompany(organization);
+      case ACHIEVEMENT_TYPES.CERTIFICATION:
+        return tOrganization(organization);
+    }
+  };
 
   return (
     <div
@@ -45,12 +80,12 @@ const Achievement = ({
     >
       <div className="w-4/6 space-y-1">
         {/* name / position / major */}
-        <p className="text-lg font-semibold capitalize text-secondary-foreground">
-          {field}
+        <p className="text-lg font-semibold text-secondary-foreground">
+          {renderField(field)}
         </p>
 
         {/* organization */}
-        <p className="capitalize text-black">{organization}</p>
+        <p className="text-black">{renderOrganization(organization)}</p>
 
         {/* description */}
         <p className="text-sm text-foreground/70">

@@ -7,6 +7,8 @@ const CERTIFICATIONS = [
   "microsoft certified: azure solutions architect",
   "microsoft certified: azure administrator",
   "microsoft certified: azure security engineer",
+  "adobe certified expert",
+  "google ux design professional certificate",
   "comptia a+",
   "comptia network+",
   "comptia security+",

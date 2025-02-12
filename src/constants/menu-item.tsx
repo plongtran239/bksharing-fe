@@ -75,7 +75,16 @@ const MentorAvatarDropdownMenuItems: MenuItemsType = [
     href: "/users/profile",
     icon: <UserIcon size={16} />,
   },
-  ...StudentAvatarDropdownMenuItems,
+  {
+    label: "changePassword",
+    href: "/change-password",
+    icon: <KeyRoundIcon size={16} />,
+  },
+  {
+    label: "personalInformation",
+    href: "/user-info",
+    icon: <InfoIcon size={16} />,
+  },
   {
     label: "mentorDashboard",
     href: "/mentor/appointments",
