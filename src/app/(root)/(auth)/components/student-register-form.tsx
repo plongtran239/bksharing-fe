@@ -16,9 +16,7 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -124,7 +122,7 @@ const StudentRegisterForm = () => {
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
-                      {Object.values(MAJORS).map((major) => (
+                      {/* {Object.values(MAJORS).map((major) => (
                         <SelectGroup key={major.label}>
                           <SelectLabel className="font-bold">
                             {tMajor(major.label)}
@@ -135,6 +133,12 @@ const StudentRegisterForm = () => {
                             </SelectItem>
                           ))}
                         </SelectGroup>
+                      ))} */}
+
+                      {MAJORS.map((major) => (
+                        <SelectItem key={major} value={major}>
+                          {tMajor(major)}
+                        </SelectItem>
                       ))}
                     </SelectContent>
                   </Select>
