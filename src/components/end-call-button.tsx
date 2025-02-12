@@ -46,9 +46,6 @@ const EndCallButton = () => {
         case ROLES.MENTOR:
           router.push("/mentor/dashboard");
           break;
-        case ROLES.STUDENT:
-          router.push("/subscriptions");
-          break;
         default:
           break;
       }

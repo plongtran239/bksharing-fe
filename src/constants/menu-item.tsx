@@ -1,4 +1,5 @@
 import {
+  BookCheckIcon,
   BookCopyIcon,
   CalendarIcon,
   GraduationCapIcon,
@@ -212,7 +213,7 @@ const MentorSidebarMenuItems: MenuItemsType = [
   {
     label: "subscriptions",
     href: "/mentor/subscriptions",
-    icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
+    icon: <BookCheckIcon size={18} strokeWidth={2.5} />,
     subs: [
       ...Object.values([
         SUBSCRIPTION_STATUS.ACTIVE,
@@ -228,10 +229,6 @@ const MentorSidebarMenuItems: MenuItemsType = [
     href: "/mentor/requests",
     icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
     subs: [
-      // {
-      //   label: "all",
-      //   href: "/mentor/requests",
-      // },
       ...Object.values([
         SUBSCRIPTION_STATUS.PENDING,
         SUBSCRIPTION_STATUS.ACCEPTED,

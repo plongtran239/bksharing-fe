@@ -8,6 +8,7 @@ import {
   COURSE_STATUS,
   NOTIFICATION_RELATION_TYPE,
   ROLES,
+  SUBSCRIPTION_STATUS,
 } from "@/constants/enum";
 import { cn, convertMilisecondsToLocaleString } from "@/lib/utils";
 import { useAppContext } from "@/providers/app.provider";
@@ -30,13 +31,20 @@ const NotificationItem = ({
       return;
     }
 
+    switch (notification.title) {
+      case "Mentor Reported":
+        if (user.accountType === ROLES.ADMIN) {
+          router.push("/admin/reports?status=PENDING");
+        }
+    }
+
     switch (notification.relationType) {
       case NOTIFICATION_RELATION_TYPE.SUBSCRIPTION:
         if (user.accountType === ROLES.STUDENT) {
           router.push("/subscriptions");
         }
         if (user.accountType === ROLES.MENTOR) {
-          router.push("/mentor/requests");
+          router.push(`/mentor/requests?status=${SUBSCRIPTION_STATUS.PENDING}`);
         }
         break;
 
@@ -87,6 +95,8 @@ const NotificationItem = ({
         return "Bạn có cuộc gọi mới";
       case "Mentor Registered":
         return "Có một gia sư mới đăng ký";
+      case "Mentor Reported":
+        return "Một gia sư đã bị báo cáo";
       default:
         break;
     }

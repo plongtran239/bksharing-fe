@@ -159,7 +159,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
             </p>
           </div>
 
-          {/* <div className="flex items-center gap-5">
+          <div className="flex items-center gap-5">
             <div className="h-2 w-2 rounded-full bg-red-400" />
             <p className="w-[500px]">
               Hướng giải quyết: {""}
@@ -167,7 +167,7 @@ const SubscriptionDetail = ({ activeItemId }: IProps) => {
                 {subscriptionDetail.report.resolution || "Chưa có"}
               </span>
             </p>
-          </div> */}
+          </div>
         </>
       )}
     </div>

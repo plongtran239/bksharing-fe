@@ -5,13 +5,16 @@ import { useState } from "react";
 
 import reportApi from "@/apis/report.api";
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogFooter,
   DialogHeader,
+  DialogTitle,
 } from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { REPORT_STATUS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
@@ -20,6 +23,7 @@ const Resolution = ({ reportId }: { reportId: number }) => {
   const router = useRouter();
   const { toast } = useToast();
 
+  const [isAccept, setIsAccept] = useState(false);
   const [resolution, setResolution] = useState("");
 
   const [open, setOpen] = useState(false);
@@ -28,7 +32,7 @@ const Resolution = ({ reportId }: { reportId: number }) => {
     try {
       await reportApi.resolveSubscriptionReport(reportId, {
         resolution,
-        status: REPORT_STATUS.RESOLVED,
+        status: isAccept ? REPORT_STATUS.RESOLVED : REPORT_STATUS.REJECTED,
       });
 
       toast({
@@ -54,14 +58,27 @@ const Resolution = ({ reportId }: { reportId: number }) => {
         onOpenChange={() => {
           setOpen(!open);
           setResolution("");
+          setIsAccept(false);
         }}
       >
         <DialogContent>
           <DialogHeader className="text-xl font-semibold text-primary">
-            Xử lý báo cáo
+            <DialogTitle>Xử lý báo cáo</DialogTitle>
+            <DialogDescription>
+              Bạn đang xử lý báo cáo #{reportId}
+            </DialogDescription>
           </DialogHeader>
-          <DialogDescription>Nhập hướng giải quyết báo cáo</DialogDescription>
 
+          <div className="flex items-center gap-2">
+            <Checkbox
+              checked={isAccept}
+              id="checkbox"
+              onCheckedChange={() => setIsAccept(!isAccept)}
+            />
+            <Label htmlFor="checkbox">Chấp nhận</Label>
+          </div>
+
+          <Label>Nhập hướng giải quyết</Label>
           <Textarea
             value={resolution}
             onChange={(e) => setResolution(e.target.value)}
@@ -74,6 +91,7 @@ const Resolution = ({ reportId }: { reportId: number }) => {
               onClick={() => {
                 setOpen(false);
                 setResolution("");
+                setIsAccept(false);
               }}
             >
               Hủy

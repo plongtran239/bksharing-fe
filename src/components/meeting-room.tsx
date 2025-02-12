@@ -98,7 +98,20 @@ const MeetingRoom = () => {
     return (
       <div className="flex-center h-screen gap-5">
         <p>Đã rời khỏi cuộc gọi</p>
-        <Link href={"/"}>
+        <Link
+          href={(() => {
+            switch (user.accountType) {
+              case ROLES.ADMIN:
+                return "/admin/dashboard";
+              case ROLES.MENTOR:
+                return `/mentor/dashboard`;
+              case ROLES.STUDENT:
+                return "/subscriptions";
+              default:
+                return "/";
+            }
+          })()}
+        >
           <Button>Back</Button>
         </Link>
       </div>
