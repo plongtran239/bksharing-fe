@@ -26,25 +26,26 @@ const PrerequisiteObjective = ({
 
   return (
     <div className="container space-y-10 text-center">
-      <h1 className="text-3xl font-semibold text-secondary-foreground">
-        Enter the course prerequisites and objectives.
-      </h1>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold text-secondary-foreground">
+          Mục tiêu và yêu cầu của khóa học
+        </h1>
 
-      <p className="text-center text-black">
-        Tell your students what they need to know before taking this course.
-      </p>
+        <p className="text-center text-black">
+          Hãy cho học viên biết mục tiêu và yêu cầu của khóa học của bạn
+        </p>
+      </div>
 
-      <div className="space-y-10">
+      <div className="grid grid-cols-2 gap-10">
         <div className="flex-center flex-col gap-3">
-          <Label htmlFor="objectives" className="text-left">
-            Course objectives (at least 1)
+          <Label htmlFor="objectives" className="text-left" required>
+            Mục tiêu của khóa học
           </Label>
 
           {objectives.map((objective, index) => (
             <div key={index} className="flex-center w-full gap-2">
               <Input
-                placeholder="Enter course objectives..."
-                className="w-1/2"
+                placeholder="Nhập mục tiêu của khóa học (tối thiểu 1)"
                 value={objective}
                 onChange={(e) => {
                   const newObjectives = [...objectives];
@@ -55,6 +56,8 @@ const PrerequisiteObjective = ({
               />
               <Button
                 onClick={() => {
+                  if (objectives.length === 1) return;
+
                   const newObjectives = [...objectives];
                   newObjectives.splice(index, 1);
                   setObjectives(newObjectives);
@@ -67,26 +70,27 @@ const PrerequisiteObjective = ({
             </div>
           ))}
 
-          <Button
-            variant="ghost"
-            onClick={() => setObjectives([...objectives, ""])}
-            className="flex-center gap-2 px-3 text-primary"
-          >
-            <PlusIcon size={16} />
-            Add more objective
-          </Button>
+          {objectives.length < 5 && (
+            <Button
+              variant="ghost"
+              onClick={() => setObjectives([...objectives, ""])}
+              className="flex-center gap-2 px-3 text-primary"
+            >
+              <PlusIcon size={16} />
+              Thêm mục tiêu
+            </Button>
+          )}
         </div>
 
         <div className="flex-center flex-col gap-3">
           <Label htmlFor="prerequisites" className="text-left">
-            Course prerequisites / requirements
+            Yêu cầu của khóa học
           </Label>
 
           {prerequisites.map((pre, index) => (
             <div key={index} className="flex-center w-full gap-2">
               <Input
-                placeholder="Enter course prerequisites / requirements..."
-                className="w-1/2"
+                placeholder="Nhập yêu cầu của khóa học"
                 value={pre}
                 onChange={(e) => {
                   const newPrerequisites = [...prerequisites];
@@ -97,6 +101,8 @@ const PrerequisiteObjective = ({
               />
               <Button
                 onClick={() => {
+                  if (prerequisites.length === 1) return;
+
                   const newPrerequisites = [...prerequisites];
                   newPrerequisites.splice(index, 1);
                   setPrerequisites(newPrerequisites);
@@ -109,14 +115,16 @@ const PrerequisiteObjective = ({
             </div>
           ))}
 
-          <Button
-            variant="ghost"
-            onClick={() => setPrerequisites([...prerequisites, ""])}
-            className="flex-center gap-2 px-3 text-primary"
-          >
-            <PlusIcon size={16} />
-            Add more prerequisite / requirement
-          </Button>
+          {prerequisites.length < 5 && (
+            <Button
+              variant="ghost"
+              onClick={() => setPrerequisites([...prerequisites, ""])}
+              className="flex-center gap-2 px-3 text-primary"
+            >
+              <PlusIcon size={16} />
+              Thêm yêu cầu
+            </Button>
+          )}
         </div>
       </div>
     </div>

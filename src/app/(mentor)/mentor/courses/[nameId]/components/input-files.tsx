@@ -84,8 +84,8 @@ const InputFiles = ({
       });
 
       toast({
-        title: "Success",
-        description: "File uploaded successfully!",
+        title: "Thành công",
+        description: "Tải tệp thành công!",
       });
 
       router.refresh();
@@ -105,8 +105,8 @@ const InputFiles = ({
       });
 
       toast({
-        title: "Success",
-        description: "File deleted successfully!",
+        title: "Thành công",
+        description: "Xóa tệp thành công!",
       });
 
       setIsOpenDialog(false);
@@ -177,7 +177,7 @@ const InputFiles = ({
           ) : (
             <>
               <PlusIcon size={16} />
-              Resources
+              Tài liệu
             </>
           )}
         </Button>

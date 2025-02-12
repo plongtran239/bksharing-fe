@@ -31,49 +31,34 @@ const Section = z.object({
   files: z.array(SectionFile),
 });
 
-const CourseRequest = z
-  .object({
-    name: z.string().min(1, {
-      message: "Course name must be at least 1 character long",
-    }),
-    description: z.string().optional(),
-    totalDuration: z.number(),
-    categoryId: z.number(),
-    objectives: z
-      .array(
-        z.string().min(1, {
-          message: "Objective must be at least 1 character long",
-        })
-      )
-      .min(1, {
-        message: "Course must have at least 1 objective",
-      }),
-    prerequisites: z.array(
+const CourseRequest = z.object({
+  name: z.string().min(1, {
+    message: "Course name must be at least 1 character long",
+  }),
+  description: z.string().optional(),
+  totalDuration: z.number(),
+  limitOfStudents: z.number().min(1).max(10),
+  categoryId: z.number(),
+  objectives: z
+    .array(
       z.string().min(1, {
-        message: "Prerequisite must be at least 1 character long",
+        message: "Objective must be at least 1 character long",
       })
-    ),
-    price: z.number().min(1000, { message: "Price must be at least 1000" }),
-    targetAudiences: z
-      .array(z.nativeEnum(TARGET_AUDIENCE))
-      .min(1, { message: "Course must have at least 1 target audience" }),
-    startDate: z.date(),
-    endDate: z.date().min(new Date(MIN_DATE), {
-      message: `must be greater than ${MIN_DATE}`,
+    )
+    .min(1, {
+      message: "Course must have at least 1 objective",
     }),
-    status: z.nativeEnum(COURSE_STATUS).optional(),
-    isPublic: z.boolean().default(false),
-    imageId: z.number().optional(),
-  })
-  .superRefine(({ startDate, endDate }, ctx) => {
-    if (endDate && startDate >= endDate) {
-      ctx.addIssue({
-        code: "custom",
-        message: "must be greater than start date",
-        path: ["endDate"],
-      });
-    }
-  });
+  prerequisites: z.array(z.string()),
+  price: z.number().min(1000, { message: "Price must be at least 1000" }),
+  targetAudiences: z
+    .array(z.nativeEnum(TARGET_AUDIENCE))
+    .min(1, { message: "Course must have at least 1 target audience" }),
+  startDate: z.date().optional(),
+  endDate: z.date().optional(),
+  status: z.nativeEnum(COURSE_STATUS).optional(),
+  isPublic: z.boolean().default(false),
+  imageId: z.number().optional(),
+});
 
 const CourseBase = z.object({
   id: z.number(),
@@ -119,7 +104,7 @@ const Course = CourseBase.extend({
 const CourseDetail = CourseBase.extend({
   isPublic: z.boolean(),
   isApproved: z.boolean(),
-  limitOfStudents: z.number(),
+  litmitOfStudents: z.number(),
   sections: z.array(Section),
   createdAt: z.string(),
 });

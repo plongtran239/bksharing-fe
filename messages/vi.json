@@ -20,6 +20,13 @@
     "SUBSCRIPTION_ACTIVE_OVERLAP_SCHEDULE": "Không thể đăng ký khóa học này vì trùng lịch với khóa học khác"
   },
 
+  "targetAudience": {
+    "BEGINNER": "Mới bắt đầu",
+    "INTERMEDIATE": "Trung cấp",
+    "ADVANCED": "Nâng cao",
+    "EXPERT": "Chuyên gia"
+  },
+
   "report": {
     "mentor_issues": "Gia sư không đạt chất lượng",
     "course_unqualified": "Khóa học không đạt chất lượng",

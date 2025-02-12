@@ -136,9 +136,11 @@ const SectionModal = ({
                 name="title"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="title">Title</FormLabel>
+                    <FormLabel htmlFor="title" required>
+                      Tiêu đề
+                    </FormLabel>
                     <FormControl>
-                      <Input id="title" placeholder="title..." {...field} />
+                      <Input id="title" placeholder="Nhập tiêu đề" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -150,13 +152,9 @@ const SectionModal = ({
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel htmlFor="desc">Description</FormLabel>
+                    <FormLabel htmlFor="desc">Mô tả</FormLabel>
                     <FormControl>
-                      <Textarea
-                        id="desc"
-                        placeholder="description..."
-                        {...field}
-                      />
+                      <Textarea id="desc" placeholder="Nhập mô tả" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -168,7 +166,7 @@ const SectionModal = ({
                 name="isPublic"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Visibility</FormLabel>
+                    <FormLabel required>Hiển thị</FormLabel>
                     <FormControl>
                       <Select
                         defaultValue={field.value ? "Public" : "Private"}
@@ -180,8 +178,8 @@ const SectionModal = ({
                           <SelectValue placeholder="select visibility"></SelectValue>
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="Private">Private</SelectItem>
-                          <SelectItem value="Public">Public</SelectItem>
+                          <SelectItem value="Private">Riêng tư</SelectItem>
+                          <SelectItem value="Public">Công khai</SelectItem>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -192,13 +190,19 @@ const SectionModal = ({
 
               <DialogFooter>
                 <Button variant="outline" onClick={cancel}>
-                  Cancel
+                  Hủy
                 </Button>
                 <Button
                   onClick={() => onSubmit(form.getValues())}
                   disabled={!form.formState.isDirty || isLoading}
                 >
-                  {isLoading ? <Loader /> : editSection ? "Update" : "Add"}
+                  {isLoading ? (
+                    <Loader />
+                  ) : editSection ? (
+                    "Cập nhật"
+                  ) : (
+                    "Thêm mới"
+                  )}
                 </Button>
               </DialogFooter>
             </form>

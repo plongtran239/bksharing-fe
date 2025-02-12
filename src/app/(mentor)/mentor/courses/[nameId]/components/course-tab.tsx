@@ -22,13 +22,13 @@ const CourseTab = ({ course }: { course: CourseDetailType }) => {
     >
       <div className="flex-center flex-col">
         <TabsList defaultValue="info">
-          <TabsTrigger value="info">Information</TabsTrigger>
-          <TabsTrigger value="content">Curriculum</TabsTrigger>
-          <TabsTrigger value="setting">Settings</TabsTrigger>
+          <TabsTrigger value="info">Thông tin</TabsTrigger>
+          <TabsTrigger value="content">Nội dung</TabsTrigger>
+          <TabsTrigger value="setting">Cài đặt</TabsTrigger>
         </TabsList>
         <p className="mt-1 text-sm">
           {isEdit &&
-            "You are editing the course. Don't forget to save your changes."}
+            "Bạn đang chỉnh sửa khóa học. Đừng quên lưu thay đổi của bạn."}
         </p>
       </div>
 

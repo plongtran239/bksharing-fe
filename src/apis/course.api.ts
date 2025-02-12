@@ -15,8 +15,9 @@ const courseApi = {
       ...body,
       price: Number(body.price),
       totalDuration: Number(body.totalDuration),
-      startDate: convertDateToLocaleDateString(body.startDate),
-      endDate: convertDateToLocaleDateString(body.endDate),
+      startDate: "01/01/2025",
+      endDate: "31/12/2025",
+      limitOfStudents: Number(body.limitOfStudents),
     }),
 
   getCourses: ({

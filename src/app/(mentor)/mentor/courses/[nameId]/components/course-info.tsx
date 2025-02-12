@@ -81,6 +81,7 @@ const CourseInfo = ({
         course.prerequisites.length > 0 ? course.prerequisites : [],
       startDate: new Date(Number(course.startDate)),
       endDate: new Date(Number(course.endDate)),
+      limitOfStudents: course.litmitOfStudents,
     },
   });
 
@@ -113,8 +114,8 @@ const CourseInfo = ({
     Object.values(form.formState.errors).forEach((error) => {
       if (error.message) {
         toast({
-          title: "Error",
-          description: "Some fields are invalid",
+          title: "Lỗi",
+          description: "Một số trường không hợp lệ",
           variant: "destructive",
         });
       }
@@ -143,8 +144,8 @@ const CourseInfo = ({
       await courseApi.updateCourse(course.id, values);
 
       toast({
-        title: "Success",
-        description: "Course information updated successfully",
+        title: "Thành công",
+        description: "Cập nhật thông tin khóa học thành công",
       });
 
       setIsEdit(false);
@@ -161,7 +162,7 @@ const CourseInfo = ({
     <>
       <div className="flex-between">
         <h2 className="text-xl font-semibold text-secondary-foreground">
-          Information
+          Thông tin khóa học
         </h2>
         <Button
           onClick={form.handleSubmit(onSubmit)}
@@ -169,7 +170,7 @@ const CourseInfo = ({
             isLoading || uploadFileLoading || (!Boolean(file) && !isEdit)
           }
         >
-          {isLoading || uploadFileLoading ? <Loader /> : "Save"}
+          {isLoading || uploadFileLoading ? <Loader /> : "Lưu"}
         </Button>
       </div>
 
@@ -181,7 +182,7 @@ const CourseInfo = ({
           className="space-y-5 pb-10"
         >
           <div className="space-y-1">
-            <Label>Course Image</Label>
+            <Label>Ảnh bìa khóa học</Label>
             <div className="flex items-center gap-5">
               <div className="relative h-[211px] w-[375px]">
                 <Image
@@ -199,11 +200,9 @@ const CourseInfo = ({
               </div>
               <div className="flex-center flex-1 flex-col space-y-5">
                 <div className="text-center">
-                  <p className="font-medium text-black">
-                    Important guidelines:
-                  </p>
-                  <p>PNG, JPG, or JPEG format</p>
-                  <p>Recommanded size is 750x422 pixels (16:9) </p>
+                  <p className="font-medium text-black">Hướng dẫn:</p>
+                  <p>Định dạng PNG, JPG, hoặc JPEG</p>
+                  <p>Kích thước: 750x422 pixels (16:9) </p>
                 </div>
                 <FileInput
                   id="course-image"
@@ -228,7 +227,7 @@ const CourseInfo = ({
             render={({ field }) => (
               <FormItem>
                 <FormLabel htmlFor="name" required>
-                  Course Name
+                  Tên khóa học
                 </FormLabel>
                 <FormControl>
                   <Input id="name" {...field} />
@@ -243,7 +242,7 @@ const CourseInfo = ({
             name="description"
             render={({ field }) => (
               <FormItem>
-                <FormLabel htmlFor="description">Description</FormLabel>
+                <FormLabel htmlFor="description">Mô tả khóa học</FormLabel>
                 <FormControl>
                   <Textarea
                     placeholder="
@@ -259,13 +258,13 @@ const CourseInfo = ({
             )}
           />
 
-          <div className="grid grid-cols-4 gap-5">
+          <div className="grid grid-cols-5 gap-5">
             <FormField
               control={form.control}
               name="categoryId"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel required>Category</FormLabel>
+                  <FormLabel required>Danh mục</FormLabel>
                   <FormControl>
                     <Select
                       defaultValue={field.value.toString()}
@@ -277,7 +276,7 @@ const CourseInfo = ({
                       }
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Choose a category"></SelectValue>
+                        <SelectValue></SelectValue>
                       </SelectTrigger>
                       <SelectContent>
                         {categories.map((category) => (
@@ -302,11 +301,36 @@ const CourseInfo = ({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel htmlFor="price" required>
-                    Price
+                    Giá khóa học
                   </FormLabel>
                   <FormControl>
                     <Input
                       id="price"
+                      type="number"
+                      value={field.value}
+                      onChange={(e) => {
+                        field.onChange({
+                          target: { value: Number(e.target.value) || "" },
+                        });
+                      }}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="limitOfStudents"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel htmlFor="limit" required>
+                    Số lượng học viên
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="limit"
                       type="number"
                       value={field.value}
                       onChange={(e) => {
@@ -327,7 +351,7 @@ const CourseInfo = ({
                 name="targetAudiences"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel required>Target Audience</FormLabel>
+                    <FormLabel required>Đối tượng học viên</FormLabel>
                     <FormControl>
                       <MultiSelect
                         options={Object.values(TARGET_AUDIENCE).map(
@@ -342,7 +366,7 @@ const CourseInfo = ({
                             target: { value },
                           });
                         }}
-                        maxCount={4}
+                        maxCount={2}
                       />
                     </FormControl>
                     <FormMessage />
@@ -352,63 +376,12 @@ const CourseInfo = ({
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-5">
-            <FormField
-              control={form.control}
-              name="startDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="start" required>
-                    Start Date
-                  </FormLabel>
-                  <FormControl>
-                    <DateTimePicker
-                      id="start"
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder="start date"
-                      displayFormat={{ hour24: "dd/MM/yyyy" }}
-                      granularity="day"
-                      limitToCurrent={true}
-                      locale={vi}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="endDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel htmlFor="end" required>
-                    End Date
-                  </FormLabel>
-                  <FormControl>
-                    <DateTimePicker
-                      id="end"
-                      value={field.value}
-                      onChange={field.onChange}
-                      placeholder="end date"
-                      displayFormat={{ hour24: "dd/MM/yyyy" }}
-                      granularity="day"
-                      locale={vi}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-
           <FormField
             control={form.control}
             name="objectives"
             render={({ field }) => (
               <FormItem>
-                <FormLabel required>Objectives (at least 1)</FormLabel>
+                <FormLabel required>Mục tiêu khóa học (tối thiểu 1)</FormLabel>
                 <FormControl>
                   <div className="space-y-3">
                     {field.value.map((objective, index) => (
@@ -464,7 +437,7 @@ const CourseInfo = ({
                   }}
                 >
                   <PlusIcon size={16} />
-                  Add more objective
+                  Thêm mục tiêu khóa học
                 </Button>
                 {form.formState.errors.objectives && (
                   <p className="mt-1 text-[12.8px] font-medium text-red-500">
@@ -480,7 +453,7 @@ const CourseInfo = ({
             name="prerequisites"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Prerequisites / Requirements</FormLabel>
+                <FormLabel>Yêu cầu khóa học</FormLabel>
                 <FormControl>
                   <div className="space-y-3">
                     {field.value.map((prerequisite, index) => (
@@ -539,7 +512,7 @@ const CourseInfo = ({
                   }}
                 >
                   <PlusIcon size={16} />
-                  Add more prerequisite / requirement
+                  Thêm yêu cầu khóa học
                 </Button>
               </FormItem>
             )}

@@ -29,6 +29,7 @@ const CreateCourse = () => {
       description: "",
       categoryId: undefined,
       prerequisites: [],
+      limitOfStudents: undefined,
       status: COURSE_STATUS.DRAFT,
       objectives: [],
       price: undefined,
@@ -44,17 +45,25 @@ const CreateCourse = () => {
   const isDisabledNext = () => {
     switch (step) {
       case 1:
-        return !form.watch("name") || !form.watch("totalDuration");
+        return (
+          !form.watch("name") ||
+          !form.watch("totalDuration") ||
+          !form.watch("limitOfStudents") ||
+          form.watch("totalDuration") < 1 ||
+          form.watch("limitOfStudents") < 1 ||
+          form.watch("totalDuration") > 10 ||
+          form.watch("limitOfStudents") > 10
+        );
       case 2:
         return !form.watch("categoryId");
       case 3:
-        return form.watch("objectives").length === 0;
+        return (
+          form.watch("objectives").length === 1 && !form.watch("objectives")[0]
+        );
       case 4:
         return (
           !form.watch("price") || form.watch("targetAudiences").length === 0
         );
-      case 6:
-        return !form.watch("startDate") || !form.watch("endDate");
     }
 
     return false;
@@ -69,8 +78,8 @@ const CreateCourse = () => {
       router.push("/mentor/courses");
 
       toast({
-        title: "Success",
-        description: "Course created successfully!",
+        title: "Thành công",
+        description: "Tạo khóa học thành công!",
       });
     } catch (error) {
       console.error({ error });
@@ -81,7 +90,7 @@ const CreateCourse = () => {
 
   return (
     <ProgressLayout
-      totalSteps={5}
+      totalSteps={4}
       step={step}
       setStep={setStep}
       isDisabledNext={isDisabledNext}
@@ -98,7 +107,7 @@ const CreateCourse = () => {
 
         {step === 4 && <TargetAudiencePrice form={form} />}
 
-        {step === 5 && <SetDate form={form} />}
+        {/* {step === 5 && <SetDate form={form} />} */}
       </div>
     </ProgressLayout>
   );

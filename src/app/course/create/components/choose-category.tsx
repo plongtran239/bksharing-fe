@@ -50,14 +50,15 @@ const ChooseCategory = ({
 
   return (
     <div className="container space-y-10 text-center">
-      <h1 className="text-3xl font-semibold text-secondary-foreground">
-        What category best fits the knowledge you&apos;ll share?
-      </h1>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold text-secondary-foreground">
+          Danh mục phù hợp nhất với khóa học của bạn
+        </h1>
 
-      <p className="text-center text-black">
-        If you&apos;re not sure about the right category, you can change it
-        later.
-      </p>
+        <p className="text-center text-black">
+          Nếu không chắn chắn, bạn có thể đổi lại sau.
+        </p>
+      </div>
 
       <div className="flex-center">
         <Select
@@ -69,7 +70,7 @@ const ChooseCategory = ({
           onValueChange={(value) => form.setValue("categoryId", Number(value))}
         >
           <SelectTrigger className="w-1/2">
-            <SelectValue placeholder="Choose a category"></SelectValue>
+            <SelectValue placeholder="Chọn danh mục"></SelectValue>
           </SelectTrigger>
           <SelectContent>
             {categories.map((category) => (

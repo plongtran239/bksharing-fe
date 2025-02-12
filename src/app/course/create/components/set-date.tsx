@@ -9,19 +9,18 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
   return (
     <div className="space-y-10 text-center">
       <h1 className="text-3xl font-semibold text-secondary-foreground">
-        Set Start and End Date for Your Course
+        Đặt ngày bắt đầu và kết thúc khóa học
       </h1>
 
       <p className="text-center text-black">
-        Set the start and end date for your course to help students know when
-        your course will be available.
+        Đặt ngày bắt đầu và kết thúc khóa học giúp học viên có thể đăng ký học
       </p>
 
       <div className="flex-center">
         <div className="flex-center w-1/2 gap-10">
           <div className="flex-center w-full flex-col gap-2">
             <Label required htmlFor="start" className="text-left">
-              Start Date
+              Ngày bắt đầu khóa học
             </Label>
             <DateTimePicker
               id="start"
@@ -29,7 +28,7 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
               onChange={(value) => {
                 form.setValue("startDate", value as Date);
               }}
-              placeholder="start date"
+              placeholder="Ngày bắt đầu"
               displayFormat={{ hour24: "dd/MM/yyyy" }}
               granularity="day"
               limitToCurrent={true}
@@ -39,7 +38,7 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
 
           <div className="flex-center w-full flex-col gap-2">
             <Label required htmlFor="end" className="text-left">
-              End Date
+              Ngày kết thúc khóa học
             </Label>
             <DateTimePicker
               id="end"
@@ -47,7 +46,7 @@ const SetDate = ({ form }: { form: UseFormReturn<CourseRequestType> }) => {
               onChange={(value) => {
                 form.setValue("endDate", value as Date);
               }}
-              placeholder="end date"
+              placeholder="Ngày kết thúc"
               displayFormat={{ hour24: "dd/MM/yyyy" }}
               granularity="day"
               locale={vi}

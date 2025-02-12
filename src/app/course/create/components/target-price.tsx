@@ -1,3 +1,4 @@
+import { useTranslations } from "next-intl";
 import { UseFormReturn } from "react-hook-form";
 
 import { MultiSelect } from "@/components/multi-select";
@@ -12,40 +13,43 @@ const TargetAudiencePrice = ({
 }: {
   form: UseFormReturn<CourseRequestType>;
 }) => {
+  const t = useTranslations("targetAudience");
+
   return (
     <div className="space-y-10 text-center">
-      <h1 className="text-3xl font-semibold text-secondary-foreground">
-        Enter Price and Target Audiences for Your Course
-      </h1>
+      <div className="space-y-2">
+        <h1 className="text-3xl font-semibold text-secondary-foreground">
+          Giá & đối tượng mục tiêu của khóa học
+        </h1>
 
-      <p className="text-center text-black">
-        Set the price and target audiences for your course to help students find
-        your course.
-      </p>
+        <p className="text-center text-black">
+          Hãy đặt giá và chọn đối tượng mục tiêu cho khóa học của bạn
+        </p>
+      </div>
 
       <div className="space-y-20">
         <div className="flex-center flex-col gap-2">
           <Label required htmlFor="price" className="text-left">
-            Price
+            Giá khóa học
           </Label>
           <Input
             id="price"
             type="number"
-            placeholder="Enter price..."
-            className="w-1/4"
+            placeholder="Nhập giá khóa học"
+            className="w-1/2"
             {...form.register("price")}
           />
         </div>
 
         <div className="flex-center flex-col gap-2">
           <Label required htmlFor="targetAudiences" className="text-left">
-            Target Audiences
+            Đối tượng mục tiêu
           </Label>
           <MultiSelect
             id="targetAudiences"
             placeholder="Select target audiences..."
             options={Object.values(TARGET_AUDIENCE).map((audience) => ({
-              label: convertToCapitalizeCase(audience),
+              label: t(audience),
               value: audience,
             }))}
             maxCount={4}

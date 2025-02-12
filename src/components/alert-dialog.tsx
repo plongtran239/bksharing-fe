@@ -40,14 +40,14 @@ const AlertDialog = ({
         {children}
         <DialogFooter>
           <Button variant="outline" onClick={onCancel} disabled={isLoading}>
-            Cancel
+            Hủy
           </Button>
           <Button
             variant="destructive"
             onClick={onConfirm}
             disabled={isLoading}
           >
-            {isLoading ? <Loader /> : "Delete"}
+            {isLoading ? <Loader /> : "Xóa"}
           </Button>
         </DialogFooter>
       </DialogContent>

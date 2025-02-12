@@ -58,8 +58,8 @@ const CourseContent = ({
       await courseApi.deleteCourseSection(course.id, deleteSectionId);
 
       toast({
-        title: "Success",
-        description: "Section deleted successfully",
+        title: "Thành công",
+        description: "Xóa chương học thành công",
       });
 
       router.refresh();
@@ -76,7 +76,7 @@ const CourseContent = ({
     <>
       <div className="flex-between">
         <h2 className="text-xl font-semibold text-secondary-foreground">
-          Curriculum
+          Nội dung khóa học
         </h2>
       </div>
 
@@ -90,7 +90,7 @@ const CourseContent = ({
               <div className="w-full space-y-2 p-5">
                 <h3 className="flex items-center gap-2 font-semibold text-secondary-foreground">
                   <span className="line-clamp-1">
-                    Section {index + 1}: {section.title}
+                    Phần {index + 1}: {section.title}
                   </span>
                   <ChevronsUpDownIcon
                     size={16}
@@ -98,7 +98,7 @@ const CourseContent = ({
                   />
                 </h3>
                 <p className="text-sm">
-                  {section.isPublic ? "Public" : "Private"}
+                  {section.isPublic ? "Công khai" : "Riêng tư"}
                 </p>
               </div>
 
@@ -140,7 +140,7 @@ const CourseContent = ({
                           <br />
                         </span>
                       ))
-                  : "No description"}
+                  : "Không có mô tả"}
               </p>
 
               <InputFiles
@@ -160,15 +160,15 @@ const CourseContent = ({
         onClick={() => setIsOpenModal(true)}
       >
         <PlusIcon size={16} />
-        Add Section
+        Thêm phần mới
       </Button>
 
       {/* Modal for adding and editing section */}
       <SectionModal
         courseId={course.id}
         isOpen={isOpenModal}
-        title={editSection ? "Edit Section" : "Add Section"}
-        description={editSection ? "Edit your section" : "Add your section"}
+        title={editSection ? "Chỉnh sửa" : "Thêm mới"}
+        description={""}
         handleCancel={() => {
           setEditSection(undefined);
           setIsOpenModal(false);
@@ -183,8 +183,8 @@ const CourseContent = ({
         onCancel={handleCancelAlertDialog}
         onConfirm={handleDeleteSection}
         isLoading={isLoading}
-        title="Are you sure you want to delete this section?"
-        description="This action cannot be undone. This will permanently delete this section."
+        title="Xác nhận xóa"
+        description="Bạn có chắc chắn muốn xóa phần học này không?"
       />
     </>
   );

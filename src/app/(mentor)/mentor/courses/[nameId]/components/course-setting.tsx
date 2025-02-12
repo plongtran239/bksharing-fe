@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
 import courseApi from "@/apis/course.api";
+import Status from "@/app/(mentor)/mentor/courses/[nameId]/components/status";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import {
@@ -106,7 +107,7 @@ const CourseSetting = ({
     <div>
       <div className="flex-between h-9">
         <h2 className="text-xl font-semibold text-secondary-foreground">
-          Settings
+          Cài đặt khóa học
         </h2>
       </div>
 
@@ -114,11 +115,11 @@ const CourseSetting = ({
 
       <div className="space-y-5">
         <div className="space-y-3">
-          <Label className="text-lg text-black">Course Status</Label>
+          <Label className="text-lg text-black">Trạng thái</Label>
 
           <div>
             <span className="text-base capitalize">
-              {course.status.toLowerCase()} -{" "}
+              <Status status={course.status} /> -{" "}
             </span>
 
             {(() => {
@@ -127,8 +128,8 @@ const CourseSetting = ({
                   return (
                     <div className="inline-flex gap-5">
                       <span className="inline-flex items-center gap-2">
-                        This course is a draft, complete the course information,
-                        content to ask for approval from the admin.
+                        Khóa học đang ở trạng thái nháp, hoàn thành các thông
+                        tin của khóa học để được quản trị viên duyệt
                       </span>
 
                       {completion === 100 && (
@@ -136,24 +137,22 @@ const CourseSetting = ({
                           variant="secondary"
                           className="px-3"
                           onClick={handleChangeCourseStatus}
-                        >
-                          Submit for review
-                        </Button>
+                        ></Button>
                       )}
                     </div>
                   );
                 case COURSE_STATUS.PENDING:
                   return (
                     <span className="inline-flex items-center gap-2">
-                      This course is not approved and waiting for approval from
-                      the admin
+                      Khóa học chưa được duyệt và đang chờ duyệt từ quản trị
+                      viên
                       <RefreshCwIcon size={16} color="orange" />
                     </span>
                   );
                 case COURSE_STATUS.APPROVED:
                   return (
                     <span className="inline-flex items-center gap-2">
-                      This course is approved and published
+                      Khóa học đã được duyệt và hiện đang hoạt động
                       <CheckCircleIcon size={16} color="green" />
                     </span>
                   );
@@ -161,7 +160,7 @@ const CourseSetting = ({
                 case COURSE_STATUS.REJECTED:
                   return (
                     <span className="inline-flex items-center gap-2">
-                      This course is rejected by the admin
+                      Khóa học đã bị từ chối
                       <XCircleIcon size={16} color="red" />
                     </span>
                   );
@@ -175,7 +174,7 @@ const CourseSetting = ({
         <Separator />
 
         <div className="space-y-3">
-          <Label className="text-lg text-black">Visibility</Label>
+          <Label className="text-lg text-black">Hiển thị</Label>
           <Select
             defaultValue={isPublic ? "Public" : "Private"}
             onValueChange={(value) => setIsPublic(value === "Public")}
@@ -184,21 +183,21 @@ const CourseSetting = ({
               <SelectValue></SelectValue>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="Public">Public</SelectItem>
-              <SelectItem value="Private">Private</SelectItem>
+              <SelectItem value="Public">Công khai</SelectItem>
+              <SelectItem value="Private">Riêng tư</SelectItem>
             </SelectContent>
           </Select>
           <p>
             {isPublic
-              ? "This course is visible to everyone."
-              : "This course is only visible to you and your students."}
+              ? "Khóa học sẽ được hiển thị công khai"
+              : "Khóa học sẽ được hiển thị riêng tư"}
           </p>
           <Button disabled={!isEdit} onClick={handleSave}>
             Save
           </Button>
         </div>
 
-        <Separator />
+        {/* <Separator />
 
         <div className="flex items-center gap-5">
           <Button variant="secondary" className="min-w-36">
@@ -208,7 +207,7 @@ const CourseSetting = ({
             Once you delete this course, it will be gone forever. Please be
             careful.
           </p>
-        </div>
+        </div> */}
       </div>
     </div>
   );

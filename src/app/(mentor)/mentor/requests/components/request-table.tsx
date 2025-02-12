@@ -234,7 +234,13 @@ const RequestTable = ({ data }: { data: SubscriptionType[] }) => {
         (a, b) => Number(a.courseStartAt) - Number(b.courseStartAt)
       )}
       filterBy="status"
-      filterOptions={Object.values(SUBSCRIPTION_STATUS)}
+      filterOptions={Object.values([
+        SUBSCRIPTION_STATUS.PENDING,
+        SUBSCRIPTION_STATUS.ACCEPTED,
+        SUBSCRIPTION_STATUS.CANCELED,
+        SUBSCRIPTION_STATUS.EXPIRED,
+        SUBSCRIPTION_STATUS.REJECTED,
+      ])}
       noFilterAll
     />
   );

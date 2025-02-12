@@ -25,14 +25,14 @@ const ProgressHeader = ({
               priority
             />
 
-            <span className="text-xl text-secondary-foreground dark:text-white">
+            <span className="text-xl font-semibold text-secondary-foreground dark:text-white">
               BK Sharing
             </span>
           </div>
 
           {totalSteps !== 1 && (
             <div className="p-5">
-              Step {step} of {totalSteps}
+              Bước {step} trên {totalSteps}
             </div>
           )}
         </div>
