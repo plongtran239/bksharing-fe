@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 
 import studentApi from "@/apis/student.api";
 import ProfileSection from "@/app/(root)/(user)/student/profile/components/profile-section";
+import Loader from "@/components/loader";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
 import { AchivementType } from "@/schemas";
 
@@ -31,7 +32,7 @@ const ProfileTab = () => {
   }, []);
 
   if (loading || !achievements) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (
@@ -41,7 +42,9 @@ const ProfileTab = () => {
         achievements={achievements.filter(
           (achievement) => achievement.type === ACHIEVEMENT_TYPES.EDUCATION
         )}
-        // type={ACHIEVEMENT_TYPES.EDUCATION}
+        type={ACHIEVEMENT_TYPES.EDUCATION}
+        isOwnProfile={true}
+        studentId={269}
       />
 
       <ProfileSection
@@ -49,7 +52,9 @@ const ProfileTab = () => {
         achievements={achievements.filter(
           (achievement) => achievement.type === ACHIEVEMENT_TYPES.EXPERIENCE
         )}
-        // type={ACHIEVEMENT_TYPES.EDUCATION}
+        type={ACHIEVEMENT_TYPES.EXPERIENCE}
+        isOwnProfile={true}
+        studentId={269}
       />
 
       <ProfileSection
@@ -57,7 +62,9 @@ const ProfileTab = () => {
         achievements={achievements.filter(
           (achievement) => achievement.type === ACHIEVEMENT_TYPES.CERTIFICATION
         )}
-        // type={ACHIEVEMENT_TYPES.EDUCATION}
+        type={ACHIEVEMENT_TYPES.CERTIFICATION}
+        isOwnProfile={true}
+        studentId={269}
       />
     </div>
   );

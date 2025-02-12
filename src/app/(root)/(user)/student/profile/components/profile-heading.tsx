@@ -56,8 +56,6 @@ const ProfileHeading = ({
 
   const isOwnProfile = accountId === user?.id;
 
-  console.log({ isOwnProfile });
-
   const handleOpenDialog = () => {
     setIsDialogOpen(!isDialogOpen);
   };
