@@ -39,17 +39,15 @@ const EndCallButton = () => {
 
       await call.endCall();
 
-      if (user?.accountType === ROLES.ADMIN) {
-      } else {
-        router.push("/meeting");
-      }
-
       switch (user?.accountType) {
         case ROLES.ADMIN:
-          router.push("/admin/meetings");
+          router.push("/admin/dashboard");
           break;
         case ROLES.MENTOR:
-          router.push("/mentor/appointments");
+          router.push("/mentor/dashboard");
+          break;
+        case ROLES.STUDENT:
+          router.push("/subscriptions");
           break;
         default:
           break;

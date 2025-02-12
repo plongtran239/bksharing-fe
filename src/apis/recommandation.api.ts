@@ -13,7 +13,7 @@ const recommandationApi = {
     status: number;
     payload: MentorRecommandationListType;
   }> => {
-    const url = `${envConfig.NEXT_PUBLIC_RECOMMANDATION_URL}/recommendations/content-based-filtering/${studentId}`;
+    const url = `${envConfig.NEXT_PUBLIC_RECOMMANDATION_URL}/content-based-filtering/${studentId}`;
 
     const response = await fetch(url, {
       method: "GET",
@@ -42,7 +42,7 @@ const recommandationApi = {
     status: number;
     payload: MentorRecommandationListType;
   }> => {
-    const url = `${envConfig.NEXT_PUBLIC_RECOMMANDATION_URL}/recommendations/collaborative-filtering/${studentId}`;
+    const url = `${envConfig.NEXT_PUBLIC_RECOMMANDATION_URL}/collaborative-filtering/${studentId}`;
 
     const response = await fetch(url, {
       method: "GET",
