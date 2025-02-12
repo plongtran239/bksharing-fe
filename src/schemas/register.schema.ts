@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { EDUCATION_LEVELS, GENDERS } from "@/constants/enum";
+import { EDUCATION_LEVELS, GENDERS, TARGET_LEVEL } from "@/constants/enum";
 import { AchivementRequest, LoginRequest } from "@/schemas";
 
 const RegisterRequest = LoginRequest.extend({
@@ -46,6 +46,7 @@ const StudentRegisterRequest = RegisterRequest.extend({
 
 const MentorRegisterRequest = RegisterRequest.extend({
   achievements: z.array(AchivementRequest).nonempty(),
+  targetLevels: z.array(z.nativeEnum(TARGET_LEVEL)).nonempty(),
   fileId: z.number().optional(),
 })
   .strict()

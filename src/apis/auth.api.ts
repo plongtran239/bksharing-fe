@@ -31,6 +31,7 @@ const authApi = {
             : undefined,
         })),
       ],
+      targetLevels: [...body.targetLevels],
     }),
 
   verifyEmail: (token: string) =>

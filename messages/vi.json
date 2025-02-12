@@ -222,6 +222,12 @@
       },
       "mentorForm": {
         "cv": "CV / Sơ yếu lý lịch",
+        "targetLevels": "Trình độ mục tiêu",
+        "POSTGRADUATE": "Sau đại học",
+        "BEGINNER": "Mới bắt đầu",
+        "INTERMEDIATE": "Trung cấp",
+        "ADVANCED": "Nâng cao",
+        "EXPERT": "Chuyên gia",
         "achievementForm": {
           "achievement": "Thành tựu",
           "type": "Loại",
