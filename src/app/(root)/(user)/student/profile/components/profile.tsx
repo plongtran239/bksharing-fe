@@ -1,50 +1,28 @@
-"use client";
-
 import { FileTextIcon, SquareLibraryIcon } from "lucide-react";
-import { useEffect, useState } from "react";
 
-import userApi from "@/apis/user.api";
+import studentApi from "@/apis/student.api";
 import CourseTab from "@/app/(root)/(user)/student/profile/components/course-tab";
 import ProfileHeading from "@/app/(root)/(user)/student/profile/components/profile-heading";
 import ProfileTab from "@/app/(root)/(user)/student/profile/components/profile-tab";
-import Loader from "@/components/loader";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { AccountType } from "@/schemas";
+import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
-const Profile = () => {
-  const [user, setUser] = useState<AccountType | null>(null);
+const Profile = async () => {
+  const { sessionToken } = useGetFromCookie(["sessionToken"]);
 
-  useEffect(() => {
-    const fetchMe = async () => {
-      try {
-        const {
-          payload: { data },
-        } = await userApi.getMeClient();
-
-        setUser(data);
-      } catch (error) {
-        console.error({ error });
-      }
-    };
-
-    fetchMe();
-  }, []);
+  const {
+    payload: { data: user },
+  } = await studentApi.getProfile(sessionToken);
 
   return (
     <div className="col-span-3 h-fit max-xl:w-full">
       <div className="rounded-xl bg-white px-3 pb-5 pt-3">
         {/* Background, Avatar */}
-        {user ? (
-          <ProfileHeading
-            name={user.name}
-            avatarUrl={user.thumbnail?.originalUrl}
-            accountId={user.id}
-          />
-        ) : (
-          <div className="my-10">
-            <Loader />
-          </div>
-        )}
+        <ProfileHeading
+          name={user.name}
+          avatarUrl={user.thumbnail?.originalUrl}
+          accountId={user.accountId}
+        />
 
         {/* User info */}
         <div className="flex-between mt-10 px-10">
@@ -80,7 +58,7 @@ const Profile = () => {
 
           <div className="mt-5 w-full">
             <TabsContent value="profile">
-              <ProfileTab />
+              <ProfileTab user={user} />
             </TabsContent>
 
             <TabsContent value="courses">

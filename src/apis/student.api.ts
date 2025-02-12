@@ -3,10 +3,19 @@ import { convertDateToLocaleDateString } from "@/lib/utils";
 import {
   AchivementRequestType,
   AchivementType,
+  DetailResponseType,
   ListResponseType,
+  StudentType,
 } from "@/schemas";
 
 const studentApi = {
+  getProfile: (sessionToken: string) =>
+    http.get<DetailResponseType<StudentType>>(`/client/students/profile`, {
+      headers: {
+        Authorization: `Bearer ${sessionToken}`,
+      },
+    }),
+
   getAchievements: () =>
     http.get<ListResponseType<AchivementType>>("/client/students/achievements"),
 

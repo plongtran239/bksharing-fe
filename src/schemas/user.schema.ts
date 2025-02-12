@@ -1,7 +1,12 @@
 import { z } from "zod";
 
 import { MIN_DATE } from "@/constants/date";
-import { GENDERS, MENTOR_STATUS, ROLES } from "@/constants/enum";
+import {
+  EDUCATION_LEVELS,
+  GENDERS,
+  MENTOR_STATUS,
+  ROLES,
+} from "@/constants/enum";
 import { Achievement } from "@/schemas";
 
 const User = z.object({
@@ -77,12 +82,30 @@ const Mentor = User.extend({
   rateOfMentor: z.number(),
 });
 
+const Student = z.object({
+  id: z.number(),
+  accountId: z.number(),
+  gender: z.nativeEnum(GENDERS),
+  dob: z.string(),
+  bio: z.string(),
+  name: z.string(),
+  educationalLevel: z.nativeEnum(EDUCATION_LEVELS),
+  thumbnail: z
+    .object({
+      originalUrl: z.string(),
+    })
+    .nullable(),
+  achievements: z.array(Achievement),
+});
+
 type UserType = z.infer<typeof User>;
 
 type AccountType = z.infer<typeof Account>;
 
 type MentorType = z.infer<typeof Mentor>;
 
+type StudentType = z.infer<typeof Student>;
+
 export { User, Account, Mentor };
 
-export type { UserType, AccountType, MentorType };
+export type { UserType, AccountType, MentorType, StudentType };

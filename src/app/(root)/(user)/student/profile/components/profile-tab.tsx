@@ -1,39 +1,9 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
-import studentApi from "@/apis/student.api";
 import ProfileSection from "@/app/(root)/(user)/student/profile/components/profile-section";
-import Loader from "@/components/loader";
 import { ACHIEVEMENT_TYPES } from "@/constants/enum";
-import { AchivementType } from "@/schemas";
+import { StudentType } from "@/schemas";
 
-const ProfileTab = () => {
-  const [loading, setLoading] = useState(false);
-
-  const [achievements, setAchievements] = useState<AchivementType[]>([]);
-
-  useEffect(() => {
-    const getStudentAchievements = async () => {
-      try {
-        setLoading(true);
-        const {
-          payload: { data },
-        } = await studentApi.getAchievements();
-        setAchievements(data);
-      } catch (error) {
-        console.error({ error });
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    getStudentAchievements();
-  }, []);
-
-  if (loading || !achievements) {
-    return <Loader />;
-  }
+const ProfileTab = ({ user }: { user: StudentType }) => {
+  const { achievements, id } = user;
 
   return (
     <div className="space-y-5 rounded-xl bg-white p-5">
@@ -44,7 +14,7 @@ const ProfileTab = () => {
         )}
         type={ACHIEVEMENT_TYPES.EDUCATION}
         isOwnProfile={true}
-        studentId={269}
+        studentId={id}
       />
 
       <ProfileSection
@@ -54,7 +24,7 @@ const ProfileTab = () => {
         )}
         type={ACHIEVEMENT_TYPES.EXPERIENCE}
         isOwnProfile={true}
-        studentId={269}
+        studentId={id}
       />
 
       <ProfileSection
@@ -64,7 +34,7 @@ const ProfileTab = () => {
         )}
         type={ACHIEVEMENT_TYPES.CERTIFICATION}
         isOwnProfile={true}
-        studentId={269}
+        studentId={id}
       />
     </div>
   );

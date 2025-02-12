@@ -195,7 +195,7 @@ const ProfileHeading = ({
                   align="center"
                   className="-translate-x-14 -translate-y-4"
                 >
-                  <p className="text-xs">Edit avatar</p>
+                  <p className="text-xs">Chỉnh ảnh đại diện</p>
                 </TooltipContent>
               </Tooltip>
             )}
@@ -206,8 +206,10 @@ const ProfileHeading = ({
       <Dialog open={isDialogOpen} onOpenChange={handleOpenDialog}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle className="text-primary">Edit avatar</DialogTitle>
-            <DialogDescription>Recommand size: 100 x 100</DialogDescription>
+            <DialogTitle className="text-primary">
+              Chỉnh ảnh đại diện
+            </DialogTitle>
+            <DialogDescription>Size: 100 x 100</DialogDescription>
           </DialogHeader>
 
           <div>
