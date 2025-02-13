@@ -131,10 +131,10 @@ const ProfileSection = ({
       router.refresh();
 
       toast({
-        title: "Success",
+        title: "Thành công",
         description: `${
-          type === "ABOUT" || isEdit ? "Update" : "Add"
-        } ${type.toLowerCase()} successfully`,
+          type === "ABOUT" || isEdit ? "Cập" : "Thêm"
+        } thành công`,
       });
     } catch (error) {
       console.error({ error });
