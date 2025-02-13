@@ -3,12 +3,17 @@
 import { StarFilledIcon } from "@radix-ui/react-icons";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
+import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
+import { REPORT_STATUS } from "@/constants/enum";
 import { StudentSubscriptionType } from "@/schemas/subscription.schema";
 
 const StudentCard = ({ student }: { student: StudentSubscriptionType }) => {
   const t = useTranslations("reportType");
+
+  const router = useRouter();
 
   return (
     <div className="space-y-3 rounded-xl border border-primary bg-secondary p-5">
@@ -116,8 +121,19 @@ const StudentCard = ({ student }: { student: StudentSubscriptionType }) => {
               <div className="mb-[2px] mr-2 inline-block h-2 w-2 rounded-full bg-red-500" />
               <span>Hướng giải quyết: </span>
               <span className="text-secondary-foreground">
-                {student.report?.resolution}
+                {student.report?.resolution || "Chưa có hướng giải quyết"}
               </span>
+
+              {student.report.status === REPORT_STATUS.PENDING && (
+                <Button
+                  className="ml-5"
+                  onClick={() =>
+                    router.push(`/admin/reports/${student.report?.id}`)
+                  }
+                >
+                  Giải quyết
+                </Button>
+              )}
             </div>
           </div>
         </div>

@@ -1,10 +1,10 @@
 import subscriptionApi from "@/apis/subscription.api";
-import SubscriptionTable from "@/app/(mentor)/mentor/subscriptions/components/subscription-table";
+import SubscriptionTable from "@/app/(admin)/admin/combination-subscriptions/components/subscription-table";
 import { Separator } from "@/components/ui/separator";
 import { SUBSCRIPTION_STATUS } from "@/constants/enum";
 import { useGetFromCookie } from "@/hooks/use-get-from-cookie";
 
-const SubScriptionMentorPage = async ({
+const SubScriptionAdminPage = async ({
   searchParams: { status },
 }: {
   searchParams: {
@@ -15,7 +15,10 @@ const SubScriptionMentorPage = async ({
 
   const {
     payload: { data },
-  } = await subscriptionApi.getCombinationSubscriptions(sessionToken, status);
+  } = await subscriptionApi.getAdminCombinationSubscriptions(
+    sessionToken,
+    status
+  );
 
   return (
     <main>
@@ -31,4 +34,4 @@ const SubScriptionMentorPage = async ({
     </main>
   );
 };
-export default SubScriptionMentorPage;
+export default SubScriptionAdminPage;

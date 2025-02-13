@@ -99,6 +99,32 @@ const subscriptionApi = {
       }
     ),
 
+  getAdminCombinationSubscriptions: (
+    sessionToken: string,
+    status: SUBSCRIPTION_STATUS
+  ) =>
+    http.get<ListResponseType<CombinationSubscriptionType>>(
+      "/admin/subscriptions/combination?status=" + status,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
+
+  getAdminDetailCombinationSubscriptions: (
+    sessionToken: string,
+    subscriptionId: number
+  ) =>
+    http.get<DetailResponseType<DetailCombinationSubscriptionType>>(
+      `/admin/subscriptions/${subscriptionId}/combination`,
+      {
+        headers: {
+          Authorization: `Bearer ${sessionToken}`,
+        },
+      }
+    ),
+
   getDetailCombinationSubscription: (
     sessionToken: string,
     subscriptionId: number

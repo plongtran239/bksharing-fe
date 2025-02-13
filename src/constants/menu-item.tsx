@@ -157,15 +157,31 @@ const AdminSidebarMenuItems: MenuItemsType = [
     ],
   },
   {
-    label: "subscriptions",
+    label: "combination-subscription",
+    href: "/admin/combination-subscriptions",
+    icon: <BookCheckIcon size={18} strokeWidth={2.5} />,
+    subs: [
+      ...Object.values([
+        SUBSCRIPTION_STATUS.ACTIVE,
+        SUBSCRIPTION_STATUS.ENDED,
+      ]).map((status) => ({
+        label: status.toLowerCase(),
+        href: `/admin/combination-subscriptions?status=${status}`,
+      })),
+    ],
+  },
+  {
+    label: "requests",
     href: "/admin/subscriptions",
     icon: <UserPlusIcon size={18} strokeWidth={2.5} />,
     subs: [
-      {
-        label: "all",
-        href: "/admin/subscriptions",
-      },
-      ...Object.values(SUBSCRIPTION_STATUS).map((status) => ({
+      ...Object.values([
+        SUBSCRIPTION_STATUS.PENDING,
+        SUBSCRIPTION_STATUS.ACCEPTED,
+        SUBSCRIPTION_STATUS.CANCELED,
+        SUBSCRIPTION_STATUS.EXPIRED,
+        SUBSCRIPTION_STATUS.REJECTED,
+      ]).map((status) => ({
         label: status.toLowerCase(),
         href: `/admin/subscriptions?status=${status}`,
       })),

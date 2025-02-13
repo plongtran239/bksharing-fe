@@ -209,7 +209,7 @@ const StudentSubscription = z.object({
       })
       .nullable(),
   }),
-  feeback: z
+  feedback: z
     .object({
       id: z.number(),
       courseRating: z.number(),
@@ -224,7 +224,7 @@ const StudentSubscription = z.object({
       type: z.nativeEnum(REPORT_TYPE),
       description: z.string(),
       status: z.nativeEnum(REPORT_STATUS),
-      resolution: z.string(),
+      resolution: z.string().nullable(),
     })
     .nullable(),
 });
