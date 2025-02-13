@@ -71,7 +71,6 @@ const AccountRequest = z.object({
     .max(new Date(), {
       message: "Date of birth must be less than current date",
     }),
-  bio: z.string().optional(),
   addressBase: z.string().optional(),
   addressDetail: z.string().optional(),
   avatarId: z.number().optional(),

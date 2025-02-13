@@ -49,7 +49,6 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
       dob: data.dob ? new Date(Number(data.dob)) : undefined,
       addressBase: data.addressBase || "",
       addressDetail: data.addressDetail || "",
-      bio: data.bio || "",
     },
   });
 
