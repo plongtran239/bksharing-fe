@@ -30,7 +30,7 @@ import {
 import { GENDERS } from "@/constants/enum";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
-import { Account, AccountType } from "@/schemas";
+import { AccountRequest, AccountRequestType, AccountType } from "@/schemas";
 
 const UserInfoForm = ({ data }: { data: AccountType }) => {
   const tMessages = useTranslations("messages");
@@ -39,8 +39,8 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
   const { toast } = useToast();
   const router = useRouter();
 
-  const form = useForm<AccountType>({
-    resolver: zodResolver(Account),
+  const form = useForm<AccountRequestType>({
+    resolver: zodResolver(AccountRequest),
     defaultValues: {
       email: data.email,
       name: data.name,
@@ -49,10 +49,11 @@ const UserInfoForm = ({ data }: { data: AccountType }) => {
       dob: data.dob ? new Date(Number(data.dob)) : undefined,
       addressBase: data.addressBase || "",
       addressDetail: data.addressDetail || "",
+      bio: data.bio || "",
     },
   });
 
-  const onSubmit = async (values: AccountType) => {
+  const onSubmit = async (values: AccountRequestType) => {
     try {
       setLoading(true);
 

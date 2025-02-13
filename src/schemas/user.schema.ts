@@ -55,6 +55,36 @@ const Account = z.object({
     .optional(),
 });
 
+const AccountRequest = z.object({
+  email: z.string().email(),
+  name: z.string().min(6).max(256),
+  phoneNumber: z
+    .string()
+    .regex(/^\d{10}$/)
+    .trim(),
+  gender: z.nativeEnum(GENDERS),
+  dob: z
+    .date()
+    .min(new Date(MIN_DATE), {
+      message: `Date of birth must be greater than ${MIN_DATE}`,
+    })
+    .max(new Date(), {
+      message: "Date of birth must be less than current date",
+    }),
+  bio: z.string().optional(),
+  addressBase: z.string().optional(),
+  addressDetail: z.string().optional(),
+  avatarId: z.number().optional(),
+  thumbnail: z
+    .object({
+      fileId: z.number(),
+      fileSize: z.number(),
+      originalUrl: z.string(),
+      versions: z.array(z.string()),
+    })
+    .optional(),
+});
+
 const Mentor = User.extend({
   accountId: z.number(),
   email: z.string().email(),
@@ -102,10 +132,18 @@ type UserType = z.infer<typeof User>;
 
 type AccountType = z.infer<typeof Account>;
 
+type AccountRequestType = z.infer<typeof AccountRequest>;
+
 type MentorType = z.infer<typeof Mentor>;
 
 type StudentType = z.infer<typeof Student>;
 
-export { User, Account, Mentor };
+export { User, Account, Mentor, AccountRequest };
 
-export type { UserType, AccountType, MentorType, StudentType };
+export type {
+  UserType,
+  AccountType,
+  MentorType,
+  StudentType,
+  AccountRequestType,
+};
