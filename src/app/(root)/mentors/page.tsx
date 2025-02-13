@@ -25,10 +25,11 @@ const Mentor = async ({ searchParams }: MentorProps) => {
   const pageNumber = searchParams.page ? parseInt(searchParams.page) : 1;
   const pageSize = searchParams.pageSize ? parseInt(searchParams.pageSize) : 12;
   const name = searchParams.name;
+  const sortOrder = searchParams.sortOrder;
 
   const {
     payload: { data: mentors, total },
-  } = await userApi.getMentorList({ pageNumber, pageSize, name });
+  } = await userApi.getMentorList({ pageNumber, pageSize, name, sortOrder });
 
   return (
     <main className="pb-10">

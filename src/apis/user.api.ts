@@ -32,17 +32,23 @@ const userApi = {
     pageNumber = 1,
     pageSize = 10,
     name = "",
+    sortBy = "meanRates",
+    sortOrder = "desc",
   }: {
     pageNumber?: number;
     pageSize?: number;
     name?: string;
-  }) =>
-    http.get<ListResponseType<MentorType>>(
-      `client/mentors?pageNumber=${pageNumber}&pageSize=${pageSize}&status=${MENTOR_STATUS.ACCEPTED}&name=${name}`,
-      {
-        cache: "no-store",
-      }
-    ),
+    sortBy?: string;
+    sortOrder?: string;
+  }) => {
+    const url = `client/mentors?pageNumber=${pageNumber}&pageSize=${pageSize}&status=${MENTOR_STATUS.ACCEPTED}&name=${name}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
+
+    console.log(url);
+
+    return http.get<ListResponseType<MentorType>>(url, {
+      cache: "no-store",
+    });
+  },
 
   getMentorDetail: (mentorId: number) =>
     http.get<DetailResponseType<MentorType>>(`client/mentors/${mentorId}`),
