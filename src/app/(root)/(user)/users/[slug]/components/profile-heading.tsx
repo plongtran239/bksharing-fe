@@ -80,8 +80,8 @@ const ProfileHeading = ({
   const handleUpdateAvatar = async () => {
     if (!file) {
       toast({
-        title: "Error",
-        description: "Select an image",
+        title: "Lỗi",
+        description: "Chọn một tấm ảnh",
         variant: "destructive",
       });
       return;
@@ -104,14 +104,14 @@ const ProfileHeading = ({
       setFile(undefined);
 
       toast({
-        title: "Success",
-        description: "Avatar updated successfully",
+        title: "Thành công",
+        description: "Cập nhật ảnh đại diện thành công",
       });
     } catch (error) {
       console.error({ error });
       toast({
-        title: "Error",
-        description: "Failed to update avatar",
+        title: "Thất bại",
+        description: "Cập nhật ảnh đại diện thất bại",
         variant: "destructive",
       });
     } finally {
