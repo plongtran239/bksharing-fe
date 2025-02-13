@@ -14,7 +14,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Separator } from "@/components/ui/separator";
@@ -179,8 +178,6 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-
               <DropdownMenuItem
                 onClick={() =>
                   router.push(
@@ -193,7 +190,7 @@ const CourseTable = ({ data }: { data: CourseType[] }) => {
                 className="flex items-center gap-2"
               >
                 <EyeIcon size={16} />
-                View details
+                Xem chi tiết
               </DropdownMenuItem>
 
               {row.original.status === COURSE_STATUS.PENDING && (

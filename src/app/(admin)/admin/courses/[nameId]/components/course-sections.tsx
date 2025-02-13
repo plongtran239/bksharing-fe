@@ -14,9 +14,9 @@ const CourseSections = ({ course }: { course: CourseDetailType }) => {
     <Collapsible defaultOpen>
       <CollapsibleTrigger className="flex-between w-full rounded-lg px-2 hover:bg-secondary">
         <div className="flex items-center gap-2 text-lg font-semibold text-secondary-foreground">
-          <p className="">{course.sections.length} sections</p>
+          <p className="">{course.sections.length} phần</p>
           <div className="h-1 w-1 rounded-full bg-primary"></div>
-          <p>{course.totalDuration}h total length</p>
+          <p>{course.totalDuration} giờ để hoàn thành</p>
         </div>
 
         <ChevronsUpDownIcon size={16} className="text-secondary-foreground" />
@@ -32,7 +32,7 @@ const CourseSections = ({ course }: { course: CourseDetailType }) => {
                 <div className="flex-between w-full p-5">
                   <h3 className="flex items-center gap-2 font-semibold text-secondary-foreground">
                     <span className="line-clamp-1">
-                      Section {index + 1}: {section.title}
+                      Phần {index + 1}: {section.title}
                     </span>
                     <ChevronsUpDownIcon
                       size={16}
@@ -40,7 +40,7 @@ const CourseSections = ({ course }: { course: CourseDetailType }) => {
                     />
                   </h3>
                   <p className="m-0 text-sm">
-                    {section.isPublic ? "Public" : "Private"}
+                    {section.isPublic ? "Công khai" : "Riêng tư"}
                   </p>
                 </div>
               </CollapsibleTrigger>
@@ -58,7 +58,7 @@ const CourseSections = ({ course }: { course: CourseDetailType }) => {
                             <br />
                           </span>
                         ))
-                    : "No description"}
+                    : "Không có mô tả"}
                 </p>
 
                 {section.files && section.files.length > 0 && (

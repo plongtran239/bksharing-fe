@@ -39,7 +39,7 @@ const FeedbackCard = ({ feedback }: { feedback: FeedbackType }) => {
   };
 
   return (
-    <div className="space-y-5 rounded-lg border border-primary p-5">
+    <div className="space-y-5 rounded-lg border border-primary p-5 shadow-xl">
       <div className="flex justify-between">
         <div className="flex items-center gap-5">
           <div className="relative h-10 w-10">

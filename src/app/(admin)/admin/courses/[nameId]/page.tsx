@@ -21,7 +21,9 @@ const DetailCoursePage = async ({
   return (
     <main>
       <div className="flex-between">
-        <h1 className="text-3xl font-semibold text-primary">Course Detail</h1>
+        <h1 className="text-3xl font-semibold text-primary">
+          Chi tiết khóa học
+        </h1>
 
         <BackButton />
       </div>

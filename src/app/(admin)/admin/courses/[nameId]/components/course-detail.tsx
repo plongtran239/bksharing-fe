@@ -50,7 +50,7 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
         {/* Description */}
         <div className="rounded-xl bg-secondary p-5">
           <p className="text-sm font-semibold text-secondary-foreground">
-            Description
+            Mô tả khóa học
           </p>
 
           <p className="mt-2 text-sm text-black">
@@ -62,7 +62,7 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
           {/* Objectives */}
           <div className="rounded-xl bg-secondary p-5 text-sm">
             <p className="font-semibold text-secondary-foreground">
-              Objectives
+              Mục tiêu của khóa học
             </p>
 
             <div className="mt-2 space-y-2">
@@ -80,7 +80,7 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
           {/* Requirements */}
           <div className="rounded-xl bg-secondary p-5 text-sm">
             <p className="font-semibold text-secondary-foreground">
-              Requirements
+              Yêu cầu khi tham gia
             </p>
 
             {course.prerequisites.length > 0 ? (
@@ -95,7 +95,7 @@ const CourseDetail = ({ course }: { course: CourseDetailType }) => {
                 ))}
               </div>
             ) : (
-              <p className="mt-2 text-sm text-black">No requirements</p>
+              <p className="mt-2 text-sm text-black">Không có yêu cầu</p>
             )}
           </div>
         </div>
