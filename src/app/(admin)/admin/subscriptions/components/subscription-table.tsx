@@ -209,7 +209,13 @@ const SubscriptionTable = ({ data }: { data: AdminSubscriptionType[] }) => {
       data={data}
       columns={columns}
       filterBy="status"
-      filterOptions={Object.values(SUBSCRIPTION_STATUS)}
+      filterOptions={Object.values([
+        SUBSCRIPTION_STATUS.PENDING,
+        SUBSCRIPTION_STATUS.ACCEPTED,
+        SUBSCRIPTION_STATUS.CANCELED,
+        SUBSCRIPTION_STATUS.EXPIRED,
+        SUBSCRIPTION_STATUS.REJECTED,
+      ])}
     />
   );
 };
